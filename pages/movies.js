@@ -39,7 +39,7 @@ function Movies(props) {
                 <MediaListView 
                     title="Movies"
                     items={props.results}
-                    urlSubpath="foo"
+                    urlSubpath="/movie"
                 /> 
             </main>
         </>

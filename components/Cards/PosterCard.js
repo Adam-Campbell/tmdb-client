@@ -102,13 +102,13 @@ const MoreInfoAnchor = styled.a`
 `;
 
 
-export function PosterCard({ id, title, releaseDate, averageRating, posterPath, overview }) {
+export function PosterCard({ id, title, releaseDate, averageRating, posterPath, overview, urlSubpath }) {
     const posterSrc = getImageUrl(posterPath, imageSizeConstants.w185);
     // 213
     const truncatedOverview = overview.slice(0, 150) + '...';
     return (
         <StyledPosterCard>
-            <Link href="/" passHref>
+            <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
                 <PosterImageLink>
                     <PosterImage src={posterSrc} alt="" />
                     <PosterImageOverlay />
@@ -119,12 +119,14 @@ export function PosterCard({ id, title, releaseDate, averageRating, posterPath, 
                     title={title}
                     releaseDate={releaseDate}
                     rating={averageRating}
+                    id={id}
+                    urlSubpath={urlSubpath}
                 />
                 <OverviewText>
                     {truncatedOverview}
                 </OverviewText>
                 <MoreInfoRow>
-                    <Link href="/" passHref>
+                    <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
                         <MoreInfoAnchor>
                             More Info
                         </MoreInfoAnchor>
@@ -141,5 +143,6 @@ PosterCard.propTypes = {
     releaseDate: PropTypes.string.isRequired,
     averageRating: PropTypes.number,
     posterPath: PropTypes.string,
-    overview: PropTypes.string.isRequired
+    overview: PropTypes.string.isRequired,
+    urlSubpath: PropTypes.string,
 };

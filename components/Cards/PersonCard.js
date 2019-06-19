@@ -76,18 +76,18 @@ const KnownFor = styled.span`
     }
 `;
 
-export function PersonCard({ profilePath, name, knownFor }) {
+export function PersonCard({ profilePath, name, knownFor, id }) {
     const imageSrc = getImageUrl(profilePath, imageSizeConstants.w342);
     return (
         <StyledPersonCard>
-            <Link href="/" passHref>
+            <Link href={`/person?id=${id}`} as={`/person/${id}`} passHref>
                 <PersonImageLink>
                     <PersonImage src={imageSrc} />
                     <PersonImageOverlay />
                 </PersonImageLink>
             </Link>
             <InfoRow>
-                <Link href="/" passHref>
+                <Link href={`/person?id=${id}`} as={`/person/${id}`} passHref>
                     <NameLink>{name}</NameLink>
                 </Link>
                 <KnownFor>{knownFor}</KnownFor>

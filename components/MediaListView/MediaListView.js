@@ -64,7 +64,8 @@ export function MediaListView({ title, items, urlSubpath }) {
                         averageRating: item.vote_average,
                         backdropPath: item.backdrop_path,
                         posterPath: item.poster_path,
-                        overview: item.overview
+                        overview: item.overview,
+                        urlSubpath
                     };
                     return cardView === cardViews.backdrop ? 
                                         <BackdropCard {...cardProps} /> :

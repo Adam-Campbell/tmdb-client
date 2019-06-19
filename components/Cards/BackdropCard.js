@@ -45,12 +45,12 @@ const BackdropImageOverlay = styled.div`
 
     Intrinsic size for backdrop images is 780 x 439 - that means padding bottom of 56.3%
 */
-export function BackdropCard({ id, title, releaseDate, averageRating, backdropPath }) {
+export function BackdropCard({ id, title, releaseDate, averageRating, backdropPath, urlSubpath }) {
     const backdropSrcset = getSrcset(backdropPath);
     const backdropSrc = getImageUrl(backdropPath, imageSizeConstants.w780);
     return (
         <StyledBackdropCard>
-            <Link href="/" passHref>
+            <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
                 <BackdropImageLink>
                     <BackdropImage
                         src={backdropSrc} 
@@ -68,6 +68,8 @@ export function BackdropCard({ id, title, releaseDate, averageRating, backdropPa
                 rating={averageRating}
                 title={title}
                 releaseDate={releaseDate}
+                id={id}
+                urlSubpath={urlSubpath}
             />
         </StyledBackdropCard>
     );
@@ -78,5 +80,6 @@ BackdropCard.propTypes = {
     title: PropTypes.string.isRequired,
     releaseDate: PropTypes.string.isRequired,
     averageRating: PropTypes.number.isRequired,
-    backdropPath: PropTypes.string
+    backdropPath: PropTypes.string,
+    urlSubpath: PropTypes.string
 };

@@ -47,11 +47,11 @@ const ReleaseDate = styled.span`
     } 
 `;
 
-const CardInfoRow = ({ rating, title, releaseDate }) => (
+const CardInfoRow = ({ rating, title, releaseDate, id, urlSubpath }) => (
     <StyledInfoRow>
         <Rating rating={rating} />
         <TextContainer>
-            <Link href="/" passHref>
+            <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
                 <TitleAnchor>{title}</TitleAnchor>
             </Link>
             <ReleaseDate>{formatDateString(releaseDate)}</ReleaseDate>
@@ -62,7 +62,9 @@ const CardInfoRow = ({ rating, title, releaseDate }) => (
 CardInfoRow.propTypes = {
     rating: PropTypes.number,
     title: PropTypes.string.isRequired,
-    releaseDate: PropTypes.string.isRequired
+    releaseDate: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    urlSubpath: PropTypes.string.isRequired
 };
 
 export default CardInfoRow;
