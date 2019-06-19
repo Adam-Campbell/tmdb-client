@@ -36,7 +36,11 @@ const cardViewsData = [
     { value: 'poster', name: 'Poster' }
 ];
 
-
+{/* <ScrollList 
+                        items={cardViewsData}
+                        currentValue={cardView}
+                        setValue={setCardView}
+                    /> */}
 export function MediaListView({ title, items, urlSubpath }) {
     const [ cardView, setCardView ] = useState(cardViewsData[0].value);
     return (
