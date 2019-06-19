@@ -9,15 +9,7 @@ import ScrollListWithBuffer from '../components/ScrollListWithBuffer';
 import ListBox from '../components/ListBox';
 import Router from 'next/router';
 import ComboBox from '../components/ComboBox';
-
-// const osortByOptions = [
-//     'popularity_ascending',
-//     'popularity_descending',
-//     'release_date_ascending',
-//     'release_date_descending',
-//     'vote_average_ascending',
-//     'vote_average_descending',
-// ];
+import { getDiscoverResults } from '../Api';
 
 const sortByOptions = [
     { name: 'Popularity Ascending', value: 'popularity.asc' },
@@ -74,52 +66,71 @@ const mediaTypes = [
     { name: 'Movies', value: 'movies' }
 ]
 
-const DropdownContainer = styled.div`
-    max-width: 320px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 40px;
-`;
-
-
-function processQuery(query) {
-    const params = {
+function addDefaultsAndValidateQueryObject(queryObject, movieGenres, TVGenres) {
+    const withDefaults = {
         release_gte: '1900',
         release_lte: '2019',
         score_gte: '0',
         score_lte: '10',
         sort_by: 'popularity.desc',
         with_genres: '',
-        ...query
+        media_type: 'movies',
+        ...queryObject
     };
+    if (withDefaults.with_genres !== '') {
+        let genreList = withDefaults.media_type === 'movies' ? movieGenres : TVGenres;
+        withDefaults.with_genres = encodeURIComponent(
+            decodeURIComponent(withDefaults.with_genres).split(',')
+            .filter(id => genreList.some(genre => genre.id === parseInt(id)))
+            .join(',')
+        );
+    }
+    return withDefaults;
+}
+
+function convertQueryObjectToProps(queryObject, movieGenres, TVGenres) {
     return {
         releaseValues: [
-            parseInt(params.release_gte),
-            parseInt(params.release_lte)
+            parseInt(queryObject.release_gte),
+            parseInt(queryObject.release_lte)
         ],
         scoreValues: [
-            parseFloat(params.score_gte),
-            parseFloat(params.score_lte)
+            parseFloat(queryObject.score_gte),
+            parseFloat(queryObject.score_lte)
         ],
-        sortBy: params.sort_by,
-        withGenres: genreIdsToObjects(params.with_genres)
+        sortBy: queryObject.sort_by,
+        withGenres: genreIdsToObjects(
+            queryObject.with_genres,
+            queryObject.media_type === 'movies' ? movieGenres : TVGenres
+        ),
+        mediaType: queryObject.media_type
     };
 }
 
-function genreObjectsToIds(objectsArray) {
-    const converted = objectsArray.map(obj => obj.id).join(',');
+
+function formatGenresForURL(objectsArray, allGenres) {
+    const converted = objectsArray.filter(obj => allGenres.some(genre => genre.id === obj.id))
+                                  .map(obj => obj.id)
+                                  .join(',');
     console.log(converted);
     return converted;
 }
 
-function genreIdsToObjects(idsString) {
+function genreIdsToObjects(idsString, allGenres) {
     if (idsString === '') {
         return []
     }
     return decodeURIComponent(idsString).split(',')
-                    .map(str => movieGenres.find(movie => movie.id === parseInt(str)));
+                    .map(str => allGenres.find(el => el.id === parseInt(str)));
 }
 
+
+const DropdownContainer = styled.div`
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 40px;
+`;
 
 const ComboBoxContainer = styled.div`
     width: 400px;
@@ -135,7 +146,8 @@ class Discover extends Component {
         releaseValues: this.props.releaseValues,
         scoreValues: this.props.scoreValues,
         sortBy: this.props.sortBy,
-        withGenres: []
+        withGenres: [],
+        mediaType: this.props.mediaType
     };
 
     componentDidUpdate(prevProps, prevState) {
@@ -144,15 +156,9 @@ class Discover extends Component {
             releaseValues: this.props.releaseValues,
             scoreValues: this.props.scoreValues,
             sortBy: this.props.sortBy,
-            withGenres: this.props.withGenres
+            withGenres: this.props.withGenres,
+            mediaType: this.props.mediaType
         }); 
-    }
-
-    updateGenres = (newGenresSelection) => {
-        this.setState(prev => ({
-            ...prev, 
-            withGenres: newGenresSelection
-        }));
     }
 
     updateValue = (key) => (value) => {
@@ -163,16 +169,22 @@ class Discover extends Component {
     }
 
     handleRedirect = () => {
-        const { releaseValues, scoreValues, sortBy, withGenres } = this.state;
+        const { releaseValues, scoreValues, sortBy, withGenres, mediaType } = this.state;
+        const { movieGenres, TVGenres } = this.props;
         let queryObject = {
             score_gte: scoreValues[0],
             score_lte: scoreValues[1],
             release_gte: releaseValues[0],
             release_lte: releaseValues[1],
             sort_by: sortBy,
+            media_type: mediaType
         };
+        //console.log(queryObject);
         if (withGenres.length) {
-            queryObject.with_genres = genreObjectsToIds(withGenres)
+            queryObject.with_genres = formatGenresForURL(
+                withGenres,
+                mediaType === 'movies' ? movieGenres : TVGenres
+            );
         }
         Router.push({
             pathname: '/discover',
@@ -182,7 +194,8 @@ class Discover extends Component {
 
     render() {
 
-        const { releaseValues, scoreValues, sortBy, withGenres } = this.state;
+        const { releaseValues, scoreValues, sortBy, withGenres, mediaType } = this.state;
+        const { movieGenres, TVGenres } = this.props;
 
         /*
             <select>
@@ -227,9 +240,17 @@ class Discover extends Component {
                         onChange={(val) => console.log(val)}
                     />
                 </DropdownContainer>
+                <DropdownContainer>
+                    <ListBox 
+                        items={mediaTypes}
+                        currentValue={mediaType}
+                        setValue={this.updateValue('mediaType')}
+                        shouldBuffer={true}
+                    />
+                </DropdownContainer>
                 <ComboBoxContainer>
                     <ComboBox 
-                        items={movieGenres}
+                        items={mediaType === 'movies' ? movieGenres : TVGenres}
                         currentSelection={withGenres}
                         setSelection={this.updateValue('withGenres')}
                     />
@@ -241,9 +262,17 @@ class Discover extends Component {
 
 Discover.getInitialProps = async ({ query }) => {
     await new Promise(resolve => setTimeout(resolve, 500));
+    const withDefaultsAndValidation = addDefaultsAndValidateQueryObject(
+        query,
+        movieGenres,
+        TVGenres
+    );
+    const discoverResults = await getDiscoverResults(withDefaultsAndValidation);
     return {
-        ...processQuery(query),
-        queryString: query
+        ...convertQueryObjectToProps(withDefaultsAndValidation, movieGenres, TVGenres),
+        queryString: query,
+        movieGenres,
+        TVGenres
     }
 }
 
