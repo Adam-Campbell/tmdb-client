@@ -122,13 +122,6 @@ export const getDiscoverResults = async (options) => {
     const isMovies = media_type === 'movies';
     const discoverUrl =  isMovies ? 'discover/movie' : 'discover/tv';
     const releaseDateString = isMovies ? 'primary_release_date' : 'first_air_date';
-    // console.log(`
-    //     In Api method,
-    //     media_type: ${media_type},
-    //     isMovies: ${isMovies},
-    //     discoverUrl: ${discoverUrl},
-    //     with_genres: ${with_genres}
-    // `);
 
     const paramsObject = {
         [`${releaseDateString}.gte`]: `${release_gte}-01-01`,
@@ -138,8 +131,8 @@ export const getDiscoverResults = async (options) => {
         with_genres,
         sort_by: sort_by.replace(/release_date/g, releaseDateString)
     };
-    //console.log(paramsObject);
 
     const response = await get(discoverUrl, paramsObject);
     return response.data.results;
 }
+
