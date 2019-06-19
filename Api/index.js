@@ -136,3 +136,9 @@ export const getDiscoverResults = async (options) => {
     return response.data.results;
 }
 
+export const getMovieDetails = async (movieId) => {
+    const response = await get(`movie/${movieId}`, {
+        append_to_response: 'credits,images,recommendations,similar,reviews'
+    });
+    return response.data;
+}

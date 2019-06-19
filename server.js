@@ -41,6 +41,13 @@ app.prepare()
         app.render(req, res, url, params);
     });
 
+    // handle movie details route
+    server.get('/movie/:id', (req, res) => {
+        const url = '/movie';
+        const params = { id: req.params.id };
+        app.render(req, res, url, params);
+    });
+
     // handle all routes that aren't explicitly defined
     server.get('*', (req, res) => handle(req, res));
 
