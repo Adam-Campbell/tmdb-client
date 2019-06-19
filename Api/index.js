@@ -142,3 +142,18 @@ export const getMovieDetails = async (movieId) => {
     });
     return response.data;
 }
+
+export const getShowDetails = async (showId) => {
+    const response = await get(`tv/${showId}`, {
+        append_to_response: 'credits,images,recommendations,similar,reviews'
+    });
+    return response.data;
+}
+
+export const getPersonDetails = async (personId) => {
+    const response = await get(`person/${personId}`, {
+        append_to_response: 'combined_credits,images'
+    });
+    return response.data;
+}
+

@@ -48,6 +48,20 @@ app.prepare()
         app.render(req, res, url, params);
     });
 
+    // handle tv show details route
+    server.get('/show/:id', (req, res) => {
+        const url = '/show';
+        const params = { id: req.params.id };
+        app.render(req, res, url, params);
+    });
+
+    // handle person details route
+    server.get('/person/:id', (req, res) => {
+        const url = '/person';
+        const params = { id: req.params.id };
+        app.render(req, res, url, params);
+    });
+
     // handle all routes that aren't explicitly defined
     server.get('*', (req, res) => handle(req, res));
 

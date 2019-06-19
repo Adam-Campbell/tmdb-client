@@ -41,7 +41,7 @@ function TV(props) {
                 <MediaListView 
                     title="TV"
                     items={props.results}
-                    urlSubpath="foo"
+                    urlSubpath="/show"
                 />
             </main>
         </>
