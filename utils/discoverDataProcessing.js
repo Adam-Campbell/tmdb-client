@@ -1,6 +1,26 @@
-import { flow, partial, partialRight } from 'lodash';
+import { 
+    flow, 
+    partial, 
+    partialRight, 
+    split, 
+    ary,
+    unary,
+    filter,
+    some,
+    map,
+    join,
+    isEqual
+} from 'lodash';
 
-const sortByOptions = [
+/*
+
+    flow -- is just pipe
+    partial -- partially apply args
+    partialRight -- partially apply args from right
+
+*/
+
+export const sortByOptions = [
     { name: 'Popularity Ascending', value: 'popularity.asc' },
     { name: 'Popularity Descending', value: 'popularity.desc' },
     { name: 'Release Date Ascending', value: 'release_date.asc' },
@@ -9,7 +29,7 @@ const sortByOptions = [
     { name: 'Vote Average Descending', value: 'vote_average.desc' },
 ];
 
-const movieGenres = [
+export const movieGenres = [
     { name: 'Action', id: 28 },
     { name: 'Adventure', id: 12 },
     { name: 'Animation', id: 16 },
@@ -31,7 +51,7 @@ const movieGenres = [
     { name: 'Western', id: 37 }
 ];
 
-const TVGenres = [
+export const TVGenres = [
     { name: 'Action & Adventure', id: 10759 },
     { name: 'Animation', id: 16 },
     { name: 'Comedy', id: 35 },
@@ -50,7 +70,112 @@ const TVGenres = [
     { name: 'Western', id: 37 }
 ];
 
-const mediaTypes = [
+export const mediaTypes = [
     { name: 'TV', value: 'tv' },
     { name: 'Movies', value: 'movies' }
 ]
+
+const defaultQueryParams = {
+    release_gte: '1900',
+    release_lte: '2019',
+    score_gte: '0',
+    score_lte: '10',
+    sort_by: 'popularity.desc',
+    with_genres: '',
+    media_type: 'movies',
+};
+
+const splitString = ary(split, 2);
+
+/**
+ * Compose an object with some default values, such that properties present in object overide properties
+ * present in defaults.
+ */
+function withDefaults(defaults) {
+    return function decorateObject(object) {
+        return { 
+            ...defaults, 
+            ...object 
+        };
+    }
+}
+
+/**
+ * Given a genre id and an array of genre objects, returns true if there is a genre object within the array
+ * that has an id matching the supplied genre id, else returns false.
+ */
+function isValidGenreId(genresArray) {
+    return function(id) {
+        return some(genresArray, genre => genre.id === id);
+    }
+}
+
+
+function validateGenresForURL(movieGenresArr, TVGenresArr) {
+    return function validate(queryParams) {
+        if (queryParams.with_genres === '') return queryParams;
+
+        const genresArr = queryParams.media_type === 'movies' ? movieGenresArr : TVGenresArr;
+        const validatedGenres = flow(
+            decodeURIComponent,
+            partialRight(splitString, ','),
+            partialRight(map, unary(parseInt)),
+            partialRight(filter, isValidGenreId(genresArr)),
+            partialRight(join, ','),
+            encodeURIComponent
+        )(queryParams.with_genres)
+        return {
+            ...queryParams,
+            with_genres: validatedGenres
+        }
+    }
+}
+
+export function parseQueryParams(queryParams, movieGenresArr, TVGenresArr) {
+    return flow(
+        withDefaults(defaultQueryParams),
+        validateGenresForURL(movieGenresArr, TVGenresArr)
+    )(queryParams);
+}
+
+
+function convertGenreIdsToObjects(idsString, genresArr) {
+    return idsString === '' ? [] :
+            flow(
+                decodeURIComponent,
+                partialRight(split, ','),
+                partialRight(map, unary(parseInt)),
+                partialRight(filter, isValidGenreId(genresArr)),
+                partialRight(
+                    map, 
+                    id => genresArr.find(genre => genre.id === id)
+                )
+            )(idsString)
+}
+
+export function convertQueryParamsToProps(queryParams, movieGenresArr, TVGenresArr) {
+    return {
+        releaseValues: [
+            parseInt(queryParams.release_gte),
+            parseInt(queryParams.release_lte)
+        ],
+        scoreValues: [
+            parseFloat(queryParams.score_gte),
+            parseFloat(queryParams.score_lte)
+        ],
+        sortBy: queryParams.sort_by,
+        mediaType: queryParams.media_type,
+        withGenres: convertGenreIdsToObjects(
+            queryParams.with_genres,
+            queryParams.media_type === 'movies' ? movieGenresArr : TVGenresArr
+        )
+    }
+}
+
+export function convertGenreObjectsToIds(objectsToCheck, genresArr) {
+    return flow(
+        partialRight(map, obj => obj.id),
+        partialRight(filter, isValidGenreId(genresArr)),
+        partialRight(join, ',')
+    )(objectsToCheck)
+}

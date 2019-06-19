@@ -3,3 +3,4 @@
 // export * from './getSrcset';
 export * from './imageUtils';
 export * from './formatDateString';
+export * from './discoverDataProcessing';

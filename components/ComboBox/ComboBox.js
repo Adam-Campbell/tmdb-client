@@ -16,6 +16,7 @@ import Downshift from 'downshift';
 
 const StyledComboBox = styled.div`
     position: relative;
+    z-index: 1000;
 `;
 
 const InputRow = styled.div`

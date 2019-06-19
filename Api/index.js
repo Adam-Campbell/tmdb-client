@@ -141,5 +141,5 @@ export const getDiscoverResults = async (options) => {
     //console.log(paramsObject);
 
     const response = await get(discoverUrl, paramsObject);
-    return response.data;
+    return response.data.results;
 }
