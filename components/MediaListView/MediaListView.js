@@ -47,10 +47,11 @@ export function MediaListView({ title, items, urlSubpath }) {
         <>
             <ListViewHeader title={title}>
                 <DropdownContainer>
-                    <ScrollList 
+                    <ListBox 
                         items={cardViewsData}
                         currentValue={cardView}
                         setValue={setCardView}
+                        shouldBuffer={false}
                     />
                 </DropdownContainer>
             </ListViewHeader>
