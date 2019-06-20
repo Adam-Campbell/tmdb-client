@@ -189,20 +189,22 @@ class Discover extends Component {
     }
 }
 
-Discover.getInitialProps = async ({ query }) => {
+Discover.getInitialProps = async ({ query, req }) => {
     const parsedParams = parseQueryParams(
         query,
         movieGenres,
         TVGenres
     );
     const discoverResults = await getDiscoverResults(parsedParams);
+    const serverInfo = req ? { isDevice: req.isDevice } : {};
     return {
         ...convertQueryParamsToProps(parsedParams, movieGenres, TVGenres),
         queryString: query,
         results: discoverResults,
         movieGenres,
-        TVGenres
-    }
+        TVGenres,
+        ...serverInfo
+    };
 }
 
 export default Discover;

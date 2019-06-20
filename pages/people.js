@@ -32,10 +32,12 @@ const People = (props) => (
     </div>
 );
 
-People.getInitialProps = async () => {
+People.getInitialProps = async ({ req }) => {
     const results = await getPopularPeople();
+    const serverInfo = req ? { isDevice: req.isDevice } : {};
     return {
-        results
+        results,
+        ...serverInfo
     };
 };
 

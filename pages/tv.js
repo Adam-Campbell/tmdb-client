@@ -49,13 +49,15 @@ function TV(props) {
 };
 
 
-TV.getInitialProps = async ({ query }) => {
+TV.getInitialProps = async ({ query, req }) => {
     const { subcategory } = query;
     const fetchingFn = getFetchingFn(subcategory);
     const results = await fetchingFn();
+    const serverInfo = req ? { isDevice: req.isDevice } : {};
     return {
         results,
-        subcategory
+        subcategory,
+        ...serverInfo
     };
 };
 

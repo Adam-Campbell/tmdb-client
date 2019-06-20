@@ -9,11 +9,13 @@ function Person(props) {
     );
 }
 
-Person.getInitialProps = async ({ query }) => {
+Person.getInitialProps = async ({ query, req }) => {
     const { id } = query;
     const results = await getPersonDetails(id);
+    const serverInfo = req ? { isDevice: req.isDevice } : {};
     return {
-        results
+        results,
+        ...serverInfo
     };
 };
 

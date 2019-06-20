@@ -9,11 +9,13 @@ function Show(props) {
     );
 }
 
-Show.getInitialProps = async ({ query }) => {
+Show.getInitialProps = async ({ query, req }) => {
     const { id } = query;
     const results = await getShowDetails(id);
+    const serverInfo = req ? { isDevice: req.isDevice } : {};
     return {
-        results
+        results,
+        ...serverInfo
     };
 };
 

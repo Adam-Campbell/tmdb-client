@@ -90,12 +90,14 @@ const Home = () => (
   </div>
 )
 
-Home.getInitialProps = async () => {
+Home.getInitialProps = async ({ req }) => {
   const tvResults = await getOnAirTV();
   const moviesResults = await getNowPlayingMovies();
+  const serverInfo = req ? { isDevice: req.isDevice } : {};
   return {
     tv: tvResults,
-    movies: moviesResults
+    movies: moviesResults,
+    ...serverInfo
   }
 }
 
