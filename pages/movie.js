@@ -9,11 +9,13 @@ function Movie(props) {
     );
 }
 
-Movie.getInitialProps = async ({ query }) => {
+Movie.getInitialProps = async ({ query, req }) => {
     const { id } = query;
     const results = await getMovieDetails(id);
+    const serverInfo = req ? { isDevice: req.isDevice } : {};
     return {
-        results
+        results,
+        ...serverInfo
     };
 };
 

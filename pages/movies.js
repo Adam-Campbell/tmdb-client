@@ -47,13 +47,15 @@ function Movies(props) {
 }
 
 
-Movies.getInitialProps = async ({ query }) => {
+Movies.getInitialProps = async ({ query, req }) => {
     const { subcategory } = query;
     const fetchingFn = getFetchingFn(subcategory);
     const results = await fetchingFn();
+    const serverInfo = req ? { isDevice: req.isDevice } : {};
     return {
         results,
-        subcategory
+        subcategory,
+        ...serverInfo
     };
 }
 
