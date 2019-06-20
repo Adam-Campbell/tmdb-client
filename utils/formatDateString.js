@@ -14,6 +14,7 @@ const monthsDict = {
 };
 
 export function formatDateString(dateString) {
+    if (!dateString) return 'Release date unknown';
     let [ year, month, day ] = dateString.split('-');
     if (day.charAt(0) === '0') {
         day = day.charAt(1);
