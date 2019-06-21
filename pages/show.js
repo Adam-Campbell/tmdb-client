@@ -1,10 +1,19 @@
 import React from 'react';
 import { getShowDetails } from '../Api';
+import MediaHeader from '../components/MediaHeader';
 
-function Show(props) {
+function Show({ results }) {
     return (
         <div>
-            <h1>This is the show details page!</h1>
+            <MediaHeader 
+                backdropPath={results.backdrop_path}
+                posterPath={results.poster_path}
+                id={results.id}
+                title={results.name}
+                averageRating={results.vote_average}
+                overview={results.overview}
+                createdBy={results.created_by}
+            />
         </div>
     );
 }

@@ -9,25 +9,38 @@ const imageSizes = [
     '342',
     '500',
     '780',
-    '1280' 
+    '1280', 
 ];
+
+export const imageSizeConstants = {
+    w45: 'w45',
+    w92: 'w92',
+    w154: 'w154',
+    w185: 'w185',
+    w300: 'w300',
+    w342: 'w342',
+    w500: 'w500',
+    w780: 'w780',
+    w1280: 'w1280'
+};
 
 // Take the sizes in imageSizes and create an object where both the key and value are `w${size}`, for each
 // size in imageSizes. This acts as an enum for other parts of the application to reference when they need
 // to set an image size.
-export const imageSizeConstants = imageSizes.reduce((acc, size) => {
-    const formattedSize = `w${size}`;
-    return { 
-        ...acc, 
-        [formattedSize]: formattedSize 
-    };
-}, {});
+// export const imageSizeConstants = imageSizes.reduce((acc, size) => {
+//     const formattedSize = `w${size}`;
+//     return { 
+//         ...acc, 
+//         [formattedSize]: formattedSize 
+//     };
+// }, {});
 
 
 /**
  * Takes in the unique path to an image and a desired image size, and returns the full Url.
  * @param {String} imagePath - the unique path to the image
- * @param {String} imageSize - the desired image size
+ * @param {String} imageSize - the desired image size - either one of the keys from imageSizeConstants,
+ * or the string 'original' for the few occasions where you want full size image (very large).
  * @returns {String} - the full url for the image
  */
 export function getImageUrl(imagePath, imageSize) {
