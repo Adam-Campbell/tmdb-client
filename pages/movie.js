@@ -1,6 +1,27 @@
 import React from 'react';
+import styled from 'styled-components';
 import { getMovieDetails } from '../Api';
 import MediaHeader from '../components/MediaHeader';
+import { 
+    MainCol, 
+    SidebarCol, 
+    TwoColLayoutContainer,
+    TwoColLayoutRow
+} from '../components/Layout';
+
+const Heading = styled.h1`
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #222;
+`;
+
+const SidebarHeading = styled.h2`
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #222;
+`;
 
 function Movie({ results }) {
     
@@ -15,6 +36,16 @@ function Movie({ results }) {
                 overview={results.overview}
                 tagline={results.tagline}
             />
+            <TwoColLayoutContainer>
+                <TwoColLayoutRow>
+                    <MainCol>
+                        <Heading>This is the main content!</Heading>
+                    </MainCol>
+                    <SidebarCol>
+                        <SidebarHeading>This is sidebar content!</SidebarHeading>
+                    </SidebarCol>
+                </TwoColLayoutRow>
+            </TwoColLayoutContainer>
         </div>
     );
 }
