@@ -8,20 +8,7 @@ import {
     TwoColLayoutContainer,
     TwoColLayoutRow
 } from '../components/Layout';
-
-const Heading = styled.h1`
-    font-family: sans-serif;
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: #222;
-`;
-
-const SidebarHeading = styled.h2`
-    font-family: sans-serif;
-    font-weight: 700;
-    font-size: 1.25rem;
-    color: #222;
-`;
+import InlineCardRow from '../components/InlineCardRow';
 
 function Movie({ results }) {
     
@@ -39,10 +26,33 @@ function Movie({ results }) {
             <TwoColLayoutContainer>
                 <TwoColLayoutRow>
                     <MainCol>
-                        <Heading>This is the main content!</Heading>
+                        <InlineCardRow 
+                            title="Top Billed Cast"
+                            cardsData={results.credits.cast}
+                            cardType="person"
+                            linkText="See full cast & crew"
+                            linkDestinationAs="/foo"
+                            linkDestinationHref="/foo"
+                        />
+                        <InlineCardRow 
+                            title="Recommended Movies"
+                            cardsData={results.recommendations.results}
+                            cardType="movie"
+                            linkText="See all recommended movies"
+                            linkDestinationAs="/foo"
+                            linkDestinationHref="/foo"
+                        />
+                        <InlineCardRow 
+                            title="Similar Movies"
+                            cardsData={results.similar.results}
+                            cardType="movie"
+                            linkText="See all similar movies"
+                            linkDestinationAs="/foo"
+                            linkDestinationHref="/foo"
+                        />
                     </MainCol>
                     <SidebarCol>
-                        <SidebarHeading>This is sidebar content!</SidebarHeading>
+
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>

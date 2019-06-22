@@ -5,17 +5,6 @@ import Link from 'next/link';
 import CardInfoRow from './CardInfoRow';
 import { getImageUrl, imageSizeConstants } from '../../utils';
 
-/*
-    How to approach smaller viewport widths:
-
-    Try and keep the same layout - make the poster image smaller (about 100px) wide, which should leave around
-    200px for the text in the worst case scenario. If this isn't feasible however, we can try putting the
-    poster image and title side by side and the blurb underneath (at small viewports only) or we could just hide 
-    the blurb altogether at small viewports. 
-
-    Investigate using word wrap as well - will quite probably need to truncate more of the text at smaller
-    viewport widths. 
-*/
 
 const StyledPosterCard = styled.div`
     width: 100%;
