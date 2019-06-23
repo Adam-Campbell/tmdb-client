@@ -50,11 +50,32 @@ app.prepare()
         app.render(req, res, url, params);
     });
 
-    // handle movie details route
+    // handle movie details main route
     server.get('/movie/:id', addDeviceInfo, (req, res) => {
         const url = '/movie';
         const params = { id: req.params.id };
         app.render(req, res, url, params);
+    });
+
+    // handle the movie details recommended movies route
+    server.get('/movie/:id/recommended', addDeviceInfo, (req, res) => {
+        const url = '/movie/recommended';
+        const params = { id: req.params.id };
+        app.render(req, res, url, params);
+    });
+
+    // handle the movie details similar movies route
+    server.get('/movie/:id/similar', addDeviceInfo, (req, res) => {
+        const url = '/movie/similar';
+        const params = { id: req.params.id };
+        app.render(req, res, url, params);
+    });
+
+    // handle the movie details cast and crew route
+    server.get('/movie/:id/cast-and-crew', addDeviceInfo, (req, res) => {
+        const url = '/movie/cast-and-crew';
+        const params = { id: req.params.id };
+        app.render(req, res,url, params);
     });
 
     // handle tv show details route

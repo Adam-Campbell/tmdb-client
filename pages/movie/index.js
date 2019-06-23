@@ -1,19 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getMovieDetails } from '../Api';
-import MediaHeader from '../components/MediaHeader';
+import { getMovieDetails } from '../../Api';
+import MediaHeader from '../../components/MediaHeader';
 import { 
     MainCol, 
     SidebarCol, 
     TwoColLayoutContainer,
     TwoColLayoutRow
-} from '../components/Layout';
-import InlineCardRow from '../components/InlineCardRow';
-import TagList from '../components/TagList';
-import { text, formatDateString, formatMinutes, formatDollarFigure } from '../utils';
-import SidebarEntry from '../components/SidebarEntry';
-import SocialLinks from '../components/SocialLinks';
-import ReviewPod from '../components/ReviewPod';
+} from '../../components/Layout';
+import InlineCardRow from '../../components/InlineCardRow';
+import TagList from '../../components/TagList';
+import { text, formatDateString, formatMinutes, formatDollarFigure } from '../../utils';
+import SidebarEntry from '../../components/SidebarEntry';
+import SocialLinks from '../../components/SocialLinks';
+import ReviewPod from '../../components/ReviewPod';
 
 function Movie({ results }) {
     
