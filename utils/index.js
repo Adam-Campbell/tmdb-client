@@ -4,3 +4,7 @@
 export * from './imageUtils';
 export * from './formatDateString';
 export * from './discoverDataProcessing';
+export * from './styleUtils';
+export * from './formatMinutes';
+export * from './formatDollarFigure';
+export * from './truncateString';

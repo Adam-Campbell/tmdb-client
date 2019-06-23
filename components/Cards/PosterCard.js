@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
 import CardInfoRow from './CardInfoRow';
-import { getImageUrl, imageSizeConstants } from '../../utils';
+import { getImageUrl, imageSizeConstants, text, truncateString } from '../../utils';
 
 
 const StyledPosterCard = styled.div`
@@ -58,10 +58,7 @@ const TextColumn = styled.div`
 `;
 
 const OverviewText = styled.p`
-    font-family: sans-serif;
-    font-weight: 400;
-    font-size: 0.75rem;
-    color: #222;
+    ${text('body', { fontSize: '0.75rem' })}
     margin-left: 10px;
     margin-right: 10px;
     @media(min-width: 550px) {
@@ -80,10 +77,7 @@ const MoreInfoRow = styled.div`
 `;
 
 const MoreInfoAnchor = styled.a`
-    font-family: sans-serif;
-    font-weight: 400;
-    color: #222;
-    font-size: 0.85rem;
+    ${text('body', { fontSize: '0.85rem' })}
     text-decoration: none;
     &:hover {
         text-decoration: underline;
@@ -94,7 +88,8 @@ const MoreInfoAnchor = styled.a`
 export function PosterCard({ id, title, releaseDate, averageRating, posterPath, overview, urlSubpath }) {
     const posterSrc = getImageUrl(posterPath, imageSizeConstants.w185);
     // 213
-    const truncatedOverview = overview.slice(0, 150) + '...';
+    //const truncatedOverview = overview.slice(0, 150) + '...';
+    const truncatedOverview = truncateString(overview, 150);
     return (
         <StyledPosterCard>
             <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>

@@ -31,6 +31,7 @@ export const MainCol = styled.div`
     background: #fff;
     padding-left: 20px;
     padding-right: 20px;
+    padding-top: 40px;
     @media (min-width: 768px) {
         width: 70%;
         padding-left: 0;
@@ -42,6 +43,7 @@ export const SidebarCol = styled.div`
     background: #ddd;
     padding-left: 20px;
     padding-right: 20px;
+    padding-top: 40px;
     @media (min-width: 768px) {
         width: 30%;
         padding-right: 0;

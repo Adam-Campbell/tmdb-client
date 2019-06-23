@@ -3,17 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { InlineCard } from '../Cards';
 import Link from 'next/link';
-
-/*
-
-    Inline card row needs to render:
-
-    - A title
-    - A row of four cards
-    - A link to the page where the rest can be viewed. 
-
-*/
-
+import { text } from '../../utils';
 
 const urlSubpaths = {
     movie: '/movie',
@@ -22,16 +12,14 @@ const urlSubpaths = {
 };
 
 const StyledInlineCardRow = styled.div`
-    margin-top: 40px;
+    margin-top: 0;
     margin-bottom: 40px;
 `;
 
 const RowTitle = styled.h2`
-    font-family: sans-serif;
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: #222;
+    ${text('heading')}
     margin-bottom: 0;
+    margin-top: 0;
 `;
 
 const CardsContainer = styled.div`
@@ -41,10 +29,7 @@ const CardsContainer = styled.div`
 `;
 
 const SeeMoreLink = styled.a`
-    font-family: sans-serif;
-    font-weight: 400;
-    font-size: 1rem;
-    color: #222;
+    ${text('body')}
     display: inline-block;
     margin-top: 20px;
     text-decoration: none;

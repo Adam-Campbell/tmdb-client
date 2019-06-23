@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { getImageUrl, imageSizeConstants, getSrcset } from '../../utils';
+import { getImageUrl, imageSizeConstants, getSrcset, text } from '../../utils';
 import Link from 'next/link';
 
 const StyledInlineCard = styled.div`
@@ -40,10 +40,7 @@ const InfoRow = styled.div`
 `;
 
 const NameLink = styled.a`
-    font-family: sans-serif;
-    font-weight: 700;
-    font-size: 0.85rem;
-    color: #222;
+    ${text('body', { fontWeight: 700, fontSize: '0.85rem' })}
     text-decoration: none;
     margin-bottom: 5px;
     display: inline-block;
@@ -56,10 +53,7 @@ const NameLink = styled.a`
 `;
 
 const DetailsText = styled.span`
-    font-family: sans-serif;
-    font-weight: 300;
-    color: #222;
-    font-size: 0.75rem;
+    ${text('body', { fontWeight: 300, fontSize: '0.75rem' })}
     display: block;
     max-width: 100%;
     @media(min-width: 550px) {

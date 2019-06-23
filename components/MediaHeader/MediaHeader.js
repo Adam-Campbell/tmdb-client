@@ -5,8 +5,8 @@ import { Row } from '../Layout';
 import Rating from '../Rating';
 import { getImageUrl, imageSizeConstants } from '../../utils';
 import Link from 'next/link';
-import { Subheading } from './elements';
 import CreatorsList from './CreatorsList';
+import { text } from '../../utils';
 
 // is there a better semantic element to use here?
 const MediaHeaderContainer = styled.div`
@@ -54,25 +54,20 @@ const MediaHeaderContentRow = styled(Row)`
 `;
 
 const MediaTitle = styled.h1`
-    font-family: sans-serif;
-    font-weight: 700;
-    font-size: 2rem;
-    color: #fff;
+    ${text('heading', { fontSize: '2rem', color: '#fff' })}
 `;
 
 const MediaTagline = styled.p`
-    font-family: serif;
-    font-weight: 700;
-    font-size: 1.25rem;
+    ${text('heading', { fontFamily: 'serif', fontSize: '1.25rem', color: '#fff' })}
     font-style: italic;
-    color: #fff;
+`;
+
+const Subheading = styled.p`
+    ${text('heading', { fontSize: '1rem', color: '#fff' })}
 `;
 
 const MediaOverview = styled.p`
-    font-family: sans-serif;
-    font-weight: 400;
-    font-size: 1rem;
-    color: #fff;
+    ${text('body', { color: '#fff' })}
 `;
 
 

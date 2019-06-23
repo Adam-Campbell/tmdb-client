@@ -8,6 +8,10 @@ import {
     TwoColLayoutRow
 } from '../components/Layout';
 import InlineCardRow from '../components/InlineCardRow';
+import SidebarEntry from '../components/SidebarEntry';
+import SocialLinks from '../components/SocialLinks';
+import ReviewPod from '../components/ReviewPod';
+import TagList from '../components/TagList';
 
 function Show({ results }) {
     return (
@@ -32,6 +36,15 @@ function Show({ results }) {
                             linkDestinationAs="/foo"
                             linkDestinationHref="/foo"
                         />
+                        {results.reviews.results.length > 0 && (
+                            <ReviewPod 
+                                author={results.reviews.results[0].author}
+                                content={results.reviews.results[0].content}
+                                id={results.reviews.results[0].id}
+                                allReviewsHref="/foo"
+                                allReviewsAs="/foo"
+                            />
+                        )}
                         <InlineCardRow 
                             title="Recommended Shows"
                             cardsData={results.recommendations.results}
@@ -50,7 +63,34 @@ function Show({ results }) {
                         />
                     </MainCol>
                     <SidebarCol>
-
+                        <SocialLinks 
+                            facebook={results.external_ids.facebook_id}
+                            twitter={results.external_ids.twitter_id}
+                            instagram={results.external_ids.instagram_id}
+                            website={results.homepage}
+                        />
+                        <SidebarEntry 
+                            title="Status"
+                            value={results.status}
+                        />
+                        <SidebarEntry 
+                            title="Type"
+                            value={results.type}
+                        />
+                        <SidebarEntry 
+                            title="Number of seasons"
+                            value={results.number_of_seasons}
+                        />
+                        <SidebarEntry 
+                            title="Number of episodes"
+                            value={results.number_of_episodes}
+                        />
+                        <SidebarEntry 
+                            title="Runtime"
+                            value={results.episode_run_time[0]}
+                        />
+                        <TagList title="Genres" tagData={results.genres} />
+                        <TagList title="Keywords" tagData={results.keywords.results} />
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>

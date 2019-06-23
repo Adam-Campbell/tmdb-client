@@ -9,12 +9,18 @@ import {
     TwoColLayoutRow
 } from '../components/Layout';
 import InlineCardRow from '../components/InlineCardRow';
+import TagList from '../components/TagList';
+import { text, formatDateString, formatMinutes, formatDollarFigure } from '../utils';
+import SidebarEntry from '../components/SidebarEntry';
+import SocialLinks from '../components/SocialLinks';
+import ReviewPod from '../components/ReviewPod';
 
 function Movie({ results }) {
     
     return (
         <div>
             <MediaHeader 
+                key={results.id}
                 backdropPath={results.backdrop_path}
                 posterPath={results.poster_path}
                 id={results.id}
@@ -34,6 +40,15 @@ function Movie({ results }) {
                             linkDestinationAs="/foo"
                             linkDestinationHref="/foo"
                         />
+                        {results.reviews.results.length > 0 && (
+                            <ReviewPod 
+                                author={results.reviews.results[0].author}
+                                content={results.reviews.results[0].content}
+                                id={results.reviews.results[0].id}
+                                allReviewsHref="/foo"
+                                allReviewsAs="/foo"
+                            />
+                        )}
                         <InlineCardRow 
                             title="Recommended Movies"
                             cardsData={results.recommendations.results}
@@ -52,7 +67,34 @@ function Movie({ results }) {
                         />
                     </MainCol>
                     <SidebarCol>
-
+                        <SocialLinks 
+                            facebook={results.external_ids.facebook_id}
+                            twitter={results.external_ids.twitter_id}
+                            instagram={results.external_ids.instagram_id}
+                            website={results.homepage}
+                        />
+                        <SidebarEntry 
+                            title="Release status"
+                            value={results.status}
+                        />
+                        <SidebarEntry 
+                            title="Release date"
+                            value={formatDateString(results.release_date)}
+                        />
+                        <SidebarEntry 
+                            title="Duration"
+                            value={formatMinutes(results.runtime)}
+                        />
+                        <SidebarEntry 
+                            title="Budget"
+                            value={formatDollarFigure(results.budget)}
+                        />
+                        <SidebarEntry 
+                            title="Revenue"
+                            value={formatDollarFigure(results.revenue)}
+                        />
+                        <TagList title="Genres" tagData={results.genres} />
+                        <TagList title="Keywords" tagData={results.keywords.keywords} />
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>
