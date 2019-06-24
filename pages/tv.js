@@ -14,22 +14,22 @@ const navData = [
     {
         as: '/tv',
         href: '/tv?subcategory=popular',
-        text: 'Popular TV'
+        name: 'Popular'
     },
     {
         as: '/tv/top-rated',
         href: '/tv?subcategory=top-rated',
-        text: 'Top rated TV'
+        name: 'Top rated'
     },
     {
         as: '/tv/on-tv',
         href: '/tv?subcategory=on-tv',
-        text: 'On TV'
+        name: 'On TV'
     },
     {
         as: '/tv/airing-today',
         href: '/tv?subcategory=airing-today',
-        text: 'Airing today'
+        name: 'Airing today'
     }
 ];
 

@@ -12,22 +12,22 @@ const navData = [
     {
         as: '/movies',
         href: '/movies?subcategory=popular',
-        text: 'Popular movies'
+        name: 'Popular'
     },
     {
         as: '/movies/top-rated',
         href: '/movies?subcategory=top-rated',
-        text: 'Top rated movies'
+        name: 'Top rated'
     },
     {
         as: '/movies/now-playing',
         href: '/movies?subcategory=now-playing',
-        text: 'Now playing movies'
+        name: 'Now playing'
     },
     {
         as: '/movies/upcoming',
         href: '/movies?subcategory=upcoming',
-        text: 'Upcoming movies'
+        name: 'Upcoming'
     }
 ];
 
