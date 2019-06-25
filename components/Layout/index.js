@@ -8,9 +8,14 @@ export const Row = styled.div`
     margin-right: auto;
 `;
 
+// background: linear-gradient(to right, #fff 0%, #fff 70%, #ddd 70%, #ddd);
 export const TwoColLayoutContainer = styled.div`
     @media (min-width: 768px) {
-        background: linear-gradient(to right, #fff 0%, #fff 70%, #ddd 70%, #ddd);
+        ${({ reverse }) => `
+            background: linear-gradient(to ${reverse ? 'left' : 'right'}, 
+                                        #fff 0%, #fff 70%, #ddd 70%, #ddd
+                                    );
+        `}
     }
 `;
 
@@ -32,9 +37,11 @@ export const MainCol = styled.div`
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 40px;
+    padding-bottom: 40px;
     @media (min-width: 768px) {
         width: 70%;
-        padding-left: 0;
+        ${({ reverse }) => reverse ? 'padding-right: 0' : 'padding-left: 0'};
+        ${({ reverse }) => reverse && 'order: 2;'}
     }
 `;
 
@@ -44,9 +51,11 @@ export const SidebarCol = styled.div`
     padding-left: 20px;
     padding-right: 20px;
     padding-top: 40px;
+    padding-bottom: 40px;
     @media (min-width: 768px) {
         width: 30%;
-        padding-right: 0;
+        ${({ reverse }) => reverse ? 'padding-left: 0' : 'padding-right: 0'};
+        ${({ reverse }) => reverse && 'order: 1;'}
     }
 `;
 

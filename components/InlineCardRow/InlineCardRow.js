@@ -38,42 +38,31 @@ const SeeMoreLink = styled.a`
     }
 `;
 
-function getCardProps(cardData, cardType) {
-    switch (cardType) {
-        case 'movie':
-            return {
-                key: cardData.id,
-                id: cardData.id,
-                name: cardData.title,
-                imagePath: cardData.poster_path,
-                urlSubpath: '/movie'
-            };
-        case 'show':
-            return {
-                key: cardData.id,
-                id: cardData.id,
-                name: cardData.name,
-                imagePath: cardData.poster_path,
-                urlSubpath: '/show' 
-            };
-        case 'person':
-            return {
-                key: cardData.id,
-                id: cardData.id,
-                name: cardData.name,
-                imagePath: cardData.profile_path,
-                urlSubpath: '/person',
-                additionalDetails: cardData.character
-            };
-        default:
-            return null;
+/*
+
+    This will be a dumb presentational component, accepting the following props:
+
+    title
+    cardsData
+    linkText
+    linkDestinationAs
+    linkDestinationHref
+
+    The objects in cardsData will be as such:
+
+    {
+        id
+        name
+        imagePath
+        urlSubpath
+        additionalDetails (can be undefined)
     }
-}
+
+*/
 
 export function InlineCardRow({ 
     title, 
-    cardsData, 
-    cardType, 
+    cardsProps,  
     linkText, 
     linkDestinationAs,
     linkDestinationHref 
@@ -82,10 +71,8 @@ export function InlineCardRow({
         <StyledInlineCardRow>
             <RowTitle>{title}</RowTitle>
             <CardsContainer>
-                {cardsData.slice(0,4).map(cardData => (
-                    <InlineCard 
-                        {...getCardProps(cardData, cardType)}
-                    />
+                {cardsProps.map(cardProps => (
+                    <InlineCard {...cardProps} />
                 ))}
             </CardsContainer>
             <Link as={linkDestinationAs} href={linkDestinationHref} passHref>
@@ -97,12 +84,7 @@ export function InlineCardRow({
 
 InlineCardRow.propTypes = {
     title: PropTypes.string.isRequired,
-    cardsData: PropTypes.arrayOf(PropTypes.object).isRequired,
-    cardType: PropTypes.oneOf([
-        'movie',
-        'show',
-        'person'
-    ]).isRequired,
+    cardsProps: PropTypes.arrayOf(PropTypes.object).isRequired,
     linkText: PropTypes.string.isRequired,
     linkDestinationAs: PropTypes.string.isRequired,
     linkDestinationHref: PropTypes.string.isRequired

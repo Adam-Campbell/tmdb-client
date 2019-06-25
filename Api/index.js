@@ -152,7 +152,7 @@ export const getShowDetails = async (showId) => {
 
 export const getPersonDetails = async (personId) => {
     const response = await get(`person/${personId}`, {
-        append_to_response: 'combined_credits,images'
+        append_to_response: 'combined_credits,images,external_ids'
     });
     return response.data;
 }
