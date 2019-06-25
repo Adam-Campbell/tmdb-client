@@ -3,8 +3,11 @@ import App, { Container } from 'next/app';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
 import { createGlobalStyle } from 'styled-components';
+import { normalize } from 'styled-normalize';
 
 const GlobalStyle = createGlobalStyle`
+    ${normalize}
+    
     * {
     box-sizing: border-box;
     }

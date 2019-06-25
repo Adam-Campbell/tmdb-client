@@ -1,7 +1,7 @@
 {
   "name": "create-next-example-app",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "node server/index.js",
     "build": "next build",
     "start": "next start"
   },
@@ -19,6 +19,8 @@
     "react-compound-slider": "^2.0.0",
     "react-dom": "16.8.6",
     "styled-components": "^4.3.1",
+    "styled-icons": "^8.1.0",
+    "styled-normalize": "^8.0.6",
     "ua-parser-js": "^0.7.20"
   }
 }

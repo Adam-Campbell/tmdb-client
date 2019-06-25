@@ -8,3 +8,4 @@ import { BackdropCard, PosterCard } from '../Cards';
 export * from './BackdropCard';
 export * from './PosterCard';
 export * from './PersonCard';
+export * from './InlineCard';

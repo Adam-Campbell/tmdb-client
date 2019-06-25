@@ -4,31 +4,25 @@ import styled from 'styled-components';
 import { getImageUrl, imageSizeConstants, getSrcset, text } from '../../utils';
 import Link from 'next/link';
 
-const StyledPersonCard = styled.div`
+const StyledInlineCard = styled.div`
     margin-top: 20px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     width: calc(50% - 10px);
-    @media(min-width: 600px) {
-        width: calc(33.33333% - 10px);
-    }
-    @media(min-width: 768px) {
+    @media(min-width: 550px) {
         width: calc(25% - 10px);
     }
-    @media(min-width: 1080px) {
-        width: calc(20% - 10px);
-    }
 `;
 
-const PersonImageLink = styled.a`
+const ImageLink = styled.a`
     position: relative;
-    display: block;
+    display: flex;
 `;
 
-const PersonImage = styled.img`
+const Image = styled.img`
     width: 100%;
 `;
 
-const PersonImageOverlay = styled.div`
+const ImageOverlay = styled.div`
     position: absolute;
     height: 100%;
     width: 100%;
@@ -62,38 +56,38 @@ const DetailsText = styled.span`
     ${text('body', { fontWeight: 300, fontSize: '0.75rem' })}
     display: block;
     max-width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     @media(min-width: 550px) {
         font-size: 0.85rem;
     }
 `;
 
-
-export function PersonCard({ profilePath, name, knownFor, id }) {
-    const imageSrc = getImageUrl(profilePath, imageSizeConstants.w342);
+export function InlineCard({ id, name, additionalDetails, imagePath, urlSubpath }) {
+    const imageSrc = getImageUrl(imagePath, imageSizeConstants.w342);
     return (
-        <StyledPersonCard>
-            <Link href={`/person?id=${id}`} as={`/person/${id}`} passHref>
-                <PersonImageLink>
-                    <PersonImage src={imageSrc} />
-                    <PersonImageOverlay />
-                </PersonImageLink>
+        <StyledInlineCard>
+            <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
+                <ImageLink>
+                    <Image 
+                        src={imageSrc} 
+                        alt=""
+                    />
+                    <ImageOverlay />
+                </ImageLink>
             </Link>
             <InfoRow>
-                <Link href={`/person?id=${id}`} as={`/person/${id}`} passHref>
+                <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
                     <NameLink>{name}</NameLink>
                 </Link>
-                <DetailsText>{knownFor}</DetailsText>
+                {additionalDetails && <DetailsText>{additionalDetails}</DetailsText>}
             </InfoRow>
-        </StyledPersonCard>
+        </StyledInlineCard>
     );
 }
 
-PersonCard.propTypes = {
-    profilePath: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    knownFor: PropTypes.string,
+InlineCard.propTypes = {
     id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    additionalDetails: PropTypes.string,
+    imagePath: PropTypes.string,
+    urlSubpath: PropTypes.string
 };

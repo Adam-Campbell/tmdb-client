@@ -138,14 +138,14 @@ export const getDiscoverResults = async (options) => {
 
 export const getMovieDetails = async (movieId) => {
     const response = await get(`movie/${movieId}`, {
-        append_to_response: 'credits,images,recommendations,similar,reviews'
+        append_to_response: 'credits,images,recommendations,similar,reviews,external_ids,keywords'
     });
     return response.data;
 }
 
 export const getShowDetails = async (showId) => {
     const response = await get(`tv/${showId}`, {
-        append_to_response: 'credits,images,recommendations,similar,reviews'
+        append_to_response: 'credits,images,recommendations,similar,reviews,external_ids,keywords'
     });
     return response.data;
 }
