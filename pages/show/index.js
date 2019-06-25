@@ -1,19 +1,22 @@
 import React from 'react';
-import { getShowDetails } from '../Api';
-import MediaHeader from '../components/MediaHeader';
+import { getShowDetails } from '../../Api';
+import MediaHeader from '../../components/MediaHeader';
 import { 
     MainCol, 
     SidebarCol, 
     TwoColLayoutContainer,
     TwoColLayoutRow
-} from '../components/Layout';
-import InlineCardRow from '../components/InlineCardRow';
-import SidebarEntry from '../components/SidebarEntry';
-import SocialLinks from '../components/SocialLinks';
-import ReviewPod from '../components/ReviewPod';
-import TagList from '../components/TagList';
+} from '../../components/Layout';
+import { getShowSubNavData } from '../../utils';
+import InlineCardRow from '../../components/InlineCardRow';
+import SidebarEntry from '../../components/SidebarEntry';
+import SocialLinks from '../../components/SocialLinks';
+import ReviewPod from '../../components/ReviewPod';
+import TagList from '../../components/TagList';
+import SubNav from '../../components/SubNav';
 
 function Show({ results }) {
+    const showSubNavData = getShowSubNavData(results.id);
     return (
         <div>
             <MediaHeader 
@@ -25,6 +28,7 @@ function Show({ results }) {
                 overview={results.overview}
                 createdBy={results.created_by}
             />
+            <SubNav navData={showSubNavData} />
             <TwoColLayoutContainer>
                 <TwoColLayoutRow>
                     <MainCol>

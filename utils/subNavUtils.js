@@ -1,4 +1,4 @@
-const movieSubroutes = [
+const mediaSubroutes = [
     { 
         name: 'Similar',
         path: 'similar'
@@ -31,4 +31,6 @@ function getSubNavData(routeGroup, subrouteData) {
     }
 }
 
-export const getMovieSubNavData = getSubNavData('movie', movieSubroutes);
+export const getMovieSubNavData = getSubNavData('movie', mediaSubroutes);
+
+export const getShowSubNavData = getSubNavData('show', mediaSubroutes);

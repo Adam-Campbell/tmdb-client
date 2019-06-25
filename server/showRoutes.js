@@ -7,6 +7,37 @@ function showRoutes(app) {
             const params = { id: req.params.id };
             app.render(req, res, url, params);
         })
+    
+        router.route('/:id/recommended')
+        .get((req, res) => {
+            const url = '/show/recommended';
+            const params = { id: req.params.id };
+            app.render(req, res, url, params);
+        })
+    router.route('/:id/similar')
+        .get((req, res) => {
+            const url = '/show/similar';
+            const params = { id: req.params.id };
+            app.render(req, res, url, params);
+        })
+    router.route('/:id/cast-and-crew')
+        .get((req, res) => {
+            const url = '/show/cast-and-crew';
+            const params = { id: req.params.id };
+            app.render(req, res, url, params);
+        })
+    router.route('/:id/reviews')
+        .get((req, res) => {
+            const url = '/show/reviews';
+            const params = { id: req.params.id };
+            app.render(req, res, url, params);
+        })
+    router.route('/:id/images')
+        .get((req, res) => {
+            const url = '/show/images';
+            const params = { id: req.params.id };
+            app.render(req, res, url, params);
+        })
 
     // more subroutes to be added later
     

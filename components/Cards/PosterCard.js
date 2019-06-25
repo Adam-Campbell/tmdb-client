@@ -15,7 +15,7 @@ const StyledPosterCard = styled.div`
     @media(min-width: 550px) {
         align-items: flex-start;
     }
-    @media(min-width: 768px) {
+    @media(min-width: 900px) {
         width: calc(50% - 10px);
     }
 `;
