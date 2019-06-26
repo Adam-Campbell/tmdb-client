@@ -5,12 +5,6 @@ import { InlineCard } from '../Cards';
 import Link from 'next/link';
 import { text } from '../../utils';
 
-const urlSubpaths = {
-    movie: '/movie',
-    show: '/show',
-    person: '/person'
-};
-
 const StyledInlineCardRow = styled.div`
     margin-top: 0;
     margin-bottom: 40px;

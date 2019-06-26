@@ -9,3 +9,4 @@ export * from './formatMinutes';
 export * from './formatDollarFigure';
 export * from './truncateString';
 export * from './subNavUtils';
+export * from './creditsDataProcessing';

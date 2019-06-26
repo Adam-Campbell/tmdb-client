@@ -14,6 +14,7 @@ import ReviewPod from '../../components/ReviewPod';
 import { SidebarEntry } from '../../components/SidebarEntry/SidebarEntry';
 import InlineCardRow from '../../components/InlineCardRow';
 import PersonTopCreditsCardRow from '../../components/PersonTopCreditsCardRow';
+import InlineGalleryRow from '../../components/InlineGalleryRow';
 /*
 
     - can reuse subnav component, but will need to create a new function to generate the data.
@@ -50,7 +51,13 @@ function Person({ results }) {
                             linkDestinationAs={`/person/${results.id}/credits`}
                             linkDestinationHref={`/person/credits?id=${results.id}`}
                         />
-                        
+                        <InlineGalleryRow 
+                            imagesData={results.images.profiles}
+                            title="Profile images"
+                            linkText="See all images"
+                            linkDestinationAs={`/person/${results.id}/images`}
+                            linkDestinationHref={`/person/images?id=${results.id}`}
+                        />
                     </MainCol>
                     <SidebarCol>
                         <SocialLinks 

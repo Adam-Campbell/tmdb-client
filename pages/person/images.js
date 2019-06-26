@@ -4,6 +4,9 @@ import { getPersonDetails } from '../../Api';
 import { getPersonSubNavData } from '../../utils';
 import SubNav from '../../components/SubNav';
 import MinimalHeader from '../../components/MinimalHeader';
+import ListViewHeader from '../../components/ListViewHeader';
+import { Row } from '../../components/Layout';
+import { getImageUrl, imageSizeConstants } from '../../utils';
 
 /*
 
@@ -12,6 +15,27 @@ import MinimalHeader from '../../components/MinimalHeader';
     - can reuse the same minimal header component. 
 
 */
+
+const ThumbsContainer = styled.div`
+    display: flex; 
+    flex-wrap: wrap;
+    margin-left: -10px;
+    margin-right: -10px;
+`;
+
+const Thumb = styled.img`
+    margin: 10px;
+    width: calc(50% - 20px);
+    @media(min-width: 550px) {
+        width: calc(33.33333% - 20px);
+    }
+    @media(min-width: 768px) {
+        width: calc(25% - 20px);
+    }
+    @media(min-width: 960px) {
+        width: calc(20% - 20px);
+    }
+`;
 
 function Images({ results }) {
     const personSubNavData  = getPersonSubNavData(results.id);
@@ -24,6 +48,18 @@ function Images({ results }) {
                 backAs={`/person/${results.id}`}
             />
             <SubNav navData={personSubNavData} />
+            <ListViewHeader title="Profile Images" />
+            <Row>
+                <ThumbsContainer>
+                    {results.images.profiles.map(image => (
+                        <Thumb 
+                            key={image.file_path}
+                            src={getImageUrl(image.file_path, imageSizeConstants.w500)}
+                            onClick={() => console.log(image)}
+                        />
+                    ))}
+                </ThumbsContainer>
+            </Row>
         </div>
     );
 }
