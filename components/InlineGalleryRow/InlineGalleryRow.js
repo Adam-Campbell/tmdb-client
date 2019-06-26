@@ -3,33 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { text, getImageUrl, imageSizeConstants } from '../../utils';
 import Link from 'next/link';
-
-const StyledInlineGalleryRow = styled.div`
-    margin-top: 0;
-    margin-bottom: 40px;
-`;
-
-const RowTitle = styled.h2`
-    ${text('heading')}
-    margin-bottom: 0;
-    margin-top: 0;
-`;
-
-const CardsContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-`;
-
-const SeeMoreLink = styled.a`
-    ${text('body')}
-    display: inline-block;
-    margin-top: 20px;
-    text-decoration: none;
-    &:hover {
-        text-decoration: underline;
-    }
-`;
+import InlineContentRow from '../InlineContentRow';
 
 const Image = styled.img`
     width: calc(50% - 10px);
@@ -51,9 +25,12 @@ export function InlineGalleryRow({
     if (suitableImages.length === 0) return null;
 
     return (
-        <StyledInlineGalleryRow>
-            <RowTitle>{title}</RowTitle>
-            <CardsContainer>
+            <InlineContentRow
+                title={title}
+                linkText={linkText}
+                linkDestinationAs={linkDestinationAs}
+                linkDestinationHref={linkDestinationHref}
+            >
                 {suitableImages.map(image => (
                     <Image 
                         key={image.file_path}
@@ -61,11 +38,7 @@ export function InlineGalleryRow({
                         onClick={() => console.log(image)}
                     />
                 ))}
-            </CardsContainer>
-            <Link href={linkDestinationHref} as={linkDestinationAs} passHref>
-                <SeeMoreLink>{linkText}</SeeMoreLink>
-            </Link>
-        </StyledInlineGalleryRow>
+            </InlineContentRow>
     );
 }
 

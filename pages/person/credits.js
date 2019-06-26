@@ -4,7 +4,6 @@ import { getPersonDetails } from '../../Api';
 import { getPersonSubNavData, transformCreditsData } from '../../utils';
 import SubNav from '../../components/SubNav';
 import MinimalHeader from '../../components/MinimalHeader';
-import { flow, partial, partialRight, map, sort, reduce, groupBy, orderBy, toArray } from 'lodash';
 import Switch from '../../components/Switch';
 import { Row } from '../../components/Layout'; 
 import ListViewHeader from '../../components/ListViewHeader';
@@ -81,11 +80,10 @@ const MainCol = styled.div`
 
 function Credits({ results }) {
     const [ roleType, setRoleType ] = useState('both');
-    const [ mediaType, setMediaType ] = useState('tv');
+    const [ mediaType, setMediaType ] = useState('both');
     const personSubNavDetails = getPersonSubNavData(results.id);
     
     const creditsToRender = transformCreditsData(results.combined_credits, roleType, mediaType);
-    //console.log(creditsToRender);
     
     return (
         <div>

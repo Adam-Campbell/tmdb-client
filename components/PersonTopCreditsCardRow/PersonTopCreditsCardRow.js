@@ -1,22 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import InlineCardRow from '../InlineCardRow';
+import InlineContentRow from '../InlineContentRow';
+import { InlineCard } from '../Cards';
 import { uniqBy } from 'lodash';
-
-/*
-
-    This takes array of credits and:
-
-    - sorts them by popularity (descending)
-
-    - takes the four most popular
-
-    - maps over them to produce the data formate that InlineCardRow requires
-
-    - renders InlineCardRow with all of the necessary props
-
-*/
 
 const mediaTypeToSubpathMap = {
     movie: '/movie',
@@ -42,13 +29,16 @@ export function PersonTopCreditsCardRow({
     }));
 
     return (
-        <InlineCardRow 
+        <InlineContentRow
             title={title}
-            cardsProps={cardsProps}
             linkText={linkText}
             linkDestinationAs={linkDestinationAs}
             linkDestinationHref={linkDestinationHref}
-        />
+        >
+            {cardsProps.map(cardProps => (
+                <InlineCard {...cardProps} />
+            ))}
+        </InlineContentRow>
     );
 }
 

@@ -12,7 +12,6 @@ import {
 import SocialLinks from '../../components/SocialLinks';
 import ReviewPod from '../../components/ReviewPod';
 import { SidebarEntry } from '../../components/SidebarEntry/SidebarEntry';
-import InlineCardRow from '../../components/InlineCardRow';
 import PersonTopCreditsCardRow from '../../components/PersonTopCreditsCardRow';
 import InlineGalleryRow from '../../components/InlineGalleryRow';
 /*
