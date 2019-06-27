@@ -21,6 +21,17 @@ const mediaSubroutes = [
     }
 ];
 
+const personSubroutes = [
+    {
+        name: 'Credits',
+        path: 'credits'
+    },
+    {
+        name: 'Images',
+        path: 'images'
+    }
+];
+
 function getSubNavData(routeGroup, subrouteData) {
     return function mapData(id) {
         return subrouteData.map(subroute => ({
@@ -32,5 +43,5 @@ function getSubNavData(routeGroup, subrouteData) {
 }
 
 export const getMovieSubNavData = getSubNavData('movie', mediaSubroutes);
-
 export const getShowSubNavData = getSubNavData('show', mediaSubroutes);
+export const getPersonSubNavData = getSubNavData('person', personSubroutes);

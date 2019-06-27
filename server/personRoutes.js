@@ -7,8 +7,19 @@ function personRoutes(app) {
             const params = { id: req.params.id };
             app.render(req, res, url, params);
         })
+    router.route('/:id/images')
+        .get((req, res) => {
+            const url = '/person/images';
+            const params = { id: req.params.id };
+            app.render(req, res, url, params);
+        })
 
-    // more subroutes to be added later
+    router.route('/:id/credits')
+        .get((req, res) => {
+            const url = '/person/credits';
+            const params = { id: req.params.id };
+            app.render(req, res, url, params);
+        })
     
     return router;
 }

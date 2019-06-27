@@ -53,26 +53,34 @@ const StyledExternal = styled(Link)`
 export function SocialLinks({ facebook, twitter, instagram, website }) {
     return (
         <StyledSocialLinks>
-            <ListItem>
-                <a href={`https://facebook.com/${facebook}`} target="blank">
-                    <StyledFacebook />
-                </a>
-            </ListItem>
-            <ListItem>
-                <a href={`https://twitter.com/${twitter}`} target="blank">
-                    <StyledTwitter />
-                </a>
-            </ListItem>
-            <ListItem>
-                <a href={`https://instagram.com/${instagram}`} target="blank">
-                    <StyledInstagram />
-                </a>
-            </ListItem>
-            <ListItem>
-                <a href={website} target="blank">
-                    <StyledExternal />
-                </a>
-            </ListItem>
+            {facebook && (
+                <ListItem>
+                    <a href={`https://facebook.com/${facebook}`} target="blank">
+                        <StyledFacebook />
+                    </a>
+                </ListItem>
+            )}
+            {twitter && (
+                <ListItem>
+                    <a href={`https://twitter.com/${twitter}`} target="blank">
+                        <StyledTwitter />
+                    </a>
+                </ListItem>
+            )}
+            {instagram && (
+                <ListItem>
+                    <a href={`https://instagram.com/${instagram}`} target="blank">
+                        <StyledInstagram />
+                    </a>
+                </ListItem>
+            )}
+            {website && (
+                <ListItem>
+                    <a href={website} target="blank">
+                        <StyledExternal />
+                    </a>
+                </ListItem>
+            )}
         </StyledSocialLinks>
     );
 }

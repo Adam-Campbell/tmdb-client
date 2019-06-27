@@ -1,42 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { InlineCard } from '../Cards';
-import Link from 'next/link';
-import { text } from '../../utils';
-
-const urlSubpaths = {
-    movie: '/movie',
-    show: '/show',
-    person: '/person'
-};
-
-const StyledInlineCardRow = styled.div`
-    margin-top: 0;
-    margin-bottom: 40px;
-`;
-
-const RowTitle = styled.h2`
-    ${text('heading')}
-    margin-bottom: 0;
-    margin-top: 0;
-`;
-
-const CardsContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-`;
-
-const SeeMoreLink = styled.a`
-    ${text('body')}
-    display: inline-block;
-    margin-top: 20px;
-    text-decoration: none;
-    &:hover {
-        text-decoration: underline;
-    }
-`;
+import InlineContentRow from '../InlineContentRow';
 
 function getCardProps(cardData, cardType) {
     switch (cardType) {
@@ -70,32 +35,30 @@ function getCardProps(cardData, cardType) {
     }
 }
 
-export function InlineCardRow({ 
+export function MediaInlineCardRow({ 
     title, 
     cardsData, 
-    cardType, 
-    linkText, 
+    cardType,
+    linkText,
     linkDestinationAs,
-    linkDestinationHref 
+    linkDestinationHref  
 }) {
+    //const cardsProps = cardsData.slice(0,4).map(card => getCardProps(card, cardType));
     return (
-        <StyledInlineCardRow>
-            <RowTitle>{title}</RowTitle>
-            <CardsContainer>
-                {cardsData.slice(0,4).map(cardData => (
-                    <InlineCard 
-                        {...getCardProps(cardData, cardType)}
-                    />
-                ))}
-            </CardsContainer>
-            <Link as={linkDestinationAs} href={linkDestinationHref} passHref>
-                <SeeMoreLink>{linkText}</SeeMoreLink>
-            </Link>
-        </StyledInlineCardRow>
+        <InlineContentRow
+            title={title}
+            linkText={linkText}
+            linkDestinationAs={linkDestinationAs}
+            linkDestinationHref={linkDestinationHref}
+        >
+            {cardsData.slice(0,4).map(card => (
+                <InlineCard {...getCardProps(card, cardType)} />
+            ))}
+        </InlineContentRow>
     );
 }
 
-InlineCardRow.propTypes = {
+MediaInlineCardRow.propTypes = {
     title: PropTypes.string.isRequired,
     cardsData: PropTypes.arrayOf(PropTypes.object).isRequired,
     cardType: PropTypes.oneOf([
@@ -106,4 +69,4 @@ InlineCardRow.propTypes = {
     linkText: PropTypes.string.isRequired,
     linkDestinationAs: PropTypes.string.isRequired,
     linkDestinationHref: PropTypes.string.isRequired
-};
+}

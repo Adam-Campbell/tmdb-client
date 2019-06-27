@@ -8,7 +8,7 @@ import {
     TwoColLayoutRow
 } from '../../components/Layout';
 import { getShowSubNavData } from '../../utils';
-import InlineCardRow from '../../components/InlineCardRow';
+import MediaInlineCardRow from '../../components/MediaInlineCardRow';
 import SidebarEntry from '../../components/SidebarEntry';
 import SocialLinks from '../../components/SocialLinks';
 import ReviewPod from '../../components/ReviewPod';
@@ -32,13 +32,13 @@ function Show({ results }) {
             <TwoColLayoutContainer>
                 <TwoColLayoutRow>
                     <MainCol>
-                        <InlineCardRow 
+                        <MediaInlineCardRow 
                             title="Top Cast"
                             cardsData={results.credits.cast}
                             cardType="person"
                             linkText="See full cast & crew"
-                            linkDestinationAs="/foo"
-                            linkDestinationHref="/foo"
+                            linkDestinationAs={`/show/${results.id}/cast-and-crew`}
+                            linkDestinationHref={`/show/cast-and-crew?id=${results.id}`}
                         />
                         {results.reviews.results.length > 0 && (
                             <ReviewPod 
@@ -49,21 +49,21 @@ function Show({ results }) {
                                 allReviewsAs="/foo"
                             />
                         )}
-                        <InlineCardRow 
+                        <MediaInlineCardRow 
                             title="Recommended Shows"
                             cardsData={results.recommendations.results}
                             cardType="show"
                             linkText="See all recommended shows"
-                            linkDestinationAs="/foo"
-                            linkDestinationHref="/foo"
+                            linkDestinationAs={`/show/${results.id}/recommended`}
+                            linkDestinationHref={`/show/recommended?id=${results.id}`}
                         />
-                        <InlineCardRow 
+                        <MediaInlineCardRow 
                             title="Similar Shows"
                             cardsData={results.similar.results}
                             cardType="show"
                             linkText="See all similar shows"
-                            linkDestinationAs="/foo"
-                            linkDestinationHref="/foo"
+                            linkDestinationAs={`/show/${results.id}/similar`}
+                            linkDestinationHref={`/show/similar?id=${results.id}`}
                         />
                     </MainCol>
                     <SidebarCol>

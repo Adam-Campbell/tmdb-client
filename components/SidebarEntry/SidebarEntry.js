@@ -12,6 +12,9 @@ const StyledSidebarEntry = styled.p`
 `;
 
 export function SidebarEntry({ title, value }) {
+    if (value === null || value === undefined || value === '') {
+        return null;
+    }
     return (
         <StyledSidebarEntry>
             <strong>{title}</strong>
@@ -26,5 +29,5 @@ SidebarEntry.propTypes = {
     value: PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number
-    ]).isRequired
+    ])
 };

@@ -8,7 +8,7 @@ import {
     TwoColLayoutContainer,
     TwoColLayoutRow
 } from '../../components/Layout';
-import InlineCardRow from '../../components/InlineCardRow';
+import MediaInlineCardRow from '../../components/MediaInlineCardRow';
 import TagList from '../../components/TagList';
 import { 
     text, 
@@ -44,13 +44,13 @@ function Movie({ results }) {
             <TwoColLayoutContainer>
                 <TwoColLayoutRow>
                     <MainCol>
-                        <InlineCardRow 
+                        <MediaInlineCardRow 
                             title="Top Billed Cast"
                             cardsData={results.credits.cast}
                             cardType="person"
                             linkText="See full cast & crew"
-                            linkDestinationAs="/foo"
-                            linkDestinationHref="/foo"
+                            linkDestinationAs={`/movie/${results.id}/cast-and-crew`}
+                            linkDestinationHref={`/movie/cast-and-crew?id=${results.id}`}
                         />
                         {results.reviews.results.length > 0 && (
                             <ReviewPod 
@@ -61,21 +61,21 @@ function Movie({ results }) {
                                 allReviewsAs="/foo"
                             />
                         )}
-                        <InlineCardRow 
+                        <MediaInlineCardRow 
                             title="Recommended Movies"
                             cardsData={results.recommendations.results}
                             cardType="movie"
                             linkText="See all recommended movies"
-                            linkDestinationAs="/foo"
-                            linkDestinationHref="/foo"
+                            linkDestinationAs={`/movie/${results.id}/recommended`}
+                            linkDestinationHref={`/movie/recommended?id=${results.id}`}
                         />
-                        <InlineCardRow 
+                        <MediaInlineCardRow 
                             title="Similar Movies"
                             cardsData={results.similar.results}
                             cardType="movie"
                             linkText="See all similar movies"
-                            linkDestinationAs="/foo"
-                            linkDestinationHref="/foo"
+                            linkDestinationAs={`/movie/${results.id}/similar`}
+                            linkDestinationHref={`/movie/similar?id=${results.id}`}
                         />
                     </MainCol>
                     <SidebarCol>
