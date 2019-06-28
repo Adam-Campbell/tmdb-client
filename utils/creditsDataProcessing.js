@@ -99,6 +99,13 @@ function transformAndGroupReducer(acc, credit) {
     return acc;
 }
 
+/**
+ * A composition using all of the above functions in order to transform the raw combined_credits data into a 
+ * usable form.
+ * @param {Object} combinedCredits - the raw combined credits data for the person in question 
+ * @param {String} roleType - 'cast', 'crew' or 'both' 
+ * @param {String} mediaType - 'movie', 'tv' or 'both' 
+ */
 export function transformCreditsData(combinedCredits, roleType, mediaType) {
     return flow(
         // use either the cast or crew array, or both

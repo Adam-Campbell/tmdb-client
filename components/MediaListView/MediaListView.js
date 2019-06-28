@@ -21,7 +21,7 @@ import ListBox from '../ListBox';
 // `;
 
 const DropdownContainer = styled.div`
-    width: 180px;
+    width: 220px;
     margin-left: auto;
 `;
 
@@ -36,13 +36,24 @@ const cardViewsData = [
     { value: 'poster', name: 'Poster' }
 ];
 
-{/* <ScrollList 
+/* 
+    <ScrollList 
                         items={cardViewsData}
                         currentValue={cardView}
                         setValue={setCardView}
-                    /> */}
+                    /> 
+
+    <ListBox 
+                        items={cardViewsData}
+                        currentValue={cardView}
+                        setValue={setCardView}
+                        shouldBuffer={false}
+                    />
+    
+                    
+*/
 export function MediaListView({ title, items, urlSubpath }) {
-    const [ cardView, setCardView ] = useState(cardViewsData[0].value);
+    const [ cardView, setCardView ] = useState(cardViewsData[0]);
     return (
         <>
             <ListViewHeader title={title}>
@@ -52,6 +63,8 @@ export function MediaListView({ title, items, urlSubpath }) {
                         currentValue={cardView}
                         setValue={setCardView}
                         shouldBuffer={false}
+                        shouldInlineLabel={true}
+                        labelText="Select View: "
                     />
                 </DropdownContainer>
             </ListViewHeader>
@@ -68,7 +81,7 @@ export function MediaListView({ title, items, urlSubpath }) {
                         overview: item.overview,
                         urlSubpath
                     };
-                    return cardView === cardViews.backdrop ? 
+                    return cardView.value === 'backdrop' ? 
                                         <BackdropCard {...cardProps} /> :
                                         <PosterCard {...cardProps} />;
                 })}

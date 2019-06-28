@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import ListBox from '../components/ListBox';
-import RenderPropListBox from '../components/RenderPropListBox';
+//import RenderPropListBox from '../components/RenderPropListBox';
+//import { useCount } from '../components/useCount';
+import MultiCounter from '../components/MultiCounter';
+import useSelect from '../components/useSelect';
 
 const OuterContainer = styled.div`
     width: 100%;
@@ -80,12 +83,83 @@ const fruitOptions = [
     { name: 'Kiwi Fruit', value: 'kiwi' }
 ];
 
+function TestSelect({ items, currentValue, setValue }) {
+    
+    const {  
+        getLabelProps,
+        getMenuToggleProps,
+        getMenuProps,
+        getItemProps,
+        isOpen,
+        localSelected,
+        displayName
+    } = useSelect({
+        items: items,
+        currentValue: currentValue,
+        setValue: setValue,
+        shouldBuffer: true,
+    });
+
+    return (
+        <OuterContainer>
+            <MenuLabel {...getLabelProps()}>Choose a fruit:</MenuLabel>
+            <MenuToggle {...getMenuToggleProps()}>
+                {displayName}
+                <ToggleIcon isOpen={isOpen}>&#9660;</ToggleIcon>
+            </MenuToggle>
+            <StyledListBox {...getMenuProps()}>
+                {isOpen ? items.map((item, index) => (
+                    <ListItem {...getItemProps({ item, index })}>
+                        {item.name}
+                    </ListItem>
+                )) : null}
+            </StyledListBox>
+        </OuterContainer>
+    );
+}
+
+
 function Test(props) {
     const [ currentSelection, setSelection ] = useState(fruitOptions[0]);
+
     return (
-        <div>
+        <div style={{ width: 400, marginLeft: 'auto', marginRight: 'auto' }}>
+            <p>The currently selected fruit is {currentSelection.name}</p>
+            <ListBox 
+                items={fruitOptions}
+                currentValue={currentSelection}
+                setValue={setSelection}
+                shouldBuffer={true}
+                shouldInlineLabel={true} 
+                labelText="Fruit: "
+            />
+        </div>
+    );
+}
+
+export default Test;
+
+
+/*
+
+
+<TestSelect 
+                items={fruitOptions}
+                currentValue={currentSelection}
+                setValue={setSelection}
+            /> 
+
+
+<button
+                onClick={() => setNumberOfCounters(prev => prev + 1)}
+            >+</button>
+            <button
+                onClick={() => setNumberOfCounters(prev => Math.max(1, prev - 1))}
+            >-</button>
             <p>The currently selected fruit is: {currentSelection.name}</p>
-            <RenderPropListBox
+            <MultiCounter numberOfCounters={numberOfCounters} />
+
+<RenderPropListBox
                 items={fruitOptions}
                 currentValue={currentSelection}
                 setValue={setSelection}
@@ -119,33 +193,5 @@ function Test(props) {
                     </OuterContainer>
                 )}
             </RenderPropListBox>
-        </div>
-    );
-}
-
-export default Test;
-
-
-/*
-
-<select>
-                <option value="apple">Apple</option>
-                <option value="pear">Pear</option>
-                <option value="grape">Grape</option>
-                <option value="lol">Bluepeter</option>
-                <option value="blueberry">Blue Berry</option>
-                
-                <option value="k">blueblue</option>
-                <option value="strawberry">Banana</option>
-            </select>
-
-<ListBox 
-                items={fruitOptions}
-                currentValue={currentSelection}
-                setValue={setSelection}
-                shouldBuffer={true}
-            />
-
-
 
 */
