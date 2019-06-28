@@ -11,7 +11,7 @@ import {
 } from '../../components/Layout';
 import SocialLinks from '../../components/SocialLinks';
 import ReviewPod from '../../components/ReviewPod';
-import { SidebarEntry } from '../../components/SidebarEntry/SidebarEntry';
+import SidebarEntry from '../../components/SidebarEntry';
 import PersonTopCreditsCardRow from '../../components/PersonTopCreditsCardRow';
 import InlineGalleryRow from '../../components/InlineGalleryRow';
 /*

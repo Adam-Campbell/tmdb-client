@@ -88,7 +88,6 @@ export default function useSelect({
     // item is visible
     useEffect(() => {
         if (!state.isOpen || !currentItemEl.current) return;
-
         const actions = computeScrollIntoView(currentItemEl.current, {
             scrollMode: 'if-needed',
             block: 'nearest',
@@ -98,7 +97,7 @@ export default function useSelect({
             el.scrollTop = top;
             el.scrollLeft = left;
         });
-    }, [ state ]);
+    }, [ state, currentItemEl.current ]);
 
     const getRef = useCallback(
         index => {
@@ -113,7 +112,7 @@ export default function useSelect({
                     return null;
             }
         },
-        [currentItemEl, nextItemEl, prevItemEl]
+        [currentItemEl, nextItemEl, prevItemEl, currentIndex, nextIndex, prevIndex]
     );
 
     const openMenu = useCallback(

@@ -23,7 +23,7 @@ import ListBox from '../../components/ListBox';
 */
 
 const DropdownContainer = styled.div`
-    width: 180px;
+    width: 220px;
     margin-left: auto;
 `;
 
@@ -68,7 +68,7 @@ const imageTypes = [
 
 
 function Images({ results }) {
-    const [ currentImageType, setImageType ] = useState(imageTypes[0].value)
+    const [ currentImageType, setImageType ] = useState(imageTypes[0])
     const showSubNavData = getShowSubNavData(results.id);
     return (
         <div>
@@ -86,12 +86,14 @@ function Images({ results }) {
                         currentValue={currentImageType}
                         setValue={setImageType}
                         shouldBuffer={false}
+                        shouldInlineLabel={true}
+                        labelText="Image type: "
                     />
                 </DropdownContainer>
             </ListViewHeader>
             <Row>
                 <ThumbsContainer>
-                    {currentImageType === 'poster' ? results.images.posters.map(poster => (
+                    {currentImageType.value === 'poster' ? results.images.posters.map(poster => (
                         <PosterThumb 
                             key={poster.file_path}
                             src={getImageUrl(poster.file_path, imageSizeConstants.w500)}

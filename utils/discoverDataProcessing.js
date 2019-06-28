@@ -163,8 +163,10 @@ export function convertQueryParamsToProps(queryParams, movieGenresArr, TVGenresA
             parseFloat(queryParams.score_gte),
             parseFloat(queryParams.score_lte)
         ],
-        sortBy: queryParams.sort_by,
-        mediaType: queryParams.media_type,
+        //sortBy: queryParams.sort_by,
+        sortBy: sortByOptions.find(el => el.value === queryParams.sort_by) || sortByOptions[1],
+        //mediaType: queryParams.media_type,
+        mediaType: mediaTypes.find(el => el.value === queryParams.media_type) || mediaTypes[1],
         withGenres: convertGenreIdsToObjects(
             queryParams.with_genres,
             queryParams.media_type === 'movies' ? movieGenresArr : TVGenresArr

@@ -1,11 +1,6 @@
 import React, { Component, useState } from 'react';
 import styled from 'styled-components';
-import MultiThumbSlider from '../components/MultiThumbSlider';
 import RangeSelect from '../components/RangeSelect';
-import AutocompleteTest from '../components/AutocompleteTest';
-import ControlledSelect from '../components/ControlledSelect';
-import ScrollList from '../components/ScrollList';
-import ScrollListWithBuffer from '../components/ScrollListWithBuffer';
 import ListBox from '../components/ListBox';
 import Router from 'next/router';
 import ComboBox from '../components/ComboBox';
@@ -103,8 +98,10 @@ class Discover extends Component {
             score_lte: scoreValues[1],
             release_gte: releaseValues[0],
             release_lte: releaseValues[1],
-            sort_by: sortBy,
-            media_type: mediaType
+            //sort_by: sortBy,
+            sort_by: sortBy.value,
+            //media_type: mediaType
+            media_type: mediaType.value
         };
         if (withGenres.length) {
             queryObject.with_genres = convertGenreObjectsToIds(
@@ -160,6 +157,8 @@ class Discover extends Component {
                             currentValue={sortBy}
                             setValue={this.updateValue('sortBy')}
                             shouldBuffer={true}
+                            shouldInlineLabel={true}
+                            labelText="Sort by:"
                         />
                     </InputContainer>
                     <InputContainer>
@@ -168,6 +167,8 @@ class Discover extends Component {
                             currentValue={mediaType}
                             setValue={this.updateValue('mediaType')}
                             shouldBuffer={true}
+                            shouldInlineLabel={true}
+                            labelText="Media type:"
                         />
                     </InputContainer>
                     <InputContainer>

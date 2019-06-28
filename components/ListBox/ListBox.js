@@ -71,6 +71,8 @@ const SelectMenu = styled.ul`
     width: 100%;
     margin: 0;
     z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
 `;
 
 const MenuItem = styled.li`
