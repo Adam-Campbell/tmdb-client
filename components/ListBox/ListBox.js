@@ -1,254 +1,142 @@
-import React, { useReducer, useRef, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {
-    OuterContainer,
-    StyledListBox,
-    ListItem,
-    ListLabel,
-    LabelIcon
-} from './elements';
-import { reducer, actionConstants } from './reducer';
-import computeScrollIntoView from 'compute-scroll-into-view';
+import styled from 'styled-components';
+import useSelect from '../useSelect';
+import { ChevronDown } from 'styled-icons/fa-solid';
 
-function noop() {}
 
 /*
 
-items:
+colors:
 
-[
-    { 
-        name: 'Popularity Descending', 
-        value: 'popularity.desc' 
-    }
-]
+light blue: #43cbe8
 
-// We'll use value (popularit.desc) for everything except the label and the input text.
-
-
+dark blue: #1a435d
 
 */
 
-export function ListBox({ items, currentValue, setValue, shouldBuffer, onChange = noop }) {
-    
-    // Initialize reducer state
-    const [ state, dispatch ] = useReducer(reducer, {
-        isOpen: false,
-        localSelected: currentValue
+const OuterContainer = styled.div`
+    display: flex;
+    flex-direction: ${({ inlineLabel }) => inlineLabel ? 'row' : 'column'};
+`;
+
+const Label = styled.label`
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: #222;
+    padding: 10px 10px 10px 0;
+`;
+
+const SelectContainer = styled.div`
+    position: relative;
+    flex-grow: 1;
+`;
+
+const SelectMenuToggle = styled.div`
+    background: #43cbe8;
+    display: flex;
+`;
+
+const MenuToggleText = styled.p`
+    font-family: sans-serif;
+    color: #fff;
+    padding: 10px;
+    margin: 0;
+    flex-grow: 1;
+`;
+
+const ToggleIconContainer = styled.div`
+    background: #1a435d;
+    color: #fff;
+    font-family: sans-serif;
+    padding: 5px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+const ToggleIcon = styled(ChevronDown)`
+    width: 22px;
+    color: #fff;
+    transform: ${({ isOpen }) => isOpen ? `rotate(180deg)` : `rotate(0)`};
+    transition: transform ease-in-out 0.2s;
+`;
+
+const SelectMenu = styled.ul`
+    position: absolute;
+    ${({ isOpen }) => isOpen && `border: solid 1px #ddd;`}
+    list-style-type: none;
+    padding-left: 0;
+    width: 100%;
+    margin: 0;
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
+`;
+
+const MenuItem = styled.li`
+    padding: 10px;
+    font-family: sans-serif;
+    font-weight: ${({ isSelected }) => isSelected ? 700 : 400};
+    color: #222;
+    background: ${({ isSelected }) => isSelected ? '#ddd' : '#eee'};
+    &:hover {
+        background: #ddd;
+    }
+`;
+
+export function ListBox({ 
+    items, 
+    currentValue, 
+    setValue, 
+    shouldBuffer = true, 
+    shouldInlineLabel = false,
+    labelText
+}) {
+
+    const {
+        getLabelProps,
+        getMenuToggleProps,
+        getMenuProps,
+        getItemProps,
+        isOpen,
+        localSelected,
+        displayName
+    } = useSelect({
+        items,
+        currentValue,
+        setValue,
+        shouldBuffer
     });
 
-    // Establish the indexs of the currently selected item as well as the next and previous
-    // items, so that refs can be added to these items.
-    const currentIndex = items.findIndex(el => el.value === state.localSelected);
-    const nextIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
-    const prevIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
-
-    // Instantiate refs to use for various elements
-    const containerEl = useRef(null);
-    const labelEl = useRef(null);
-    const listEl = useRef(null);
-    const currentItemEl = useRef(null);
-    const nextItemEl = useRef(null);
-    const prevItemEl = useRef(null);
-
-    // This effect will scroll the listbox in order to make sure the currently selected
-    // item is visible
-    useEffect(() => {
-        if (!state.isOpen || !currentItemEl.current) return;
-
-        // This is the native DOM API implementation, however it has undesirable behaviour in some
-        // browsers due to partial support. 
-
-        // currentItemEl.current && currentItemEl.current.scrollIntoView({ 
-        //     behavior: 'smooth', 
-        //     block: 'nearest', 
-        //     inline: 'start' 
-        // });
-
-        // This is a ponyfill of the native DOM API version, it achieves the same result
-        // but also behaves in a stable manner across all browsers.
-
-        const actions = computeScrollIntoView(currentItemEl.current, {
-            scrollMode: 'if-needed',
-            block: 'nearest',
-            inline: 'start',
-        });
-        actions.forEach(({ el, top, left }) => {
-            el.scrollTop = top;
-            el.scrollLeft = left;
-        });
-    }, [ state ]);
-
-    /**
-     * Given an index, determines whether that index should 'own' one of the refs for this render, and
-     * if so it returns that ref. 
-     * @param {Number} index - the index to check
-     * @param {?Object} - either returns the ref object is applicable, or else returns null.
-     */
-    function getRef(index) {
-        switch (index) {
-            case currentIndex:
-                return currentItemEl;
-            case nextIndex:
-                return nextItemEl;
-            case prevIndex:
-                return prevItemEl;
-            default:
-                return null;
-        }
-    }
-
-    /**
-     * Handles action dispatching and focus management for opening the menu.
-     */
-    function openMenu() {
-        dispatch({
-            type: actionConstants.OPEN_MENU,
-            payload: {
-                localSelected: currentValue
-            }
-        });
-        listEl.current.focus();
-    }
-
-    /**
-     * Handles action dispatching and focus management for closing the menu.
-     */
-    function closeMenu() {
-        dispatch({ 
-            type: actionConstants.CLOSE_MENU,
-            payload: {
-                currentValue
-            }
-        });
-    }
-
-    /**
-     * Calls either openMenu() or closeMenu() depending on the value of state.isOpen
-     */
-    function toggleMenu() {
-        if (state.isOpen) {
-            closeMenu();
-            labelEl.current.focus();
-
-        } else {
-            openMenu();
-        }
-    }
-
-    /**
-     * Updates localSelected state to match the value specified by the newSelection argument.
-     * @param {String} newSelection - the new selection value
-     */
-    function updateLocalSelection(newSelection) {
-        dispatch({
-            type: actionConstants.UPDATE_LOCAL_SELECTION,
-            payload: {
-                localSelected: newSelection
-            }
-        });
-        if (!shouldBuffer) {
-            setValue(newSelection);
-            onChange(newSelection);
-        }
-    }
-
-    /**
-     * Sets the value externally using the setValue function supplied as a prop, and closes menu.
-     * @param {String} selectionValue - the new value to set externally.
-     */
-    function confirmSelection(newValue) {
-        setValue(newValue);
-        onChange(newValue);
-        dispatch({
-            type: actionConstants.CONFIRM_SELECTION,
-            payload: {
-                newValue
-            }
-        });
-        labelEl.current.focus();
-    }
-
-    /**
-     * Handles key press behaviour when the list is focused
-     * @param {Object} e - the event object 
-     */
-    function handleListKeyDown(e) {
-        //e.preventDefault();
-        const { key } = e;
-        if (key === 'ArrowUp') {
-            e.preventDefault()
-            updateLocalSelection(items[prevIndex].value);
-        } else if (key === 'ArrowDown') {
-            e.preventDefault();
-            updateLocalSelection(items[nextIndex].value);
-        } else if (key === 'Enter') {
-           confirmSelection(items[currentIndex].value);
-        } else if (key === 'Escape') {
-            closeMenu();
-            labelEl.current.focus();
-        }
-    }
-
-    /**
-     * Handles key press behaviour when the label is focused
-     * @param {Object} e - the event object
-     */
-    function handleLabelKeyDown(e) {
-        
-        const { key } = e;
-        if (key === 'Enter') {
-            e.preventDefault();
-            openMenu();
-        }
-    }
-
     return (
-        <OuterContainer 
-            ref={containerEl}
-        >
-            <ListLabel
-                ref={labelEl}
-                tabIndex="0"
-                onClick={toggleMenu}
-                onKeyDown={handleLabelKeyDown}
-                role="label"
-                id="scrolllist-label"
-            >
-                {state.isOpen ? items[currentIndex].name : items.find(el => el.value === currentValue).name}
-                <LabelIcon isOpen={state.isOpen}>&#9660;</LabelIcon>
-            </ListLabel>
-            <StyledListBox
-                tabIndex="-1"
-                role="listbox"
-                aria-labelledby="scrolllist-label"
-                ref={listEl}
-                onKeyDown={handleListKeyDown}
-                isOpen={state.isOpen}
-                onBlur={() => closeMenu()}
-            >
-                {state.isOpen ? items.map((item, index) => (
-                    <ListItem 
-                        role="option"
-                        aria-selected={currentIndex === index ? 'true' : 'false'}
-                        key={index} 
-                        ref={getRef(index)}
-                        isSelected={currentIndex === index}
-                        onClick={() => {
-                            confirmSelection(item.value)
-                        }}
-                    >
-                        {item.name}
-                    </ListItem>
-                )) : null}
-            </StyledListBox>
+        <OuterContainer inlineLabel={shouldInlineLabel}>
+            <Label {...getLabelProps()}>{labelText}</Label>
+            <SelectContainer>
+                <SelectMenuToggle {...getMenuToggleProps()}>
+                    <MenuToggleText>{displayName}</MenuToggleText>
+                    <ToggleIconContainer>
+                        <ToggleIcon isOpen={isOpen} />
+                    </ToggleIconContainer>
+                </SelectMenuToggle>
+                <SelectMenu {...getMenuProps()}>
+                    {isOpen && items.map((item, index) => (
+                        <MenuItem {...getItemProps({ item, index })}>
+                            {item.name}
+                        </MenuItem>
+                    ))}
+                </SelectMenu>
+            </SelectContainer>
         </OuterContainer>
     );
 }
 
 ListBox.propTypes = {
-    items: PropTypes.array.isRequired,
-    currentValue: PropTypes.string.isRequired,
+    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+    currentValue: PropTypes.object.isRequired,
     setValue: PropTypes.func.isRequired,
-    shouldBuffer: PropTypes.bool
+    shouldBuffer: PropTypes.bool,
+    shouldInlineLabel: PropTypes.bool,
+    labelText: PropTypes.string.isRequired
 };

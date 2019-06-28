@@ -4,24 +4,12 @@ import styled from 'styled-components';
 import { Row } from '../Layout';
 import { BackdropCard, PosterCard } from '../Cards';
 import ListViewHeader from '../ListViewHeader';
-import ViewSelect from './ViewSelect';
 import cardViews from './cardViewsConstant';
-import ScrollList from '../ScrollList';
 import ListBox from '../ListBox';
 
 
-// const ViewSelect = styled.select`
-//     font-family: sans-serif;
-//     color: #222;
-//     padding: 5px;
-//     border: solid 1px #aaa;
-//     border-radius: 3px;
-//     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-//     font-size: 1rem;
-// `;
-
 const DropdownContainer = styled.div`
-    width: 180px;
+    width: 220px;
     margin-left: auto;
 `;
 
@@ -36,13 +24,8 @@ const cardViewsData = [
     { value: 'poster', name: 'Poster' }
 ];
 
-{/* <ScrollList 
-                        items={cardViewsData}
-                        currentValue={cardView}
-                        setValue={setCardView}
-                    /> */}
 export function MediaListView({ title, items, urlSubpath }) {
-    const [ cardView, setCardView ] = useState(cardViewsData[0].value);
+    const [ cardView, setCardView ] = useState(cardViewsData[0]);
     return (
         <>
             <ListViewHeader title={title}>
@@ -52,6 +35,8 @@ export function MediaListView({ title, items, urlSubpath }) {
                         currentValue={cardView}
                         setValue={setCardView}
                         shouldBuffer={false}
+                        shouldInlineLabel={true}
+                        labelText="Select View: "
                     />
                 </DropdownContainer>
             </ListViewHeader>
@@ -68,7 +53,7 @@ export function MediaListView({ title, items, urlSubpath }) {
                         overview: item.overview,
                         urlSubpath
                     };
-                    return cardView === cardViews.backdrop ? 
+                    return cardView.value === 'backdrop' ? 
                                         <BackdropCard {...cardProps} /> :
                                         <PosterCard {...cardProps} />;
                 })}
