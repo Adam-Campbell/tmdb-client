@@ -7,6 +7,7 @@ import { getMovieSubNavData, getImageUrl, imageSizeConstants } from '../../utils
 import { Row } from '../../components/Layout';
 import ListViewHeader from '../../components/ListViewHeader';
 import ListBox from '../../components/ListBox';
+import GalleryModal from '../../components/GalleryModal';
 
 /*
 
@@ -37,6 +38,8 @@ const ThumbsContainer = styled.div`
 const PosterThumb = styled.img`
     margin: 10px;
     width: calc(50% - 20px);
+    object-fit: cover;
+    object-position: center;
     @media(min-width: 550px) {
         width: calc(33.33333% - 20px);
     }
@@ -51,6 +54,8 @@ const PosterThumb = styled.img`
 const BackdropThumb = styled.img`
     margin: 10px;
     width: calc(100% - 20px);
+    object-fit: cover;
+    object-position: center;
     @media(min-width: 600px) {
         width: calc(50% - 20px);
     }
@@ -68,7 +73,9 @@ const imageTypes = [
 
 
 function Images({ results }) {
-    const [ currentImageType, setImageType ] = useState(imageTypes[0])
+    const [ currentImageType, setImageType ] = useState(imageTypes[0]);
+    const [ isModalOpen, setIsModalOpen ] = useState(false);
+    const [ currentImageIndex, setImageIndex ] = useState(0);
     const movieSubNavData = getMovieSubNavData(results.id);
     return (
         <div>
@@ -93,19 +100,34 @@ function Images({ results }) {
             </ListViewHeader>
             <Row>
                 <ThumbsContainer>
-                    {currentImageType.value === 'poster' ? results.images.posters.map(poster => (
+                    {currentImageType.value === 'poster' ? results.images.posters.map((poster, index) => (
                         <PosterThumb 
                             key={poster.file_path}
                             src={getImageUrl(poster.file_path, imageSizeConstants.w500)}
+                            onClick={() => {
+                                setImageIndex(index);
+                                setIsModalOpen(true);
+                            }}
                         />
-                    )) : results.images.backdrops.map(backdrop => (
+                    )) : results.images.backdrops.map((backdrop, index) => (
                         <BackdropThumb 
                             key={backdrop.file_path}
                             src={getImageUrl(backdrop.file_path, imageSizeConstants.w780)}
+                            onClick={() => {
+                                setImageIndex(index);
+                                setIsModalOpen(true);
+                            }}
                         />
                     ))}
                 </ThumbsContainer>
             </Row>
+            <GalleryModal 
+                isOpen={isModalOpen}
+                handleClose={() => setIsModalOpen(false)}
+                currentImageIndex={currentImageIndex}
+                setImageIndex={setImageIndex}
+                images={currentImageType.value === 'poster' ? results.images.posters : results.images.backdrops}
+            />
         </div>
     );
 }

@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { getPersonDetails } from '../../Api';
-import { getPersonSubNavData } from '../../utils';
 import SubNav from '../../components/SubNav';
 import MinimalHeader from '../../components/MinimalHeader';
 import ListViewHeader from '../../components/ListViewHeader';
 import { Row } from '../../components/Layout';
-import { getImageUrl, imageSizeConstants } from '../../utils';
+import { getPersonSubNavData, getImageUrl, imageSizeConstants } from '../../utils';
+import GalleryModal from '../../components/GalleryModal';
 
 /*
 
@@ -26,6 +26,8 @@ const ThumbsContainer = styled.div`
 const Thumb = styled.img`
     margin: 10px;
     width: calc(50% - 20px);
+    object-fit: cover;
+    object-position: center;
     @media(min-width: 550px) {
         width: calc(33.33333% - 20px);
     }
@@ -38,6 +40,8 @@ const Thumb = styled.img`
 `;
 
 function Images({ results }) {
+    const [ isModalOpen, setIsModalOpen ] = useState(false);
+    const [ currentImageIndex, setImageIndex ] = useState(0);
     const personSubNavData  = getPersonSubNavData(results.id);
     return (
         <div>
@@ -51,15 +55,25 @@ function Images({ results }) {
             <ListViewHeader title="Profile Images" />
             <Row>
                 <ThumbsContainer>
-                    {results.images.profiles.map(image => (
+                    {results.images.profiles.map((image, index) => (
                         <Thumb 
                             key={image.file_path}
                             src={getImageUrl(image.file_path, imageSizeConstants.w500)}
-                            onClick={() => console.log(image)}
+                            onClick={() => {
+                                setImageIndex(index);
+                                setIsModalOpen(true);
+                            }}
                         />
                     ))}
                 </ThumbsContainer>
             </Row>
+            <GalleryModal 
+                isOpen={isModalOpen}
+                handleClose={() => setIsModalOpen(false)}
+                images={results.images.profiles}
+                currentImageIndex={currentImageIndex}
+                setImageIndex={setImageIndex}
+            />
         </div>
     );
 }
