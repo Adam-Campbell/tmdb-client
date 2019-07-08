@@ -45,3 +45,11 @@ function getSubNavData(routeGroup, subrouteData) {
 export const getMovieSubNavData = getSubNavData('movie', mediaSubroutes);
 export const getShowSubNavData = getSubNavData('show', mediaSubroutes);
 export const getPersonSubNavData = getSubNavData('person', personSubroutes);
+
+export function getSearchSubNavData(searchQuery) {
+    return ['Movie', 'TV', 'Person'].map(category => ({
+        name: category,
+        href: `/search?category=${category.toLowerCase()}&query=${searchQuery}`,
+        as: `/search?category=${category.toLowerCase()}&query=${searchQuery}`
+    }));
+}

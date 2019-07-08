@@ -72,18 +72,53 @@ export const getPopularPeople = async () => {
 
 // Search endpoints
 
+function formatTrendingEntity(entity) {
+    // entity is a movie
+    if (entity.hasOwnProperty('title')) {
+        return {
+            id: entity.id,
+            value: entity.title,
+            entityType: 'movie'
+        };
+        // entity is a tv show
+    } else if (entity.hasOwnProperty('original_name')) {
+        return {
+            id: entity.id,
+            value: entity.name,
+            entityType: 'tv'
+        }
+        // entity is a person
+    } else {
+        return {
+            id: entity.id,
+            value: entity.name,
+            entityType: 'person'
+        };
+    }
+}
+
+// export const getTrendingSearches = async () => {
+//     const response = await get('trending/all/day');
+//     return response.data.results.slice(0, 10).map(result => ({
+//         id: result.id,
+//         text: result.title || result.name
+//     }));
+// };
+
 export const getTrendingSearches = async () => {
     const response = await get('trending/all/day');
-    return response.data.results.slice(0, 10).map(result => ({
-        id: result.id,
-        text: result.title || result.name
-    }));
+    return response.data.results.slice(0, 10).map(formatTrendingEntity);
 };
 
-export const getSearchResults = async (searchQuery) => {
-    const response = await get('search/multi', {
+//  /movie
+//  /tv
+//  /person
+
+export const getSearchResults = async (searchQuery, searchCategory = 'movie') => {
+    const response = await get(`search/${searchCategory}`, {
         query: searchQuery
     });
+    //console.log(response);
     return response.data.results;
 };
 
@@ -128,10 +163,12 @@ export const getDiscoverResults = async (options) => {
         [`${releaseDateString}.lte`]: `${release_lte}-12-31`,
         'vote_average.gte': score_gte,
         'vote_average.lte': score_lte,
-        with_genres,
+        //with_genres,
+        with_genres: with_genres.replace('%2C', ','),
         sort_by: sort_by.replace(/release_date/g, releaseDateString)
     };
 
+    //console.log(paramsObject);
     const response = await get(discoverUrl, paramsObject);
     return response.data.results;
 }

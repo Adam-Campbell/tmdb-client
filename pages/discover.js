@@ -106,7 +106,7 @@ class Discover extends Component {
         if (withGenres.length) {
             queryObject.with_genres = convertGenreObjectsToIds(
                 withGenres,
-                mediaType === 'movies' ? movieGenres : TVGenres
+                mediaType.value === 'movies' ? movieGenres : TVGenres
             );
         }
         Router.push({
@@ -173,7 +173,7 @@ class Discover extends Component {
                     </InputContainer>
                     <InputContainer>
                         <ComboBox 
-                            items={mediaType === 'movies' ? movieGenres : TVGenres}
+                            items={mediaType.value === 'movies' ? movieGenres : TVGenres}
                             currentSelection={withGenres}
                             setSelection={this.updateValue('withGenres')}
                         />
