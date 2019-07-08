@@ -85,7 +85,7 @@ function formatTrendingEntity(entity) {
         return {
             id: entity.id,
             value: entity.name,
-            entityType: 'show'
+            entityType: 'tv'
         }
         // entity is a person
     } else {
@@ -110,11 +110,15 @@ export const getTrendingSearches = async () => {
     return response.data.results.slice(0, 10).map(formatTrendingEntity);
 };
 
-export const getSearchResults = async (searchQuery) => {
-    const response = await get('search/multi', {
+//  /movie
+//  /tv
+//  /person
+
+export const getSearchResults = async (searchQuery, searchCategory = 'movie') => {
+    const response = await get(`search/${searchCategory}`, {
         query: searchQuery
     });
-    console.log(response);
+    //console.log(response);
     return response.data.results;
 };
 

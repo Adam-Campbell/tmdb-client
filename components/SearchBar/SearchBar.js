@@ -1,58 +1,89 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Router from 'next/router';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Row } from '../Layout';
-import TrendingSearches from './TrendingSearches';
+import Downshift from 'downshift';
 import { getTrendingSearches } from '../../Api';
+import SearchItem from './SearchItem';
+import { Search } from 'styled-icons/material';
+import { Row } from '../Layout';
+import { text } from '../../utils';
+import Router from 'next/router';
 
-const SearchContainer = styled.div`
-    background: pink;
+const SearchBarContainer = styled.div`
     position: relative;
-    z-index: 100;
+    border-top: solid 1px #ddd;
+    border-bottom: solid 1px #ddd;
 `;
 
-const SearchInputRow = styled(Row)`
-    background: green;
+const InputRow = styled(Row)`
     display: flex;
+    align-items: stretch;
+    padding-top: 10px;
+    padding-bottom: 10px;
 `;
 
-const IconPlaceholder = styled.span`
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    border-radius: 3px;
-    background: #222;
+const InputIcon = styled(Search)`
+    color: #222;
+    width: 30px;
+    margin-right: 10px;
 `;
 
-const SearchForm = styled.form`
-    width: 100%;
-    display: flex;
-`;
-
-const SearchInput = styled.input`
-    font-family: sans-serif;
-    width: 100%;
-    border: none;
+const Input = styled.input`
+    ${text('body')}
+    font-style: italic;
+    flex-grow: 1;
     text-indent: 10px;
+    border: none;
 `;
 
+const Menu = styled.ul`
+    position: absolute;
+    width: 100%;
+    margin: 0;
+    padding-left: 0;
+    list-style-type: none;
+    z-index: 2000;
+`;
 
-export const SearchBar = () => {
-    // track the current search value
-    const [ currentSearch, setCurrentSearch ] = useState('');
-    // track whether the search bar is currently focused
-    const [ isFocused, setIsFocused ] = useState(false);
-    // store the trending searches
+function searchStringToItems(str) {
+    if (str === '') {
+        return [];
+    } else {
+        return [
+            { 
+                id: 'search-in-movie', 
+                value: str,
+                entityType: 'movie'
+            },
+            { 
+                id: 'search-in-tv', 
+                value: str,
+                entityType: 'tv'
+            },
+            { 
+                id: 'search-in-person', 
+                value: str,
+                entityType: 'person'
+            },
+        ]
+    }
+}
+
+function handleRedirect(item) {
+    Router.push({
+        pathname: '/search',
+        query: {
+            category: item.entityType,
+            query: item.value 
+        }
+    });
+}
+
+export function SearchBar(props) {
     const [ trendingSearches, setTrendingSearches ] = useState([]);
-    // this effect will run when the component first mounts, and then additionally every time
-    // the isFocused state changes, however it will only actually do anything when isFocused is
-    // true AND trendingSearches is still an empty array. The result is that if the trending search
-    // data is succesfully fetched on component mount then this effect doesn't do anything more for
-    // the lifetime of this component. However if the trending data was not successfully fetched, it 
-    // will retry every time the search input gains focus. 
+    const [ inputValue, setInputValue ] = useState('');
+    const inputEl = useRef(null);
     useEffect(() => {
-        if (!isFocused || trendingSearches.length) return;
-
         const fetchData = async () => {
             try {
                 const trendingData = await getTrendingSearches();
@@ -62,29 +93,74 @@ export const SearchBar = () => {
             }
         }
         fetchData();
-    }, [isFocused, trendingSearches]);
+    }, []);
+
+    const itemsToRender = [
+        ...searchStringToItems(inputValue), 
+        ...trendingSearches
+    ];
     
     return (
-        <SearchContainer>
-            <SearchInputRow>
-                <IconPlaceholder />
-                <SearchForm onSubmit={(e) => {
-                    e.preventDefault();
-                    Router.push(`/search?query=${encodeURIComponent(currentSearch)}`);
-                    setIsFocused(false);
-                }}>
-                    <SearchInput 
-                        placeholder="Search for a movie, tv show or person..." 
-                        value={currentSearch}
-                        onChange={e => setCurrentSearch(e.target.value)}
-                        onFocus={() => setIsFocused(true)}
-                        onBlur={() => setIsFocused(false)}
-                    />
-                </SearchForm>
-            </SearchInputRow>
-            {Boolean(trendingSearches.length && isFocused) && (
-                <TrendingSearches items={trendingSearches}/>
+        <Downshift
+            onChange={handleRedirect}
+            selectedItem={null}
+            inputValue={inputValue}
+            itemToString={item => (item ? item.value : '')}
+        >
+            {({
+                getRootProps,
+                getInputProps,
+                getToggleButtonProps,
+                getMenuProps,
+                getItemProps,
+                isOpen,
+                inputValue,
+                highlightedIndex,
+                openMenu,
+                closeMenu,
+                setHighlightedIndex
+            }) => (
+                <SearchBarContainer {...getRootProps()}>
+                    <InputRow>
+                        <InputIcon />
+                        <Input {...getInputProps({
+                            placeholder: "Search for a movie, TV show or person...", 
+                            onFocus: openMenu,
+                            onChange: (e) => {
+                                setInputValue(e.target.value);
+                            },
+                            onKeyDown: (e) => {
+                                if (e.key === 'Enter') {
+                                    if (itemsToRender[highlightedIndex]) {
+                                        const newVal = itemsToRender[highlightedIndex].value;
+                                        setInputValue(newVal);
+                                    } else {
+                                        handleRedirect({
+                                            value: inputValue,
+                                            entityType: 'movie'
+                                        });
+                                        closeMenu();
+                                    }
+                                }
+                            }
+                        })}></Input>
+                    </InputRow>
+                    <Menu {...getMenuProps()}>
+                        {isOpen ? (
+                            itemsToRender.map((item, index) => (
+                                <SearchItem 
+                                    key={item.id}
+                                    item={item}
+                                    index={index}
+                                    getItemProps={getItemProps}
+                                    setInputValue={setInputValue}
+                                    highlightedIndex={highlightedIndex}
+                                />
+                            ))
+                        ) : null}
+                    </Menu>
+                </SearchBarContainer>
             )}
-        </SearchContainer>
+        </Downshift>
     );
-};
+}

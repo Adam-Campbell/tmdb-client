@@ -2,7 +2,6 @@ import React from 'react';
 import App, { Container } from 'next/app';
 import Header from '../components/Header';
 import SearchBar from '../components/SearchBar';
-import NewSearchBar from '../components/NewSearchBar';
 import { createGlobalStyle } from 'styled-components';
 import { normalize } from 'styled-normalize';
 import ReactModal from 'react-modal';
@@ -56,7 +55,7 @@ class MyApp extends App {
             <>
                 <GlobalStyle />
                 <Header />
-                <NewSearchBar />
+                <SearchBar />
                 <Component {...pageProps} />
             </>
         );
