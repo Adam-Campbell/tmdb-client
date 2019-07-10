@@ -2,15 +2,19 @@
 const express = require('express');
 const next = require('next');
 const parser = require('ua-parser-js');
+const cookieParser = require('cookie-parser');
 // require routers
 const movieRoutes = require('./movieRoutes');
 const showRoutes = require('./showRoutes');
 const personRoutes = require('./personRoutes');
 
+const apiRouter = require('./api');
+
 // initialize app instance
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
+const axios = require('axios');
 
 
 // set up routes
@@ -24,8 +28,11 @@ app.prepare()
     const showRouter = showRoutes(app);
     const personRouter = personRoutes(app);
 
+    server.use(cookieParser());
+    server.use(express.json());
     // attach device info to all get requests
     server.get('*', (req, res, next) => {
+        //console.log(req.cookies);
         const ua = parser(req.headers['user-agent']);
         const { type } = ua.device;
         req.isDevice = Boolean(type === 'mobile' || type === 'tablet');
@@ -68,6 +75,19 @@ app.prepare()
 
     // handle person subroutes
     server.use('/person', personRouter);
+
+    server.use('/api', apiRouter);
+
+    server.get('/movie-endpoint', async (req, res) => {
+        const response = await axios.get('https://api.themoviedb.org/3/movie/popular', {
+            params: {
+                api_key: '366f08c1f54f6edab9d509f393bf0b54'
+            }
+        });
+        res.json({
+            popularMovies: response.data.results
+        });
+    });
 
     // handle all routes that aren't explicitly defined
     server.get('*', (req, res) => handle(req, res));

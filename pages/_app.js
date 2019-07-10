@@ -5,6 +5,11 @@ import SearchBar from '../components/SearchBar';
 import { createGlobalStyle } from 'styled-components';
 import { normalize } from 'styled-normalize';
 import ReactModal from 'react-modal';
+import makeStore from '../store';
+import { Provider } from 'react-redux';
+import withRedux from 'next-redux-wrapper';
+import { getUserSummary } from '../actions';
+
 
 ReactModal.setAppElement('#__next');
 
@@ -42,7 +47,11 @@ const GlobalStyle = createGlobalStyle`
 
 class MyApp extends App {
     static async getInitialProps({ Component, ctx }) {
+        //console.log(ctx.store.getState());
         let pageProps = {};
+        // If there is no need to fetch a user summary then this just returns immediately after
+        // verifying it isn't needed, becoming more or less a no-op.
+        await ctx.store.dispatch(getUserSummary());
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx);
         }
@@ -50,16 +59,18 @@ class MyApp extends App {
     }
 
     render() {
-        const { Component, pageProps } = this.props;
+        const { Component, pageProps, store } = this.props;
         return (
             <>
                 <GlobalStyle />
-                <Header />
-                <SearchBar />
-                <Component {...pageProps} />
+                <Provider store={store}>
+                    <Header />
+                    <SearchBar />
+                    <Component {...pageProps} />
+                </Provider>
             </>
         );
     }
 }
 
-export default MyApp;
+export default withRedux(makeStore)(MyApp);

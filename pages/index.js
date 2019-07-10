@@ -3,8 +3,17 @@ import Link from 'next/link'
 import Head from '../components/head'
 import {
   getNowPlayingMovies,
-  getOnAirTV
+  getOnAirTV,
+  getRequestToken
 } from '../Api';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import API_KEY from '../apiKey';
+
+async function handleButtonClick() {
+  const requestToken = await getRequestToken();
+  window.location = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=http://localhost:3000/authenticate`
+}
 
 const Home = () => (
   <div>
@@ -15,6 +24,7 @@ const Home = () => (
       <p className="description">
         To get started, edit <code>pages/index.js</code> and save to reload.
       </p>
+      <button onClick={handleButtonClick}>Click me to add a cookie!</button>
 
       <div className="row">
         <Link href="https://github.com/zeit/next.js#getting-started">
@@ -99,6 +109,8 @@ Home.getInitialProps = async ({ req }) => {
     movies: moviesResults,
     ...serverInfo
   }
+  //const results = await axios.get('http://localhost:3000/api/home');
+  //return { ...results.data };
 }
 
-export default Home
+export default connect(state => state)(Home)
