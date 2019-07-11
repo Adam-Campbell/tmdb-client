@@ -7,6 +7,10 @@ import { getShowSubNavData } from '../../utils';
 import PeopleList from '../../components/PeopleList';
 import { Row } from '../../components/Layout';
 
+import { fetchShow } from '../../actions';
+import { getShowData } from '../../reducers/showReducer';
+import { connect } from 'react-redux';
+
 const FlexRow = styled(Row)`
     display: flex;
     flex-direction: column;
@@ -15,39 +19,46 @@ const FlexRow = styled(Row)`
     }
 `;
 
-function CastAndCrew({ results }) {
-    const showSubNavData = getShowSubNavData(results.id);
+function CastAndCrew({ id, title, posterPath, cast, crew }) {
+    const showSubNavData = getShowSubNavData(id);
     return (
         <div>
             <MinimalHeader 
-                imagePath={results.poster_path}
-                name={results.name}
-                backHref={`/show?id=${results.id}`}
-                backAs={`/show/${results.id}`}
+                imagePath={posterPath}
+                name={title}
+                backHref={`/show?id=${id}`}
+                backAs={`/show/${id}`}
             />
             <SubNav navData={showSubNavData} />
             <FlexRow>
                 <PeopleList 
                     title="Cast"
-                    people={results.credits.cast}
+                    people={cast}
                 />
                 <PeopleList 
                     title="Crew"
-                    people={results.credits.crew}
+                    people={crew}
                 />
             </FlexRow>
         </div>
     );
 }
 
-CastAndCrew.getInitialProps = async ({ query, req }) => {
+CastAndCrew.getInitialProps = async ({ query, req, store }) => {
     const { id } = query;
-    const results = await getShowDetails(id);
-    const serverInfo = req ? { isDevice: req.isDevice } : {};
+    await store.dispatch(fetchShow(id));
+    return {};
+}
+
+function mapState(state) {
+    const s = getShowData(state);
     return {
-        results,
-        ...serverInfo
+        id: s.id,
+        title: s.name,
+        posterPath: s.poster_path,
+        cast: s.credits.cast,
+        crew: s.credits.crew
     };
 }
 
-export default CastAndCrew;
+export default connect(mapState)(CastAndCrew);

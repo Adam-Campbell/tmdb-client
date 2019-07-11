@@ -15,18 +15,25 @@ import ReviewPod from '../../components/ReviewPod';
 import TagList from '../../components/TagList';
 import SubNav from '../../components/SubNav';
 
-function Show({ results }) {
-    const showSubNavData = getShowSubNavData(results.id);
+import { fetchShow } from '../../actions';
+import { getShowData } from '../../reducers/showReducer';
+import { getSessionType } from '../../reducers/sessionReducer';
+import { connect } from 'react-redux';
+ 
+function Show(props) {
+    const showSubNavData = getShowSubNavData(props.id);
     return (
         <div>
             <MediaHeader 
-                backdropPath={results.backdrop_path}
-                posterPath={results.poster_path}
-                id={results.id}
-                title={results.name}
-                averageRating={results.vote_average}
-                overview={results.overview}
-                createdBy={results.created_by}
+                backdropPath={props.backdropPath}
+                posterPath={props.posterPath}
+                id={props.id}
+                title={props.title}
+                averageRating={props.averageRating}
+                overview={props.overview}
+                createdBy={props.createdBy}
+                sessionType={props.sessionType}
+                accountStates={props.accountStates}
             />
             <SubNav navData={showSubNavData} />
             <TwoColLayoutContainer>
@@ -34,67 +41,67 @@ function Show({ results }) {
                     <MainCol>
                         <MediaInlineCardRow 
                             title="Top Cast"
-                            cardsData={results.credits.cast}
+                            cardsData={props.cast}
                             cardType="person"
                             linkText="See full cast & crew"
-                            linkDestinationAs={`/show/${results.id}/cast-and-crew`}
-                            linkDestinationHref={`/show/cast-and-crew?id=${results.id}`}
+                            linkDestinationAs={`/show/${props.id}/cast-and-crew`}
+                            linkDestinationHref={`/show/cast-and-crew?id=${props.id}`}
                         />
-                        {results.reviews.results.length > 0 && (
+                        {props.reviews.results.length > 0 && (
                             <ReviewPod 
-                                author={results.reviews.results[0].author}
-                                content={results.reviews.results[0].content}
-                                id={results.reviews.results[0].id}
+                                author={props.reviews.results[0].author}
+                                content={props.reviews.results[0].content}
+                                id={props.reviews.results[0].id}
                                 allReviewsHref="/foo"
                                 allReviewsAs="/foo"
                             />
                         )}
                         <MediaInlineCardRow 
                             title="Recommended Shows"
-                            cardsData={results.recommendations.results}
+                            cardsData={props.recommendations}
                             cardType="show"
                             linkText="See all recommended shows"
-                            linkDestinationAs={`/show/${results.id}/recommended`}
-                            linkDestinationHref={`/show/recommended?id=${results.id}`}
+                            linkDestinationAs={`/show/${props.id}/recommended`}
+                            linkDestinationHref={`/show/recommended?id=${props.id}`}
                         />
                         <MediaInlineCardRow 
                             title="Similar Shows"
-                            cardsData={results.similar.results}
+                            cardsData={props.similar}
                             cardType="show"
                             linkText="See all similar shows"
-                            linkDestinationAs={`/show/${results.id}/similar`}
-                            linkDestinationHref={`/show/similar?id=${results.id}`}
+                            linkDestinationAs={`/show/${props.id}/similar`}
+                            linkDestinationHref={`/show/similar?id=${props.id}`}
                         />
                     </MainCol>
                     <SidebarCol>
                         <SocialLinks 
-                            facebook={results.external_ids.facebook_id}
-                            twitter={results.external_ids.twitter_id}
-                            instagram={results.external_ids.instagram_id}
-                            website={results.homepage}
+                            facebook={props.externalIds.facebook_id}
+                            twitter={props.externalIds.twitter_id}
+                            instagram={props.externalIds.instagram_id}
+                            website={props.website}
                         />
                         <SidebarEntry 
                             title="Status"
-                            value={results.status}
+                            value={props.status}
                         />
                         <SidebarEntry 
                             title="Type"
-                            value={results.type}
+                            value={props.type}
                         />
                         <SidebarEntry 
                             title="Number of seasons"
-                            value={results.number_of_seasons}
+                            value={props.numberOfSeasons}
                         />
                         <SidebarEntry 
                             title="Number of episodes"
-                            value={results.number_of_episodes}
+                            value={props.numberOfEpisodes}
                         />
                         <SidebarEntry 
                             title="Runtime"
-                            value={results.episode_run_time[0]}
+                            value={props.runtime}
                         />
-                        <TagList title="Genres" tagData={results.genres} />
-                        <TagList title="Keywords" tagData={results.keywords.results} />
+                        <TagList title="Genres" tagData={props.genres} />
+                        <TagList title="Keywords" tagData={props.keywords} />
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>
@@ -102,14 +109,38 @@ function Show({ results }) {
     );
 }
 
-Show.getInitialProps = async ({ query, req }) => {
+Show.getInitialProps = async ({ query, req, store }) => {
     const { id } = query;
-    const results = await getShowDetails(id);
-    const serverInfo = req ? { isDevice: req.isDevice } : {};
-    return {
-        results,
-        ...serverInfo
-    };
+    await store.dispatch(fetchShow(id));
+    return {};
 };
 
-export default Show;
+function mapState(state) {
+    const s = getShowData(state);
+    return {
+        id: s.id,
+        title: s.name,
+        backdropPath: s.backdrop_path,
+        posterPath: s.poster_path,
+        averageRating: s.vote_average,
+        overview: s.overview,
+        createdBy: s.created_by,
+        cast: s.credits.cast,
+        reviews: s.reviews,
+        recommendations: s.recommendations.results,
+        similar: s.similar.results,
+        externalIds: s.external_ids,
+        website: s.homepage,
+        status: s.status,
+        type: s.type,
+        numberOfSeasons: s.number_of_seasons,
+        numberOfEpisodes: s.number_of_episodes,
+        runtime: s.episode_run_time[0],
+        genres: s.genres,
+        keywords: s.keywords.results,
+        accountStates: s.account_states,
+        sessionType: getSessionType(state)
+    };
+}
+
+export default connect(mapState)(Show);
