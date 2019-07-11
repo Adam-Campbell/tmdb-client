@@ -7,6 +7,10 @@ import { getMovieSubNavData } from '../../utils';
 import { TwoColLayoutContainer, TwoColLayoutRow, MainCol, SidebarCol } from '../../components/Layout';
 import ReviewPod from '../../components/ReviewPod';
 
+import { fetchMovie } from '../../actions';
+import { getMovieData } from '../../reducers/movieReducer';
+import { connect } from 'react-redux';
+
 function Reviews({ results }) {
     const movieSubNavData = getMovieSubNavData(results.id);
     return (
@@ -41,14 +45,14 @@ function Reviews({ results }) {
     );
 }
 
-Reviews.getInitialProps = async ({ query, req }) => {
+Reviews.getInitialProps = async ({ query, req, store }) => {
     const { id } = query;
-    const results = await getMovieDetails(id);
-    const serverInfo = req ? { isDevice: req.isDevice } : {};
-    return {
-        results,
-        ...serverInfo
-    };
+    await store.dispatch(fetchMovie(id));
+    return {};
 };
 
-export default Reviews;
+const mapState = (state) => ({
+    results: getMovieData(state)
+});
+
+export default connect(mapState)(Reviews);

@@ -7,6 +7,10 @@ import { getMovieSubNavData } from '../../utils';
 import PeopleList from '../../components/PeopleList';
 import { Row } from '../../components/Layout';
 
+import { fetchMovie } from '../../actions';
+import { getMovieData } from '../../reducers/movieReducer';
+import { connect } from 'react-redux';
+
 const FlexRow = styled(Row)`
     display: flex;
     flex-direction: column;
@@ -40,14 +44,14 @@ function CastAndCrew({ results }) {
     );
 }
 
-CastAndCrew.getInitialProps = async ({ query, req }) => {
+CastAndCrew.getInitialProps = async ({ query, req, store }) => {
     const { id } = query;
-    const results = await getMovieDetails(id);
-    const serverInfo = req ? { isDevice: req.isDevice } : {};
-    return {
-        results,
-        ...serverInfo
-    };
+    await store.dispatch(fetchMovie(id));
+    return {};
 }
 
-export default CastAndCrew;
+const mapState = (state) => ({
+    results: getMovieData(state)
+});
+
+export default connect(mapState)(CastAndCrew);

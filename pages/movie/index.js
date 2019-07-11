@@ -22,6 +22,9 @@ import SocialLinks from '../../components/SocialLinks';
 import ReviewPod from '../../components/ReviewPod';
 import SubNav from '../../components/SubNav';
 
+import { fetchMovie } from '../../actions';
+import { getMovieData } from '../../reducers/movieReducer';
+import { connect } from 'react-redux';
 
 
 function Movie({ results }) {
@@ -114,14 +117,14 @@ function Movie({ results }) {
     );
 }
 
-Movie.getInitialProps = async ({ query, req }) => {
+Movie.getInitialProps = async ({ query, req, store }) => {
     const { id } = query;
-    const results = await getMovieDetails(id);
-    const serverInfo = req ? { isDevice: req.isDevice } : {};
-    return {
-        results,
-        ...serverInfo
-    };
+    await store.dispatch(fetchMovie(id));
+    return {};
 };
 
-export default Movie;
+const mapState = (state) => ({
+    results: getMovieData(state)
+});
+
+export default connect(mapState)(Movie);

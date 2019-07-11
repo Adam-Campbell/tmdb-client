@@ -6,6 +6,10 @@ import SubNav from '../../components/SubNav';
 import { getMovieSubNavData } from '../../utils';
 import MediaListView from '../../components/MediaListView';
 
+import { fetchMovie } from '../../actions';
+import { getMovieData } from '../../reducers/movieReducer';
+import { connect } from 'react-redux';
+
 function Recommended({ results }) {
     const movieSubNavData = getMovieSubNavData(results.id);
     return (
@@ -26,14 +30,14 @@ function Recommended({ results }) {
     );
 }
 
-Recommended.getInitialProps = async ({ query, req }) => {
+Recommended.getInitialProps = async ({ query, req, store }) => {
     const { id } = query;
-    const results = await getMovieDetails(id);
-    const serverInfo = req ? { isDevice: req.isDevice } : {};
-    return {
-        results,
-        ...serverInfo
-    };
+    await store.dispatch(fetchMovie(id));
+    return {};
 }
 
-export default Recommended;
+const mapState = (state) => ({
+    results: getMovieData(state)
+});
+
+export default connect(mapState)(Recommended);

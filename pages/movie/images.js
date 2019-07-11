@@ -9,6 +9,10 @@ import ListViewHeader from '../../components/ListViewHeader';
 import ListBox from '../../components/ListBox';
 import GalleryModal from '../../components/GalleryModal';
 
+import { fetchMovie } from '../../actions';
+import { getMovieData } from '../../reducers/movieReducer';
+import { connect } from 'react-redux';
+
 /*
 
     Hold internal component state `imageType` which will be either 'poster' or 'backdrop'. This will control 
@@ -132,14 +136,14 @@ function Images({ results }) {
     );
 }
 
-Images.getInitialProps = async ({ query, req }) => {
+Images.getInitialProps = async ({ query, req, store }) => {
     const { id } = query;
-    const results = await getMovieDetails(id);
-    const serverInfo = req ? { isDevice: req.isDevice } : {};
-    return {
-        results,
-        ...serverInfo
-    };
+    await store.dispatch(fetchMovie(id));
+    return {};
 };
 
-export default Images;
+const mapState = (state) => ({
+    results: getMovieData(state)
+});
+
+export default connect(mapState)(Images);
