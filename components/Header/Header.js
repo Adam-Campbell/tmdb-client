@@ -2,6 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { Row } from '../Layout';
+import { connect } from 'react-redux';
+import { getSessionType, getUserSessionId } from '../../reducers/sessionReducer';
+import { logoutUser } from '../../actions';
+import { getRequestToken } from '../../Api';
+import { text } from '../../utils';
 
 const navData = [
 	{
@@ -40,6 +45,8 @@ const NavContainer = styled.div`
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
+    display: flex;
+    align-items: center;
 `;
 
 const NavList = styled.ul`
@@ -68,7 +75,22 @@ const NavAnchor = styled.a`
     }
 `;
 
-export const Header = (props) => (
+const AccountButton = styled.button`
+    ${text('body', { color: '#fff', fontWeight: 700 })}
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 3px;
+    border: none;
+    background: ${({ warning }) => warning ? 'tomato' : '#17c17b'};
+    margin-left: auto;
+`;
+
+async function handleLoginClick() {
+    const requestToken = await getRequestToken();
+    window.location = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=http://localhost:3000/authenticate`
+}
+
+const Header = (props) => (
     <StyledHeader>
         <Row>
             <NavContainer>
@@ -81,7 +103,21 @@ export const Header = (props) => (
                         </NavItem>
                     ))}
                 </NavList>
+                {
+                    props.isLoggedIn ? 
+                    <AccountButton warning onClick={props.logoutUser}>Logout</AccountButton> :
+                    <AccountButton onClick={handleLoginClick}>Login</AccountButton>
+                }
             </NavContainer>
         </Row>
     </StyledHeader>
 );
+
+const mapState = (state) => ({
+    isLoggedIn: getSessionType(state) === 'USER',
+    userSessionId: getUserSessionId(state)
+});
+
+export const ConnectedHeader = connect(mapState, {
+    logoutUser
+})(Header);
