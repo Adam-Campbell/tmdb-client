@@ -7,21 +7,25 @@ import { getShowSubNavData } from '../../utils';
 import { TwoColLayoutContainer, TwoColLayoutRow, MainCol, SidebarCol } from '../../components/Layout';
 import ReviewPod from '../../components/ReviewPod';
 
-function Reviews({ results }) {
-    const showSubNavData = getShowSubNavData(results.id);
+import { fetchShow } from '../../actions';
+import { getShowData } from '../../reducers/showReducer';
+import { connect } from 'react-redux';
+
+function Reviews({ id, title, posterPath, reviews }) {
+    const showSubNavData = getShowSubNavData(id);
     return (
         <div>
             <MinimalHeader 
-                imagePath={results.poster_path}
-                name={results.name}
-                backHref={`/show?id=${results.id}`}
-                backAs={`/show/${results.id}`}
+                imagePath={posterPath}
+                name={title}
+                backHref={`/show?id=${id}`}
+                backAs={`/show/${id}`}
             />
             <SubNav navData={showSubNavData} />
             <TwoColLayoutContainer>
                 <TwoColLayoutRow>
                     <MainCol>
-                        {results.reviews.results.map(review => (
+                        {reviews.map(review => (
                             <ReviewPod 
                                 key={review.id}
                                 author={review.author}
@@ -41,14 +45,20 @@ function Reviews({ results }) {
     );
 }
 
-Reviews.getInitialProps = async ({ query, req }) => {
+Reviews.getInitialProps = async ({ query, req, store }) => {
     const { id } = query;
-    const results = await getShowDetails(id);
-    const serverInfo = req ? { isDevice: req.isDevice } : {};
-    return {
-        results,
-        ...serverInfo
-    };
+    await store.dispatch(fetchShow(id));
+    return {};
 };
 
-export default Reviews;
+function mapState(state) {
+    const s = getShowData(state);
+    return {
+        id: s.id,
+        title: s.name,
+        posterPath: s.poster_path,
+        reviews: s.reviews.results
+    };
+}
+
+export default connect(mapState)(Reviews);

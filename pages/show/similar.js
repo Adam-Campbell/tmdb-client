@@ -6,34 +6,44 @@ import SubNav from '../../components/SubNav';
 import { getShowSubNavData } from '../../utils';
 import MediaListView from '../../components/MediaListView';
 
-function Similar({ results }) {
-    const showSubNavData = getShowSubNavData(results.id);
+import { fetchShow } from '../../actions';
+import { getShowData } from '../../reducers/showReducer';
+import { connect } from 'react-redux';
+
+function Similar({ id, title, posterPath, similar }) {
+    const showSubNavData = getShowSubNavData(id);
     return (
         <div>
             <MinimalHeader 
-                imagePath={results.poster_path}
-                name={results.name}
-                backHref={`/show?id=${results.id}`}
-                backAs={`/show/${results.id}`}
+                imagePath={posterPath}
+                name={title}
+                backHref={`/show?id=${id}`}
+                backAs={`/show/${id}`}
             />
             <SubNav navData={showSubNavData} />
             <MediaListView 
                 title="Similar Shows"
-                items={results.similar.results}
+                items={similar}
                 urlSubpath="/show"
             />
         </div>
     );
 }
 
-Similar.getInitialProps = async ({ query, req }) => {
+Similar.getInitialProps = async ({ query, req, store }) => {
     const { id } = query;
-    const results = await getShowDetails(id);
-    const serverInfo = req ? { isDevice: req.isDevice } : {};
+    await store.dispatch(fetchShow(id));
+    return {};
+}
+
+function mapState(state) {
+    const s = getShowData(state)
     return {
-        results,
-        ...serverInfo
+        id: s.id,
+        title: s.name,
+        posterPath: s.poster_path,
+        similar: s.similar.results
     };
 }
 
-export default Similar;
+export default connect(mapState)(Similar);
