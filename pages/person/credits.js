@@ -7,7 +7,11 @@ import MinimalHeader from '../../components/MinimalHeader';
 import Switch from '../../components/Switch';
 import { Row } from '../../components/Layout'; 
 import ListViewHeader from '../../components/ListViewHeader';
-import CreditsTable from '../../components/CreditsTable'
+import CreditsTable from '../../components/CreditsTable';
+
+import { fetchPerson } from '../../actions';
+import { getPersonData } from '../../reducers/personReducer';
+import { connect } from 'react-redux';
 
 const mediaTypeRadioButtonsData = [
     {
@@ -78,20 +82,20 @@ const MainCol = styled.div`
 `;
 
 
-function Credits({ results }) {
+function Credits({ id, name, profilePath, credits }) {
     const [ roleType, setRoleType ] = useState('both');
     const [ mediaType, setMediaType ] = useState('both');
-    const personSubNavDetails = getPersonSubNavData(results.id);
+    const personSubNavDetails = getPersonSubNavData(id);
     
-    const creditsToRender = transformCreditsData(results.combined_credits, roleType, mediaType);
+    const creditsToRender = transformCreditsData(credits, roleType, mediaType);
     
     return (
         <div>
             <MinimalHeader 
-                imagePath={results.profile_path}
-                name={results.name}
-                backHref={`/person?id=${results.id}`}
-                backAs={`/person/${results.id}`}
+                imagePath={profilePath}
+                name={name}
+                backHref={`/person?id=${id}`}
+                backAs={`/person/${id}`}
             />
             <SubNav navData={personSubNavDetails} />
             <ListViewHeader title="Credits" />
@@ -126,14 +130,20 @@ function Credits({ results }) {
     );
 }
 
-Credits.getInitialProps = async ({ query, req }) => {
+Credits.getInitialProps = async ({ query, req, store }) => {
     const { id } = query;
-    const results = await getPersonDetails(id);
-    const serverInfo = req ? { isDevice: req.isDevice } : {};
-    return {
-        results,
-        ...serverInfo
-    };
+    await store.dispatch(fetchPerson(id));
+    return {};
 };
 
-export default Credits;
+function mapState(state) {
+    const p = getPersonData(state);
+    return {
+        id: p.id,
+        name: p.name,
+        profilePath: p.profile_path,
+        credits: p.combined_credits
+    };
+}
+
+export default connect(mapState)(Credits);

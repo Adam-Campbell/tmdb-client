@@ -14,16 +14,14 @@ import ReviewPod from '../../components/ReviewPod';
 import SidebarEntry from '../../components/SidebarEntry';
 import PersonTopCreditsCardRow from '../../components/PersonTopCreditsCardRow';
 import InlineGalleryRow from '../../components/InlineGalleryRow';
-/*
 
-    - can reuse subnav component, but will need to create a new function to generate the data.
+import { fetchPerson } from '../../actions';
+import { getPersonData } from '../../reducers/personReducer';
+import { connect } from 'react-redux';
 
-    - cannot reuse the same header component. 
-
-*/
-
-function Person({ results }) {
-    const personSubNavData = getPersonSubNavData(results.id);
+function Person(props) {
+    
+    const personSubNavData = getPersonSubNavData(props.id);
 
     //const creditsByPopularity = results.combined_credits.cast.sort((a, b) => b.popularity - a.popularity);
     //console.log(creditsByPopularity);
@@ -31,10 +29,10 @@ function Person({ results }) {
     return (
         <div>
             <PersonHeader 
-                key={results.id}
-                name={results.name}
-                imagePath={results.profile_path}
-                biography={results.biography}
+                key={props.id}
+                name={props.name}
+                imagePath={props.profilePath}
+                biography={props.biography}
             />
             <SubNav navData={personSubNavData} />
             <TwoColLayoutContainer>
@@ -42,52 +40,49 @@ function Person({ results }) {
                     <MainCol>
                         <PersonTopCreditsCardRow 
                             title="Known for"
-                            creditsData={results.known_for_department === 'Acting' ? 
-                                results.combined_credits.cast :
-                                results.combined_credits.crew
-                            }
+                            creditsData={props.credits}
                             linkText="See all credits"
-                            linkDestinationAs={`/person/${results.id}/credits`}
-                            linkDestinationHref={`/person/credits?id=${results.id}`}
+                            linkDestinationAs={`/person/${props.id}/credits`}
+                            linkDestinationHref={`/person/credits?id=${props.id}`}
                         />
                         <InlineGalleryRow 
-                            imagesData={results.images.profiles}
+                            imagesData={props.profileImages}
                             title="Profile images"
                             linkText="See all images"
-                            linkDestinationAs={`/person/${results.id}/images`}
-                            linkDestinationHref={`/person/images?id=${results.id}`}
+                            linkDestinationAs={`/person/${props.id}/images`}
+                            linkDestinationHref={`/person/images?id=${props.id}`}
                         />
                     </MainCol>
                     <SidebarCol>
                         <SocialLinks 
-                            facebook={results.external_ids.facebook_id}
-                            twitter={results.external_ids.twitter_id}
-                            instagram={results.external_ids.instagram_id}
-                            website={results.homepage}
+                            facebook={props.externalIds.facebook_id}
+                            twitter={props.externalIds.twitter_id}
+                            instagram={props.externalIds.instagram_id}
+                            website={props.website}
                         />
                         <SidebarEntry 
                             title="Known for"
-                            value={results.known_for_department}
+                            value={props.knownFor}
                         />
                         <SidebarEntry 
                             title="Gender"
-                            value={results.gender === 2 ? 'Male' : 'Female'}
+                            value={props.gender}
                         />
                         <SidebarEntry 
                             title="Known credits"
-                            value={results.combined_credits.cast.length + results.combined_credits.crew.length}
+                            value={props.knownCredits}
                         />
                         <SidebarEntry 
                             title="Date of birth"
-                            value={results.birthday}
+                            value={props.birthday}
                         />
                         <SidebarEntry 
                             title="Date of death"
-                            value={results.deathday}
+                            value={props.deathday}
                         />
                         <SidebarEntry 
                             title="Place of birth"
-                            value={results.place_of_birth}
+                            value={props.placeOfBirth}
                         />
                     </SidebarCol>
                 </TwoColLayoutRow>
@@ -96,14 +91,32 @@ function Person({ results }) {
     );
 }
 
-Person.getInitialProps = async ({ query, req }) => {
+Person.getInitialProps = async ({ query, req, store }) => {
     const { id } = query;
-    const results = await getPersonDetails(id);
-    const serverInfo = req ? { isDevice: req.isDevice } : {};
-    return {
-        results,
-        ...serverInfo
-    };
+    await store.dispatch(fetchPerson(id));
+    return {};
 };
 
-export default Person;
+function mapState(state) {
+    const p = getPersonData(state);
+    return {
+        id: p.id,
+        name: p.name,
+        profilePath: p.profile_path,
+        biography: p.biography,
+        credits: p.known_for_department === 'Acting' ? 
+                 p.combined_credits.cast : 
+                 p.combined_credits.crew,
+        profileImages: p.images.profiles,
+        externalIds: p.external_ids,
+        website: p.homepage,
+        knownFor: p.known_for_department,
+        gender: p.gender === 2 ? 'Male' : 'Female',
+        knownCredits: p.combined_credits.cast.length + p.combined_credits.crew.length,
+        birthday: p.birthday,
+        deathday: p.deathday, 
+        placeOfBirth: p.place_of_birth
+    };
+}
+
+export default connect(mapState)(Person);
