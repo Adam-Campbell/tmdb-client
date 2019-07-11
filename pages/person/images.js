@@ -8,13 +8,9 @@ import { Row } from '../../components/Layout';
 import { getPersonSubNavData, getImageUrl, imageSizeConstants } from '../../utils';
 import GalleryModal from '../../components/GalleryModal';
 
-/*
-
-    - can reuse subnav component, but will need to create a new function to generate the data.
-
-    - can reuse the same minimal header component. 
-
-*/
+import { fetchPerson } from '../../actions';
+import { getPersonData } from '../../reducers/personReducer';
+import { connect } from 'react-redux';
 
 const ThumbsContainer = styled.div`
     display: flex; 
@@ -39,23 +35,23 @@ const Thumb = styled.img`
     }
 `;
 
-function Images({ results }) {
+function Images({ id, name, profilePath, profileImages }) {
     const [ isModalOpen, setIsModalOpen ] = useState(false);
     const [ currentImageIndex, setImageIndex ] = useState(0);
-    const personSubNavData  = getPersonSubNavData(results.id);
+    const personSubNavData  = getPersonSubNavData(id);
     return (
         <div>
             <MinimalHeader 
-                imagePath={results.profile_path}
-                name={results.name}
-                backHref={`/person?id=${results.id}`}
-                backAs={`/person/${results.id}`}
+                imagePath={profilePath}
+                name={name}
+                backHref={`/person?id=${id}`}
+                backAs={`/person/${id}`}
             />
             <SubNav navData={personSubNavData} />
             <ListViewHeader title="Profile Images" />
             <Row>
                 <ThumbsContainer>
-                    {results.images.profiles.map((image, index) => (
+                    {profileImages.map((image, index) => (
                         <Thumb 
                             key={image.file_path}
                             src={getImageUrl(image.file_path, imageSizeConstants.w500)}
@@ -70,7 +66,7 @@ function Images({ results }) {
             <GalleryModal 
                 isOpen={isModalOpen}
                 handleClose={() => setIsModalOpen(false)}
-                images={results.images.profiles}
+                images={profileImages}
                 currentImageIndex={currentImageIndex}
                 setImageIndex={setImageIndex}
             />
@@ -78,14 +74,20 @@ function Images({ results }) {
     );
 }
 
-Images.getInitialProps = async ({ query, req }) => {
+Images.getInitialProps = async ({ query, req, store }) => {
     const { id } = query;
-    const results = await getPersonDetails(id);
-    const serverInfo = req ? { isDevice: req.isDevice } : {};
+    await store.dispatch(fetchPerson(id));
+    return {};
+}
+
+function mapState(state) {
+    const p = getPersonData(state);
     return {
-        results,
-        ...serverInfo
+        id: p.id,
+        name: p.name,
+        profilePath: p.profile_path,
+        profileImages: p.images.profiles
     };
 }
 
-export default Images;
+export default connect(mapState)(Images);
