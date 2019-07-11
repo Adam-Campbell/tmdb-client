@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getMovieDetails } from '../../Api';
 import MediaHeader from '../../components/MediaHeader';
 import { 
     MainCol, 
@@ -24,22 +23,25 @@ import SubNav from '../../components/SubNav';
 
 import { fetchMovie } from '../../actions';
 import { getMovieData } from '../../reducers/movieReducer';
+import { getSessionType } from '../../reducers/sessionReducer';
 import { connect } from 'react-redux';
 
 
-function Movie({ results }) {
-    const movieSubNavData = getMovieSubNavData(results.id); 
+function Movie(props) {
+    const movieSubNavData = getMovieSubNavData(props.id); 
     return (
         <div>
             <MediaHeader 
-                key={results.id}
-                backdropPath={results.backdrop_path}
-                posterPath={results.poster_path}
-                id={results.id}
-                title={results.title}
-                averageRating={results.vote_average}
-                overview={results.overview}
-                tagline={results.tagline}
+                key={props.id}
+                backdropPath={props.backdropPath}
+                posterPath={props.posterPath}
+                id={props.id}
+                title={props.title}
+                averageRating={props.averageRating}
+                overview={props.overview}
+                tagline={props.tagline}
+                sessionType={props.sessionType}
+                accountStates={props.accountStates}
             />
             <SubNav 
                 navData={movieSubNavData}
@@ -49,67 +51,67 @@ function Movie({ results }) {
                     <MainCol>
                         <MediaInlineCardRow 
                             title="Top Billed Cast"
-                            cardsData={results.credits.cast}
+                            cardsData={props.cast}
                             cardType="person"
                             linkText="See full cast & crew"
-                            linkDestinationAs={`/movie/${results.id}/cast-and-crew`}
-                            linkDestinationHref={`/movie/cast-and-crew?id=${results.id}`}
+                            linkDestinationAs={`/movie/${props.id}/cast-and-crew`}
+                            linkDestinationHref={`/movie/cast-and-crew?id=${props.id}`}
                         />
-                        {results.reviews.results.length > 0 && (
+                        {props.reviews.results.length > 0 && (
                             <ReviewPod 
-                                author={results.reviews.results[0].author}
-                                content={results.reviews.results[0].content}
-                                id={results.reviews.results[0].id}
+                                author={props.reviews.results[0].author}
+                                content={props.reviews.results[0].content}
+                                id={props.reviews.results[0].id}
                                 allReviewsHref="/foo"
                                 allReviewsAs="/foo"
                             />
                         )}
                         <MediaInlineCardRow 
                             title="Recommended Movies"
-                            cardsData={results.recommendations.results}
+                            cardsData={props.recommendations}
                             cardType="movie"
                             linkText="See all recommended movies"
-                            linkDestinationAs={`/movie/${results.id}/recommended`}
-                            linkDestinationHref={`/movie/recommended?id=${results.id}`}
+                            linkDestinationAs={`/movie/${props.id}/recommended`}
+                            linkDestinationHref={`/movie/recommended?id=${props.id}`}
                         />
                         <MediaInlineCardRow 
                             title="Similar Movies"
-                            cardsData={results.similar.results}
+                            cardsData={props.similar}
                             cardType="movie"
                             linkText="See all similar movies"
-                            linkDestinationAs={`/movie/${results.id}/similar`}
-                            linkDestinationHref={`/movie/similar?id=${results.id}`}
+                            linkDestinationAs={`/movie/${props.id}/similar`}
+                            linkDestinationHref={`/movie/similar?id=${props.id}`}
                         />
                     </MainCol>
                     <SidebarCol>
                         <SocialLinks 
-                            facebook={results.external_ids.facebook_id}
-                            twitter={results.external_ids.twitter_id}
-                            instagram={results.external_ids.instagram_id}
-                            website={results.homepage}
+                            facebook={props.externalIds.facebook_id}
+                            twitter={props.externalIds.twitter_id}
+                            instagram={props.externalIds.instagram_id}
+                            website={props.website}
                         />
                         <SidebarEntry 
                             title="Release status"
-                            value={results.status}
+                            value={props.relaseStatus}
                         />
                         <SidebarEntry 
                             title="Release date"
-                            value={formatDateString(results.release_date)}
+                            value={props.releaseDate}
                         />
                         <SidebarEntry 
                             title="Duration"
-                            value={formatMinutes(results.runtime)}
+                            value={props.duration}
                         />
                         <SidebarEntry 
                             title="Budget"
-                            value={formatDollarFigure(results.budget)}
+                            value={props.budget}
                         />
                         <SidebarEntry 
                             title="Revenue"
-                            value={formatDollarFigure(results.revenue)}
+                            value={props.revenue}
                         />
-                        <TagList title="Genres" tagData={results.genres} />
-                        <TagList title="Keywords" tagData={results.keywords.keywords} />
+                        <TagList title="Genres" tagData={props.genres} />
+                        <TagList title="Keywords" tagData={props.keywords} />
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>
@@ -123,8 +125,32 @@ Movie.getInitialProps = async ({ query, req, store }) => {
     return {};
 };
 
-const mapState = (state) => ({
-    results: getMovieData(state)
-});
+function mapState(state) {
+    const m = getMovieData(state);
+    return {
+        id: m.id,
+        backdropPath: m.backdrop_path,
+        posterPath: m.poster_path,
+        title: m.title,
+        averageRating: m.vote_average,
+        overview: m.overview,
+        tagline: m.tagline,
+        cast: m.credits.cast,
+        reviews: m.reviews,
+        recommendations: m.recommendations.results,
+        similar: m.similar.results,
+        externalIds: m.external_ids,
+        website: m.homepage,
+        releaseStatus: m.status,
+        releaseDate: formatDateString(m.release_date),
+        duration: formatMinutes(m.runtime),
+        budget: formatDollarFigure(m.budget),
+        revenue: formatDollarFigure(m.revenue),
+        genres: m.genres,
+        keywords: m.keywords.keywords,
+        accountStates: m.account_states,
+        sessionType: getSessionType(state)
+    };
+}
 
 export default connect(mapState)(Movie);
