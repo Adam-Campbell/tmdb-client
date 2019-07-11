@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import { getMovieDetails } from '../../Api';
 import MinimalHeader from '../../components/MinimalHeader';
 import SubNav from '../../components/SubNav';
 import { getMovieSubNavData } from '../../utils';
 import PeopleList from '../../components/PeopleList';
 import { Row } from '../../components/Layout';
+
+import { fetchMovie } from '../../actions';
+import { getMovieData } from '../../reducers/movieReducer';
+import { connect } from 'react-redux';
 
 const FlexRow = styled(Row)`
     display: flex;
@@ -15,39 +18,46 @@ const FlexRow = styled(Row)`
     }
 `;
 
-function CastAndCrew({ results }) {
-    const movieSubNavData = getMovieSubNavData(results.id);
+function CastAndCrew({ id, title, posterPath, cast, crew }) {
+    const movieSubNavData = getMovieSubNavData(id);
     return (
         <div>
             <MinimalHeader 
-                imagePath={results.poster_path}
-                name={results.title}
-                backHref={`/movie?id=${results.id}`}
-                backAs={`/movie/${results.id}`}
+                imagePath={posterPath}
+                name={title}
+                backHref={`/movie?id=${id}`}
+                backAs={`/movie/${id}`}
             />
             <SubNav navData={movieSubNavData} />
             <FlexRow>
                 <PeopleList 
                     title="Cast"
-                    people={results.credits.cast}
+                    people={cast}
                 />
                 <PeopleList 
                     title="Crew"
-                    people={results.credits.crew}
+                    people={crew}
                 />
             </FlexRow>
         </div>
     );
 }
 
-CastAndCrew.getInitialProps = async ({ query, req }) => {
+CastAndCrew.getInitialProps = async ({ query, req, store }) => {
     const { id } = query;
-    const results = await getMovieDetails(id);
-    const serverInfo = req ? { isDevice: req.isDevice } : {};
+    await store.dispatch(fetchMovie(id));
+    return {};
+}
+
+function mapState(state) {
+    const m = getMovieData(state);
     return {
-        results,
-        ...serverInfo
+        id: m.id,
+        title: m.title,
+        posterPath: m.poster_path,
+        cast: m.credits.cast,
+        crew: m.credits.crew
     };
 }
 
-export default CastAndCrew;
+export default connect(mapState)(CastAndCrew);

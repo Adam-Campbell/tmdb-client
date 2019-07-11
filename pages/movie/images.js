@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { getMovieDetails } from '../../Api';
 import MinimalHeader from '../../components/MinimalHeader';
 import SubNav from '../../components/SubNav';
 import { getMovieSubNavData, getImageUrl, imageSizeConstants } from '../../utils';
@@ -8,20 +7,9 @@ import { Row } from '../../components/Layout';
 import ListViewHeader from '../../components/ListViewHeader';
 import ListBox from '../../components/ListBox';
 import GalleryModal from '../../components/GalleryModal';
-
-/*
-
-    Hold internal component state `imageType` which will be either 'poster' or 'backdrop'. This will control 
-    the type of image being rendered. 
-
-    Map over the images and render an image for each one. The image will need to be clickable eventually to
-    open the modal, for now don't worry about this.
-
-    In order to achieve the desired layout, the images will have left and right (probably top and bottom too)
-    margins of 20px, and all of the images will sit inside a container that has -20px left and right margins. 
-    This will prevent unwanted indentation at the left and right bounds of the layout. 
-
-*/
+import { fetchMovie } from '../../actions';
+import { getMovieData } from '../../reducers/movieReducer';
+import { connect } from 'react-redux';
 
 const DropdownContainer = styled.div`
     width: 220px;
@@ -72,18 +60,18 @@ const imageTypes = [
 
 
 
-function Images({ results }) {
+function Images({ id, title, posterPath, posters, backdrops }) {
     const [ currentImageType, setImageType ] = useState(imageTypes[0]);
     const [ isModalOpen, setIsModalOpen ] = useState(false);
     const [ currentImageIndex, setImageIndex ] = useState(0);
-    const movieSubNavData = getMovieSubNavData(results.id);
+    const movieSubNavData = getMovieSubNavData(id);
     return (
         <div>
             <MinimalHeader 
-                imagePath={results.poster_path}
-                name={results.title}
-                backHref={`/movie?id=${results.id}`}
-                backAs={`/movie/${results.id}`}
+                imagePath={posterPath}
+                name={title}
+                backHref={`/movie?id=${id}`}
+                backAs={`/movie/${id}`}
             />
             <SubNav navData={movieSubNavData} />
             <ListViewHeader title="Images">
@@ -100,7 +88,7 @@ function Images({ results }) {
             </ListViewHeader>
             <Row>
                 <ThumbsContainer>
-                    {currentImageType.value === 'poster' ? results.images.posters.map((poster, index) => (
+                    {currentImageType.value === 'poster' ? posters.map((poster, index) => (
                         <PosterThumb 
                             key={poster.file_path}
                             src={getImageUrl(poster.file_path, imageSizeConstants.w500)}
@@ -109,7 +97,7 @@ function Images({ results }) {
                                 setIsModalOpen(true);
                             }}
                         />
-                    )) : results.images.backdrops.map((backdrop, index) => (
+                    )) : backdrops.map((backdrop, index) => (
                         <BackdropThumb 
                             key={backdrop.file_path}
                             src={getImageUrl(backdrop.file_path, imageSizeConstants.w780)}
@@ -126,20 +114,27 @@ function Images({ results }) {
                 handleClose={() => setIsModalOpen(false)}
                 currentImageIndex={currentImageIndex}
                 setImageIndex={setImageIndex}
-                images={currentImageType.value === 'poster' ? results.images.posters : results.images.backdrops}
+                images={currentImageType.value === 'poster' ? posters : backdrops}
             />
         </div>
     );
 }
 
-Images.getInitialProps = async ({ query, req }) => {
+Images.getInitialProps = async ({ query, req, store }) => {
     const { id } = query;
-    const results = await getMovieDetails(id);
-    const serverInfo = req ? { isDevice: req.isDevice } : {};
-    return {
-        results,
-        ...serverInfo
-    };
+    await store.dispatch(fetchMovie(id));
+    return {};
 };
 
-export default Images;
+function mapState(state) {
+    const m = getMovieData(state);
+    return {
+        id: m.id,
+        title: m.title,
+        posterPath: m.poster_path,
+        posters: m.images.posters,
+        backdrops: m.images.backdrops
+    };
+}
+
+export default connect(mapState)(Images);
