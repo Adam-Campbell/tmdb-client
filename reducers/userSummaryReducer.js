@@ -29,6 +29,10 @@ export function getUserSummary(state) {
     return state.userSummary
 }
 
+export function getUserId(state) {
+    return state.userSummary.id;
+}
+
 export function hasGotUserSummary(state) {
     return !isEqual(state.userSummary, initialState);
 }

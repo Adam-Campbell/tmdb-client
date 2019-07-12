@@ -1,7 +1,7 @@
 import * as actionTypes from '../actionTypes';
 import { getSessionType, getUserSessionId } from '../reducers/sessionReducer';
-import { hasGotUserSummary } from '../reducers/userSummaryReducer';
-import { fetchUserSummary } from '../Api';
+import { hasGotUserSummary, getUserId } from '../reducers/userSummaryReducer';
+import { fetchUserSummary, postFavourite } from '../Api';
 import axios from 'axios';
 
 const storeUserSummary = (userSummary) => ({
@@ -72,5 +72,39 @@ export const logoutUser = () => async (dispatch, getState) => {
         });
     } catch (err) {
         console.log(err);
+    }
+}
+
+
+const markFavouriteSuccess = (id, isMarking) => ({
+    type: actionTypes.MARK_FAVOURITE_SUCCESS,
+    payload: {
+        id,
+        isMarking
+    }
+});
+
+const markFavouriteFailed = (error) => ({
+    type: actionTypes.MARK_FAVOURITE_FAILED,
+    payload: {
+        error
+    }
+});
+
+export const markFavourite = (mediaType, mediaId, isMarking) => async (dispatch, getState) => {
+    const state = getState();
+    const sessionId = getUserSessionId(state);
+    const accountId = getUserId(state);
+    if (!sessionId) {
+        dispatch(markFavouriteFailed('User is not logged in'));
+        return;
+    }
+
+    try {
+        const response = await postFavourite(mediaType, mediaId, isMarking, accountId, sessionId);
+        console.log(response);
+        dispatch(markFavouriteSuccess(mediaId, isMarking));
+    } catch (error) {
+        dispatch(markFavouriteFailed(error));
     }
 }

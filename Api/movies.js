@@ -1,4 +1,5 @@
-import { get } from './helpers';
+import { get, a } from './helpers';
+import API_KEY from '../apiKey';
 
 export const getPopularMovies = async () => {
     const response = await get('movie/popular');
@@ -33,4 +34,20 @@ export const getMovieDetails = async (movieId, session_id) => {
         });
         return response.data;
     }
+}
+
+export const postMovieRating = (rating, movieId, session_id) => {
+    return a.request(`movie/${movieId}/rating`, {
+        params: {
+            api_key: apiKey,
+            session_id
+        },
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        data: {
+            value: rating
+        }
+    });
 }
