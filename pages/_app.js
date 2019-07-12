@@ -9,6 +9,7 @@ import makeStore from '../store';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import { getUserSummary } from '../actions';
+import { text } from '../utils';
 
 
 ReactModal.setAppElement('#__next');
@@ -42,6 +43,14 @@ const GlobalStyle = createGlobalStyle`
         background: #fff;
         border-radius: 3px;
         padding: 10px;
+    }
+    .custom-tooltip {
+        font-family: sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 0.85rem !important;
+        color: #222 !important;
+        background: #fff !important;
+
     }
 `;
 

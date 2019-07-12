@@ -76,50 +76,6 @@ const MediaOverview = styled.p`
     ${text('body', { color: '#fff' })}
 `;
 
-// const IconContainer = styled.span`
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     border: solid 2px #fff;
-//     width: 40px;
-//     height: 40px;
-//     border-radius: 50%;
-//     margin-left: 5px;
-//     margin-right: 5px;
-// `;
-
-// const RateIcon = styled(Star)`
-//     width: 15px;
-//     color: #fff;
-// `;
-
-// const ListIcon = styled(List)`
-//     width: 15px;
-//     color: #fff;
-// `;
-
-// const WatchlistIcon = styled(Bookmark)`
-//     width: 10px;
-//     color: #fff;
-// `;
-
-// const FavouriteIcon = styled(Heart)`
-//     width: 15px;
-//     color: #fff;
-// `;
-
-/*
-
-<>
-                                    <IconContainer><ListIcon /></IconContainer>
-                                    <IconContainer><FavouriteIcon /></IconContainer>
-                                    <IconContainer><WatchlistIcon /></IconContainer>
-                                    <IconContainer><RateIcon /></IconContainer>
-                                </>
-
-
-*/
-
 
 const InteractionRow = styled.div`
     display: flex;

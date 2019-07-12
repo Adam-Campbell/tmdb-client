@@ -5,6 +5,7 @@ import { Star, StarHalfAlt, Bookmark, Heart, List } from 'styled-icons/fa-solid'
 import { Star as StarEmpty } from 'styled-icons/fa-regular';
 import { connect } from 'react-redux';
 import { markFavourite, editWatchlist } from '../../actions';
+import ReactToolTip from 'react-tooltip';
 
 const IconContainer = styled.span`
     display: flex;
@@ -52,7 +53,7 @@ const StyledUserInteractionsRow = styled.div`
     max-width: 250px;
 `;
 
-function Icon({ handleClick, isBeingUsed, inUseColor, children }) {
+function Icon({ handleClick, isBeingUsed, inUseColor, tooltipText, children }) {
 
     const [ isHovered, setIsHovered ] = useState(false);
 
@@ -63,23 +64,27 @@ function Icon({ handleClick, isBeingUsed, inUseColor, children }) {
                         : '#fff';
 
     return (
-        <IconContainer
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            isHovered={isHovered}
-            onClick={handleClick}
-        >
-            {children({
-                iconColor
-            })}
-        </IconContainer>
+        <>
+            <IconContainer
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                isHovered={isHovered}
+                onClick={handleClick}
+                data-tip={tooltipText}
+            >
+                {children({
+                    iconColor
+                })}
+            </IconContainer>
+        </>
     );
 }
 
 Icon.propTypes = {
     handleClick: PropTypes.func,
     isBeingUsed: PropTypes.bool,
-    inUseColor: PropTypes.string
+    inUseColor: PropTypes.string,
+    tooltipText: PropTypes.string
 };
 
 
@@ -91,6 +96,7 @@ function UserInteractionsRow({ accountStates, mediaType, mediaId, markFavourite,
                 isBeingUsed={false}
                 handleClick={() => {}}
                 inUseColor="#fff"
+                tooltipText="Add to list"
             >
                 {({ iconColor }) => <ListIcon iconColor={iconColor} />}
             </Icon>
@@ -98,6 +104,7 @@ function UserInteractionsRow({ accountStates, mediaType, mediaId, markFavourite,
                 isBeingUsed={accountStates.favorite}
                 handleClick={() => markFavourite(mediaType, mediaId, !accountStates.favorite)}
                 inUseColor="#dc1f3b"
+                tooltipText={accountStates.favorite ? 'Remove from your favourites' : 'Mark as favourite'}
             >
                 {({ iconColor }) => <FavouriteIcon iconColor={iconColor} />}
             </Icon>
@@ -105,6 +112,7 @@ function UserInteractionsRow({ accountStates, mediaType, mediaId, markFavourite,
                 isBeingUsed={accountStates.watchlist}
                 handleClick={() => editWatchlist(mediaType, mediaId, !accountStates.watchlist)}
                 inUseColor="#43cbe8"
+                tooltipText={accountStates.watchlist ? 'Remove from your watchlist' : 'Add to your watchlist'}
             >
                 {({ iconColor }) => <WatchlistIcon iconColor={iconColor} />}
             </Icon>
@@ -112,10 +120,16 @@ function UserInteractionsRow({ accountStates, mediaType, mediaId, markFavourite,
                 isBeingUsed={Boolean(accountStates.rated)}
                 handleClick={() => {}}
                 inUseColor="#f58a0b"
+                tooltipText={Boolean(accountStates.rated) ? `Rated ${accountStates.rated.value}` : 'Rate it!'}
             >
                 {({ iconColor }) => <RateIcon iconColor={iconColor} />}
             </Icon>
-            
+            <ReactToolTip 
+                type="light"
+                place="bottom"
+                effect="solid"
+                className="custom-tooltip"
+            />
         </StyledUserInteractionsRow>
     );
 }
