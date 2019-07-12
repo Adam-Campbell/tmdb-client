@@ -136,7 +136,8 @@ export function MediaHeader({
     tagline, 
     createdBy,
     sessionType,
-    accountStates
+    accountStates,
+    mediaType
 }) {
     const backdropUrl = getImageUrl(backdropPath, 'original');
     const posterUrl = getImageUrl(posterPath, imageSizeConstants.w342);
@@ -156,7 +157,7 @@ export function MediaHeader({
                             {sessionType === 'USER' && (
                                 <UserInteractionsRow 
                                     accountStates={accountStates} 
-                                    mediaType="movie"
+                                    mediaType={mediaType}
                                     mediaId={id}
                                 />
                             )}
@@ -204,5 +205,6 @@ MediaHeader.propTypes = {
             })
         ]),
         watchlist: PropTypes.bool,
-    })
+    }),
+    mediaType: PropTypes.oneOf(['movie', 'tv'])
 };

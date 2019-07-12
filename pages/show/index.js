@@ -34,6 +34,7 @@ function Show(props) {
                 createdBy={props.createdBy}
                 sessionType={props.sessionType}
                 accountStates={props.accountStates}
+                mediaType="tv"
             />
             <SubNav navData={showSubNavData} />
             <TwoColLayoutContainer>
@@ -110,7 +111,7 @@ function Show(props) {
 }
 
 Show.getInitialProps = async ({ query, req, store }) => {
-    const { id } = query;
+    const id = parseInt(query.id);
     await store.dispatch(fetchShow(id));
     return {};
 };

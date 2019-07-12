@@ -14,6 +14,34 @@ export default function reducer(state = initialState, action) {
                 data: action.payload.data
             };
 
+        case actionTypes.MARK_FAVOURITE_SUCCESS:
+            return action.payload.id !== state.id ?
+                    state :
+                    {
+                        ...state,
+                        data: {
+                            ...state.data,
+                            account_states: {
+                                ...state.data.account_states,
+                                favorite: action.payload.isMarking
+                            }
+                        }
+                    };
+
+        case actionTypes.EDIT_WATCHLIST_SUCCESS:
+                return action.payload.id !== state.id ?
+                    state :
+                    {
+                        ...state,
+                        data: {
+                            ...state.data,
+                            account_states: {
+                                ...state.data.account_states,
+                                watchlist: action.payload.isAdding
+                            }
+                        }
+                    };
+
         default: 
             return state;
     }

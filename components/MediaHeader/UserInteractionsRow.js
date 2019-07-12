@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Star, StarHalfAlt, Bookmark, Heart, List } from 'styled-icons/fa-solid';
 import { Star as StarEmpty } from 'styled-icons/fa-regular';
 import { connect } from 'react-redux';
-import { markFavourite } from '../../actions';
+import { markFavourite, editWatchlist } from '../../actions';
 
 const IconContainer = styled.span`
     display: flex;
@@ -83,7 +83,7 @@ Icon.propTypes = {
 };
 
 
-function UserInteractionsRow({ accountStates, mediaType, mediaId, markFavourite }) {
+function UserInteractionsRow({ accountStates, mediaType, mediaId, markFavourite, editWatchlist }) {
     //#dc1f3b
     return (
         <StyledUserInteractionsRow>
@@ -103,7 +103,7 @@ function UserInteractionsRow({ accountStates, mediaType, mediaId, markFavourite 
             </Icon>
             <Icon
                 isBeingUsed={accountStates.watchlist}
-                handleClick={() => {}}
+                handleClick={() => editWatchlist(mediaType, mediaId, !accountStates.watchlist)}
                 inUseColor="#43cbe8"
             >
                 {({ iconColor }) => <WatchlistIcon iconColor={iconColor} />}
@@ -135,4 +135,4 @@ UserInteractionsRow.propTypes = {
     mediaId: PropTypes.number,
 };
 
-export default connect(undefined, { markFavourite })(UserInteractionsRow);
+export default connect(undefined, { markFavourite, editWatchlist })(UserInteractionsRow);

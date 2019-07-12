@@ -1,7 +1,7 @@
 import * as actionTypes from '../actionTypes';
 import { getSessionType, getUserSessionId } from '../reducers/sessionReducer';
 import { hasGotUserSummary, getUserId } from '../reducers/userSummaryReducer';
-import { fetchUserSummary, postFavourite } from '../Api';
+import { fetchUserSummary, postFavourite, postWatchlist } from '../Api';
 import axios from 'axios';
 
 const storeUserSummary = (userSummary) => ({
@@ -102,9 +102,44 @@ export const markFavourite = (mediaType, mediaId, isMarking) => async (dispatch,
 
     try {
         const response = await postFavourite(mediaType, mediaId, isMarking, accountId, sessionId);
-        console.log(response);
+        //console.log(response);
         dispatch(markFavouriteSuccess(mediaId, isMarking));
     } catch (error) {
         dispatch(markFavouriteFailed(error));
+    }
+}
+
+
+const editWatchlistSuccess = (id, isAdding) => ({
+    type: actionTypes.EDIT_WATCHLIST_SUCCESS,
+    payload: {
+        id,
+        isAdding
+    }
+});
+
+const editWatchlistFailed = (error) => ({
+    type: actionTypes.EDIT_WATCHLIST_FAILED,
+    payload: {
+        error
+    }
+});
+
+export const editWatchlist = (mediaType, mediaId, isAdding) => async (dispatch, getState) => {
+    console.log('editWatchlist was called!');
+    const state = getState();
+    const sessionId = getUserSessionId(state);
+    const accountId = getUserId(state);
+    if (!sessionId) {
+        dispatch(editWatchlistFailed('User is not logged in'));
+        return;
+    }
+
+    try {
+        const response = await postWatchlist(mediaType, mediaId, isAdding, accountId, sessionId);
+        //console.log(response);
+        dispatch(editWatchlistSuccess(mediaId, isAdding));
+    } catch (error) {
+        dispatch(editWatchlistFailed(error));
     }
 }

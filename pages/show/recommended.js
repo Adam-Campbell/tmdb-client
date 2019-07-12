@@ -31,7 +31,7 @@ function Recommended({ id, title, posterPath, recommendations }) {
 }
 
 Recommended.getInitialProps = async ({ query, req, store }) => {
-    const { id } = query;
+    const id = parseInt(query.id);
     await store.dispatch(fetchShow(id));
     return {};
 }

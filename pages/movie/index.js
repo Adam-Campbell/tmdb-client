@@ -42,6 +42,7 @@ function Movie(props) {
                 tagline={props.tagline}
                 sessionType={props.sessionType}
                 accountStates={props.accountStates}
+                mediaType="movie"
             />
             <SubNav 
                 navData={movieSubNavData}
@@ -120,7 +121,8 @@ function Movie(props) {
 }
 
 Movie.getInitialProps = async ({ query, req, store }) => {
-    const { id } = query;
+    //const { id } = query;
+    const id = parseInt(query.id);
     await store.dispatch(fetchMovie(id));
     return {};
 };

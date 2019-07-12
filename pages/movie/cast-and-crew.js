@@ -44,7 +44,8 @@ function CastAndCrew({ id, title, posterPath, cast, crew }) {
 }
 
 CastAndCrew.getInitialProps = async ({ query, req, store }) => {
-    const { id } = query;
+    //const { id } = query;
+    const id = parseInt(query.id);
     await store.dispatch(fetchMovie(id));
     return {};
 }
