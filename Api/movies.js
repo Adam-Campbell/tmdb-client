@@ -1,5 +1,5 @@
 import { get, a } from './helpers';
-import API_KEY from '../apiKey';
+import api_key from '../apiKey';
 
 export const getPopularMovies = async () => {
     const response = await get('movie/popular');
@@ -39,7 +39,7 @@ export const getMovieDetails = async (movieId, session_id) => {
 export const postMovieRating = (rating, movieId, session_id) => {
     return a.request(`movie/${movieId}/rating`, {
         params: {
-            api_key: apiKey,
+            api_key,
             session_id
         },
         headers: {
@@ -49,5 +49,18 @@ export const postMovieRating = (rating, movieId, session_id) => {
         data: {
             value: rating
         }
+    });
+}
+
+export const deleteMovieRating = (movieId, session_id) => {
+    return a.request(`movie/${movieId}/rating`, {
+        params: {
+            api_key,
+            session_id
+        },
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'DELETE',
     });
 }

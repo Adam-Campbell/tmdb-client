@@ -42,6 +42,36 @@ export default function reducer(state = initialState, action) {
                         }
                     };
 
+        case actionTypes.RATE_MOVIE_SUCCESS:
+                return action.payload.id !== state.id ?
+                    state :
+                    {
+                        ...state,
+                        data: {
+                            ...state.data,
+                            account_states: {
+                                ...state.data.account_states,
+                                rated: {
+                                    value: action.payload.rating
+                                }
+                            }
+                        }
+                    };
+
+        case actionTypes.REMOVE_MOVIE_RATING_SUCCESS:
+                    return action.payload.id !== state.id ?
+                        state :
+                        {
+                            ...state,
+                            data: {
+                                ...state.data,
+                                account_states: {
+                                    ...state.data.account_states,
+                                    rated: false
+                                }
+                            }
+                        };
+
         default: 
             return state;
     }

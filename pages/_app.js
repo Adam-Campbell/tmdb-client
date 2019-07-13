@@ -44,13 +44,29 @@ const GlobalStyle = createGlobalStyle`
         border-radius: 3px;
         padding: 10px;
     }
+    .rating-modal__overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2000;
+    }
+    .rating-modal__content-container {
+        background: #fff;
+        border-radius: 3px;
+        padding: 10px;
+        width: 250px;
+        position: absolute;
+        top: 50px;
+        left: 50px;
+    }
     .custom-tooltip {
         font-family: sans-serif !important;
         font-weight: 700 !important;
         font-size: 0.85rem !important;
         color: #222 !important;
         background: #fff !important;
-
     }
 `;
 
