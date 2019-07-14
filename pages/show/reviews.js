@@ -46,7 +46,7 @@ function Reviews({ id, title, posterPath, reviews }) {
 }
 
 Reviews.getInitialProps = async ({ query, req, store }) => {
-    const { id } = query;
+    const id = parseInt(query.id);
     await store.dispatch(fetchShow(id));
     return {};
 };

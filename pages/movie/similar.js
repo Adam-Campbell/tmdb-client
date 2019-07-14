@@ -29,7 +29,8 @@ function Similar({ id, title, posterPath, similar }) {
 }
 
 Similar.getInitialProps = async ({ query, req, store }) => {
-    const { id } = query;
+    //const { id } = query;
+    const id = parseInt(query.id);
     await store.dispatch(fetchMovie(id));
     return {};
 }

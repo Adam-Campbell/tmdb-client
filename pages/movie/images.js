@@ -121,7 +121,8 @@ function Images({ id, title, posterPath, posters, backdrops }) {
 }
 
 Images.getInitialProps = async ({ query, req, store }) => {
-    const { id } = query;
+    //const { id } = query;
+    const id = parseInt(query.id);
     await store.dispatch(fetchMovie(id));
     return {};
 };

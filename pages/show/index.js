@@ -17,23 +17,30 @@ import SubNav from '../../components/SubNav';
 
 import { fetchShow } from '../../actions';
 import { getShowData } from '../../reducers/showReducer';
-import { getSessionType } from '../../reducers/sessionReducer';
 import { connect } from 'react-redux';
  
-function Show(props) {
-    const showSubNavData = getShowSubNavData(props.id);
+function Show({
+    id, 
+    cast,
+    reviews,
+    recommendations,
+    similar,
+    externalIds,
+    website,
+    status,
+    type,
+    numberOfSeasons,
+    numberOfEpisodes,
+    runtime,
+    genres,
+    keywords
+}) {
+    const showSubNavData = getShowSubNavData(id);
     return (
         <div>
             <MediaHeader 
-                backdropPath={props.backdropPath}
-                posterPath={props.posterPath}
-                id={props.id}
-                title={props.title}
-                averageRating={props.averageRating}
-                overview={props.overview}
-                createdBy={props.createdBy}
-                sessionType={props.sessionType}
-                accountStates={props.accountStates}
+                key={id}
+                mediaType="tv"
             />
             <SubNav navData={showSubNavData} />
             <TwoColLayoutContainer>
@@ -41,67 +48,67 @@ function Show(props) {
                     <MainCol>
                         <MediaInlineCardRow 
                             title="Top Cast"
-                            cardsData={props.cast}
+                            cardsData={cast}
                             cardType="person"
                             linkText="See full cast & crew"
-                            linkDestinationAs={`/show/${props.id}/cast-and-crew`}
-                            linkDestinationHref={`/show/cast-and-crew?id=${props.id}`}
+                            linkDestinationAs={`/show/${id}/cast-and-crew`}
+                            linkDestinationHref={`/show/cast-and-crew?id=${id}`}
                         />
-                        {props.reviews.results.length > 0 && (
+                        {reviews.results.length > 0 && (
                             <ReviewPod 
-                                author={props.reviews.results[0].author}
-                                content={props.reviews.results[0].content}
-                                id={props.reviews.results[0].id}
+                                author={reviews.results[0].author}
+                                content={reviews.results[0].content}
+                                id={reviews.results[0].id}
                                 allReviewsHref="/foo"
                                 allReviewsAs="/foo"
                             />
                         )}
                         <MediaInlineCardRow 
                             title="Recommended Shows"
-                            cardsData={props.recommendations}
+                            cardsData={recommendations}
                             cardType="show"
                             linkText="See all recommended shows"
-                            linkDestinationAs={`/show/${props.id}/recommended`}
-                            linkDestinationHref={`/show/recommended?id=${props.id}`}
+                            linkDestinationAs={`/show/${id}/recommended`}
+                            linkDestinationHref={`/show/recommended?id=${id}`}
                         />
                         <MediaInlineCardRow 
                             title="Similar Shows"
-                            cardsData={props.similar}
+                            cardsData={similar}
                             cardType="show"
                             linkText="See all similar shows"
-                            linkDestinationAs={`/show/${props.id}/similar`}
-                            linkDestinationHref={`/show/similar?id=${props.id}`}
+                            linkDestinationAs={`/show/${id}/similar`}
+                            linkDestinationHref={`/show/similar?id=${id}`}
                         />
                     </MainCol>
                     <SidebarCol>
                         <SocialLinks 
-                            facebook={props.externalIds.facebook_id}
-                            twitter={props.externalIds.twitter_id}
-                            instagram={props.externalIds.instagram_id}
-                            website={props.website}
+                            facebook={externalIds.facebook_id}
+                            twitter={externalIds.twitter_id}
+                            instagram={externalIds.instagram_id}
+                            website={website}
                         />
                         <SidebarEntry 
                             title="Status"
-                            value={props.status}
+                            value={status}
                         />
                         <SidebarEntry 
                             title="Type"
-                            value={props.type}
+                            value={type}
                         />
                         <SidebarEntry 
                             title="Number of seasons"
-                            value={props.numberOfSeasons}
+                            value={numberOfSeasons}
                         />
                         <SidebarEntry 
                             title="Number of episodes"
-                            value={props.numberOfEpisodes}
+                            value={numberOfEpisodes}
                         />
                         <SidebarEntry 
                             title="Runtime"
-                            value={props.runtime}
+                            value={runtime}
                         />
-                        <TagList title="Genres" tagData={props.genres} />
-                        <TagList title="Keywords" tagData={props.keywords} />
+                        <TagList title="Genres" tagData={genres} />
+                        <TagList title="Keywords" tagData={keywords} />
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>
@@ -110,7 +117,7 @@ function Show(props) {
 }
 
 Show.getInitialProps = async ({ query, req, store }) => {
-    const { id } = query;
+    const id = parseInt(query.id);
     await store.dispatch(fetchShow(id));
     return {};
 };
@@ -119,12 +126,6 @@ function mapState(state) {
     const s = getShowData(state);
     return {
         id: s.id,
-        title: s.name,
-        backdropPath: s.backdrop_path,
-        posterPath: s.poster_path,
-        averageRating: s.vote_average,
-        overview: s.overview,
-        createdBy: s.created_by,
         cast: s.credits.cast,
         reviews: s.reviews,
         recommendations: s.recommendations.results,
@@ -138,8 +139,6 @@ function mapState(state) {
         runtime: s.episode_run_time[0],
         genres: s.genres,
         keywords: s.keywords.results,
-        accountStates: s.account_states,
-        sessionType: getSessionType(state)
     };
 }
 

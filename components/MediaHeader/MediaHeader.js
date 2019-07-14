@@ -7,12 +7,11 @@ import { getImageUrl, imageSizeConstants } from '../../utils';
 import Link from 'next/link';
 import CreatorsList from './CreatorsList';
 import { text } from '../../utils';
-
-// star icons
-import { Star, StarHalfAlt, Bookmark, Heart, List } from 'styled-icons/fa-solid';
-import { Star as StarEmpty } from 'styled-icons/fa-regular';
-
-
+import { connect } from 'react-redux';
+import { getMovieData } from '../../reducers/movieReducer';
+import { getShowData } from '../../reducers/showReducer';
+import { getSessionType } from '../../reducers/sessionReducer';
+import UserInteractionsRow from './UserInteractionsRow';
 
 // is there a better semantic element to use here?
 const MediaHeaderContainer = styled.div`
@@ -76,38 +75,6 @@ const MediaOverview = styled.p`
     ${text('body', { color: '#fff' })}
 `;
 
-const IconContainer = styled.span`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: solid 2px #fff;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-left: 5px;
-    margin-right: 5px;
-`;
-
-const RateIcon = styled(Star)`
-    width: 15px;
-    color: #fff;
-`;
-
-const ListIcon = styled(List)`
-    width: 15px;
-    color: #fff;
-`;
-
-const WatchlistIcon = styled(Bookmark)`
-    width: 10px;
-    color: #fff;
-`;
-
-const FavouriteIcon = styled(Heart)`
-    width: 15px;
-    color: #fff;
-`;
-
 
 const InteractionRow = styled.div`
     display: flex;
@@ -115,16 +82,15 @@ const InteractionRow = styled.div`
 `;
 
 export function MediaHeader({ 
-    backdropPath, 
-    posterPath, 
-    id, 
-    title, 
-    averageRating, 
-    overview, 
-    tagline, 
-    createdBy,
+    mediaType,
     sessionType,
-    accountStates
+    backdropPath,
+    posterPath,
+    title,
+    averageRating,
+    overview,
+    tagline,
+    createdBy
 }) {
     const backdropUrl = getImageUrl(backdropPath, 'original');
     const posterUrl = getImageUrl(posterPath, imageSizeConstants.w342);
@@ -142,12 +108,7 @@ export function MediaHeader({
                         <InteractionRow>
                             <Rating rating={averageRating} baseSize={76} />
                             {sessionType === 'USER' && (
-                                <>
-                                    <IconContainer><ListIcon /></IconContainer>
-                                    <IconContainer><FavouriteIcon /></IconContainer>
-                                    <IconContainer><WatchlistIcon /></IconContainer>
-                                    <IconContainer><RateIcon /></IconContainer>
-                                </>
+                                <UserInteractionsRow mediaType={mediaType} />
                             )}
                         </InteractionRow>
                         
@@ -167,9 +128,10 @@ export function MediaHeader({
 }
 
 MediaHeader.propTypes = {
+    mediaType: PropTypes.oneOf(['movie', 'tv']),
+    sessionType: PropTypes.oneOf(['USER', 'GUEST', null]),
     backdropPath: PropTypes.string.isRequired,
     posterPath: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     averageRating: PropTypes.number.isRequired,
     overview: PropTypes.string.isRequired,
@@ -182,16 +144,21 @@ MediaHeader.propTypes = {
         id: PropTypes.number,
         name: PropTypes.string,
         profile_path: PropTypes.string
-    })),
-    sessionType: PropTypes.oneOf(['USER', 'GUEST', null]),
-    accountStates: PropTypes.shape({
-        favorite: PropTypes.bool,
-        rated: PropTypes.oneOfType([
-            PropTypes.bool,
-            PropTypes.shape({
-                value: PropTypes.number
-            })
-        ]),
-        watchlist: PropTypes.bool,
-    })
+    }))
 };
+
+function mapState(state, ownProps) {
+    const m = ownProps.mediaType === 'movie' ? getMovieData(state) : getShowData(state);
+    return {
+        sessionType: getSessionType(state),
+        backdropPath: m.backdrop_path,
+        posterPath: m.poster_path,
+        title: ownProps.mediaType === 'movie' ? m.title : m.name,
+        averageRating: m.vote_average,
+        overview: m.overview,
+        tagline: m.tagline,
+        createdBy: m.created_by
+    };
+}
+
+export const ConnectedMediaHeader = connect(mapState)(MediaHeader);

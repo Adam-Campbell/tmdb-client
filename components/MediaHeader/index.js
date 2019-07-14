@@ -1,3 +1,3 @@
-import { MediaHeader } from './MediaHeader';
+import { ConnectedMediaHeader } from './MediaHeader';
 
-export default MediaHeader;
+export default ConnectedMediaHeader;
