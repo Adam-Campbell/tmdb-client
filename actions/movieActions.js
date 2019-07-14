@@ -23,22 +23,6 @@ const fetchMovieFailed = (error) => ({
 });
 
 
-/*
-
-    fetchMovie
-
-    First, check if the movie is already in state - if it is then just return early.
-
-    If it isn't we need to perform some type of fetch. Dispatch the _REQUEST action.
-
-    Check whether the user is logged in or not. The exact request made will differ based upon this.
-
-    Make relevant request, dispatch the _SUCCESS or _FAIL action as needed. 
-
-
-
-*/
-
 export const fetchMovie = (id) => async (dispatch, getState) => {
     const state = getState();
     if (id === getMovieId(state)) return;

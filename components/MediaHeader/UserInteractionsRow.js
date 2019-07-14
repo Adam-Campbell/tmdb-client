@@ -4,7 +4,16 @@ import styled from 'styled-components';
 import { Star, StarHalfAlt, Bookmark, Heart, List } from 'styled-icons/fa-solid';
 import { Star as StarEmpty } from 'styled-icons/fa-regular';
 import { connect } from 'react-redux';
-import { markFavourite, editWatchlist, rateMovie, removeMovieRating } from '../../actions';
+import { 
+    markFavourite, 
+    editWatchlist, 
+    rateMovie, 
+    removeMovieRating,
+    rateShow,
+    removeShowRating 
+} from '../../actions';
+import { getMovieData } from '../../reducers/movieReducer';
+import { getShowData } from '../../reducers/showReducer';
 import ReactToolTip from 'react-tooltip';
 import RatingModal from './RatingModal';
 
@@ -91,13 +100,17 @@ Icon.propTypes = {
 
 
 function UserInteractionsRow({ 
-    accountStates, 
-    mediaType, 
-    mediaId, 
-    markFavourite, 
-    editWatchlist, 
+    mediaType,
+    id,
+    isFavourite,
+    isInWatchlist,
+    rated,
+    markFavourite,
+    editWatchlist,
     rateMovie,
-    removeMovieRating 
+    removeMovieRating,
+    rateShow,
+    removeShowRating
 }) {
     //#dc1f3b
 
@@ -105,6 +118,8 @@ function UserInteractionsRow({
     const [ ratingModalCoords, setRatingModalCoords ] = useState({ x: 0, y: 0 });
     const ratingIconEl = useRef(null);
 
+    const ratingFn = mediaType === 'movie' ? rateMovie : rateShow;
+    const removeRatingFn = mediaType === 'movie' ? removeMovieRating : removeShowRating;
 
     function openRatingModal() {
         const modalWidth = 250;
@@ -128,11 +143,11 @@ function UserInteractionsRow({
     }
 
     function handleRatingModalChange(rating) {
-        rateMovie(rating * 2, mediaId);
+        ratingFn(rating * 2, id);
     }
 
 
-    const score = accountStates.rated ? Math.floor(accountStates.rated.value / 2) : 0;
+    const score = rated ? Math.floor(rated.value / 2) : 0;
 
     return (
         <StyledUserInteractionsRow>
@@ -145,26 +160,26 @@ function UserInteractionsRow({
                 {({ iconColor }) => <ListIcon iconColor={iconColor} />}
             </Icon>
             <Icon
-                isBeingUsed={accountStates.favorite}
-                handleClick={() => markFavourite(mediaType, mediaId, !accountStates.favorite)}
+                isBeingUsed={isFavourite}
+                handleClick={() => markFavourite(mediaType, id, !isFavourite)}
                 inUseColor="#dc1f3b"
-                tooltipText={accountStates.favorite ? 'Remove from your favourites' : 'Mark as favourite'}
+                tooltipText={isFavourite ? 'Remove from your favourites' : 'Mark as favourite'}
             >
                 {({ iconColor }) => <FavouriteIcon iconColor={iconColor} />}
             </Icon>
             <Icon
-                isBeingUsed={accountStates.watchlist}
-                handleClick={() => editWatchlist(mediaType, mediaId, !accountStates.watchlist)}
+                isBeingUsed={isInWatchlist}
+                handleClick={() => editWatchlist(mediaType, id, !isInWatchlist)}
                 inUseColor="#43cbe8"
-                tooltipText={accountStates.watchlist ? 'Remove from your watchlist' : 'Add to your watchlist'}
+                tooltipText={isInWatchlist ? 'Remove from your watchlist' : 'Add to your watchlist'}
             >
                 {({ iconColor }) => <WatchlistIcon iconColor={iconColor} />}
             </Icon>
             <Icon
-                isBeingUsed={Boolean(accountStates.rated)}
+                isBeingUsed={Boolean(rated)}
                 handleClick={openRatingModal}
                 inUseColor="#f58a0b"
-                tooltipText={Boolean(accountStates.rated) ? `Rated ${accountStates.rated.value}` : 'Rate it!'}
+                tooltipText={Boolean(rated) ? `Rated ${rated.value}` : 'Rate it!'}
                 iconRef={ratingIconEl}
             >
                 {({ iconColor }) => <RateIcon iconColor={iconColor} />}
@@ -180,7 +195,7 @@ function UserInteractionsRow({
                 closeModal={() => setShowingRatingModal(false)}
                 score={score} 
                 handleChange={handleRatingModalChange}
-                handleRemove={() => removeMovieRating(mediaId)}
+                handleRemove={() => removeRatingFn(id)}
                 posX={ratingModalCoords.x}
                 posY={ratingModalCoords.y}
             />
@@ -189,23 +204,33 @@ function UserInteractionsRow({
 }
 
 UserInteractionsRow.propTypes = {
-    accountStates: PropTypes.shape({
-        favorite: PropTypes.bool,
-        rated: PropTypes.oneOfType([
-            PropTypes.bool,
-            PropTypes.shape({
-                value: PropTypes.number
-            })
-        ]),
-        watchlist: PropTypes.bool,
-    }),
-    mediaType: PropTypes.oneOf(['movie', 'tv']),
-    mediaId: PropTypes.number,
+    mediaType: PropTypes.oneOf(['movie', 'tv']).isRequired,
+    id: PropTypes.number.isRequired,
+    isFavourite: PropTypes.bool.isRequired,
+    isInWatchlist: PropTypes.bool.isRequired,
+    rated: PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.shape({
+            value: PropTypes.number
+        })
+    ]).isRequired
 };
 
-export default connect(undefined, { 
+function mapState(state, ownProps) {
+    const m = ownProps.mediaType === 'movie' ? getMovieData(state) : getShowData(state);
+    return {
+        id: m.id,
+        isFavourite: m.account_states.favorite,
+        rated: m.account_states.rated,
+        isInWatchlist: m.account_states.watchlist
+    };
+}
+
+export default connect(mapState, { 
     markFavourite, 
     editWatchlist, 
     rateMovie,
-    removeMovieRating
+    removeMovieRating,
+    rateShow,
+    removeShowRating
 })(UserInteractionsRow);

@@ -1,4 +1,5 @@
-import { get } from './helpers';
+import { get, a } from './helpers';
+import api_key from '../apiKey';
 
 export const getPopularTV = async () => {
     const response = await get('tv/popular');
@@ -35,3 +36,31 @@ export const getShowDetails = async (showId, session_id) => {
     }
 };
 
+export const postShowRating = (rating, showId, session_id) => {
+    return a.request(`tv/${showId}/rating`, {
+        params: {
+            api_key,
+            session_id
+        },
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        data: {
+            value: rating
+        }
+    });
+};
+
+export const deleteShowRating = (showId, session_id) => {
+    return a.request(`tv/${showId}/rating`, {
+        params: {
+            api_key,
+            session_id
+        },
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'DELETE',
+    });
+};
