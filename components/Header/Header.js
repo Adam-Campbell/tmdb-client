@@ -38,6 +38,11 @@ const navData = [
         as: '/me',
         href: '/me',
         text: 'Me'
+    },
+    {
+        as: '/vis',
+        href: '/vis',
+        text: 'Vis'
     }
 ];
 

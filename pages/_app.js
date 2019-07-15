@@ -10,6 +10,7 @@ import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import { getUserSummary } from '../actions';
 import { text } from '../utils';
+//import '../style.css';
 
 
 ReactModal.setAppElement('#__next');

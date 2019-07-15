@@ -14,3 +14,7 @@ export default combineReducers({
     watchlists,
     dataStatus
 });
+
+export function getUsersRatings(state) {
+    return state.user.rated
+}
