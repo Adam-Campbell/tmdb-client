@@ -5,6 +5,7 @@ import localisation from './localisationReducer';
 import movie from './movieReducer';
 import show from './showReducer';
 import person from './personReducer';
+import user from './user';
 
 export default combineReducers({
     session,
@@ -12,5 +13,6 @@ export default combineReducers({
     localisation,
     movie,
     show,
-    person
+    person,
+    user
 });

@@ -4,7 +4,40 @@ import api_key from '../apiKey';
 export const fetchUserSummary = async (session_id) => {
     const response = await get('account', { session_id });
     return response.data;
+};
+
+export const getCreatedLists = async (account_id, session_id) => {
+    return get(`account/${account_id}/lists`, { session_id });
+};
+
+export const getFavouriteMovies = async (account_id, session_id) => {
+    return get(`account/${account_id}/favorite/movies`, { session_id });
+};
+
+export const getFavouriteShows = async (account_id, session_id) => {
+    return get(`account/${account_id}/favorite/tv`, { session_id });
+};
+
+export const getRatedMovies = async (account_id, session_id) => {
+    return get(`account/${account_id}/rated/movies`, { session_id });
+};
+
+export const getRatedShows = async (account_id, session_id) => {
+    return get(`account/${account_id}/rated/tv`, { session_id });
+};
+
+export const getRatedEpisodes = async (account_id, session_id) => {
+    return get(`account/${account_id}/rated/tv/episodes`, { session_id });
+};
+
+export const getMovieWatchlist = async (account_id, session_id) => {
+    return get(`account/${account_id}/watchlist/movies`, { session_id });
+};
+
+export const getShowWatchlist = async (account_id, session_id) => {
+    return get(`account/${account_id}/watchlist/tv`, { session_id });
 }
+
 
 /**
  * Add or remove an item from the users favourites list.
