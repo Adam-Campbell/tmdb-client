@@ -18,3 +18,7 @@ export default combineReducers({
 export function getUsersRatings(state) {
     return state.user.rated
 }
+
+export function getUsersFavourites(state) {
+    return state.user.favourites
+}
