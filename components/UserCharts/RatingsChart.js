@@ -3,29 +3,46 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { getUsersRatings } from '../../reducers/user';
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme, VictoryStack } from 'victory';
+import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme, VictoryStack, VictoryContainer } from 'victory';
 import { getNumericTicks } from './utils';
 import { text } from '../../utils';
+import customTheme from './customTheme';
 
 const RatingsChartContainer = styled.div`
     width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 500px;
-    border: solid green 2px;
+    max-width: 400px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    margin-top: 10px;
+    margin-bottom: 10px;
+`;
+
+const ChartTitle = styled.h3`
+    ${text('heading', { fontSize: '1rem' })}
+`;
+
+const TitleContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    @media (min-width: 768px) {
+        flex-direction: row;
+        align-items: center;
+    }
+    
 `;
 
 const Fieldset = styled.fieldset`
     border: none;
-    padding-left: 0;
-    padding-right: 0;
+    padding: 0;
 `;
 
 const Legend = styled.legend`
-    ${text('body', { fontWeight: 700 })}
+    ${text('body', { fontWeight: 700, fontSize: '0.85rem' })}
+    opacity: 0;
+    position: absolute;
+    left: -9999px;
 `;
 
 const RadioButtonsContainer = styled.div`
@@ -41,11 +58,11 @@ const RadioButton = styled.input`
 
 const RadioButtonLabel = styled.label`
     ${text('body', { fontSize: '0.85rem' })}
-    padding: 10px;
+    padding: 5px;
     background: #eee;
     border-radius: 3px;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin-left: 3px;
+    margin-right: 3px;
     cursor: pointer;
     transition: background ease-out 0.2s;
     flex-grow: 1;
@@ -117,32 +134,38 @@ function RatingsChart({ ratings }) {
 
     return (
         <RatingsChartContainer>
-            <Fieldset>
-                <Legend>Filter Ratings</Legend>
-                <RadioButtonsContainer>
-                    {filterData.map(d => (
-                        <React.Fragment key={d.id}>
-                            <RadioButton 
-                                type="radio"
-                                id={d.id}
-                                name="filter"
-                                value={d.value}
-                                checked={currentlyShowing === d.value}
-                                onChange={e => setShowing(d.value)}
-                            />
-                            <RadioButtonLabel
-                                htmlFor={d.id}
-                            >{d.name}</RadioButtonLabel>
-                        </React.Fragment>
-                    ))}
-                </RadioButtonsContainer>
-            </Fieldset>
+            <TitleContainer>
+                <ChartTitle>Your Ratings</ChartTitle>
+                <Fieldset>
+                    <Legend>Filter Ratings</Legend>
+                    <RadioButtonsContainer>
+                        {filterData.map(d => (
+                            <React.Fragment key={d.id}>
+                                <RadioButton 
+                                    type="radio"
+                                    id={d.id}
+                                    name="filter"
+                                    value={d.value}
+                                    checked={currentlyShowing === d.value}
+                                    onChange={e => setShowing(d.value)}
+                                />
+                                <RadioButtonLabel
+                                    htmlFor={d.id}
+                                >{d.name}</RadioButtonLabel>
+                            </React.Fragment>
+                        ))}
+                    </RadioButtonsContainer>
+                </Fieldset>
+            </TitleContainer>
             <VictoryChart
                 // stops the bars in the chart from overlapping the axes
                 domainPadding={20}
-                theme={VictoryTheme.material}
+                theme={customTheme}
                 animate={{ duration: 400, easing: 'circle' }}
-                height={200}
+                height={180}
+                containerComponent={<VictoryContainer 
+                    containerId="ratings-bar-container"
+                />}
             >
                 <VictoryAxis 
                     tickValues={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
@@ -156,7 +179,7 @@ function RatingsChart({ ratings }) {
                         data={data}
                         x="rating"
                         y="frequency"
-                        style={{ data: { fill: '#43cbe8' } }}
+                        
                         barRatio={0.8}
                     />  
             </VictoryChart>

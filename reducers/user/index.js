@@ -22,3 +22,7 @@ export function getUsersRatings(state) {
 export function getUsersFavourites(state) {
     return state.user.favourites
 }
+
+export function getUserSummary(state) {
+    return state.user.summary
+}
