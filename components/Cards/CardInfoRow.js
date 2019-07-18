@@ -41,9 +41,17 @@ const ReleaseDate = styled.span`
     } 
 `;
 
+const RatingContainer = styled.div`
+    width: 46px;
+    height: 46px;
+    margin-right: 20px;
+`;
+
 const CardInfoRow = ({ rating, title, releaseDate, id, urlSubpath }) => (
     <StyledInfoRow>
-        <Rating rating={rating} />
+        <RatingContainer>
+            <Rating rating={rating} />
+        </RatingContainer>
         <TextContainer>
             <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
                 <TitleAnchor>{title}</TitleAnchor>

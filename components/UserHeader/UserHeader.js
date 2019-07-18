@@ -6,7 +6,6 @@ import Rating from '../Rating';
 import { getUserSummary, getUsersRatings } from '../../reducers/user';
 import { text } from '../../utils';
 import { Row } from '../Layout';
-import { V2Rating } from '../Rating/V2Rating';
 
 /*
 
@@ -160,14 +159,14 @@ export function UserHeader({ username, ratings }) {
                 <RatingStatsRow>
                     <RatingItem>
                         <RatingChartContainer>
-                            <V2Rating rating={averageMovieRating} />
+                            <Rating rating={averageMovieRating} />
                         </RatingChartContainer>
                         <RatingDescription>Average <br/> Movie Score</RatingDescription>
                     </RatingItem>
                     <RatingItemSeparator />
                     <RatingItem>
                         <RatingChartContainer>
-                            <V2Rating rating={averageShowRating} />
+                            <Rating rating={averageShowRating} />
                         </RatingChartContainer>
                         <RatingDescription>Average <br/> TV Score</RatingDescription>
                     </RatingItem>
