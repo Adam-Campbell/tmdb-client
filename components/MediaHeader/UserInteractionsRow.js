@@ -17,7 +17,7 @@ import { getShowData } from '../../reducers/showReducer';
 import ReactToolTip from 'react-tooltip';
 import RatingModal from './RatingModal';
 
-const IconContainer = styled.span`
+const IconButton = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,7 +27,7 @@ const IconContainer = styled.span`
     border-radius: 50%;
     margin-left: 5px;
     margin-right: 5px;
-    ${({ isHovered }) => isHovered && 'background: #fff;'}
+    background: ${({ isHovered }) => isHovered ? '#fff' : 'none'};
     transition: background ease-out 0.2s;
     cursor: pointer;
 `;
@@ -75,7 +75,7 @@ function Icon({ handleClick, isBeingUsed, inUseColor, tooltipText, children, ico
 
     return (
         <>
-            <IconContainer
+            <IconButton
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 isHovered={isHovered}
@@ -86,7 +86,7 @@ function Icon({ handleClick, isBeingUsed, inUseColor, tooltipText, children, ico
                 {children({
                     iconColor
                 })}
-            </IconContainer>
+            </IconButton>
         </>
     );
 }

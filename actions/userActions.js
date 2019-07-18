@@ -89,10 +89,11 @@ export const logoutUser = () => async (dispatch, getState) => {
 }
 
 
-const markFavouriteSuccess = (id, isMarking) => ({
+const markFavouriteSuccess = (id, mediaType, isMarking) => ({
     type: actionTypes.MARK_FAVOURITE_SUCCESS,
     payload: {
         id,
+        mediaType,
         isMarking
     }
 });
@@ -116,7 +117,7 @@ export const markFavourite = (mediaType, mediaId, isMarking) => async (dispatch,
     try {
         const response = await postFavourite(mediaType, mediaId, isMarking, accountId, sessionId);
         //console.log(response);
-        dispatch(markFavouriteSuccess(mediaId, isMarking));
+        dispatch(markFavouriteSuccess(mediaId, mediaType, isMarking));
     } catch (error) {
         dispatch(markFavouriteFailed(error));
     }

@@ -14,6 +14,15 @@ export default function reducer(state = initialState, action) {
         case actionTypes.LOGOUT_USER:
             return initialState;
 
+        case actionTypes.MARK_FAVOURITE_SUCCESS:
+            {
+                const key = action.payload.mediaType === 'movie' ? 'movies' : 'shows';
+                return action.payload.isMarking ? state : {
+                    ...state,
+                    [key]: state[key].filter(el => el.id !== action.payload.id)
+                };
+            }
+
         default: 
             return state;
     }

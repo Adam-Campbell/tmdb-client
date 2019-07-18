@@ -45,6 +45,7 @@ const RatingContainer = styled.div`
     width: 46px;
     height: 46px;
     margin-right: 20px;
+    flex-shrink: 0;
 `;
 
 const CardInfoRow = ({ rating, title, releaseDate, id, urlSubpath }) => (
