@@ -9,7 +9,7 @@ import UserHeader from '../../components/UserHeader';
 import { UserMediaCard } from '../../components/Cards';
 import { Row } from '../../components/Layout';
 import { CardRatingButton } from '../../components/Buttons';
-
+import StarRatingPopup from '../../components/StarRatingPopup';
 
 function Ratings(props) {
 
@@ -22,7 +22,7 @@ function Ratings(props) {
         <>
             {/*<UserHeader />*/}
             <SubNav navData={meRoutesSubNavData} />
-            <h1>This is the ratings page</h1>
+            
             <Row>
                 {usersRatings.map(entity => {
                     const isMovie = Boolean(entity.title);
@@ -39,20 +39,12 @@ function Ratings(props) {
                         >
                             <CardRatingButton 
                                 userRating={entity.rating}
-                                onClick={() => {}}
+                                mediaType={isMovie ? 'movie' : 'tv'}
+                                id={entity.id}
                             />
                         </UserMediaCard>
                     );
                 })}
-                {/*<UserMediaCard 
-                    id={sampleData.id}
-                    title={sampleData.name}
-                    releaseDate={sampleData.first_air_date}
-                    averageRating={sampleData.vote_average}
-                    posterPath={sampleData.posterPath}
-                    overview={sampleData.overview}
-                    urlSubpath="/show"
-                />*/}
             </Row>
         </>
     );

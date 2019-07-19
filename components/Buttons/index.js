@@ -1,2 +1,2 @@
 export * from './CancelInteractionButton';
-export * from './CardRatingButton';
+export { ConnectedCardRatingButton as CardRatingButton } from './CardRatingButton';

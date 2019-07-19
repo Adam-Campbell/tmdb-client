@@ -15,7 +15,8 @@ import {
 import { getMovieData } from '../../reducers/movieReducer';
 import { getShowData } from '../../reducers/showReducer';
 import ReactToolTip from 'react-tooltip';
-import RatingModal from './RatingModal';
+//import RatingModal from './RatingModal';
+import StarRatingPopup from '../StarRatingPopup'
 
 const IconButton = styled.button`
     display: flex;
@@ -116,6 +117,7 @@ function UserInteractionsRow({
 
     const [ isShowingRatingModal, setShowingRatingModal ] = useState(false);
     const [ ratingModalCoords, setRatingModalCoords ] = useState({ x: 0, y: 0 });
+    const [ topOffset, setTopOffset ] = useState(0);
     const ratingIconEl = useRef(null);
 
     const ratingFn = mediaType === 'movie' ? rateMovie : rateShow;
@@ -126,7 +128,8 @@ function UserInteractionsRow({
         const { clientWidth } = document.documentElement;
         const { bottom, left, width } = ratingIconEl.current.getBoundingClientRect();
         const centerX = left + (width / 2);
-        const modalY = bottom + 10 + window.scrollY;
+        //const modalY = bottom + 10 + window.scrollY;
+        const modalY = bottom + 10;
         // The ternary condition checks whether perfectly centering the modal relative to the icon
         // will result in the modal overflowing the right hand side of the viewport. If it won't cause
         // an overflow then perfect centering is used, if it will cause an overflow then the appropriate
@@ -139,6 +142,7 @@ function UserInteractionsRow({
             x: modalX,
             y: modalY
         });
+        setTopOffset(window.scrollY);
         setShowingRatingModal(true);
     }
 
@@ -190,7 +194,7 @@ function UserInteractionsRow({
                 effect="solid"
                 className="custom-tooltip"
             />
-            <RatingModal 
+            <StarRatingPopup 
                 isShowingModal={isShowingRatingModal}
                 closeModal={() => setShowingRatingModal(false)}
                 score={score} 
@@ -198,6 +202,7 @@ function UserInteractionsRow({
                 handleRemove={() => removeRatingFn(id)}
                 posX={ratingModalCoords.x}
                 posY={ratingModalCoords.y}
+                topOffset={topOffset}
             />
         </StyledUserInteractionsRow>
     );
