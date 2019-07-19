@@ -4,35 +4,23 @@ import { connect } from 'react-redux';
 import { fetchFullProfile, editWatchlist } from '../../actions';
 import { getUsersWatchlists } from '../../reducers/user';
 import SubNav from '../../components/SubNav';
-import { meRoutesSubNavData } from './';
+import { meRoutesSubNavData, mediaTypeFilterData } from './';
 import { Row } from '../../components/Layout';
 import { UserMediaCard } from '../../components/Cards';
 import { CancelInteractionButton } from '../../components/Buttons';
 import ListViewHeader from '../../components/ListViewHeader';
 import Switch from '../../components/Switch';
-
-const mediaTypeFilterData = [
-    {
-        name: 'Movie',
-        value: 'movie',
-        id: 'view-filter-movie'
-    },
-    {
-        name: 'TV',
-        value: 'tv',
-        id: 'view-filter-tv'
-    }
-];
+import UserHeader from '../../components/UserHeader';
 
 function Watchlist(props) {
 
     const [ mediaType, setMediaType ] = useState('movie');
     const usersWatchlists = mediaType === 'movie' ? props.watchlists.movies : props.watchlists.shows;
-    //const usersWatchlists = [ ...props.watchlists.movies, ...props.watchlists.shows ];
 
     return (
         <>
-            <SubNav navData={meRoutesSubNavData} />
+            <UserHeader />
+            <SubNav navData={meRoutesSubNavData} alignLeft={true} />
             <ListViewHeader title="My Watchlists">
                 <Switch 
                     groupLabel="Media Type"
@@ -85,7 +73,5 @@ function mapState(state) {
         watchlists: getUsersWatchlists(state)
     }
 }
-
-// editWatchlist = (mediaType, mediaId, isAdding)
 
 export default connect(mapState, { editWatchlist })(Watchlist);

@@ -5,6 +5,7 @@ import favourites from './favouritesReducer';
 import rated from './ratedReducer';
 import watchlists from './watchlistsReducer';
 import dataStatus from './dataStatusReducer';
+import { isEqual } from 'lodash';
 
 export default combineReducers({
     summary,
@@ -29,4 +30,20 @@ export function getUsersWatchlists(state) {
 
 export function getUserSummary(state) {
     return state.user.summary
+}
+
+export function getUserId(state) {
+    return state.user.summary.id;
+}
+
+export function hasGotUserSummary(state) {
+    return !isEqual(state.user.summary, {
+        avatar: {},
+        id: '',
+        iso_639_1: '',
+        iso_3166_1: '',
+        name: '',
+        include_adult: false,
+        username: ''
+    });
 }

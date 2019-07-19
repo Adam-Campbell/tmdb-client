@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchFullProfile } from '../../actions';
 import { getUsersRatings } from '../../reducers/user';
 import SubNav from '../../components/SubNav';
-import { meRoutesSubNavData } from './';
+import { meRoutesSubNavData, mediaTypeFilterData } from './';
 import UserHeader from '../../components/UserHeader';
 import { UserMediaCard } from '../../components/Cards';
 import { Row } from '../../components/Layout';
@@ -12,30 +12,15 @@ import { CardRatingButton } from '../../components/Buttons';
 import ListViewHeader from '../../components/ListViewHeader';
 import Switch from '../../components/Switch';
 
-const mediaTypeFilterData = [
-    {
-        name: 'Movie',
-        value: 'movie',
-        id: 'view-filter-movie'
-    },
-    {
-        name: 'TV',
-        value: 'tv',
-        id: 'view-filter-tv'
-    }
-];
-
 function Ratings(props) {
 
     const [ mediaType, setMediaType ] = useState('movie');
-
     const usersRatings = mediaType === 'movie' ? props.ratings.movies : props.ratings.shows;
-
 
     return (
         <>
-            {/*<UserHeader />*/}
-            <SubNav navData={meRoutesSubNavData} />
+            <UserHeader />
+            <SubNav navData={meRoutesSubNavData} alignLeft={true} />
             <ListViewHeader title="My Ratings">
                 <Switch 
                     groupLabel="Media Type"

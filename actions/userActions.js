@@ -1,6 +1,6 @@
 import * as actionTypes from '../actionTypes';
 import { getSessionType, getUserSessionId } from '../reducers/sessionReducer';
-import { hasGotUserSummary, getUserId } from '../reducers/userSummaryReducer';
+import { hasGotUserSummary, getUserId } from '../reducers/user';
 import { getUserDataStatus } from '../reducers/user/dataStatusReducer';
 import { 
     fetchUserSummary, 

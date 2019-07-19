@@ -4,26 +4,14 @@ import { connect } from 'react-redux';
 import { getUsersFavourites } from '../../reducers/user';
 import { fetchFullProfile, markFavourite } from '../../actions';
 import SubNav from '../../components/SubNav';
-import { meRoutesSubNavData } from './';
+import { meRoutesSubNavData, mediaTypeFilterData } from './';
 import { Row } from '../../components/Layout';
 import { UserMediaCard } from '../../components/Cards';
 import { text } from '../../utils';
 import { CancelInteractionButton } from '../../components/Buttons';
 import ListViewHeader from '../../components/ListViewHeader';
 import Switch from '../../components/Switch';
-
-const mediaTypeFilterData = [
-    {
-        name: 'Movie',
-        value: 'movie',
-        id: 'view-filter-movie'
-    },
-    {
-        name: 'TV',
-        value: 'tv',
-        id: 'view-filter-tv'
-    }
-];
+import UserHeader from '../../components/UserHeader';
 
 function Favourites(props) {
 
@@ -32,7 +20,8 @@ function Favourites(props) {
 
     return (
         <>
-            <SubNav navData={meRoutesSubNavData} />
+            <UserHeader />
+            <SubNav navData={meRoutesSubNavData} alignLeft={true} />
             <ListViewHeader title="My Favourites">
                 <Switch 
                     groupLabel="Media Type"

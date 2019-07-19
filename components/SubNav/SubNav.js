@@ -25,7 +25,7 @@ const SubNavContainer = styled.div`
 const StyledSubNav = styled(Row)`
     overflow-x: auto;
     display: flex;
-    justify-content: center;
+    justify-content: ${({ alignLeft }) => alignLeft ? 'flex-start' : 'center'};
 `;
 
 const NavList = styled.ul`
@@ -55,10 +55,10 @@ const NavLink = styled.a`
     }
 `;
 
-export function SubNav({ navData }) {
+export function SubNav({ navData, alignLeft }) {
     return (
         <SubNavContainer>
-            <StyledSubNav as="nav">
+            <StyledSubNav as="nav" alignLeft={alignLeft}>
                 <NavList>
                     {navData.map(item => (
                         <NavItem key={item.name}>
@@ -78,6 +78,7 @@ SubNav.propTypes = {
         name: PropTypes.string.isRequired,
         href: PropTypes.string.isRequired,
         as: PropTypes.string.isRequired
-    })).isRequired
+    })).isRequired,
+    alignLeft: PropTypes.bool
 };
 

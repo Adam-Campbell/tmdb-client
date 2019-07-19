@@ -46,7 +46,7 @@ export function Rating({ rating }) {
                 style={{ fill: '#1a435d' }}
             />
             <VictoryPie
-                animate={{ duration: 1000 }}
+                
                 padding={25}
                 standalone={false}
                 width={400} 

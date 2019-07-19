@@ -28,7 +28,20 @@ export const meRoutesSubNavData = [
         href: '/me/ratings',
         as: '/me/ratings'
     }
-]
+];
+
+export const mediaTypeFilterData = [
+    {
+        name: 'Movie',
+        value: 'movie',
+        id: 'view-filter-movie'
+    },
+    {
+        name: 'TV',
+        value: 'tv',
+        id: 'view-filter-tv'
+    }
+];
 
 
 const Container = styled.div`
