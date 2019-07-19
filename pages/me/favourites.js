@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { getUsersFavourites } from '../../reducers/user';
@@ -9,18 +9,42 @@ import { Row } from '../../components/Layout';
 import { UserMediaCard } from '../../components/Cards';
 import { text } from '../../utils';
 import { CancelInteractionButton } from '../../components/Buttons';
+import ListViewHeader from '../../components/ListViewHeader';
+import Switch from '../../components/Switch';
 
+const mediaTypeFilterData = [
+    {
+        name: 'Movie',
+        value: 'movie',
+        id: 'view-filter-movie'
+    },
+    {
+        name: 'TV',
+        value: 'tv',
+        id: 'view-filter-tv'
+    }
+];
 
 function Favourites(props) {
 
-    const userFavourites = [ ...props.favourites.movies, ...props.favourites.shows ];
+    const [ mediaType, setMediaType ] = useState('movie');
+    const usersFavourites = mediaType === 'movie' ? props.favourites.movies : props.favourites.shows;
 
     return (
         <>
             <SubNav navData={meRoutesSubNavData} />
-            <h1>This is the favourites page</h1>
+            <ListViewHeader title="My Favourites">
+                <Switch 
+                    groupLabel="Media Type"
+                    groupName="media-type"
+                    radioButtonsData={mediaTypeFilterData}
+                    currentValue={mediaType}
+                    handleChange={setMediaType}
+                    shouldHideLabel={true}
+                />
+            </ListViewHeader>
             <Row>
-                {userFavourites.map((entity) => {
+                {usersFavourites.map((entity) => {
                     const isMovie = Boolean(entity.title);
                     return (
                         <UserMediaCard 

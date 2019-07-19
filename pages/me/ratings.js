@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { fetchFullProfile } from '../../actions';
@@ -9,20 +9,43 @@ import UserHeader from '../../components/UserHeader';
 import { UserMediaCard } from '../../components/Cards';
 import { Row } from '../../components/Layout';
 import { CardRatingButton } from '../../components/Buttons';
-import StarRatingPopup from '../../components/StarRatingPopup';
+import ListViewHeader from '../../components/ListViewHeader';
+import Switch from '../../components/Switch';
+
+const mediaTypeFilterData = [
+    {
+        name: 'Movie',
+        value: 'movie',
+        id: 'view-filter-movie'
+    },
+    {
+        name: 'TV',
+        value: 'tv',
+        id: 'view-filter-tv'
+    }
+];
 
 function Ratings(props) {
 
-    const usersRatings = [
-        ...props.ratings.movies,
-        ...props.ratings.shows
-    ];
+    const [ mediaType, setMediaType ] = useState('movie');
+
+    const usersRatings = mediaType === 'movie' ? props.ratings.movies : props.ratings.shows;
+
 
     return (
         <>
             {/*<UserHeader />*/}
             <SubNav navData={meRoutesSubNavData} />
-            
+            <ListViewHeader title="My Ratings">
+                <Switch 
+                    groupLabel="Media Type"
+                    groupName="media-type"
+                    radioButtonsData={mediaTypeFilterData}
+                    currentValue={mediaType}
+                    handleChange={setMediaType}
+                    shouldHideLabel={true}
+                />
+            </ListViewHeader>
             <Row>
                 {usersRatings.map(entity => {
                     const isMovie = Boolean(entity.title);
