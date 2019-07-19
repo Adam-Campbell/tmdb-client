@@ -1,6 +1,7 @@
 import React from 'react';
 import App, { Container } from 'next/app';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import SearchBar from '../components/SearchBar';
 import { createGlobalStyle } from 'styled-components';
 import { normalize } from 'styled-normalize';
@@ -10,6 +11,7 @@ import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import { getUserSummary } from '../actions';
 import { text } from '../utils';
+//import '../style.css';
 
 
 ReactModal.setAppElement('#__next');
@@ -57,9 +59,11 @@ const GlobalStyle = createGlobalStyle`
         border-radius: 3px;
         padding: 10px;
         width: 250px;
+        height: 50px;
         position: absolute;
         top: 50px;
         left: 50px;
+        border: solid #222 2px;
     }
     .custom-tooltip {
         font-family: sans-serif !important;
@@ -92,6 +96,7 @@ class MyApp extends App {
                     <Header />
                     <SearchBar />
                     <Component {...pageProps} />
+                    <Footer />
                 </Provider>
             </>
         );

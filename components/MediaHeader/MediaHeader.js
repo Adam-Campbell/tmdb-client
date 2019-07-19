@@ -81,6 +81,12 @@ const InteractionRow = styled.div`
     align-items: center;
 `;
 
+const RatingContainer = styled.div`
+    width: 80px;
+    height: 80px;
+    margin-right: 20px;
+`;
+
 export function MediaHeader({ 
     mediaType,
     sessionType,
@@ -106,7 +112,9 @@ export function MediaHeader({
                         {tagline && <MediaTagline>{tagline}</MediaTagline>}
 
                         <InteractionRow>
-                            <Rating rating={averageRating} baseSize={76} />
+                            <RatingContainer>
+                                <Rating rating={averageRating} />
+                            </RatingContainer>
                             {sessionType === 'USER' && (
                                 <UserInteractionsRow mediaType={mediaType} />
                             )}

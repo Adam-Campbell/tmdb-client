@@ -33,7 +33,17 @@ const navData = [
 		as: '/people',
 		href: '/people',
 		text: 'People'
-	}
+    },
+    {
+        as: '/me',
+        href: '/me',
+        text: 'Me'
+    },
+    {
+        as: '/vis',
+        href: '/vis',
+        text: 'Vis'
+    }
 ];
 
 const StyledHeader = styled.header`

@@ -9,3 +9,4 @@ export * from './BackdropCard';
 export * from './PosterCard';
 export * from './PersonCard';
 export * from './InlineCard';
+export * from './UserMediaCard';
