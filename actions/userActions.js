@@ -124,10 +124,11 @@ export const markFavourite = (mediaType, mediaId, isMarking) => async (dispatch,
 }
 
 
-const editWatchlistSuccess = (id, isAdding) => ({
+const editWatchlistSuccess = (id, mediaType, isAdding) => ({
     type: actionTypes.EDIT_WATCHLIST_SUCCESS,
     payload: {
         id,
+        mediaType,
         isAdding
     }
 });
@@ -152,7 +153,7 @@ export const editWatchlist = (mediaType, mediaId, isAdding) => async (dispatch, 
     try {
         const response = await postWatchlist(mediaType, mediaId, isAdding, accountId, sessionId);
         //console.log(response);
-        dispatch(editWatchlistSuccess(mediaId, isAdding));
+        dispatch(editWatchlistSuccess(mediaId, mediaType, isAdding));
     } catch (error) {
         dispatch(editWatchlistFailed(error));
     }

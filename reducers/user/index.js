@@ -23,6 +23,10 @@ export function getUsersFavourites(state) {
     return state.user.favourites
 }
 
+export function getUsersWatchlists(state) {
+    return state.user.watchlists
+}
+
 export function getUserSummary(state) {
     return state.user.summary
 }

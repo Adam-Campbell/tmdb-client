@@ -2,31 +2,49 @@ import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { fetchFullProfile } from '../../actions';
+import { getUsersRatings } from '../../reducers/user';
 import SubNav from '../../components/SubNav';
 import { meRoutesSubNavData } from './';
 import UserHeader from '../../components/UserHeader';
 import { UserMediaCard } from '../../components/Cards';
 import { Row } from '../../components/Layout';
-
-const sampleData = {
-    name: 'The Last Kingdom',
-    id: 63333,
-    vote_average: 7.6,
-    first_air_date: '2015-10-10',
-    overview: "A show of heroic deeds and epic battles with a thematic depth that embraces politics, religion, warfare, courage, love, loyalty and our universal search for identity. Combining real historical figures and events with fictional characters, it is the story of how a people combined their strength under one of the most iconic kings of history in order to reclaim their land for themselves and build a place they call home.",
-    rating: 9,
-    posterPath: '/52fBNs8N0xZXHcCm1MDs0nvLQKK.jpg'
-};
+import { CardRatingButton } from '../../components/Buttons';
 
 
 function Ratings(props) {
+
+    const usersRatings = [
+        ...props.ratings.movies,
+        ...props.ratings.shows
+    ];
+
     return (
         <>
             {/*<UserHeader />*/}
             <SubNav navData={meRoutesSubNavData} />
             <h1>This is the ratings page</h1>
             <Row>
-                <UserMediaCard 
+                {usersRatings.map(entity => {
+                    const isMovie = Boolean(entity.title);
+                    return (
+                        <UserMediaCard 
+                            key={entity.id}
+                            id={entity.id}
+                            title={isMovie ? entity.title : entity.name}
+                            releaseDate={isMovie ? entity.release_date : entity.first_air_date}
+                            averageRating={entity.vote_average}
+                            posterPath={entity.poster_path}
+                            overview={entity.overview}
+                            urlSubpath={isMovie ? '/movie' : '/show'}
+                        >
+                            <CardRatingButton 
+                                userRating={entity.rating}
+                                onClick={() => {}}
+                            />
+                        </UserMediaCard>
+                    );
+                })}
+                {/*<UserMediaCard 
                     id={sampleData.id}
                     title={sampleData.name}
                     releaseDate={sampleData.first_air_date}
@@ -34,7 +52,7 @@ function Ratings(props) {
                     posterPath={sampleData.posterPath}
                     overview={sampleData.overview}
                     urlSubpath="/show"
-                />
+                />*/}
             </Row>
         </>
     );
@@ -45,4 +63,10 @@ Ratings.getInitialProps = async ({ query, store }) => {
     return {};
 }
 
-export default connect()(Ratings);
+function mapState(state) {
+    return {
+        ratings: getUsersRatings(state)
+    }
+}
+
+export default connect(mapState)(Ratings);
