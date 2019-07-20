@@ -48,7 +48,7 @@ const BackIcon = styled(LongArrowAltLeft)`
     margin-right: 10px;
 `;
 
-export function MinimalHeader({ imagePath, name, backHref, backAs }) {
+export function MinimalHeader({ imagePath, name, backHref, backAs, backText }) {
     const imageUrl = getImageUrl(imagePath, imageSizeConstants.w185);
     return (
         <StyledMinimalHeader>
@@ -61,7 +61,7 @@ export function MinimalHeader({ imagePath, name, backHref, backAs }) {
                     <Link href={backHref} as={backAs} passHref>
                         <BackLink>
                             <BackIcon />
-                            Back to main
+                            {backText}
                         </BackLink>
                     </Link>
                 </TextContainer>
@@ -74,5 +74,10 @@ MinimalHeader.propTypes = {
     imagePath: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     backHref: PropTypes.string.isRequired,
-    backAs: PropTypes.string.isRequired
+    backAs: PropTypes.string.isRequired,
+    backText: PropTypes.string
 };
+
+MinimalHeader.defaultProps = {
+    backText: 'Back to main'
+}
