@@ -14,6 +14,8 @@ import SocialLinks from '../../components/SocialLinks';
 import ReviewPod from '../../components/ReviewPod';
 import TagList from '../../components/TagList';
 import SubNav from '../../components/SubNav';
+import { SeasonCard } from '../../components/Cards';
+import InlineContentRow from '../../components/InlineContentRow';
 
 import { fetchShow } from '../../actions';
 import { getShowData } from '../../reducers/showReducer';
@@ -33,7 +35,8 @@ function Show({
     numberOfEpisodes,
     runtime,
     genres,
-    keywords
+    keywords,
+    currentSeason
 }) {
     const showSubNavData = getShowSubNavData(id);
     return (
@@ -54,6 +57,23 @@ function Show({
                             linkDestinationAs={`/show/${id}/cast-and-crew`}
                             linkDestinationHref={`/show/cast-and-crew?id=${id}`}
                         />
+                        <InlineContentRow
+                            title="Current Season"
+                            linkText="View all seasons"
+                            linkDestinationAs={`/show/${id}/seasons`}
+                            linkDestinationHref={`/show/seasons?id=${id}`}
+                        >
+                            <SeasonCard 
+                                name={currentSeason.name}
+                                posterPath={currentSeason.poster_path}
+                                airDate={currentSeason.air_date}
+                                episodeCount={currentSeason.episode_count}
+                                overview={currentSeason.overview}
+                                showId={id}
+                                seasonNumber={currentSeason.season_number}
+                            />
+                        </InlineContentRow>
+
                         {reviews.results.length > 0 && (
                             <ReviewPod 
                                 author={reviews.results[0].author}
@@ -139,6 +159,7 @@ function mapState(state) {
         runtime: s.episode_run_time[0],
         genres: s.genres,
         keywords: s.keywords.results,
+        currentSeason: s.seasons[s.seasons.length-1]
     };
 }
 

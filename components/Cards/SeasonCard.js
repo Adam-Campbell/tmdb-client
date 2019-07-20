@@ -7,7 +7,6 @@ import { getImageUrl, imageSizeConstants, text, truncateString } from '../../uti
 const StyledSeasonCard = styled.div`
     width: 100%;
     margin-top: 20px;
-    margin-bottom: 20px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     display: flex;
     align-items: center;
@@ -59,6 +58,7 @@ const TitleRow = styled.div`
     padding: 10px;
     @media (min-width: 550px) {
         flex-direction: row;
+        flex-wrap: wrap;
         align-items: center;
     }
 `;
@@ -112,7 +112,7 @@ export function SeasonCard({
         <StyledSeasonCard>
             <Link 
                 href={`/show/season?id=${showId}&number=${seasonNumber}`} 
-                as={`show/${showId}/season/${seasonNumber}`} 
+                as={`/show/${showId}/season/${seasonNumber}`} 
                 passHref
             >
                 <PosterImageLink>
@@ -124,7 +124,7 @@ export function SeasonCard({
                 <TitleRow>
                     <Link
                         href={`/show/season?id=${showId}&number=${seasonNumber}`} 
-                        as={`show/${showId}/season/${seasonNumber}`} 
+                        as={`/show/${showId}/season/${seasonNumber}`} 
                         passHref
                     >
                         <TitleLink>

@@ -13,9 +13,6 @@ function Seasons({ id, title, posterPath, seasons }) {
 
     const showSubNavData = getShowSubNavData(id);
 
-    const s1 = seasons[1];
-    const s2 = seasons[2];
-
     return (
         <div>
             <MinimalHeader 
@@ -26,25 +23,18 @@ function Seasons({ id, title, posterPath, seasons }) {
             />
             <SubNav navData={showSubNavData} />
             <Row>
-                <h1>This is the seasons route!</h1>
-                <SeasonCard 
-                    name={s1.name}
-                    posterPath={s1.poster_path}
-                    airDate={s1.air_date}
-                    episodeCount={s1.episode_count}
-                    overview={s1.overview}
-                    showId={id}
-                    seasonNumber={s1.season_number}
-                />
-                <SeasonCard 
-                    name={s2.name}
-                    posterPath={s2.poster_path}
-                    airDate={s2.air_date}
-                    episodeCount={s2.episode_count}
-                    overview={s2.overview}
-                    showId={id}
-                    seasonNumber={s2.season_number}
-                />
+                {seasons.map((season) => (
+                    <SeasonCard 
+                        key={season.id}
+                        name={season.name}
+                        posterPath={season.poster_path}
+                        airDate={season.air_date}
+                        episodeCount={season.episode_count}
+                        overview={season.overview}
+                        showId={id}
+                        seasonNumber={season.season_number}
+                    />
+                ))}
             </Row>
         </div>
     );
