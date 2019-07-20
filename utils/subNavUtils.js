@@ -1,4 +1,4 @@
-const mediaSubroutes = [
+const movieSubroutes = [
     { 
         name: 'Similar',
         path: 'similar'
@@ -18,6 +18,33 @@ const mediaSubroutes = [
     {
         name: 'Images',
         path: 'images'
+    }
+];
+
+const showSubroutes = [
+    { 
+        name: 'Similar',
+        path: 'similar'
+    },
+    {
+        name: 'Recommended',
+        path: 'recommended'
+    },
+    {
+        name: 'Reviews',
+        path: 'reviews'
+    },
+    {
+        name: 'Cast & Crew',
+        path: 'cast-and-crew'
+    },
+    {
+        name: 'Images',
+        path: 'images'
+    },
+    {
+        name: 'Seasons',
+        path: 'seasons'
     }
 ];
 
@@ -42,8 +69,8 @@ function getSubNavData(routeGroup, subrouteData) {
     }
 }
 
-export const getMovieSubNavData = getSubNavData('movie', mediaSubroutes);
-export const getShowSubNavData = getSubNavData('show', mediaSubroutes);
+export const getMovieSubNavData = getSubNavData('movie', movieSubroutes);
+export const getShowSubNavData = getSubNavData('show', showSubroutes);
 export const getPersonSubNavData = getSubNavData('person', personSubroutes);
 
 export function getSearchSubNavData(searchQuery) {

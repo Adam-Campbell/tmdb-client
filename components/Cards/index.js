@@ -10,3 +10,4 @@ export * from './PosterCard';
 export * from './PersonCard';
 export * from './InlineCard';
 export * from './UserMediaCard';
+export * from './SeasonCard';

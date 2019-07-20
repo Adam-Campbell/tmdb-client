@@ -39,7 +39,21 @@ function showRoutes(app) {
             app.render(req, res, url, params);
         })
 
+    router.route('/:id/seasons')
+        .get((req, res) => {
+            const url = '/show/seasons';
+            const params = { id: req.params.id };
+            app.render(req, res, url, params);
+        })
+
+    router.route('/:id/season/:number')
+        .get((req, res) => {
+            const url = '/show/season';
+            const params = { id: req.params.id, number: req.params.number };
+            app.render(req, res, url, params);
+        })
     // more subroutes to be added later
+
     
     return router;
 }
