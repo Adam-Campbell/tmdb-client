@@ -39,7 +39,12 @@ const ToggleIcon = styled(ChevronDown)`
     transform: ${({ isExpanded }) => isExpanded ? 'rotate(180deg)' : 'rotate(0)'};
 `;
 
-export function PeopleList({ title, people }) {
+export function PeopleList({ 
+    title, 
+    people, 
+    shouldAllowExpansion,
+    unexpandedItemCount 
+}) {
     // Prevent effect from firing on mount
     const isInitialMount = useRef(true);
     const buttonEl = useRef(null);
@@ -72,7 +77,7 @@ export function PeopleList({ title, people }) {
     }
 
     return (
-        <>
+        <div>
             <Title>{title}</Title>
             <StyledPeopleList>
                 {people.map((person, index) => (
@@ -82,22 +87,31 @@ export function PeopleList({ title, people }) {
                         name={person.name}
                         description={person.character || person.job}
                         imagePath={person.profile_path || '/5lzG6z74a8aYVWLsoAQVkyh5IEa.jpg'}
-                        isHidden={!isExpanded && index > 5}
+                        isHidden={shouldAllowExpansion && !isExpanded && index >= unexpandedItemCount}
                     />
                 ))}
             </StyledPeopleList>
-            <ToggleExpandedButton
-                ref={buttonEl}
-                onClick={handleToggleClick}
-            >
-                {isExpanded ? 'Show less' : 'Show more'}
-                <ToggleIcon isExpanded={isExpanded}/>
-            </ToggleExpandedButton>
-        </>
+            {shouldAllowExpansion && (
+                <ToggleExpandedButton
+                    ref={buttonEl}
+                    onClick={handleToggleClick}
+                >
+                    {isExpanded ? 'Show less' : 'Show more'}
+                    <ToggleIcon isExpanded={isExpanded}/>
+                </ToggleExpandedButton>
+            )}
+        </div>
     );
 }
 
 PeopleList.propTypes = {
     title: PropTypes.string.isRequired,
-    people: PropTypes.arrayOf(PropTypes.object)
+    people: PropTypes.arrayOf(PropTypes.object),
+    shouldAllowExpansion: PropTypes.bool,
+    unexpandedItemCount: PropTypes.number
+};
+
+PeopleList.defaultProps = {
+    shouldAllowExpansion: true,
+    unexpandedItemCount: 6
 };

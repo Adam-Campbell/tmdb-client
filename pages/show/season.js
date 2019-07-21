@@ -27,7 +27,7 @@ export default function Season({
     
     const orderedCast = credits.cast.sort((a,b) => a.order - b.order);
 
-    const ep = episodes[0];
+    // const ep = episodes[0];
 
     return (
         <div>
@@ -40,26 +40,31 @@ export default function Season({
             />
             <SubNav navData={showSubNavData} alignLeft={true} />
             <Row>
-                {/* <PeopleList 
+                <PeopleList 
                     title="Cast"
                     people={orderedCast}
+                    shouldAllowExpansion={true}
                 />
                 <PeopleList 
                     title="Crew"
                     people={credits.crew}
-                /> */}
-                <EpisodePod 
-                    airDate={ep.air_date}
-                    episodeNumber={ep.episode_number}
-                    guestStars={ep.guest_stars}
-                    id={ep.id}
-                    name={ep.name}
-                    overview={ep.overview}
-                    seasonNumber={ep.season_number}
-                    showId={ep.show_id}
-                    stillPath={ep.still_path}
-                    averageRating={ep.vote_average}
+                    shouldAllowExpansion={true}
                 />
+                {episodes.slice(0,5).map((episode) => (
+                    <EpisodePod 
+                        key={episode.id}
+                        airDate={episode.air_date}
+                        episodeNumber={episode.episode_number}
+                        guestStars={episode.guest_stars}
+                        id={episode.id}
+                        name={episode.name}
+                        overview={episode.overview}
+                        seasonNumber={episode.season_number}
+                        showId={episode.show_id}
+                        stillPath={episode.still_path}
+                        averageRating={episode.vote_average}
+                    />
+                ))}
             </Row>
         </div>
     );
