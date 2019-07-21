@@ -7,6 +7,7 @@ import SubNav from '../../components/SubNav';
 import { getShowSubNavData } from '../../utils';
 import PeopleList from '../../components/PeopleList';
 import { Row } from '../../components/Layout';
+import EpisodePod from '../../components/EpisodePod';
 
 export default function Season({
     accountStates,
@@ -26,6 +27,8 @@ export default function Season({
     
     const orderedCast = credits.cast.sort((a,b) => a.order - b.order);
 
+    const ep = episodes[0];
+
     return (
         <div>
             <MinimalHeader 
@@ -37,13 +40,25 @@ export default function Season({
             />
             <SubNav navData={showSubNavData} alignLeft={true} />
             <Row>
-                <PeopleList 
+                {/* <PeopleList 
                     title="Cast"
                     people={orderedCast}
                 />
                 <PeopleList 
                     title="Crew"
                     people={credits.crew}
+                /> */}
+                <EpisodePod 
+                    airDate={ep.air_date}
+                    episodeNumber={ep.episode_number}
+                    guestStars={ep.guest_stars}
+                    id={ep.id}
+                    name={ep.name}
+                    overview={ep.overview}
+                    seasonNumber={ep.season_number}
+                    showId={ep.show_id}
+                    stillPath={ep.still_path}
+                    averageRating={ep.vote_average}
                 />
             </Row>
         </div>
