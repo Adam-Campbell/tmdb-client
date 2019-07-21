@@ -11,16 +11,12 @@ import { fetchShow } from '../../actions';
 import { getShowData } from '../../reducers/showReducer';
 import { connect } from 'react-redux';
 
-const FlexRow = styled(Row)`
-    display: flex;
-    flex-direction: column;
-    @media (min-width: 768px) {
-        flex-direction: row;
-    }
-`;
-
 function CastAndCrew({ id, title, posterPath, cast, crew }) {
+
     const showSubNavData = getShowSubNavData(id);
+
+    const orderedCast = cast.sort((a,b) => a.order - b.order);
+
     return (
         <div>
             <MinimalHeader 
@@ -30,16 +26,16 @@ function CastAndCrew({ id, title, posterPath, cast, crew }) {
                 backAs={`/show/${id}`}
             />
             <SubNav navData={showSubNavData} />
-            <FlexRow>
+            <Row>
                 <PeopleList 
                     title="Cast"
-                    people={cast}
+                    people={orderedCast}
                 />
                 <PeopleList 
                     title="Crew"
                     people={crew}
                 />
-            </FlexRow>
+            </Row>
         </div>
     );
 }

@@ -5,26 +5,37 @@ import Link from 'next/link';
 import { text, getImageUrl, imageSizeConstants } from '../../utils';
 
 const StyledPersonListItem = styled.li`
-    display: flex;
+    width: 100%;
+    display: ${({ isHidden }) => isHidden ? 'none' : 'flex'};
     align-items: center;
     margin-top: 10px;
     margin-bottom: 10px;
+    @media (min-width: 550px) {
+        width: 50%;
+    }
 `;
 
 const ImageLink = styled.a`
     margin-right: 20px;
-    min-height: 150px;
     display: flex;
     align-items: center;
+    flex-shrink: 0;
 `;
 
 const Image = styled.img`
+    border-radius: 3px;
     width: 100px;
+    height: 100px;
+    @media (min-width: 550px) {
+        width: 66px;
+        height: 66px;
+    }
+    @media (min-width: 900px) {
+        width: 100px;
+        height: 100px;
+    }
 `;
 
-const TextContainer = styled.div`
-
-`;
 
 const NameLink = styled.a`
     ${text('body', { fontWeight: 700 })}
@@ -37,23 +48,24 @@ const NameLink = styled.a`
 const Description = styled.p`
     ${text('body', { fontWeight: 300, fontSize: '0.85rem' })}
     margin-top: 5px;
+    margin-bottom: 0;
 `;
 
-export default function PersonListItem({ id, name, description, imagePath }) {
-    const imageUrl = getImageUrl(imagePath, imageSizeConstants.w154);
+export default function PersonListItem({ id, name, description, imagePath, isHidden }) {
+    const imageUrl = getImageUrl(imagePath, imageSizeConstants.faceMedium);
     return (
-        <StyledPersonListItem>
+        <StyledPersonListItem isHidden={isHidden}>
             <Link href={`/person?id=${id}`} as={`/person/${id}`} passHref>
                 <ImageLink>
                     <Image src={imageUrl} />
                 </ImageLink>
             </Link>
-            <TextContainer>
+            <div>
                 <Link href={`/person?id=${id}`} as={`/person/${id}`} passHref>
                     <NameLink>{name}</NameLink>
                 </Link>
                 <Description>{description}</Description>
-            </TextContainer>
+            </div>
         </StyledPersonListItem>
     );
 }
@@ -62,5 +74,6 @@ PersonListItem.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    imagePath: PropTypes.string
+    imagePath: PropTypes.string,
+    isHidden: PropTypes.bool
 };

@@ -5,6 +5,8 @@ import { getSeasonDetails } from '../../Api';
 import MinimalHeader from '../../components/MinimalHeader';
 import SubNav from '../../components/SubNav';
 import { getShowSubNavData } from '../../utils';
+import PeopleList from '../../components/PeopleList';
+import { Row } from '../../components/Layout';
 
 export default function Season({
     accountStates,
@@ -22,6 +24,8 @@ export default function Season({
 
     const showSubNavData = getShowSubNavData(showId);
     
+    const orderedCast = credits.cast.sort((a,b) => a.order - b.order);
+
     return (
         <div>
             <MinimalHeader 
@@ -32,6 +36,16 @@ export default function Season({
                 backText="Back to season list"
             />
             <SubNav navData={showSubNavData} alignLeft={true} />
+            <Row>
+                <PeopleList 
+                    title="Cast"
+                    people={orderedCast}
+                />
+                <PeopleList 
+                    title="Crew"
+                    people={credits.crew}
+                />
+            </Row>
         </div>
     );
 }
