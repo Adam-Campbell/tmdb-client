@@ -64,11 +64,3 @@ export const deleteShowRating = (showId, session_id) => {
         method: 'DELETE',
     });
 };
-
-export const getSeasonDetails = async (showId, seasonNumber, session_id) => {
-    const response = await get(`tv/${showId}/season/${seasonNumber}`, {
-        append_to_response: 'credits,images,account_states',
-        session_id
-    });
-    return response.data;
-}

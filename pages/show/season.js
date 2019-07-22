@@ -8,8 +8,12 @@ import { getShowSubNavData } from '../../utils';
 import PeopleList from '../../components/PeopleList';
 import { Row } from '../../components/Layout';
 import EpisodePod from '../../components/EpisodePod';
+import Link from 'next/link';
+import { fetchSeason, fetchShow } from '../../actions';
+import { connect } from 'react-redux';
+import { getSeasonData } from '../../reducers/seasonReducer';
 
-export default function Season({
+function Season({
     accountStates,
     airDate,
     credits,
@@ -22,12 +26,10 @@ export default function Season({
     seasonNumber,
     showId
 }) {
-
+    
     const showSubNavData = getShowSubNavData(showId);
     
     const orderedCast = credits.cast.sort((a,b) => a.order - b.order);
-
-    // const ep = episodes[0];
 
     return (
         <div>
@@ -50,7 +52,7 @@ export default function Season({
                     people={credits.crew}
                     shouldAllowExpansion={true}
                 />
-                {episodes.slice(0,5).map((episode) => (
+                {episodes.map((episode) => (
                     <EpisodePod 
                         key={episode.id}
                         airDate={episode.air_date}
@@ -71,20 +73,31 @@ export default function Season({
 }
 
 Season.getInitialProps = async ({ query, store }) => {
-    const { id, number } = query;
-    const sessionId = store.getState().session.userSessionId;
-    const seasonDetails = await getSeasonDetails(id, number, sessionId);
+    const showId = parseInt(query.id);
+    const seasonNumber = parseInt(query.number);
+    await Promise.all([
+        store.dispatch(fetchShow(showId)),
+        store.dispatch(fetchSeason(showId, seasonNumber))
+    ]);
     return {
-        accountStates: seasonDetails.account_states,
-        airDate: seasonDetails.air_date,
-        credits: seasonDetails.credits,
-        episodes: seasonDetails.episodes,
-        seasonId: seasonDetails.id,
-        images: seasonDetails.images,
-        name: seasonDetails.name,
-        overview: seasonDetails.overview,
-        posterPath: seasonDetails.poster_path,
-        seasonNumber: seasonDetails.season_number,
-        showId: id
+        showId
     };
 }
+
+function mapState(state) {
+    const s = getSeasonData(state);
+    return {
+        accountStates: s.account_states,
+        airDate: s.air_date,
+        credits: s.credits,
+        episodes: s.episodes,
+        seasonId: s.id,
+        images: s.images,
+        name: s.name,
+        overview: s.overview,
+        posterPath: s.poster_path,
+        seasonNumber: s.season_number
+    }
+}
+
+export default connect(mapState)(Season)

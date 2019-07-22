@@ -144,7 +144,7 @@ export function EpisodePod({
                 <InfoCol>
                     <TitleRow>
                         <EpisodeRatingContainer>
-                            <Rating rating={averageRating} />
+                            {/* <Rating rating={averageRating} /> */}
                         </EpisodeRatingContainer>
                         <div>
                             <EpisodeTitle>{episodeNumber}. {name}</EpisodeTitle>
