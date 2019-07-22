@@ -16,6 +16,52 @@ export default function reducer(state = initialState, action) {
                 data: action.payload.data
             };
 
+        case actionTypes.RATE_EPISODE_SUCCESS:
+            // todo
+            if (state.showId !== action.payload.showId || state.seasonNumber !== action.payload.seasonNumber) {
+                return state;
+            } else {
+                return {
+                    ...state,
+                    data: {
+                        ...state.data,
+                        account_states: {
+                            results: state.data.account_states.results.map(episode => {
+                                return episode.episode_number === action.payload.episodeNumber 
+                                ? {
+                                    ...episode,
+                                    rated: { value: action.payload.rating }
+                                } 
+                                : episode;
+                            })
+                        }
+                    }
+                };
+            }
+
+        case actionTypes.REMOVE_EPISODE_RATING_SUCCESS:
+            // todo
+            if (state.showId !== action.payload.showId || state.seasonNumber !== action.payload.seasonNumber) {
+                return state;
+            } else {
+                return {
+                    ...state,
+                    data: {
+                        ...state.data,
+                        account_states: {
+                            results: state.data.account_states.results.map(episode => {
+                                return episode.episode_number === action.payload.episodeNumber 
+                                ? {
+                                    ...episode,
+                                    rated: false
+                                } 
+                                : episode;
+                            })
+                        }
+                    }
+                };
+            }
+
         default:
             return state;
     }

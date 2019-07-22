@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { connect } from 'react-redux';
 import Rating from '../Rating';
 import { 
     text, 
@@ -11,6 +10,7 @@ import {
 } from '../../utils';
 import { ChevronDown } from 'styled-icons/fa-solid';
 import PeopleList from '../PeopleList';
+import { EpisodeRatingButton } from '../Buttons';
 
 const StyledEpisodePod = styled.div`
     width: 100%;
@@ -123,7 +123,9 @@ export function EpisodePod({
     seasonNumber,
     showId,
     stillPath,
-    averageRating
+    averageRating,
+    userRating,
+    sessionType
 }) {
 
     const [ isExpanded, setExpanded ] = useState(false);
@@ -144,8 +146,16 @@ export function EpisodePod({
                 <InfoCol>
                     <TitleRow>
                         <EpisodeRatingContainer>
-                            {/* <Rating rating={averageRating} /> */}
+                            <Rating rating={averageRating} />
                         </EpisodeRatingContainer>
+                        {sessionType === 'USER' && (
+                            <EpisodeRatingButton 
+                                showId={showId}
+                                seasonNumber={seasonNumber}
+                                episodeNumber={episodeNumber}
+                                userRating={userRating}
+                            />
+                        )}
                         <div>
                             <EpisodeTitle>{episodeNumber}. {name}</EpisodeTitle>
                             <AirDate>{formatDateString(airDate)}</AirDate>
@@ -185,5 +195,12 @@ EpisodePod.propTypes = {
     seasonNumber: PropTypes.number.isRequired,
     showId: PropTypes.number.isRequired,
     stillPath: PropTypes.string.isRequired,
-    averageRating: PropTypes.number.isRequired
+    averageRating: PropTypes.number.isRequired,
+    userRating: PropTypes.oneOfType([
+        PropTypes.bool,
+        PropTypes.shape({
+            value: PropTypes.number
+        })
+    ]).isRequired,
+    sessionType: PropTypes.string
 }

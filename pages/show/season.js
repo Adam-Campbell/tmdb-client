@@ -12,6 +12,7 @@ import { fetchSeason, fetchShow } from '../../actions';
 import { connect } from 'react-redux';
 import { getSeasonData } from '../../reducers/seasonReducer';
 import { getShowData } from '../../reducers/showReducer';
+import { getSessionType } from '../../reducers/sessionReducer';
 import SeasonNavigation from '../../components/SeasonNavigation';
 
 function Season({
@@ -26,7 +27,8 @@ function Season({
     posterPath,
     seasonNumber,
     showId,
-    allSeasons
+    allSeasons,
+    sessionType
 }) {
     
     const showSubNavData = getShowSubNavData(showId);
@@ -59,7 +61,7 @@ function Season({
                     people={credits.crew}
                     shouldAllowExpansion={true}
                 />
-                {episodes.map((episode) => (
+                {episodes.slice(0,1).map((episode, idx) => (
                     <EpisodePod 
                         key={episode.id}
                         airDate={episode.air_date}
@@ -72,6 +74,8 @@ function Season({
                         showId={episode.show_id}
                         stillPath={episode.still_path}
                         averageRating={episode.vote_average}
+                        userRating={accountStates ? accountStates.results[idx].rated : false}
+                        sessionType={sessionType}
                     />
                 ))}
             </Row>
@@ -104,7 +108,8 @@ function mapState(state) {
         overview: s.overview,
         posterPath: s.poster_path,
         seasonNumber: s.season_number,
-        allSeasons: getShowData(state).seasons
+        allSeasons: getShowData(state).seasons,
+        sessionType: getSessionType(state)
     }
 }
 
