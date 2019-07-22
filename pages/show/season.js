@@ -4,14 +4,15 @@ import styled from 'styled-components';
 import { getSeasonDetails } from '../../Api';
 import MinimalHeader from '../../components/MinimalHeader';
 import SubNav from '../../components/SubNav';
-import { getShowSubNavData } from '../../utils';
+import { getShowSubNavData, text } from '../../utils';
 import PeopleList from '../../components/PeopleList';
 import { Row } from '../../components/Layout';
 import EpisodePod from '../../components/EpisodePod';
-import Link from 'next/link';
 import { fetchSeason, fetchShow } from '../../actions';
 import { connect } from 'react-redux';
 import { getSeasonData } from '../../reducers/seasonReducer';
+import { getShowData } from '../../reducers/showReducer';
+import SeasonNavigation from '../../components/SeasonNavigation';
 
 function Season({
     accountStates,
@@ -24,7 +25,8 @@ function Season({
     overview,
     posterPath,
     seasonNumber,
-    showId
+    showId,
+    allSeasons
 }) {
     
     const showSubNavData = getShowSubNavData(showId);
@@ -41,6 +43,11 @@ function Season({
                 backText="Back to season list"
             />
             <SubNav navData={showSubNavData} alignLeft={true} />
+            <SeasonNavigation 
+                currentSeasonNumber={seasonNumber}
+                allSeasons={allSeasons}
+                showId={showId}
+            />
             <Row>
                 <PeopleList 
                     title="Cast"
@@ -96,7 +103,8 @@ function mapState(state) {
         name: s.name,
         overview: s.overview,
         posterPath: s.poster_path,
-        seasonNumber: s.season_number
+        seasonNumber: s.season_number,
+        allSeasons: getShowData(state).seasons
     }
 }
 
