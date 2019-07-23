@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { getImageUrl, imageSizeConstants, text, truncateString } from '../../utils';
+import { getImageUrl, imageSizeConstants, text, truncateString, formatDateString } from '../../utils';
 
 const StyledSeasonCard = styled.div`
     width: 100%;
@@ -107,7 +107,16 @@ export function SeasonCard({
 }) {
     const posterSrc = getImageUrl(posterPath, imageSizeConstants.w185);
     const year = airDate.split('-')[0];
-    const truncatedOverview = truncateString(overview, 280);
+    //const truncatedOverview = truncateString(overview, 280);
+
+    const hasNotAired = new Date(airDate) - Date.now() > 0;
+
+    const overviewText = hasNotAired
+            ? `${name} will air on ${formatDateString(airDate)}.`
+            : overview.length
+                ? truncateString(overview, 280)
+                : 'There is no overview for this season.'
+
     return (
         <StyledSeasonCard>
             <Link 
@@ -133,7 +142,7 @@ export function SeasonCard({
                     </Link>
                     <SeasonInfo>{year} | {episodeCount} episodes</SeasonInfo>
                 </TitleRow>
-                <SeasonOverview>{truncatedOverview}</SeasonOverview>
+                <SeasonOverview>{overviewText}</SeasonOverview>
             </TextColumn>
         </StyledSeasonCard>
     );

@@ -162,7 +162,7 @@ export function EpisodePod({
                         </div>
                     </TitleRow>
                     <Overview>
-                        {overview}
+                        {overview || 'There is no overview for this episode'}
                     </Overview>
                 </InfoCol>
             </MainInfoCard>

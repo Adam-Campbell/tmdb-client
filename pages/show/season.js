@@ -61,18 +61,18 @@ function Season({
                     people={credits.crew}
                     shouldAllowExpansion={true}
                 />
-                {episodes.slice(0,1).map((episode, idx) => (
+                {episodes.map((episode, idx) => (
                     <EpisodePod 
                         key={episode.id}
                         airDate={episode.air_date}
                         episodeNumber={episode.episode_number}
                         guestStars={episode.guest_stars}
                         id={episode.id}
-                        name={episode.name}
-                        overview={episode.overview}
+                        name={episode.name || ''}
+                        overview={episode.overview || ''}
                         seasonNumber={episode.season_number}
                         showId={episode.show_id}
-                        stillPath={episode.still_path}
+                        stillPath={episode.still_path || ''}
                         averageRating={episode.vote_average}
                         userRating={accountStates ? accountStates.results[idx].rated : false}
                         sessionType={sessionType}
@@ -104,9 +104,9 @@ function mapState(state) {
         episodes: s.episodes,
         seasonId: s.id,
         images: s.images,
-        name: s.name,
-        overview: s.overview,
-        posterPath: s.poster_path,
+        name: s.name || '',
+        overview: s.overview || '',
+        posterPath: s.poster_path || '',
         seasonNumber: s.season_number,
         allSeasons: getShowData(state).seasons,
         sessionType: getSessionType(state)

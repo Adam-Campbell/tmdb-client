@@ -26,11 +26,11 @@ function Seasons({ id, title, posterPath, seasons }) {
                 {seasons.map((season) => (
                     <SeasonCard 
                         key={season.id}
-                        name={season.name}
-                        posterPath={season.poster_path}
+                        name={season.name || `Season ${season.season_number}`}
+                        posterPath={season.poster_path || ''}
                         airDate={season.air_date}
                         episodeCount={season.episode_count}
-                        overview={season.overview}
+                        overview={season.overview || ''}
                         showId={id}
                         seasonNumber={season.season_number}
                     />
