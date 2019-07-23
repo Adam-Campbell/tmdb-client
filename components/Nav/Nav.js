@@ -29,7 +29,7 @@ const navData = [
 	}
 ];
 
-const Nav = () => (
+export const Nav = () => (
 	<nav>
 		<ul>
 			{navData.map((data, index) => (
@@ -42,5 +42,3 @@ const Nav = () => (
 		</ul>
 	</nav>
 ); 
-
-export default Nav;
