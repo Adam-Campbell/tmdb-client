@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
@@ -59,11 +59,13 @@ const NavList = styled.ul`
     overflow-y: auto;
     @media (min-width: 768px) {
         flex-direction: row;
+        overflow-y: initial;
     }
 `;
 
 const NavItem = styled.li`
     display: inline-block;
+    position: relative;
     @media (min-width: 768px) {
         & + & {
             margin-left: 20px;
@@ -100,18 +102,86 @@ const CloseNavButton = styled(Close)`
     }
 `;
 
+const SubNavList = styled.ul`
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    background: mediumseagreen;
+    display: ${({ isOpen }) => isOpen ? 'block' : 'none'};
+    @media (min-width: 768px) {
+        position: absolute;
+    }
+`;
+
+const SubNavItem = styled.li`
+    display: flex;
+`;
+
+const SubNavAnchor = styled.a`
+    flex-shrink: 0;
+    display: block;
+    font-family: sans-serif;
+    color: white;
+    font-weight: 400;
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 20px;
+    background: transparent;
+    transition: background ease-out 0.2s;
+    &:hover {
+        background: rgba(220,220,220,0.2);
+    }
+    @media (min-width: 768px) {
+        padding: 10px;
+    }
+`;
+
+function SubNav({ name }) {
+    const [ isOpen, setIsOpen ] = useState(false);
+
+    return (
+        <NavItem
+            onMouseEnter={() => setIsOpen(true)}
+            onMouseLeave={() => setIsOpen(false)}
+            onTouchStart={() => setIsOpen(prev => !prev)}
+        >
+            <NavAnchor as="span">{name}</NavAnchor>
+            <SubNavList isOpen={isOpen}>
+                <SubNavItem>
+                    <SubNavAnchor href="#">Item 1</SubNavAnchor>
+                </SubNavItem>
+                <SubNavItem>
+                    <SubNavAnchor href="#">Item 2</SubNavAnchor>
+                </SubNavItem>
+            </SubNavList>
+        </NavItem>
+    );
+}
+
 export default function Nav({ isOpen, closeMenu }) {
     return (
         <StyledNav isOpen={isOpen}>
             <CloseNavButton onClick={closeMenu} />
             <NavList>
-                {navData.map((data, index) => (
-                    <NavItem key={index}>
-                        <Link as={data.as} href={data.href}>
-                            <NavAnchor>{data.text}</NavAnchor>
-                        </Link>
-                    </NavItem>
-                ))}
+                <NavItem>
+                    <Link as="/" href="/">
+                        <NavAnchor>Home</NavAnchor>
+                    </Link>
+                </NavItem>
+                <NavItem>
+                    <Link as="/discover" href="/discover">
+                        <NavAnchor>Discover</NavAnchor>
+                    </Link>
+                </NavItem>
+                <SubNav name="Movies" />
+                <SubNav name="TV" />
+                <NavItem>
+                    <Link as="/people" href="/people">
+                        <NavAnchor>People</NavAnchor>
+                    </Link>
+                </NavItem>
+                
             </NavList>
         </StyledNav>
     );
@@ -121,3 +191,15 @@ Nav.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     closeMenu: PropTypes.func.isRequired
 }
+
+/*
+
+{navData.map((data, index) => (
+                    <NavItem key={index}>
+                        <Link as={data.as} href={data.href}>
+                            <NavAnchor>{data.text}</NavAnchor>
+                        </Link>
+                    </NavItem>
+                ))}
+
+*/
