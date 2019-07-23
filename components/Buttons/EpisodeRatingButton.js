@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Star } from 'styled-icons/fa-solid';
 import useHover from '../useHover';
+import usePopup from '../usePopup';
 import { connect } from 'react-redux';
 import { rateEpisode, removeEpisodeRating } from '../../actions';
 import StarRatingPopup from '../StarRatingPopup';
+
 
 const StyledRatingButton = styled.button`
     display: flex;
@@ -37,31 +39,15 @@ function EpisodeRatingButton({
 }) {
 
     const { isHovered, containerProps } = useHover();
-    const [ isShowingPopup, setShowingPopup ] = useState(false);
-    const [ popupCoords, setPopupCoords ] = useState({ x: 0, y: 0 });
-    const [ topOffset, setTopOffset ] = useState(0);
-    const buttonEl = useRef(null);
-
-    function openRatingPopup() {
-        const modalWidth = 250;
-        const modalHeight = 50;
-        const { clientWidth } = document.documentElement;
-        const { right, top, height } = buttonEl.current.getBoundingClientRect();
-        const modalToClickedElGutter = 10;
-        const minWindowGutter = 10;
-        
-        const modalY = top + (height / 2) - (modalHeight / 2);
-        const idealXPos = right + modalToClickedElGutter;
-        const modalX = idealXPos + modalWidth <= clientWidth - minWindowGutter
-                       ? idealXPos
-                       : clientWidth - minWindowGutter - modalWidth;
-        setPopupCoords({
-            x: modalX,
-            y: modalY
-        });
-        setTopOffset(window.scrollY);
-        setShowingPopup(true);
-    }
+    const { 
+        isShowingPopup,
+        windowTopOffset,
+        popupX,
+        popupY,
+        anchorEl,
+        openPopup,
+        closePopup
+    } = usePopup({ popupWidth: 250, popupHeight: 50, popupAlignment: 'RIGHT' });
 
     function handlePopupChange(rating) {
         rateEpisode(showId, seasonNumber, episodeNumber, rating * 2);
@@ -78,20 +64,20 @@ function EpisodeRatingButton({
     return (
         <>
             <StyledRatingButton 
-                ref={buttonEl} 
+                ref={anchorEl} 
                 isHovered={isHovered} 
                 {...containerProps}
-                onClick={openRatingPopup}
+                onClick={openPopup}
             >
                 <RateIcon iconColor={iconColor} />
             </StyledRatingButton>
             {isShowingPopup && <StarRatingPopup 
                 isShowingModal={isShowingPopup}
-                closeModal={() => setShowingPopup(false)}
+                closeModal={closePopup}
                 score={score}
-                posX={popupCoords.x}
-                posY={popupCoords.y}
-                topOffset={topOffset}
+                posX={popupX}
+                posY={popupY}
+                topOffset={windowTopOffset}
                 handleChange={handlePopupChange}
                 handleRemove={() => removeEpisodeRating(showId, seasonNumber, episodeNumber)}
             />}
@@ -114,4 +100,4 @@ EpisodeRatingButton.propTypes = {
 export const ConnectedEpisodeRatingButton = connect(undefined, {
     rateEpisode,
     removeEpisodeRating
-})(EpisodeRatingButton)
+})(EpisodeRatingButton);

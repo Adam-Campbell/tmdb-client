@@ -9,6 +9,7 @@ import {
     removeShowRating 
 } from '../../actions';
 import useHover from '../../components/useHover';
+import usePopup from '../../components/usePopup';
 import { text } from '../../utils';
 import StarRatingPopup from '../../components/StarRatingPopup';
 
@@ -36,26 +37,6 @@ const CurrentRating = styled.span`
     margin-right: 5px;
 `;
 
-/*
-
-Each CardRatingButton will have its own associated StarRatingPopup. 
-
-The CardRatingButton will maintain all of the state that the user interaction row was maintaining 
-in the previous usage. Specifically it needs to track whether the modal should be open, and what the
-coords of some DOM element were during the most recent click.
-
-I will try to have the ratings poppup only be rendered when the isOpen state is true, and will see if
-that has any effects on the modal functionality.
-
-The CardRatingButton component will be connected to the store and so will be able to dispatch the rating
-actions directly. In order for it to do this it will need to be passed the id of the entity it has to rate,
-as well as the media type. 
-
-
-
-*/
-
-
 function CardRatingButton({ 
     userRating,
     mediaType,
@@ -67,34 +48,18 @@ function CardRatingButton({
 }) {
 
     const { isHovered, containerProps } = useHover();
-    const [ isShowingPopup, setShowingPopup ] = useState(false);
-    const [ popupCoords, setPopupCoords ] = useState({ x: 0, y: 0 });
-    const [ topOffset, setTopOffset ] = useState(0);
-    const iconEl = useRef(null);
+    const {
+        isShowingPopup,
+        windowTopOffset,
+        popupX,
+        popupY,
+        anchorEl,
+        openPopup,
+        closePopup
+    } = usePopup({ popupWidth: 250, popupHeight: 50, popupAlignment: 'RIGHT' });
 
     const ratingFn = mediaType === 'movie' ? rateMovie : rateShow;
     const removeRatingFn = mediaType === 'movie' ? removeMovieRating : removeShowRating;
-
-    function openRatingPopup() {
-        const modalWidth = 250;
-        const modalHeight = 50;
-        const { clientWidth } = document.documentElement;
-        const { right, top, height } = iconEl.current.getBoundingClientRect();
-        const modalToClickedElGutter = 10;
-        const minWindowGutter = 10;
-        
-        const modalY = top + (height / 2) - (modalHeight / 2);
-        const idealXPos = right + modalToClickedElGutter;
-        const modalX = idealXPos + modalWidth <= clientWidth - minWindowGutter
-                       ? idealXPos
-                       : clientWidth - minWindowGutter - modalWidth;
-        setPopupCoords({
-            x: modalX,
-            y: modalY
-        });
-        setTopOffset(window.scrollY);
-        setShowingPopup(true);
-    }
 
     function handlePopupChange(rating) {
         ratingFn(rating * 2, id);
@@ -118,19 +83,19 @@ function CardRatingButton({
             <StyledCardRatingButton 
                 isHovered={isHovered} 
                 {...containerProps}
-                onClick={openRatingPopup}
-                ref={iconEl}
+                onClick={openPopup}
+                ref={anchorEl}
             >
                 <CurrentRating  bgColour={bgColour}>{userRating}</CurrentRating>
                 Your Rating
             </StyledCardRatingButton>
             {isShowingPopup && <StarRatingPopup 
                 isShowingModal={isShowingPopup}
-                closeModal={() => setShowingPopup(false)}
+                closeModal={closePopup}
                 score={score}
-                posX={popupCoords.x}
-                posY={popupCoords.y}
-                topOffset={topOffset}
+                posX={popupX}
+                posY={popupY}
+                topOffset={windowTopOffset}
                 handleChange={handlePopupChange}
                 handleRemove={() => removeRatingFn(id)}
             />}
