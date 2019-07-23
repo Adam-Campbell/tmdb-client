@@ -21,7 +21,10 @@ export const imageSizeConstants = {
     w342: 'w342',
     w500: 'w500',
     w780: 'w780',
-    w1280: 'w1280'
+    w1280: 'w1280',
+    faceSmall: 'w66_and_h66_face',
+    faceMedium: 'w132_and_h132_face',
+    faceLarge: 'w264_and_h264_face'
 };
 
 // Take the sizes in imageSizes and create an object where both the key and value are `w${size}`, for each

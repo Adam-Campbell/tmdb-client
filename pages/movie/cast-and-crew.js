@@ -10,16 +10,12 @@ import { fetchMovie } from '../../actions';
 import { getMovieData } from '../../reducers/movieReducer';
 import { connect } from 'react-redux';
 
-const FlexRow = styled(Row)`
-    display: flex;
-    flex-direction: column;
-    @media (min-width: 768px) {
-        flex-direction: row;
-    }
-`;
-
 function CastAndCrew({ id, title, posterPath, cast, crew }) {
+
     const movieSubNavData = getMovieSubNavData(id);
+
+    const orderedCast = cast.sort((a,b) => a.order - b.order);
+    
     return (
         <div>
             <MinimalHeader 
@@ -29,7 +25,7 @@ function CastAndCrew({ id, title, posterPath, cast, crew }) {
                 backAs={`/movie/${id}`}
             />
             <SubNav navData={movieSubNavData} />
-            <FlexRow>
+            <Row>
                 <PeopleList 
                     title="Cast"
                     people={cast}
@@ -38,13 +34,12 @@ function CastAndCrew({ id, title, posterPath, cast, crew }) {
                     title="Crew"
                     people={crew}
                 />
-            </FlexRow>
+            </Row>
         </div>
     );
 }
 
 CastAndCrew.getInitialProps = async ({ query, req, store }) => {
-    //const { id } = query;
     const id = parseInt(query.id);
     await store.dispatch(fetchMovie(id));
     return {};

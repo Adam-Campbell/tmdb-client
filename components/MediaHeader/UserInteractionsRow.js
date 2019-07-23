@@ -1,8 +1,7 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Star, StarHalfAlt, Bookmark, Heart, List } from 'styled-icons/fa-solid';
-import { Star as StarEmpty } from 'styled-icons/fa-regular';
+import { Star, Bookmark, Heart, List } from 'styled-icons/fa-solid';
 import { connect } from 'react-redux';
 import { 
     markFavourite, 
@@ -15,23 +14,9 @@ import {
 import { getMovieData } from '../../reducers/movieReducer';
 import { getShowData } from '../../reducers/showReducer';
 import ReactToolTip from 'react-tooltip';
-//import RatingModal from './RatingModal';
-import StarRatingPopup from '../StarRatingPopup'
-
-const IconButton = styled.button`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: solid 2px #fff;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-left: 5px;
-    margin-right: 5px;
-    background: ${({ isHovered }) => isHovered ? '#fff' : 'none'};
-    transition: background ease-out 0.2s;
-    cursor: pointer;
-`;
+import StarRatingPopup from '../StarRatingPopup';
+import usePopup from '../usePopup';
+import InteractionButton from './InteractionButton';
 
 const RateIcon = styled(Star)`
     width: 15px;
@@ -64,42 +49,6 @@ const StyledUserInteractionsRow = styled.div`
     max-width: 250px;
 `;
 
-function Icon({ handleClick, isBeingUsed, inUseColor, tooltipText, children, iconRef }) {
-
-    const [ isHovered, setIsHovered ] = useState(false);
-
-    const iconColor = isBeingUsed 
-                    ? inUseColor
-                    : isHovered
-                        ? '#222'
-                        : '#fff';
-
-    return (
-        <>
-            <IconButton
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-                isHovered={isHovered}
-                onClick={handleClick}
-                data-tip={tooltipText}
-                ref={iconRef}
-            >
-                {children({
-                    iconColor
-                })}
-            </IconButton>
-        </>
-    );
-}
-
-Icon.propTypes = {
-    handleClick: PropTypes.func,
-    isBeingUsed: PropTypes.bool,
-    inUseColor: PropTypes.string,
-    tooltipText: PropTypes.string
-};
-
-
 function UserInteractionsRow({ 
     mediaType,
     id,
@@ -113,97 +62,77 @@ function UserInteractionsRow({
     rateShow,
     removeShowRating
 }) {
-    //#dc1f3b
 
-    const [ isShowingRatingModal, setShowingRatingModal ] = useState(false);
-    const [ ratingModalCoords, setRatingModalCoords ] = useState({ x: 0, y: 0 });
-    const [ topOffset, setTopOffset ] = useState(0);
-    const ratingIconEl = useRef(null);
+    const {
+        isShowingPopup,
+        windowTopOffset,
+        popupX,
+        popupY,
+        anchorEl,
+        openPopup,
+        closePopup
+    } = usePopup({ popupWidth: 250, popupHeight: 50, popupAlignment: 'BOTTOM' });
 
     const ratingFn = mediaType === 'movie' ? rateMovie : rateShow;
     const removeRatingFn = mediaType === 'movie' ? removeMovieRating : removeShowRating;
-
-    function openRatingModal() {
-        const modalWidth = 250;
-        const { clientWidth } = document.documentElement;
-        const { bottom, left, width } = ratingIconEl.current.getBoundingClientRect();
-        const centerX = left + (width / 2);
-        //const modalY = bottom + 10 + window.scrollY;
-        const modalY = bottom + 10;
-        // The ternary condition checks whether perfectly centering the modal relative to the icon
-        // will result in the modal overflowing the right hand side of the viewport. If it won't cause
-        // an overflow then perfect centering is used, if it will cause an overflow then the appropriate
-        // x coord is used to align the edge of the modal with the edge of the viewport. 
-        const modalX = (centerX + (modalWidth / 2) > clientWidth) 
-                ? clientWidth - modalWidth 
-                : centerX - (modalWidth / 2);
-
-        setRatingModalCoords({
-            x: modalX,
-            y: modalY
-        });
-        setTopOffset(window.scrollY);
-        setShowingRatingModal(true);
-    }
 
     function handleRatingModalChange(rating) {
         ratingFn(rating * 2, id);
     }
 
-
     const score = rated ? Math.floor(rated.value / 2) : 0;
 
     return (
         <StyledUserInteractionsRow>
-            <Icon
+            <InteractionButton
                 isBeingUsed={false}
                 handleClick={() => {}}
                 inUseColor="#fff"
                 tooltipText="Add to list"
             >
                 {({ iconColor }) => <ListIcon iconColor={iconColor} />}
-            </Icon>
-            <Icon
+            </InteractionButton>
+            <InteractionButton
                 isBeingUsed={isFavourite}
                 handleClick={() => markFavourite(mediaType, id, !isFavourite)}
                 inUseColor="#dc1f3b"
                 tooltipText={isFavourite ? 'Remove from your favourites' : 'Mark as favourite'}
             >
                 {({ iconColor }) => <FavouriteIcon iconColor={iconColor} />}
-            </Icon>
-            <Icon
+            </InteractionButton>
+            <InteractionButton
                 isBeingUsed={isInWatchlist}
                 handleClick={() => editWatchlist(mediaType, id, !isInWatchlist)}
                 inUseColor="#43cbe8"
                 tooltipText={isInWatchlist ? 'Remove from your watchlist' : 'Add to your watchlist'}
             >
                 {({ iconColor }) => <WatchlistIcon iconColor={iconColor} />}
-            </Icon>
-            <Icon
+            </InteractionButton>
+            <InteractionButton
                 isBeingUsed={Boolean(rated)}
-                handleClick={openRatingModal}
+                handleClick={openPopup}
                 inUseColor="#f58a0b"
                 tooltipText={Boolean(rated) ? `Rated ${rated.value}` : 'Rate it!'}
-                iconRef={ratingIconEl}
+                iconRef={anchorEl}
             >
                 {({ iconColor }) => <RateIcon iconColor={iconColor} />}
-            </Icon>
+            </InteractionButton>
             <ReactToolTip 
                 type="light"
                 place="bottom"
                 effect="solid"
                 className="custom-tooltip"
             />
-            <StarRatingPopup 
-                isShowingModal={isShowingRatingModal}
-                closeModal={() => setShowingRatingModal(false)}
+            {isShowingPopup && <StarRatingPopup 
+                isShowingModal={isShowingPopup}
+                closeModal={closePopup}
                 score={score} 
+                posX={popupX}
+                posY={popupY}
+                topOffset={windowTopOffset}
                 handleChange={handleRatingModalChange}
                 handleRemove={() => removeRatingFn(id)}
-                posX={ratingModalCoords.x}
-                posY={ratingModalCoords.y}
-                topOffset={topOffset}
-            />
+            />}
         </StyledUserInteractionsRow>
     );
 }

@@ -5,6 +5,7 @@ import movie from './movieReducer';
 import show from './showReducer';
 import person from './personReducer';
 import user from './user';
+import season from './seasonReducer';
 
 export default combineReducers({
     session,
@@ -12,5 +13,6 @@ export default combineReducers({
     movie,
     show,
     person,
-    user
+    user,
+    season
 });
