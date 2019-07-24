@@ -64,6 +64,20 @@ const GlobalStyle = createGlobalStyle`
         top: 50px;
         left: 50px;
         border: solid #222 2px;
+        outline: none;
+        &:focus {
+            border-color: #43cbe8;
+        }
+    }
+    .user-menu-modal__content-container {
+        background: #fafafa;
+        border-radius: 3px;
+        position: absolute;
+        border: solid #43cbe8 2px;
+        outline: none;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
     }
     .custom-tooltip {
         font-family: sans-serif !important;
