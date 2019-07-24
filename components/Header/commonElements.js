@@ -12,20 +12,21 @@ export const NavItem = styled.li`
     }
 `;
 
-export const NavAnchor = styled.a`
+export const StyledNavLink = styled.a`
     display: block;
     ${text('body', { fontWeight: 700, color: '#fff' })}
     cursor: pointer;
     padding: 20px;
     background: transparent;
     transition: background ease-out 0.2s;
+    text-decoration: none;
     @media (min-width: 768px) {
         height: 50px;
         display: inline-flex;
         align-items: center;
         padding-left: 10px;
         padding-right: 10px;
-        color: ${({ isActive }) => isActive ? '#43cbe8' : '#fff'};
-        ${({ isActive }) => isActive && 'border-bottom: solid 2px;'}
+        color: ${({ isActive, isHovered }) => (isActive || isHovered) ? '#43cbe8' : '#fff'};
+        ${({ isActive }) => isActive && 'border-bottom: solid 3px;'}
     }
 `;

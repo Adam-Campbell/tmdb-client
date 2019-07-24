@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { NavItem, NavAnchor } from './commonElements';
-import { text } from '../../utils';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { NavItem } from './commonElements';
+import SubNavToggle from './SubNavToggle';
+import SubNavLink from './SubNavLink';
 
 const SubNavList = styled.ul`
     list-style-type: none;
     padding-left: 0;
     margin-top: 0;
     margin-bottom: 0;
-    background: #43cbe8;
+    background: #1a435d;
     display: ${({ isOpen }) => isOpen ? 'flex' : 'none'};
     flex-direction: column;
     @media (min-width: 768px) {
         position: absolute;
         top: 50px;
+        background: #43cbe8;
     }
 `;
 
@@ -23,52 +26,37 @@ const SubNavItem = styled.li`
     flex-shrink: 0;
 `;
 
-const SubNavAnchor = styled.a`
-    display: block;
-    ${text('body', { fontWeight: 700, color: '#fff' })}
-    cursor: pointer;
-    text-decoration: none;
-    border-radius: 3px;
-    padding: 20px;
-    background: transparent;
-    transition: background ease-out 0.2s;
-    &:hover {
-        background: rgba(220,220,220,0.2);
-    }
-    @media (min-width: 768px) {
-        padding: 10px;
-        font-weight: 400;
-    }
-`;
-
-export default function SubNav({ name, subNavData, activeRoute, route }) {
+export default function SubNav({ name, route, subNavData }) {
     const [ isOpen, setIsOpen ] = useState(false);
+    const router = useRouter();
 
     return (
         <NavItem
             onMouseEnter={() => setIsOpen(true)}
             onMouseLeave={() => setIsOpen(false)}
         >
-            <NavAnchor 
-                as="span"
-                isActive={activeRoute === route}
-                onTouchStart={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setIsOpen(prev => !prev)
-                }}
-            >{name}</NavAnchor>
+            <SubNavToggle 
+                route={route}
+                name={name}
+                handleTouch={() => setIsOpen(prev => !prev)}
+            />
             <SubNavList isOpen={isOpen}>
                 {subNavData.map((el, index) => (
                    <SubNavItem key={index}>
-                        <Link href={el.href} as={el.as}>
-                            <SubNavAnchor>
-                                {el.name}
-                            </SubNavAnchor>
-                        </Link>
+                        <SubNavLink 
+                            as={el.as}
+                            href={el.href}
+                            name={el.name}
+                        />
                    </SubNavItem> 
                 ))}
             </SubNavList>
         </NavItem>
     );
 }
+
+SubNav.propTypes = {
+    name: PropTypes.string.isRequired,
+    route: PropTypes.string.isRequired,
+    subNavData: PropTypes.arrayOf(PropTypes.object).isRequired,
+};

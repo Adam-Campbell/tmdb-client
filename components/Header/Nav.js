@@ -3,37 +3,10 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { Close } from 'styled-icons/material';
-import { NavItem, NavAnchor } from './commonElements';
+import { NavItem } from './commonElements';
 import SubNav from './SubNav';
-import { useRouter } from 'next/router';
+import NavLink from './NavLink';
 
-const navData = [
-	{
-		as: '/',
-		href: '/',
-		text: 'Home'
-	},
-	{
-		as: '/discover',
-		href: '/discover',
-		text: 'Discover'
-	},
-	{
-		as: '/movies',
-		href: '/movies',
-		text: 'Movies'
-	},
-	{
-		as: '/tv',
-		href: '/tv',
-		text: 'TV'
-	},
-	{
-		as: '/people',
-		href: '/people',
-		text: 'People'
-    }
-];
 
 const moviesSubNavData = [
     {
@@ -82,7 +55,7 @@ const tvSubNavData = [
 ];
 
 const  StyledNav = styled.nav`
-    background: cornflowerblue;
+    background: #43cbe8;
     position: fixed;
     top: 0;
     left: ${({ isOpen }) => isOpen ? 0 : '-300px'};
@@ -113,8 +86,6 @@ const NavList = styled.ul`
     }
 `;
 
-
-
 const CloseNavButton = styled(Close)`
     width: 32px;
     color: #fff;
@@ -127,46 +98,28 @@ const CloseNavButton = styled(Close)`
 `;
 
 export default function Nav({ isOpen, closeMenu }) {
-    const router = useRouter();
-    /*
-        router.route will equal:
-        "/"
-        "/discover"
-        "/movies"
-        "/tv"
-        "/people"
-    */
-    
     return (
         <StyledNav isOpen={isOpen}>
             <CloseNavButton onClick={closeMenu} />
             <NavList>
                 <NavItem>
-                    <Link as="/" href="/">
-                        <NavAnchor isActive={router.route === '/'}>Home</NavAnchor>
-                    </Link>
+                    <NavLink route="/" name="Home" />
                 </NavItem>
                 <NavItem>
-                    <Link as="/discover" href="/discover">
-                        <NavAnchor isActive={router.route === '/discover'}>Discover</NavAnchor>
-                    </Link>
+                    <NavLink route="/discover" name="Discover" />
                 </NavItem>
                 <SubNav 
                     name="Movies" 
+                    route="/movies"
                     subNavData={moviesSubNavData}
-                    activeRoute={router.route}
-                    route="/movies" 
                 />
                 <SubNav 
                     name="TV" 
-                    subNavData={tvSubNavData}
-                    activeRoute={router.route}
-                    route="/tv" 
+                    route="/tv"
+                    subNavData={tvSubNavData}  
                 />
                 <NavItem>
-                    <Link as="/people" href="/people">
-                        <NavAnchor isActive={router.route === '/people'}>People</NavAnchor>
-                    </Link>
+                    <NavLink route="/people" name="People" />
                 </NavItem>
                 
             </NavList>
