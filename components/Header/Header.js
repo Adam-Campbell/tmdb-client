@@ -10,37 +10,11 @@ import { text } from '../../utils';
 import Nav from './Nav';
 import { Menu } from 'styled-icons/material';
 
-const navData = [
-	{
-		as: '/',
-		href: '/',
-		text: 'Home'
-	},
-	{
-		as: '/discover',
-		href: '/discover',
-		text: 'Discover'
-	},
-	{
-		as: '/movies',
-		href: '/movies',
-		text: 'Movies'
-	},
-	{
-		as: '/tv',
-		href: '/tv',
-		text: 'TV'
-	},
-	{
-		as: '/people',
-		href: '/people',
-		text: 'People'
-    }
-];
-
 const StyledHeader = styled.header`
     background-color: #1a435d;
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 3000;
     height: 50px;
     display: flex;
 `;
@@ -57,8 +31,6 @@ const NavContainer = styled.div`
     
 `;
 
-
-
 const AccountButton = styled.button`
     ${text('body', { color: '#fff', fontWeight: 700 })}
     cursor: pointer;
@@ -68,18 +40,6 @@ const AccountButton = styled.button`
     background: ${({ warning }) => warning ? 'tomato' : '#17c17b'};
     margin-left: auto;
 `;
-
-// const MenuToggle = styled(span)`
-//     display: block;
-//     width: 32px;
-//     height: 32px;
-//     border-radius: 3px;
-//     border: none;
-//     background: #fff;
-//     @media (min-width: 768px) {
-//         display: none;
-//     }
-// `;
 
 const MenuToggle = styled(Menu)`
     color: #fff;

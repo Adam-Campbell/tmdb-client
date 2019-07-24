@@ -55,6 +55,7 @@ const Home = () => (
       .hero {
         width: 100%;
         color: #333;
+        padding-bottom: 800px;
       }
       .title {
         margin: 0;

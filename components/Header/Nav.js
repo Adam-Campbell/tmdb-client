@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { Close } from 'styled-icons/material';
+import { NavItem, NavAnchor } from './commonElements';
+import SubNav from './SubNav';
+import { useRouter } from 'next/router';
 
 const navData = [
 	{
@@ -32,9 +35,55 @@ const navData = [
     }
 ];
 
+const moviesSubNavData = [
+    {
+        href: '/movies?subcategory=popular',
+        as: '/movies',
+        name: 'Popular'
+    },
+    {
+        as: '/movies/top-rated',
+        href: '/movies?subcategory=top-rated',
+        name: 'Top rated'
+    },
+    {
+        as: '/movies/now-playing',
+        href: '/movies?subcategory=now-playing',
+        name: 'Now playing'
+    },
+    {
+        as: '/movies/upcoming',
+        href: '/movies?subcategory=upcoming',
+        name: 'Upcoming'
+    }
+]
+
+const tvSubNavData = [
+    {
+        as: '/tv',
+        href: '/tv?subcategory=popular',
+        name: 'Popular'
+    },
+    {
+        as: '/tv/top-rated',
+        href: '/tv?subcategory=top-rated',
+        name: 'Top rated'
+    },
+    {
+        as: '/tv/on-tv',
+        href: '/tv?subcategory=on-tv',
+        name: 'On TV'
+    },
+    {
+        as: '/tv/airing-today',
+        href: '/tv?subcategory=airing-today',
+        name: 'Airing today'
+    }
+];
+
 const  StyledNav = styled.nav`
     background: cornflowerblue;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: ${({ isOpen }) => isOpen ? 0 : '-300px'};
     z-index: 1000;
@@ -44,6 +93,7 @@ const  StyledNav = styled.nav`
         position: static;
         height: auto;
         width: auto;
+        background: none;
     }
 `;
 
@@ -63,33 +113,7 @@ const NavList = styled.ul`
     }
 `;
 
-const NavItem = styled.li`
-    display: inline-block;
-    position: relative;
-    @media (min-width: 768px) {
-        & + & {
-            margin-left: 20px;
-        }
-    }
-`;
 
-const NavAnchor = styled.a`
-    display: block;
-    font-family: sans-serif;
-    color: white;
-    font-weight: 400;
-    cursor: pointer;
-    border-radius: 3px;
-    padding: 20px;
-    background: transparent;
-    transition: background ease-out 0.2s;
-    &:hover {
-        background: rgba(220,220,220,0.2);
-    }
-    @media (min-width: 768px) {
-        padding: 10px;
-    }
-`;
 
 const CloseNavButton = styled(Close)`
     width: 32px;
@@ -102,83 +126,46 @@ const CloseNavButton = styled(Close)`
     }
 `;
 
-const SubNavList = styled.ul`
-    list-style-type: none;
-    padding-left: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-    background: mediumseagreen;
-    display: ${({ isOpen }) => isOpen ? 'block' : 'none'};
-    @media (min-width: 768px) {
-        position: absolute;
-    }
-`;
-
-const SubNavItem = styled.li`
-    display: flex;
-`;
-
-const SubNavAnchor = styled.a`
-    flex-shrink: 0;
-    display: block;
-    font-family: sans-serif;
-    color: white;
-    font-weight: 400;
-    cursor: pointer;
-    border-radius: 3px;
-    padding: 20px;
-    background: transparent;
-    transition: background ease-out 0.2s;
-    &:hover {
-        background: rgba(220,220,220,0.2);
-    }
-    @media (min-width: 768px) {
-        padding: 10px;
-    }
-`;
-
-function SubNav({ name }) {
-    const [ isOpen, setIsOpen ] = useState(false);
-
-    return (
-        <NavItem
-            onMouseEnter={() => setIsOpen(true)}
-            onMouseLeave={() => setIsOpen(false)}
-            onTouchStart={() => setIsOpen(prev => !prev)}
-        >
-            <NavAnchor as="span">{name}</NavAnchor>
-            <SubNavList isOpen={isOpen}>
-                <SubNavItem>
-                    <SubNavAnchor href="#">Item 1</SubNavAnchor>
-                </SubNavItem>
-                <SubNavItem>
-                    <SubNavAnchor href="#">Item 2</SubNavAnchor>
-                </SubNavItem>
-            </SubNavList>
-        </NavItem>
-    );
-}
-
 export default function Nav({ isOpen, closeMenu }) {
+    const router = useRouter();
+    /*
+        router.route will equal:
+        "/"
+        "/discover"
+        "/movies"
+        "/tv"
+        "/people"
+    */
+    
     return (
         <StyledNav isOpen={isOpen}>
             <CloseNavButton onClick={closeMenu} />
             <NavList>
                 <NavItem>
                     <Link as="/" href="/">
-                        <NavAnchor>Home</NavAnchor>
+                        <NavAnchor isActive={router.route === '/'}>Home</NavAnchor>
                     </Link>
                 </NavItem>
                 <NavItem>
                     <Link as="/discover" href="/discover">
-                        <NavAnchor>Discover</NavAnchor>
+                        <NavAnchor isActive={router.route === '/discover'}>Discover</NavAnchor>
                     </Link>
                 </NavItem>
-                <SubNav name="Movies" />
-                <SubNav name="TV" />
+                <SubNav 
+                    name="Movies" 
+                    subNavData={moviesSubNavData}
+                    activeRoute={router.route}
+                    route="/movies" 
+                />
+                <SubNav 
+                    name="TV" 
+                    subNavData={tvSubNavData}
+                    activeRoute={router.route}
+                    route="/tv" 
+                />
                 <NavItem>
                     <Link as="/people" href="/people">
-                        <NavAnchor>People</NavAnchor>
+                        <NavAnchor isActive={router.route === '/people'}>People</NavAnchor>
                     </Link>
                 </NavItem>
                 
@@ -190,16 +177,4 @@ export default function Nav({ isOpen, closeMenu }) {
 Nav.propTypes = {
     isOpen: PropTypes.bool.isRequired,
     closeMenu: PropTypes.func.isRequired
-}
-
-/*
-
-{navData.map((data, index) => (
-                    <NavItem key={index}>
-                        <Link as={data.as} href={data.href}>
-                            <NavAnchor>{data.text}</NavAnchor>
-                        </Link>
-                    </NavItem>
-                ))}
-
-*/
+};
