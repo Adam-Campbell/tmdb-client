@@ -10,9 +10,14 @@ import { text } from '../../utils';
 import Router from 'next/router';
 
 const SearchBarContainer = styled.div`
-    position: relative;
+    position: sticky;
+    left: 0;
+    top: 50px;
+    width: 100%;
     border-top: solid 1px #ddd;
     border-bottom: solid 1px #ddd;
+    background: #fff;
+    z-index: 2000;
 `;
 
 const InputRow = styled(Row)`

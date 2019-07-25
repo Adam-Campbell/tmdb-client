@@ -5,36 +5,12 @@ import {
     getUpcomingMovies,
     getNowPlayingMovies
 } from '../Api';
-import SubNav from '../components/SubNav';
 import MediaListView from '../components/MediaListView';
 
-const navData = [
-    {
-        as: '/movies',
-        href: '/movies?subcategory=popular',
-        name: 'Popular'
-    },
-    {
-        as: '/movies/top-rated',
-        href: '/movies?subcategory=top-rated',
-        name: 'Top rated'
-    },
-    {
-        as: '/movies/now-playing',
-        href: '/movies?subcategory=now-playing',
-        name: 'Now playing'
-    },
-    {
-        as: '/movies/upcoming',
-        href: '/movies?subcategory=upcoming',
-        name: 'Upcoming'
-    }
-];
 
 function Movies(props) { 
     return (
         <>
-            <SubNav navData={navData} />
             <main>
                 <MediaListView 
                     title="Movies"

@@ -7,36 +7,11 @@ import {
     getAiringTodayTV,
     getPopularMovies
 } from '../Api';
-import SubNav from '../components/SubNav';
 import MediaListView from '../components/MediaListView';
-
-const navData = [
-    {
-        as: '/tv',
-        href: '/tv?subcategory=popular',
-        name: 'Popular'
-    },
-    {
-        as: '/tv/top-rated',
-        href: '/tv?subcategory=top-rated',
-        name: 'Top rated'
-    },
-    {
-        as: '/tv/on-tv',
-        href: '/tv?subcategory=on-tv',
-        name: 'On TV'
-    },
-    {
-        as: '/tv/airing-today',
-        href: '/tv?subcategory=airing-today',
-        name: 'Airing today'
-    }
-];
 
 function TV(props) {
     return (
         <>
-            <SubNav navData={navData} />
             <main>
                 <MediaListView 
                     title="TV"
