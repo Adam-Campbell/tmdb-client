@@ -14,6 +14,7 @@ import { getSeasonData } from '../../reducers/seasonReducer';
 import { getShowData } from '../../reducers/showReducer';
 import { getSessionType } from '../../reducers/sessionReducer';
 import SeasonNavigation from '../../components/SeasonNavigation';
+import SeasonRatingsChart from '../../components/SeasonRatingsChart';
 
 function Season({
     accountStates,
