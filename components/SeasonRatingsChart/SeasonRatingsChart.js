@@ -62,19 +62,21 @@ function SeasonRatingsChart({ episodes }) {
                 />}
             >
                 <VictoryAxis 
-                    
+                    style={{
+                        axis: { stroke: '#222' }
+                    }}
                 />
                 <VictoryAxis 
                     dependentAxis
                     tickValues={scoreDomainArray}
                     label="Average Rating"
                     style={{ 
+                        axis: { stroke: '#222' },
                         ticks: { stroke: '#222' },
                         tickLabels: { fill: '#222', fontSize: 12, padding: 5 },
                         axisLabel: { fontSize: 12, padding: 20 }
                     }}
                     axisLabelComponent={<VictoryLabel dy={-4} />}
-                    height={200}
                 />
                 <VictoryArea 
                     data={chartData}
