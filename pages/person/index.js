@@ -23,9 +23,6 @@ function Person(props) {
     
     const personSubNavData = getPersonSubNavData(props.id);
 
-    //const creditsByPopularity = results.combined_credits.cast.sort((a, b) => b.popularity - a.popularity);
-    //console.log(creditsByPopularity);
-
     return (
         <div>
             <PersonHeader 
@@ -34,7 +31,7 @@ function Person(props) {
                 imagePath={props.profilePath}
                 biography={props.biography}
             />
-            <SubNav navData={personSubNavData} />
+            <SubNav navData={personSubNavData} alignCenter={true} />
             <TwoColLayoutContainer>
                 <TwoColLayoutRow>
                     <MainCol>

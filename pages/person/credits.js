@@ -97,7 +97,7 @@ function Credits({ id, name, profilePath, credits }) {
                 backHref={`/person?id=${id}`}
                 backAs={`/person/${id}`}
             />
-            <SubNav navData={personSubNavDetails} />
+            <SubNav navData={personSubNavDetails} alignCenter={true} />
             <ListViewHeader title="Credits" />
             <ContentRow>
                 <ControlsCol>
