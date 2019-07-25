@@ -52,8 +52,7 @@ function Season({
                 showId={showId}
             />
             <Row>
-                <SeasonRatingsChart />
-                {/*<PeopleList 
+                <PeopleList 
                     title="Cast"
                     people={orderedCast}
                     shouldAllowExpansion={true}
@@ -80,7 +79,6 @@ function Season({
                         sessionType={sessionType}
                     />
                 ))}
-            */}
             </Row>
         </div>
     );
