@@ -88,7 +88,7 @@ function Credits({ id, name, profilePath, credits }) {
     const personSubNavDetails = getPersonSubNavData(id);
     
     const creditsToRender = transformCreditsData(credits, roleType, mediaType);
-    
+
     return (
         <div>
             <MinimalHeader 
