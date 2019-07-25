@@ -57,6 +57,16 @@ function getYear(dateString) {
 }
 
 /**
+ * Takes a date string and returns the date in milliseconds, or just returns null if there was no date string.
+ * @param {?String} dateString - the string from which to derive the milliseconds figure
+ * @returns {?Number} the milliseconds figure derived from the date string 
+ */
+function getMilliseconds(dateString) {
+    if (!dateString) return null;
+    return new Date(dateString).getTime();
+}
+
+/**
  * Takes a credit object and transforms it into a consistent shape, ensuring that each pertinent piece of 
  * information has a consistent key to be looked up with (ie release_date and first_air_date both become
  * releaseYear) and all irrelevant pieces of information are discarded. 
@@ -69,6 +79,9 @@ function transformCredit(cr) {
         creditId: cr.credit_id,
         mediaType: cr.media_type,
         releaseYear: getYear(cr.release_date || cr.first_air_date),
+        fullReleaseDate: cr.release_date || cr.first_air_date,
+        //milliseconds: getMilliseconds(cr.release_date || cr.first_air_date),
+        milliseconds: cr.dateAsMilliseconds,
         name: cr.title || cr.name,
         averageRating: cr.average_rating || null,
         creditDescription: cr.character ? `as ${cr.character}` : (cr.job || null)
@@ -113,7 +126,7 @@ export function transformCreditsData(combinedCredits, roleType, mediaType) {
         // filter to just tv or movie credits, or include both
         partial(filterForMediaType, mediaType),
         // sort all elements by release date in descending order
-        partialRight(orderBy, el => new Date(el.release_date || el.first_air_date), ['desc']),
+        partialRight(orderBy, el => getMilliseconds(el.release_date || el.first_air_date), ['desc']),
         // transform all credits into a consistent shape and group by release year
         partialRight(reduce, transformAndGroupReducer, {}),
         // ensure that the returned array is sorted according to the releaseYear in descending order
