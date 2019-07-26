@@ -29,8 +29,11 @@ const TitleAnchor = styled.a`
     &:hover {
         text-decoration: underline;
     }
-    @media(min-width: 550px) {
+    @media (min-width: 550px) {
         font-size: 1rem;
+    }
+    @media (min-width: 900px) {
+        font-size: 1.125rem;
     }
 `;
 

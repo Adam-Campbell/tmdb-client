@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row } from '../Layout';
-import { BackdropCard, PosterCard } from '../Cards';
+import { BackdropCard, PosterCard, MediaCard } from '../Cards';
 import ListViewHeader from '../ListViewHeader';
 import cardViews from './cardViewsConstant';
 import ListBox from '../ListBox';
@@ -16,7 +16,6 @@ const DropdownContainer = styled.div`
 const MediaCardContainer = styled(Row)`
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
 `;
 
 const cardViewsData = [
@@ -25,11 +24,11 @@ const cardViewsData = [
 ];
 
 export function MediaListView({ title, items, urlSubpath }) {
-    const [ cardView, setCardView ] = useState(cardViewsData[0]);
+    //const [ cardView, setCardView ] = useState(cardViewsData[0]);
     return (
         <>
             <ListViewHeader title={title}>
-                <DropdownContainer>
+                {/* <DropdownContainer>
                     <ListBox 
                         items={cardViewsData}
                         currentValue={cardView}
@@ -38,25 +37,22 @@ export function MediaListView({ title, items, urlSubpath }) {
                         shouldInlineLabel={true}
                         labelText="Select View: "
                     />
-                </DropdownContainer>
+                </DropdownContainer> */}
             </ListViewHeader>
             <MediaCardContainer>
-                {items.map(item => {
-                    const cardProps = {
-                        key: item.id,
-                        id: item.id,
-                        title: item.title || item.name,
-                        releaseDate: item.release_date || item.first_air_date,
-                        averageRating: item.vote_average,
-                        backdropPath: item.backdrop_path,
-                        posterPath: item.poster_path,
-                        overview: item.overview,
-                        urlSubpath
-                    };
-                    return cardView.value === 'backdrop' ? 
-                                        <BackdropCard {...cardProps} /> :
-                                        <PosterCard {...cardProps} />;
-                })}
+                {items.map(item => (
+                    <MediaCard 
+                        key={item.id}
+                        id={item.id}
+                        title={item.title || item.name}
+                        releaseDate={item.release_date || item.first_air_date}
+                        averageRating={item.vote_average}
+                        backdropPath={item.backdrop_path}
+                        posterPath={item.poster_path}
+                        overview={item.overview}
+                        urlSubpath={urlSubpath}
+                    />  
+                ))}
             </MediaCardContainer>
         </>
     );

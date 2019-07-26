@@ -12,3 +12,22 @@ export * from './InlineCard';
 export * from './UserMediaCard';
 export * from './SeasonCard';
 export * from './MinimalCard';
+export * from './MediaCard';
+
+/*
+
+When complete I should be left with:
+
+UserMediaCard
+SeasonCard
+MinimalCard
+MediaCard
+
+Meaning I can delete:
+
+BackdropCard
+PosterCard
+PersonCard
+InlineCard
+
+*/
