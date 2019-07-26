@@ -6,11 +6,11 @@ import Link from 'next/link';
 import InlineContentRow from '../InlineContentRow';
 
 const Image = styled.img`
-    width: calc(50% - 10px);
+    width: calc(50% - 5px);
     margin-top: 20px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     @media(min-width: 550px) {
-        width: calc(25% - 10px);
+        width: calc(25% - 7.5px);
     }
 `;
 
@@ -35,7 +35,6 @@ export function InlineGalleryRow({
                     <Image 
                         key={image.file_path}
                         src={getImageUrl(image.file_path, imageSizeConstants.w342)}
-                        onClick={() => console.log(image)}
                     />
                 ))}
             </InlineContentRow>

@@ -65,7 +65,7 @@ const Search = ({ searchQuery, searchCategory, searchResults }) => {
     const navData = getSearchSubNavData(searchQuery);
     return (
         <div>
-            <SubNav navData={navData} />
+            <SubNav navData={navData} alignCenter={true} />
             <MediaCardContainer>
                 {getResultCards(searchResults, searchCategory)}
             </MediaCardContainer>

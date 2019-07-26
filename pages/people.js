@@ -4,13 +4,13 @@ import {
 } from '../Api';
 import styled from 'styled-components';
 import ListViewHeader from '../components/ListViewHeader';
-import { PersonCard } from '../components/Cards';
+import { MinimalCard } from '../components/Cards';
 import { Row } from '../components/Layout';
 
 const Main = styled(Row)`
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
 `;
 
 const People = (props) => (
@@ -20,12 +20,14 @@ const People = (props) => (
             {props.results.map(person => {
                 const knownFor = person.known_for.map(production => production.title || production.name)
                                                  .join(', ');
-                return <PersonCard 
+                return <MinimalCard 
                            key={person.id}
                            id={person.id}
-                           profilePath={person.profile_path}
+                           imagePath={person.profile_path}
                            name={person.name}
-                           knownFor={knownFor}
+                           additionalDetails={knownFor}
+                           urlSubpath="/person"
+                           shouldTruncateDetails={true}
                        />
             })}
         </Main>
