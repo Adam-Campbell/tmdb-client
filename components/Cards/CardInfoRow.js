@@ -32,9 +32,11 @@ const TitleAnchor = styled.a`
     @media (min-width: 550px) {
         font-size: 1rem;
     }
-    @media (min-width: 900px) {
-        font-size: 1.125rem;
-    }
+    ${({ isInline }) => isInline || `
+        @media (min-width: 900px) {
+            font-size: 1.125rem;
+        }
+    `}
 `;
 
 const ReleaseDate = styled.span`
@@ -51,14 +53,14 @@ const RatingContainer = styled.div`
     flex-shrink: 0;
 `;
 
-const CardInfoRow = ({ rating, title, releaseDate, id, urlSubpath }) => (
+const CardInfoRow = ({ rating, title, releaseDate, id, urlSubpath, isInline }) => (
     <StyledInfoRow>
         <RatingContainer>
             <Rating rating={rating} />
         </RatingContainer>
         <TextContainer>
             <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
-                <TitleAnchor>{title}</TitleAnchor>
+                <TitleAnchor isInline={isInline}>{title}</TitleAnchor>
             </Link>
             <ReleaseDate>{formatDateString(releaseDate)}</ReleaseDate>
         </TextContainer>
@@ -70,7 +72,8 @@ CardInfoRow.propTypes = {
     title: PropTypes.string.isRequired,
     releaseDate: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
-    urlSubpath: PropTypes.string.isRequired
+    urlSubpath: PropTypes.string.isRequired,
+    isInline: PropTypes.bool
 };
 
 export default CardInfoRow;

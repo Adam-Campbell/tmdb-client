@@ -32,10 +32,12 @@ const PosterImage = styled.img`
         width: 185px;
         height: 278px;
     }
-    @media (min-width: 900px) {
-        width: 220px;
-        height: 331px;
-    }
+    ${({ isInline }) => isInline || `
+        @media (min-width: 900px) {
+            width: 220px;
+            height: 331px;
+        }
+    `}
 `;
 
 const BackdropImage = styled.img`
@@ -75,9 +77,11 @@ const OverviewText = styled.p`
     @media (min-width: 768px) {
         font-size: 0.85rem;
     }
-    @media (min-width: 900px) {
-        font-size: 1rem;
-    }
+    ${({ isInline }) => isInline || `
+        @media (min-width: 900px) {
+            font-size: 1rem;
+        }
+    `}
 `;
 
 const MoreInfoRow = styled.div`
@@ -106,7 +110,8 @@ export function MediaCard({
     posterPath,
     backdropPath, 
     overview,
-    urlSubpath
+    urlSubpath,
+    isInline
 }) {
 
     const posterSrc = getImageUrl(posterPath, imageSizeConstants.w300);
@@ -116,7 +121,7 @@ export function MediaCard({
         <StyledMediaCard>
             <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
                 <ImageLink>
-                    <PosterImage src={posterSrc} alt="" />
+                    <PosterImage src={posterSrc} alt="" isInline={isInline} />
                     <BackdropImage src={backdropSrc} alt="" />
                     <ImageOverlay />
                 </ImageLink>
@@ -128,8 +133,9 @@ export function MediaCard({
                     rating={averageRating}
                     id={id}
                     urlSubpath={urlSubpath}
+                    isInline={isInline}
                 />
-                <OverviewText>
+                <OverviewText isInline={isInline}>
                     {overview || 'There is no description for this media'}
                 </OverviewText>
                 <MoreInfoRow>
@@ -150,5 +156,6 @@ MediaCard.propTypes = {
     posterPath: PropTypes.string,
     backdropPath: PropTypes.string,
     overview: PropTypes.string.isRequired,
-    urlSubpath: PropTypes.string
+    urlSubpath: PropTypes.string,
+    isInline: PropTypes.bool
 };

@@ -16,6 +16,29 @@ import {
     convertQueryParamsToProps,
     convertGenreObjectsToIds
 } from '../utils';
+import { MediaCard } from '../components/Cards';
+
+const Wrapper = styled(Row)`
+    display: flex;
+    flex-direction: column;
+    @media (min-width: 900px) {
+        flex-direction: row;
+    }
+`;
+
+const ControlsContainer = styled.div`
+    @media (min-width: 900px) {
+        width: 280px;
+        padding: 40px 20px 40px 0;
+    }
+`;
+
+const ResultsContainer = styled.div`
+    @media (min-width: 900px) {
+        width: calc(100% - 280px);
+        padding: 40px 0 40px 20px;
+    }
+`;
 
 const DropdownContainer = styled.div`
     max-width: 320px;
@@ -34,8 +57,11 @@ const ComboBoxContainer = styled.div`
 const SliderContainer = styled.div`
     width: 100%;
     padding: 10px;
-    @media(min-width: 768px) {
+    @media (min-width: 768px) {
         width: calc(50% - 20px);
+    }
+    @media (min-width: 900px) {
+        width: 100%;
     }
 `;
 
@@ -51,7 +77,7 @@ const InputContainer = styled.div`
         width: calc(50% - 10px);
     }
     @media(min-width: 900px) {
-        width: calc(33.33333% - 10px);
+        width: 100%;
     }
 `;
 
@@ -119,76 +145,96 @@ class Discover extends Component {
 
         const { releaseValues, scoreValues, sortBy, withGenres, mediaType } = this.state;
         const { movieGenres, TVGenres, results } = this.props;
-
+        
         return (
-            <>
-            <Row>
-                <h1>This is the Discover page</h1>
-                <SliderRow>
-                    <SliderContainer>
-                        <RangeSelect 
-                            domain={[0, 10]}
-                            stepSize={0.1}
-                            initialValues={[0, 10]}
-                            numTicks={10}
-                            contentDescription="Show me movies that scored"
-                            isControlled={true}
-                            externalValue={scoreValues}
-                            setExternalValue={this.updateValue('scoreValues')}
-                        />
-                    </SliderContainer>
-                    <SliderContainer>
-                        <RangeSelect 
-                            domain={[1900, 2019]}
-                            stepSize={1}
-                            initialValues={[1900, 2019]}
-                            numTicks={5}
-                            contentDescription="Show me movies made"
-                            isControlled={true}
-                            externalValue={releaseValues}
-                            setExternalValue={this.updateValue('releaseValues')}
-                        />
-                    </SliderContainer>
-                </SliderRow>
-                <InputRow>
-                    <InputContainer>
-                        <ListBox 
-                            items={sortByOptions}
-                            currentValue={sortBy}
-                            setValue={this.updateValue('sortBy')}
-                            shouldBuffer={true}
-                            shouldInlineLabel={true}
-                            labelText="Sort by:"
-                        />
-                    </InputContainer>
-                    <InputContainer>
-                        <ListBox 
-                            items={mediaTypes}
-                            currentValue={mediaType}
-                            setValue={this.updateValue('mediaType')}
-                            shouldBuffer={true}
-                            shouldInlineLabel={true}
-                            labelText="Media type:"
-                        />
-                    </InputContainer>
-                    <InputContainer>
-                        <ComboBox 
-                            items={mediaType.value === 'movies' ? movieGenres : TVGenres}
-                            currentSelection={withGenres}
-                            setSelection={this.updateValue('withGenres')}
-                        />
-                    </InputContainer>
-                </InputRow>
-            </Row>
-            <MediaListView 
+            <Wrapper>
+                <ControlsContainer>
+                    <SliderRow>
+                        <SliderContainer>
+                            <RangeSelect 
+                                domain={[0, 10]}
+                                stepSize={0.1}
+                                initialValues={[0, 10]}
+                                numTicks={10}
+                                contentDescription="Show me movies that scored"
+                                isControlled={true}
+                                externalValue={scoreValues}
+                                setExternalValue={this.updateValue('scoreValues')}
+                            />
+                        </SliderContainer>
+                        <SliderContainer>
+                            <RangeSelect 
+                                domain={[1900, 2019]}
+                                stepSize={1}
+                                initialValues={[1900, 2019]}
+                                numTicks={5}
+                                contentDescription="Show me movies made"
+                                isControlled={true}
+                                externalValue={releaseValues}
+                                setExternalValue={this.updateValue('releaseValues')}
+                            />
+                        </SliderContainer>
+                    </SliderRow>
+                    <InputRow>
+                        <InputContainer>
+                            <ListBox 
+                                items={sortByOptions}
+                                currentValue={sortBy}
+                                setValue={this.updateValue('sortBy')}
+                                shouldBuffer={true}
+                                shouldInlineLabel={true}
+                                labelText="Sort by:"
+                            />
+                        </InputContainer>
+                        <InputContainer>
+                            <ListBox 
+                                items={mediaTypes}
+                                currentValue={mediaType}
+                                setValue={this.updateValue('mediaType')}
+                                shouldBuffer={true}
+                                shouldInlineLabel={true}
+                                labelText="Media type:"
+                            />
+                        </InputContainer>
+                        <InputContainer>
+                            <ComboBox 
+                                items={mediaType.value === 'movies' ? movieGenres : TVGenres}
+                                currentSelection={withGenres}
+                                setSelection={this.updateValue('withGenres')}
+                            />
+                        </InputContainer>
+                    </InputRow>
+                </ControlsContainer>
+                <ResultsContainer>
+                    {results.map(item => (
+                        <MediaCard 
+                            key={item.id}
+                            id={item.id}
+                            title={item.title || item.name}
+                            releaseDate={item.release_date || item.first_air_date}
+                            averageRating={item.vote_average}
+                            backdropPath={item.backdrop_path}
+                            posterPath={item.poster_path}
+                            overview={item.overview}
+                            urlSubpath={mediaType.value === 'movies' ? '/movie' : '/show'}
+                            isInline={true}
+                        /> 
+                    ))}
+                </ResultsContainer>
+            </Wrapper>
+        );
+    }
+}
+
+/*
+
+<MediaListView 
                 title="Results"
                 items={results}
                 urlSubpath="foo"
             />
-            </>
-        );
-    }
-}
+
+*/
 
 Discover.getInitialProps = async ({ query, req }) => {
     const parsedParams = parseQueryParams(
