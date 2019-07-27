@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { text, getImageUrl, imageSizeConstants } from '../../utils';
 import Link from 'next/link';
 import useHover from '../useHover';
+import ImageLink from './ImageLink';
 
 const StyledMinimalCard = styled.div`
     margin-top: 10px;
@@ -43,10 +44,10 @@ const StyledMinimalCard = styled.div`
     `}
 `;
 
-const ImageLink = styled.a`
-    position: relative;
-    display: flex;
-`;
+// const ImageLink = styled.a`
+//     position: relative;
+//     display: flex;
+// `;
 
 const Image = styled.img`
     width: 100%;
@@ -98,6 +99,21 @@ const AdditionalDetailsText = styled.span`
     }
 `;
 
+/*
+
+<Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
+                <ImageLink {...containerProps}>
+                    <Image
+                        isHovered={isHovered} 
+                        src={imageSrc} 
+                        alt=""
+                    />
+                    <ImageOverlay isHovered={isHovered} />
+                </ImageLink>
+            </Link>
+
+*/
+
 export function MinimalCard({ 
     id, 
     name, 
@@ -109,24 +125,20 @@ export function MinimalCard({
 }) {
     //const imageSrc = getImageUrl(imagePath, imageSizeConstants.w342);
 
-    const { isHovered, containerProps } = useHover();
+    // const { isHovered, containerProps } = useHover();
 
-    const imageSrc = useMemo(() => {
-        return getImageUrl(imagePath, imageSizeConstants.w342);
-    }, [ imagePath ]);
+    // const imageSrc = useMemo(() => {
+    //     return getImageUrl(imagePath, imageSizeConstants.w342);
+    // }, [ imagePath ]);
 
     return (
         <StyledMinimalCard isInline={isInline}>
-            <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
-                <ImageLink {...containerProps}>
-                    <Image
-                        isHovered={isHovered} 
-                        src={imageSrc} 
-                        alt=""
-                    />
-                    <ImageOverlay isHovered={isHovered} />
-                </ImageLink>
-            </Link>
+            <ImageLink 
+                imagePath={imagePath}
+                imageSize={imageSizeConstants.w342}
+                urlSubpath={urlSubpath}
+                id={id}
+            />
             <InfoRow>
                 <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
                     <NameLink>{name}</NameLink>
