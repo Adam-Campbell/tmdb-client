@@ -6,7 +6,7 @@ import { fetchFullProfile, markFavourite } from '../../actions';
 import SubNav from '../../components/SubNav';
 import { meRoutesSubNavData, mediaTypeFilterData } from './';
 import { Row } from '../../components/Layout';
-import { UserMediaCard } from '../../components/Cards';
+import { MediaCard } from '../../components/Cards';
 import { text } from '../../utils';
 import { CancelInteractionButton } from '../../components/Buttons';
 import ListViewHeader from '../../components/ListViewHeader';
@@ -36,15 +36,17 @@ function Favourites(props) {
                 {usersFavourites.map((entity) => {
                     const isMovie = Boolean(entity.title);
                     return (
-                        <UserMediaCard 
+                        <MediaCard 
                             key={entity.id}
                             id={entity.id}
-                            title={isMovie ? entity.title : entity.name}
-                            releaseDate={isMovie ? entity.release_date : entity.first_air_date}
+                            title={entity.title || entity.name}
+                            releaseDate={entity.release_date || entity.first_air_date}
                             averageRating={entity.vote_average}
                             posterPath={entity.poster_path}
+                            backdropPath={entity.backdrop_path}
                             overview={entity.overview}
                             urlSubpath={isMovie ? '/movie' : '/show'}
+                            hasUserAction={true}
                         >
                             <CancelInteractionButton 
                                 label="Unfavourite"
@@ -56,7 +58,7 @@ function Favourites(props) {
                                     );
                                 }}
                             />
-                        </UserMediaCard>
+                        </MediaCard>
                     );
                 })}
             </Row>

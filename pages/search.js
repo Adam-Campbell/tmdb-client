@@ -3,13 +3,13 @@ import styled from 'styled-components';
 import { getSearchResults } from '../Api';
 import SubNav from '../components/SubNav';
 import { getSearchSubNavData } from '../utils';
-import { PosterCard, PersonCard } from '../components/Cards';
+import { PosterCard, PersonCard, MediaCard, MinimalCard } from '../components/Cards';
 import { Row } from '../components/Layout';
 
-const MediaCardContainer = styled(Row)`
+const CardsContainer = styled(Row)`
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
 `;
 
 function getResultCards(searchResults, searchCategory) {
@@ -21,38 +21,42 @@ function getResultCards(searchResults, searchCategory) {
     switch (searchCategory) {
         case 'movie':
             return searchResults.map(item => (
-                <PosterCard 
+                <MediaCard 
                     key={item.id}
                     id={item.id}
                     title={item.title}
                     releaseDate={item.release_date}
                     averageRating={item.vote_average}
                     posterPath={item.poster_path}
+                    backdropPath={item.backdrop_path}
                     overview={item.overview}
                     urlSubpath="/movie"
                 /> 
             ));
         case 'tv':
             return searchResults.map(item => (
-                <PosterCard 
+                <MediaCard 
                     key={item.id}
                     id={item.id}
                     title={item.name}
                     releaseDate={item.first_air_date}
                     averageRating={item.vote_average}
                     posterPath={item.poster_path}
+                    backdropPath={item.backdrop_path}
                     overview={item.overview}
-                    urlSubpath="show"
+                    urlSubpath="/show"
                 /> 
             ));
         case 'person':
             return searchResults.map(item => (
-                <PersonCard 
+                <MinimalCard 
                     key={item.id}
                     id={item.id}
-                    profilePath={item.profile_path}
                     name={item.name}
-                    knownFor={item.known_for.map(production => production.title || production.name).join(',')}
+                    imagePath={item.profile_path}
+                    urlSubpath="/person"
+                    additionalDetails={item.known_for.map(el => el.title || el.name).join(',')}
+                    shouldTruncateDetails={true}
                 /> 
             ));
         default:
@@ -65,10 +69,10 @@ const Search = ({ searchQuery, searchCategory, searchResults }) => {
     const navData = getSearchSubNavData(searchQuery);
     return (
         <div>
-            <SubNav navData={navData} />
-            <MediaCardContainer>
+            <SubNav navData={navData} alignCenter={true} />
+            <CardsContainer>
                 {getResultCards(searchResults, searchCategory)}
-            </MediaCardContainer>
+            </CardsContainer>
         </div>
     );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { InlineCard } from '../Cards';
+import { MinimalCard } from '../Cards';
 import InlineContentRow from '../InlineContentRow';
 
 function getCardProps(cardData, cardType) {
@@ -43,7 +43,7 @@ export function MediaInlineCardRow({
     linkDestinationAs,
     linkDestinationHref  
 }) {
-    //const cardsProps = cardsData.slice(0,4).map(card => getCardProps(card, cardType));
+    
     return (
         <InlineContentRow
             title={title}
@@ -52,7 +52,7 @@ export function MediaInlineCardRow({
             linkDestinationHref={linkDestinationHref}
         >
             {cardsData.slice(0,4).map(card => (
-                <InlineCard {...getCardProps(card, cardType)} />
+                <MinimalCard {...getCardProps(card, cardType)} isInline={true} />
             ))}
         </InlineContentRow>
     );

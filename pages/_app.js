@@ -39,7 +39,7 @@ const GlobalStyle = createGlobalStyle`
         justify-content: center;
         align-items: center;
         background-color: rgba(17,17,17,0.8);
-        z-index: 2000;
+        z-index: 3000;
     }
     .gallery-modal__content-container {
         background: #fff;

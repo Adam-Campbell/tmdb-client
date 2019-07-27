@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import InlineContentRow from '../InlineContentRow';
-import { InlineCard } from '../Cards';
+import { MinimalCard } from '../Cards';
 import { uniqBy } from 'lodash';
 
 const mediaTypeToSubpathMap = {
@@ -36,7 +36,7 @@ export function PersonTopCreditsCardRow({
             linkDestinationHref={linkDestinationHref}
         >
             {cardsProps.map(cardProps => (
-                <InlineCard {...cardProps} />
+                <MinimalCard {...cardProps} isInline={true} />
             ))}
         </InlineContentRow>
     );
