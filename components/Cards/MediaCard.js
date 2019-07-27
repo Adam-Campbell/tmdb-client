@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { text, getImageUrl, imageSizeConstants } from '../../utils';
 import Link from 'next/link';
 import CardInfoRow from './CardInfoRow';
+import useHover from '../useHover';
 
 const StyledMediaCard = styled.div`
     width: 100%;
@@ -27,6 +28,10 @@ const PosterImage = styled.img`
     display: none;
     object-fit: cover;
     object-position: center;
+    transition: filter ease-out 0.2s;
+    ${({ isHovered }) => isHovered && `
+        filter: grayscale(75%) contrast(110%);
+    `}
     @media (min-width: 600px) {
         display: block;
         width: 185px;
@@ -43,6 +48,10 @@ const PosterImage = styled.img`
 const BackdropImage = styled.img`
     width: 100%;
     height: auto;
+    transition: filter ease-out 0.2s;
+    ${({ isHovered }) => isHovered && `
+        filter: grayscale(75%) contrast(110%);
+    `}
     @media (min-width: 600px) {
         display: none;
     }
@@ -56,9 +65,7 @@ const ImageOverlay = styled.div`
     left: 0;
     transition: background ease-out 0.2s;
     cursor: pointer;
-    &:hover {
-        background: rgba(17,17,17,0.4)
-    }
+    background: ${({ isHovered }) => isHovered ? 'rgba(17,17,17,0.4)' : 'none'};
 `;
 
 const TextColumn = styled.div`
@@ -115,16 +122,32 @@ export function MediaCard({
     children
 }) {
 
-    const posterSrc = getImageUrl(posterPath, imageSizeConstants.w300);
-    const backdropSrc = getImageUrl(backdropPath, imageSizeConstants.w780);
+    const { isHovered, containerProps } = useHover();
+
+    const posterSrc = useMemo(() => {
+        return getImageUrl(posterPath, imageSizeConstants.w300);
+    }, [ posterPath ]);
+   
+    const backdropSrc = useMemo(() => {
+        return getImageUrl(backdropPath, imageSizeConstants.w780);
+    }, [ backdropPath ]);
 
     return (
         <StyledMediaCard>
             <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
-                <ImageLink>
-                    <PosterImage src={posterSrc} alt="" isInline={isInline} />
-                    <BackdropImage src={backdropSrc} alt="" />
-                    <ImageOverlay />
+                <ImageLink {...containerProps}>
+                    <PosterImage 
+                        src={posterSrc} 
+                        alt="" 
+                        isInline={isInline} 
+                        isHovered={isHovered}
+                    />
+                    <BackdropImage 
+                        src={backdropSrc} 
+                        alt="" 
+                        isHovered={isHovered}
+                    />
+                    <ImageOverlay isHovered={isHovered} />
                 </ImageLink>
             </Link>
             <TextColumn>

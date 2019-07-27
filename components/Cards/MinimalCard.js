@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { text, getImageUrl, imageSizeConstants } from '../../utils';
 import Link from 'next/link';
+import useHover from '../useHover';
 
 const StyledMinimalCard = styled.div`
     margin-top: 10px;
@@ -49,6 +50,10 @@ const ImageLink = styled.a`
 
 const Image = styled.img`
     width: 100%;
+    transition: filter ease-out 0.2s;
+    ${({ isHovered }) => isHovered && `
+        filter: grayscale(75%) contrast(110%);
+    `}
 `;
 
 const ImageOverlay = styled.div`
@@ -59,9 +64,7 @@ const ImageOverlay = styled.div`
     left: 0;
     transition: background ease-out 0.2s;
     cursor: pointer;
-    &:hover {
-        background: rgba(17,17,17,0.4)
-    }
+    background: ${({ isHovered }) => isHovered ? 'rgba(17,17,17,0.4)' : 'none'};
 `;
 
 const InfoRow = styled.div`
@@ -104,16 +107,24 @@ export function MinimalCard({
     isInline,
     shouldTruncateDetails 
 }) {
-    const imageSrc = getImageUrl(imagePath, imageSizeConstants.w342);
+    //const imageSrc = getImageUrl(imagePath, imageSizeConstants.w342);
+
+    const { isHovered, containerProps } = useHover();
+
+    const imageSrc = useMemo(() => {
+        return getImageUrl(imagePath, imageSizeConstants.w342);
+    }, [ imagePath ]);
+
     return (
         <StyledMinimalCard isInline={isInline}>
             <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
-                <ImageLink>
-                    <Image 
+                <ImageLink {...containerProps}>
+                    <Image
+                        isHovered={isHovered} 
                         src={imageSrc} 
                         alt=""
                     />
-                    <ImageOverlay />
+                    <ImageOverlay isHovered={isHovered} />
                 </ImageLink>
             </Link>
             <InfoRow>

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { getImageUrl, imageSizeConstants, text, truncateString, formatDateString } from '../../utils';
+import useHover from '../useHover';
 
 const StyledSeasonCard = styled.div`
     width: 100%;
@@ -23,6 +24,9 @@ const PosterImageLink = styled.a`
 const PosterImage = styled.img`
     width: 100px;
     height: 150.3px;
+    ${({ isHovered }) => isHovered && `
+        filter: grayscale(75%) contrast(110%);
+    `}
     @media(min-width: 360px) {
         width: 130px;
         height: 195.4px;
@@ -41,9 +45,7 @@ const PosterImageOverlay = styled.div`
     left: 0;
     transition: background ease-out 0.2s;
     cursor: pointer;
-    &:hover {
-        background: rgba(17,17,17,0.4)
-    }
+    background: ${({ isHovered }) => isHovered ? 'rgba(17,17,17,0.4)' : 'none'};
 `;
 
 const TextColumn = styled.div`
@@ -105,17 +107,25 @@ export function SeasonCard({
     showId,
     seasonNumber
 }) {
-    const posterSrc = getImageUrl(posterPath, imageSizeConstants.w185);
-    const year = airDate.split('-')[0];
-    //const truncatedOverview = truncateString(overview, 280);
 
-    const hasNotAired = new Date(airDate) - Date.now() > 0;
+    const { isHovered, containerProps } = useHover();
 
-    const overviewText = hasNotAired
+    const posterSrc = useMemo(() => {
+        return getImageUrl(posterPath, imageSizeConstants.w185); 
+    }, [ posterPath ]);
+    
+    const year = useMemo(() => {
+        return airDate.split('-')[0];
+    }, [ airDate ]);
+
+    const overviewText = useMemo(() => {
+        const hasNotAired = new Date(airDate) - Date.now() > 0;
+        return hasNotAired
             ? `${name} will air on ${formatDateString(airDate)}.`
             : overview.length
                 ? truncateString(overview, 280)
-                : 'There is no overview for this season.'
+                : 'There is no overview for this season';
+    }, [ airDate, name, overview ]);
 
     return (
         <StyledSeasonCard>
@@ -124,9 +134,13 @@ export function SeasonCard({
                 as={`/show/${showId}/season/${seasonNumber}`} 
                 passHref
             >
-                <PosterImageLink>
-                    <PosterImage src={posterSrc} alt="" />
-                    <PosterImageOverlay />
+                <PosterImageLink {...containerProps}>
+                    <PosterImage 
+                        src={posterSrc} 
+                        alt=""
+                        isHovered={isHovered} 
+                    />
+                    <PosterImageOverlay isHovered={isHovered} />
                 </PosterImageLink>
             </Link>
             <TextColumn>
