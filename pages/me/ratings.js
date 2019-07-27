@@ -6,7 +6,7 @@ import { getUsersRatings } from '../../reducers/user';
 import SubNav from '../../components/SubNav';
 import { meRoutesSubNavData, mediaTypeFilterData } from './';
 import UserHeader from '../../components/UserHeader';
-import { UserMediaCard } from '../../components/Cards';
+import { MediaCard } from '../../components/Cards';
 import { Row } from '../../components/Layout';
 import { CardRatingButton } from '../../components/Buttons';
 import ListViewHeader from '../../components/ListViewHeader';
@@ -35,22 +35,24 @@ function Ratings(props) {
                 {usersRatings.map(entity => {
                     const isMovie = Boolean(entity.title);
                     return (
-                        <UserMediaCard 
+                        <MediaCard 
                             key={entity.id}
                             id={entity.id}
-                            title={isMovie ? entity.title : entity.name}
-                            releaseDate={isMovie ? entity.release_date : entity.first_air_date}
+                            title={entity.title || entity.name}
+                            releaseDate={entity.release_date || entity.first_air_date}
                             averageRating={entity.vote_average}
                             posterPath={entity.poster_path}
+                            backdropPath={entity.backdrop_path}
                             overview={entity.overview}
                             urlSubpath={isMovie ? '/movie' : '/show'}
+                            hasUserAction={true}
                         >
                             <CardRatingButton 
                                 userRating={entity.rating}
                                 mediaType={isMovie ? 'movie' : 'tv'}
                                 id={entity.id}
                             />
-                        </UserMediaCard>
+                        </MediaCard>
                     );
                 })}
             </Row>

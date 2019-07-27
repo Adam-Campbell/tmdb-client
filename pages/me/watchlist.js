@@ -6,7 +6,7 @@ import { getUsersWatchlists } from '../../reducers/user';
 import SubNav from '../../components/SubNav';
 import { meRoutesSubNavData, mediaTypeFilterData } from './';
 import { Row } from '../../components/Layout';
-import { UserMediaCard } from '../../components/Cards';
+import { MediaCard } from '../../components/Cards';
 import { CancelInteractionButton } from '../../components/Buttons';
 import ListViewHeader from '../../components/ListViewHeader';
 import Switch from '../../components/Switch';
@@ -35,15 +35,17 @@ function Watchlist(props) {
                 {usersWatchlists.map(entity => {
                     const isMovie = Boolean(entity.title);
                     return (
-                        <UserMediaCard 
+                        <MediaCard 
                             key={entity.id}
                             id={entity.id}
-                            title={isMovie ? entity.title : entity.name}
-                            releaseDate={isMovie ? entity.release_date : entity.first_air_date}
+                            title={entity.title || entity.name}
+                            releaseDate={entity.release_date || entity.first_air_date}
                             averageRating={entity.vote_average}
                             posterPath={entity.poster_path}
+                            backdropPath={entity.backdrop_path}
                             overview={entity.overview}
                             urlSubpath={isMovie ? '/movie' : '/show'}
+                            hasUserAction={true}
                         >
                             <CancelInteractionButton 
                                 label="Remove from watchlist"
@@ -55,7 +57,7 @@ function Watchlist(props) {
                                     );
                                 }}
                             />
-                        </UserMediaCard>
+                        </MediaCard>
                     );
                 })}
             </Row>

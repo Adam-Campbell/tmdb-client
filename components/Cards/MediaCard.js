@@ -84,14 +84,13 @@ const OverviewText = styled.p`
     `}
 `;
 
-const MoreInfoRow = styled.div`
-    display: block;
-    border-top: solid 1px #ddd;
-    padding: 10px;
+const ActionRow = styled.div`
     margin-top: auto;
-    @media(min-width: 600px) {
-        display: block;
-    }
+    height: 50px;
+    border-top: solid 1px #ddd;
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
 `;
 
 const MoreInfoLink = styled.a`
@@ -111,7 +110,9 @@ export function MediaCard({
     backdropPath, 
     overview,
     urlSubpath,
-    isInline
+    isInline,
+    hasUserAction,
+    children
 }) {
 
     const posterSrc = getImageUrl(posterPath, imageSizeConstants.w300);
@@ -138,11 +139,13 @@ export function MediaCard({
                 <OverviewText isInline={isInline}>
                     {overview || 'There is no description for this media'}
                 </OverviewText>
-                <MoreInfoRow>
-                    <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
-                        <MoreInfoLink>More Info</MoreInfoLink>
-                    </Link>
-                </MoreInfoRow>
+                <ActionRow>
+                    {hasUserAction ? children : (
+                        <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
+                            <MoreInfoLink>More Info</MoreInfoLink>
+                        </Link>
+                    )}
+                </ActionRow>
             </TextColumn>  
         </StyledMediaCard>
     );
@@ -157,5 +160,12 @@ MediaCard.propTypes = {
     backdropPath: PropTypes.string,
     overview: PropTypes.string.isRequired,
     urlSubpath: PropTypes.string,
-    isInline: PropTypes.bool
+    // An isInline value of false indicates that at larger viewport sizes the card will take up the
+    // full site width, rather than being restricted to the width of a column. When isInline is false
+    // additional media queries are applied for larger viewport widths.
+    isInline: PropTypes.bool,
+    // Indicates whether this component will contain some sort of user interaction button (rate, favourite
+    // etc). The buton is provided via the child prop, and this boolean prop simply provides an explicit way
+    // of telling the component that is needs to render a user interaction button. 
+    hasUserAction: PropTypes.bool
 };
