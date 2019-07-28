@@ -5,6 +5,7 @@ import { text, getImageUrl, imageSizeConstants } from '../../utils';
 import Link from 'next/link';
 import CardInfoRow from './CardInfoRow';
 import useHover from '../useHover';
+import useImage from '../useImage';
 
 const StyledMediaCard = styled.div`
     width: 100%;
@@ -22,17 +23,11 @@ const StyledMediaCard = styled.div`
 const ImageLink = styled.a`
     position: relative;
     display: flex;
-`;
-
-const PosterImage = styled.img`
-    display: none;
-    object-fit: cover;
-    object-position: center;
-    transition: filter ease-out 0.2s;
-    ${({ isHovered }) => isHovered && `
-        filter: grayscale(75%) contrast(110%);
-    `}
+    width: 100%;
+    padding-bottom: 56.25%;
+    flex-shrink: 0;
     @media (min-width: 600px) {
+        padding-bottom: 0;
         display: block;
         width: 185px;
         height: 278px;
@@ -45,10 +40,49 @@ const PosterImage = styled.img`
     `}
 `;
 
-const BackdropImage = styled.img`
+const PlaceholderContainer = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: auto;
-    transition: filter ease-out 0.2s;
+    height: 100%;
+    background: #ddd;
+    display: ${({ hasBackdropImage }) => hasBackdropImage ? 'none' : 'block'};
+    @media (min-width: 600px) {
+        display: ${({ hasPosterImage }) => hasPosterImage ? 'none' : 'block'};
+    }
+`;
+
+const PosterImage = styled.img`
+    display: none;
+    transition: filter ease-out 0.2s, opacity ease-out 0.2s;
+    opacity: ${({ isLoaded }) => isLoaded ? 1 : 0};
+    ${({ isHovered }) => isHovered && `
+        filter: grayscale(75%) contrast(110%);
+    `}
+    @media (min-width: 600px) {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+    
+`;
+
+const BackdropImage = styled.img`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: all ease-out 0.2s;
+    opacity: ${({ isLoaded }) => isLoaded ? 1 : 0};
     ${({ isHovered }) => isHovered && `
         filter: grayscale(75%) contrast(110%);
     `}
@@ -66,6 +100,10 @@ const ImageOverlay = styled.div`
     transition: background ease-out 0.2s;
     cursor: pointer;
     background: ${({ isHovered }) => isHovered ? 'rgba(17,17,17,0.4)' : 'none'};
+    display: ${({ hasBackdropImage }) => hasBackdropImage ? 'block' : 'none'};
+    @media (min-width: 600px) {
+        display: ${({ hasPosterImage }) => hasPosterImage ? 'block' : 'none'};
+    }
 `;
 
 const TextColumn = styled.div`
@@ -123,31 +161,52 @@ export function MediaCard({
 }) {
 
     const { isHovered, containerProps } = useHover();
+    
+    const {
+        hasImage: hasPosterImage,
+        imageSrc: posterImageSrc,
+        isLoaded: posterImageLoaded
+    } = useImage({ imagePath: posterPath, imageSize: imageSizeConstants.w300 });
 
-    const posterSrc = useMemo(() => {
-        return getImageUrl(posterPath, imageSizeConstants.w300);
-    }, [ posterPath ]);
-   
-    const backdropSrc = useMemo(() => {
-        return getImageUrl(backdropPath, imageSizeConstants.w780);
-    }, [ backdropPath ]);
+    const {
+        hasImage: hasBackdropImage,
+        imageSrc: backdropImageSrc,
+        isLoaded: backdropImageLoaded
+    } = useImage({ imagePath: backdropPath, imageSize: imageSizeConstants.w780 });
 
     return (
         <StyledMediaCard>
             <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
-                <ImageLink {...containerProps}>
-                    <PosterImage 
-                        src={posterSrc} 
-                        alt="" 
-                        isInline={isInline} 
-                        isHovered={isHovered}
-                    />
-                    <BackdropImage 
-                        src={backdropSrc} 
-                        alt="" 
-                        isHovered={isHovered}
-                    />
-                    <ImageOverlay isHovered={isHovered} />
+                <ImageLink {...containerProps} isInline={isInline}>
+                    {(hasPosterImage && hasBackdropImage) || (
+                        <PlaceholderContainer 
+                            hasPosterImage={hasPosterImage}
+                            hasBackdropImage={hasBackdropImage}
+                        />
+                    )}
+                    {hasPosterImage && (
+                        <PosterImage 
+                            src={posterImageSrc} 
+                            alt={title} 
+                            isHovered={isHovered}
+                            isLoaded={posterImageLoaded}
+                        />
+                    )}
+                    {hasBackdropImage && (
+                        <BackdropImage 
+                            src={backdropImageSrc} 
+                            alt={title} 
+                            isHovered={isHovered}
+                            isLoaded={backdropImageLoaded}
+                        />
+                    )}
+                    {(hasPosterImage || hasBackdropImage) && (
+                        <ImageOverlay 
+                            isHovered={isHovered}
+                            hasPosterImage={hasPosterImage}
+                            hasBackdropImage={hasBackdropImage} 
+                        />
+                    )}
                 </ImageLink>
             </Link>
             <TextColumn>
