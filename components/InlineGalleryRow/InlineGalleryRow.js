@@ -4,11 +4,14 @@ import styled from 'styled-components';
 import { text, getImageUrl, imageSizeConstants } from '../../utils';
 import Link from 'next/link';
 import InlineContentRow from '../InlineContentRow';
+import SmartImage from '../SmartImage';
 
-const Image = styled.img`
+const InlineGalleryImage = styled(SmartImage)`
     width: calc(50% - 5px);
-    margin-top: 20px;
+    margin-top: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    object-fit: cover;
+    object-position: center;
     @media(min-width: 550px) {
         width: calc(25% - 7.5px);
     }
@@ -19,10 +22,11 @@ export function InlineGalleryRow({
     title,
     linkText,
     linkDestinationHref,
-    linkDestinationAs 
+    linkDestinationAs,
+    name
 }) {
-    const suitableImages = imagesData.filter(image => image.aspect_ratio === 0.66666666666667).slice(0,4);
-    if (suitableImages.length === 0) return null;
+    
+    if (imagesData.length === 0) return null;
 
     return (
             <InlineContentRow
@@ -31,10 +35,12 @@ export function InlineGalleryRow({
                 linkDestinationAs={linkDestinationAs}
                 linkDestinationHref={linkDestinationHref}
             >
-                {suitableImages.map(image => (
-                    <Image 
+                {imagesData.slice(0,4).map(image => (
+                    <InlineGalleryImage 
                         key={image.file_path}
-                        src={getImageUrl(image.file_path, imageSizeConstants.w342)}
+                        imagePath={image.file_path}
+                        imageSize={imageSizeConstants.w342}
+                        alt={name}
                     />
                 ))}
             </InlineContentRow>
@@ -53,5 +59,6 @@ InlineGalleryRow.propTypes = {
     title: PropTypes.string.isRequired,
     linkText: PropTypes.string.isRequired,
     linkDestinationHref: PropTypes.string.isRequired,
-    linkDestinationAs: PropTypes.string.isRequired
+    linkDestinationAs: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
 };

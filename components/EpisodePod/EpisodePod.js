@@ -11,6 +11,7 @@ import {
 import { ChevronDown } from 'styled-icons/fa-solid';
 import PeopleList from '../PeopleList';
 import { EpisodeRatingButton } from '../Buttons';
+import SmartImage from '../SmartImage';
 
 const StyledEpisodePod = styled.div`
     width: 100%;
@@ -28,20 +29,24 @@ const MainInfoCard = styled.div`
     }
 `;
 
-const EpisodeImage = styled.img`
+const EpisodeImageContainer = styled.div`
+    position: relative;
     width: 100%;
-    height: auto;
+    padding-bottom: 56.25%;
+    flex-shrink: 0;
     @media (min-width: 768px) {
         width: 300px;
-        height: 168.84px;
-        object-fit: cover;
-        object-position: center;
-        flex-shrink: 0;
+        height: 168.75px;
+        padding-bottom: 0;
     }
 `;
 
-const InfoCol = styled.div`
-    
+const EpisodeImage = styled(SmartImage)`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
 `;
 
 const TitleRow = styled.div`
@@ -130,8 +135,6 @@ export function EpisodePod({
 
     const [ isExpanded, setExpanded ] = useState(false);
 
-    const stillSrc = getImageUrl(stillPath, imageSizeConstants.w780); 
-
     function handleToggleClick() {
         setExpanded(prev => !prev);
     }
@@ -139,11 +142,14 @@ export function EpisodePod({
     return (
         <StyledEpisodePod>
             <MainInfoCard>
-                <EpisodeImage
-                    src={stillSrc}
-                    alt={name}
-                />
-                <InfoCol>
+                <EpisodeImageContainer>
+                    <EpisodeImage
+                        imagePath={stillPath}
+                        imageSize={imageSizeConstants.w780}
+                        alt={name}
+                    />
+                </EpisodeImageContainer>
+                <div>
                     <TitleRow>
                         <EpisodeRatingContainer>
                             <Rating rating={averageRating} />
@@ -164,7 +170,7 @@ export function EpisodePod({
                     <Overview>
                         {overview || 'There is no overview for this episode'}
                     </Overview>
-                </InfoCol>
+                </div>
             </MainInfoCard>
             <AdditionalInfoContainer isHidden={!isExpanded}>
                 <PeopleList 

@@ -48,6 +48,7 @@ function Person(props) {
                             linkText="See all images"
                             linkDestinationAs={`/person/${props.id}/images`}
                             linkDestinationHref={`/person/images?id=${props.id}`}
+                            name={props.name}
                         />
                     </MainCol>
                     <SidebarCol>

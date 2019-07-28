@@ -5,6 +5,7 @@ import { Row } from '../Layout';
 import { text, getImageUrl, imageSizeConstants } from '../../utils';
 import Link from 'next/link';
 import { LongArrowAltLeft } from 'styled-icons/fa-solid';
+import SmartImage from '../SmartImage';
 
 const StyledMinimalHeader = styled.div`
     background: #dc1f3b;
@@ -17,14 +18,12 @@ const MinimalHeaderRow = styled(Row)`
     padding-bottom: 20px;
 `;
 
-const Image = styled.img`
+const Image = styled(SmartImage)`
     width: 85px;
+    height: 127.5px;
     margin-right: 20px;
 `;
 
-const TextContainer = styled.div`
-
-`;
 
 const Title = styled.h1`
     ${text('heading', { color: '#fff', fontSize: '2rem' })}
@@ -49,14 +48,16 @@ const BackIcon = styled(LongArrowAltLeft)`
 `;
 
 export function MinimalHeader({ imagePath, name, backHref, backAs, backText }) {
-    const imageUrl = getImageUrl(imagePath, imageSizeConstants.w185);
+    
     return (
         <StyledMinimalHeader>
             <MinimalHeaderRow>
                 <Image 
-                    src={imageUrl}
+                    imagePath={imagePath}
+                    imageSize={imageSizeConstants.w185}
+                    alt={name}
                 />
-                <TextContainer>
+                <div>
                     <Title>{name}</Title>
                     <Link href={backHref} as={backAs} passHref>
                         <BackLink>
@@ -64,7 +65,7 @@ export function MinimalHeader({ imagePath, name, backHref, backAs, backText }) {
                             {backText}
                         </BackLink>
                     </Link>
-                </TextContainer>
+                </div>
             </MinimalHeaderRow>
         </StyledMinimalHeader>
     );
