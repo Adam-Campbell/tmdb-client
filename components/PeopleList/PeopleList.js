@@ -86,7 +86,7 @@ export function PeopleList({
                         id={person.id}
                         name={person.name}
                         description={person.character || person.job}
-                        imagePath={person.profile_path || '/5lzG6z74a8aYVWLsoAQVkyh5IEa.jpg'}
+                        imagePath={person.profile_path}
                         isHidden={shouldAllowExpansion && !isExpanded && index >= unexpandedItemCount}
                     />
                 ))}

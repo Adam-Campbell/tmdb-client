@@ -1,10 +1,9 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { text, getImageUrl, imageSizeConstants } from '../../utils';
+import { text, imageSizeConstants } from '../../utils';
 import Link from 'next/link';
-import useHover from '../useHover';
-import ImageLink from './ImageLink';
+import ImageLink from '../ImageLink';
 
 const StyledMinimalCard = styled.div`
     margin-top: 10px;
@@ -44,28 +43,8 @@ const StyledMinimalCard = styled.div`
     `}
 `;
 
-// const ImageLink = styled.a`
-//     position: relative;
-//     display: flex;
-// `;
-
-const Image = styled.img`
-    width: 100%;
-    transition: filter ease-out 0.2s;
-    ${({ isHovered }) => isHovered && `
-        filter: grayscale(75%) contrast(110%);
-    `}
-`;
-
-const ImageOverlay = styled.div`
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    transition: background ease-out 0.2s;
-    cursor: pointer;
-    background: ${({ isHovered }) => isHovered ? 'rgba(17,17,17,0.4)' : 'none'};
+const CardImageLink = styled(ImageLink)`
+    padding-bottom: 150%;
 `;
 
 const InfoRow = styled.div`
@@ -99,21 +78,6 @@ const AdditionalDetailsText = styled.span`
     }
 `;
 
-/*
-
-<Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
-                <ImageLink {...containerProps}>
-                    <Image
-                        isHovered={isHovered} 
-                        src={imageSrc} 
-                        alt=""
-                    />
-                    <ImageOverlay isHovered={isHovered} />
-                </ImageLink>
-            </Link>
-
-*/
-
 export function MinimalCard({ 
     id, 
     name, 
@@ -123,21 +87,15 @@ export function MinimalCard({
     isInline,
     shouldTruncateDetails 
 }) {
-    //const imageSrc = getImageUrl(imagePath, imageSizeConstants.w342);
-
-    // const { isHovered, containerProps } = useHover();
-
-    // const imageSrc = useMemo(() => {
-    //     return getImageUrl(imagePath, imageSizeConstants.w342);
-    // }, [ imagePath ]);
 
     return (
         <StyledMinimalCard isInline={isInline}>
-            <ImageLink 
+            <CardImageLink 
                 imagePath={imagePath}
                 imageSize={imageSizeConstants.w342}
-                urlSubpath={urlSubpath}
-                id={id}
+                alt={name}
+                linkHref={`${urlSubpath}?id=${id}`}
+                linkAs={`${urlSubpath}/${id}`}
             />
             <InfoRow>
                 <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>

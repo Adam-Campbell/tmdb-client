@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { text, getImageUrl, imageSizeConstants } from '../../utils';
 import useHover from '../useHover';
+import ImageLink from '../ImageLink';
 
 const StyledPersonListItem = styled.li`
     width: 100%;
@@ -16,22 +17,14 @@ const StyledPersonListItem = styled.li`
     }
 `;
 
-const ImageLink = styled.a`
+const PersonImageLink = styled(ImageLink)`
     margin-right: 20px;
-    display: flex;
     align-items: center;
     flex-shrink: 0;
-    position: relative;
-`;
-
-const Image = styled.img`
     border-radius: 3px;
+    overflow: hidden;
     width: 100px;
     height: 100px;
-    transition: filter ease-out 0.2s;
-    ${({ isHovered }) => isHovered && `
-        filter: grayscale(75%) contrast(110%);
-    `}
     @media (min-width: 550px) {
         width: 66px;
         height: 66px;
@@ -41,19 +34,6 @@ const Image = styled.img`
         height: 100px;
     }
 `;
-
-const ImageOverlay = styled.div`
-    border-radius: 3px;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    transition: background ease-out 0.2s;
-    cursor: pointer;
-    background: ${({ isHovered }) => isHovered ? 'rgba(17,17,17,0.4)' : 'none'};
-`;
-
 
 const NameLink = styled.a`
     ${text('body', { fontWeight: 700 })}
@@ -70,21 +50,16 @@ const Description = styled.p`
 `;
 
 export default function PersonListItem({ id, name, description, imagePath, isHidden }) {
-
-    const { isHovered, containerProps } = useHover();
-
-    const imageUrl = useMemo(() => {
-        return getImageUrl(imagePath, imageSizeConstants.faceMedium);
-    }, [ imagePath ]);
-
+    
     return (
         <StyledPersonListItem isHidden={isHidden}>
-            <Link href={`/person?id=${id}`} as={`/person/${id}`} passHref>
-                <ImageLink {...containerProps}>
-                    <Image src={imageUrl} isHovered={isHovered} />
-                    <ImageOverlay isHovered={isHovered} />
-                </ImageLink>
-            </Link>
+            <PersonImageLink 
+                imagePath={imagePath}
+                imageSize={imageSizeConstants.faceMedium}
+                alt={name}
+                linkHref={`/person?id=${id}`}
+                linkAs={`/person/${id}`}
+            />
             <div>
                 <Link href={`/person?id=${id}`} as={`/person/${id}`} passHref>
                     <NameLink>{name}</NameLink>

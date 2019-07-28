@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { getImageUrl, imageSizeConstants, text, truncateString, formatDateString } from '../../utils';
-import useHover from '../useHover';
+import { imageSizeConstants, text, truncateString, formatDateString } from '../../utils';
+import ImageLink from '../ImageLink';
 
 const StyledSeasonCard = styled.div`
     width: 100%;
@@ -16,36 +16,18 @@ const StyledSeasonCard = styled.div`
     }
 `;
 
-const PosterImageLink = styled.a`
-    position: relative;
-    display: flex;
-`;
-
-const PosterImage = styled.img`
+const PosterImageLink = styled(ImageLink)`
     width: 100px;
-    height: 150.3px;
-    ${({ isHovered }) => isHovered && `
-        filter: grayscale(75%) contrast(110%);
-    `}
-    @media(min-width: 360px) {
+    height: 150px;
+    flex-shrink: 0;
+    @media (min-width: 360px) {
         width: 130px;
-        height: 195.4px;
+        height: 210px
     }
-    @media(min-width: 550px) {
+    @media (min-width: 550px) {
         width: 185px;
-        height: 278px;
+        height: 277.5px;
     }
-`;
-
-const PosterImageOverlay = styled.div`
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    transition: background ease-out 0.2s;
-    cursor: pointer;
-    background: ${({ isHovered }) => isHovered ? 'rgba(17,17,17,0.4)' : 'none'};
 `;
 
 const TextColumn = styled.div`
@@ -107,12 +89,6 @@ export function SeasonCard({
     showId,
     seasonNumber
 }) {
-
-    const { isHovered, containerProps } = useHover();
-
-    const posterSrc = useMemo(() => {
-        return getImageUrl(posterPath, imageSizeConstants.w185); 
-    }, [ posterPath ]);
     
     const year = useMemo(() => {
         return airDate.split('-')[0];
@@ -129,20 +105,13 @@ export function SeasonCard({
 
     return (
         <StyledSeasonCard>
-            <Link 
-                href={`/show/season?id=${showId}&number=${seasonNumber}`} 
-                as={`/show/${showId}/season/${seasonNumber}`} 
-                passHref
-            >
-                <PosterImageLink {...containerProps}>
-                    <PosterImage 
-                        src={posterSrc} 
-                        alt=""
-                        isHovered={isHovered} 
-                    />
-                    <PosterImageOverlay isHovered={isHovered} />
-                </PosterImageLink>
-            </Link>
+            <PosterImageLink 
+                imagePath={posterPath}
+                imageSize={imageSizeConstants.w185}
+                alt={name}
+                linkHref={`/show/season?id=${showId}&number=${seasonNumber}`}
+                linkAs={`/show/${showId}/season/${seasonNumber}`}
+            />
             <TextColumn>
                 <TitleRow>
                     <Link
