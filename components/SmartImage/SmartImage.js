@@ -15,7 +15,9 @@ const ImagePlaceholderContainer = styled.div`
     display: flex;
 `;
 
-export function SmartImage({ imagePath, imageSize, alt, className }) {
+function noop() {}
+
+export function SmartImage({ imagePath, imageSize, alt, className, handleClick = noop }) {
 
     const {
         hasImage,
@@ -23,14 +25,13 @@ export function SmartImage({ imagePath, imageSize, alt, className }) {
         isLoaded
     } = useImage({ imagePath, imageSize });
 
-    //console.log(hasLoaded);
-
     return hasImage ? (
         <StyledSmartImage 
             className={className}
             src={imageSrc}
             alt={alt}
             isLoaded={isLoaded}
+            onClick={handleClick}
         />
     ) : (
         <ImagePlaceholderContainer className={className} />
@@ -43,5 +44,6 @@ SmartImage.propTypes = {
     alt: PropTypes.string.isRequired,
     // This prop will only be present if a styled version of this component is created, ie
     // styled(ImageLink)` ... `
-    className: PropTypes.string
+    className: PropTypes.string,
+    handleClick: PropTypes.func
 };

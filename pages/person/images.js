@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import { getPersonDetails } from '../../Api';
 import SubNav from '../../components/SubNav';
@@ -7,38 +7,39 @@ import ListViewHeader from '../../components/ListViewHeader';
 import { Row } from '../../components/Layout';
 import { getPersonSubNavData, getImageUrl, imageSizeConstants } from '../../utils';
 import GalleryModal from '../../components/GalleryModal';
-
+import SmartImage from '../../components/SmartImage';
 import { fetchPerson } from '../../actions';
 import { getPersonData } from '../../reducers/personReducer';
 import { connect } from 'react-redux';
 
+
 const ThumbsContainer = styled.div`
     display: flex; 
     flex-wrap: wrap;
-    margin-left: -10px;
-    margin-right: -10px;
+    margin-left: -5px;
+    margin-right: -5px;
 `;
 
-const Thumb = styled.img`
-    margin: 10px;
-    width: calc(50% - 20px);
-    object-fit: cover;
-    object-position: center;
+const Thumb = styled(SmartImage)`
+    margin: 5px;
+    width: calc(50% - 10px);
     @media(min-width: 550px) {
-        width: calc(33.33333% - 20px);
+        width: calc(33.33333% - 10px);
     }
     @media(min-width: 768px) {
-        width: calc(25% - 20px);
+        width: calc(25% - 10px);
     }
     @media(min-width: 960px) {
-        width: calc(20% - 20px);
+        width: calc(20% - 10px);
     }
 `;
 
 function Images({ id, name, profilePath, profileImages }) {
     const [ isModalOpen, setIsModalOpen ] = useState(false);
     const [ currentImageIndex, setImageIndex ] = useState(0);
-    const personSubNavData  = getPersonSubNavData(id);
+    const personSubNavData  = useMemo(() => {
+        return getPersonSubNavData(id);
+    }, [ id ]);
     return (
         <div>
             <MinimalHeader 
@@ -54,8 +55,10 @@ function Images({ id, name, profilePath, profileImages }) {
                     {profileImages.map((image, index) => (
                         <Thumb 
                             key={image.file_path}
-                            src={getImageUrl(image.file_path, imageSizeConstants.w500)}
-                            onClick={() => {
+                            imagePath={image.file_path}
+                            imageSize={imageSizeConstants.w500}
+                            alt={name}
+                            handleClick={() => {
                                 setImageIndex(index);
                                 setIsModalOpen(true);
                             }}
