@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { text, getImageUrl, imageSizeConstants } from '../../utils';
 import Link from 'next/link';
 import CardInfoRow from './CardInfoRow';
 import useHover from '../useHover';
-import useImage from '../useImage';
+import { useInView } from 'react-intersection-observer';
 
 const StyledMediaCard = styled.div`
     width: 100%;
@@ -161,23 +161,46 @@ export function MediaCard({
 }) {
 
     const { isHovered, containerProps } = useHover();
-    
-    const {
-        hasImage: hasPosterImage,
-        imageSrc: posterImageSrc,
-        isLoaded: posterImageLoaded
-    } = useImage({ imagePath: posterPath, imageSize: imageSizeConstants.w300 });
 
-    const {
-        hasImage: hasBackdropImage,
-        imageSrc: backdropImageSrc,
-        isLoaded: backdropImageLoaded
-    } = useImage({ imagePath: backdropPath, imageSize: imageSizeConstants.w780 });
+    const [ ref, inView, entry ] = useInView({ triggerOnce: true });
+
+    const posterImageSrc = useMemo(() => {
+        return getImageUrl(posterPath, imageSizeConstants.w300);
+    }, [ posterPath ]);
+
+    const backdropImageSrc = useMemo(() => {
+        return getImageUrl(backdropPath, imageSizeConstants.w780);
+    }, [ backdropPath ]);
+
+    const [ posterImageLoaded, setPosterImageLoaded ] = useState(false);
+
+    const [ backdropImageLoaded, setBackdropImageLoaded ] = useState(false);
+
+    const hasPosterImage = Boolean(posterPath);
+    const hasBackdropImage = Boolean(backdropPath);
+
+    useEffect(() => {
+        if (!hasPosterImage || posterImageLoaded || !inView) return;
+        const img = new Image();
+        img.onload = () => {
+            setPosterImageLoaded(true);
+        }
+        img.src = posterImageSrc;
+    }, [ hasPosterImage, posterImageLoaded, posterImageSrc, inView ]);
+
+    useEffect(() => {
+        if (!hasBackdropImage || backdropImageLoaded || !inView) return;
+        const img = new Image();
+        img.onload = () => {
+            setBackdropImageLoaded(true);
+        }
+        img.src = backdropImageSrc;
+    }, [ hasBackdropImage, backdropImageLoaded, backdropImageSrc, inView ]);
 
     return (
         <StyledMediaCard>
             <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
-                <ImageLink {...containerProps} isInline={isInline}>
+                <ImageLink ref={ref} {...containerProps} isInline={isInline}>
                     {(hasPosterImage && hasBackdropImage) || (
                         <PlaceholderContainer 
                             hasPosterImage={hasPosterImage}
@@ -186,7 +209,7 @@ export function MediaCard({
                     )}
                     {hasPosterImage && (
                         <PosterImage 
-                            src={posterImageSrc} 
+                            src={posterImageLoaded ? posterImageSrc : null} 
                             alt={title} 
                             isHovered={isHovered}
                             isLoaded={posterImageLoaded}
@@ -194,7 +217,7 @@ export function MediaCard({
                     )}
                     {hasBackdropImage && (
                         <BackdropImage 
-                            src={backdropImageSrc} 
+                            src={backdropImageLoaded ? backdropImageSrc : null} 
                             alt={title} 
                             isHovered={isHovered}
                             isLoaded={backdropImageLoaded}
