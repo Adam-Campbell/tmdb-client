@@ -20,7 +20,7 @@ const ThumbsContainer = styled.div`
     margin-right: -5px;
 `;
 
-const Thumb = styled(SmartImage)`
+const ThumbContainer = styled.div`
     margin: 5px;
     width: calc(50% - 10px);
     @media(min-width: 550px) {
@@ -32,6 +32,11 @@ const Thumb = styled(SmartImage)`
     @media(min-width: 960px) {
         width: calc(20% - 10px);
     }
+`;
+
+const Thumb = styled(SmartImage)`
+    width: 100%;
+    padding-bottom: 150%;
 `;
 
 function Images({ id, name, profilePath, profileImages }) {
@@ -53,16 +58,17 @@ function Images({ id, name, profilePath, profileImages }) {
             <Row>
                 <ThumbsContainer>
                     {profileImages.map((image, index) => (
-                        <Thumb 
-                            key={image.file_path}
-                            imagePath={image.file_path}
-                            imageSize={imageSizeConstants.w500}
-                            alt={name}
-                            handleClick={() => {
-                                setImageIndex(index);
-                                setIsModalOpen(true);
-                            }}
-                        />
+                        <ThumbContainer key={image.file_path}>
+                            <Thumb 
+                                imagePath={image.file_path}
+                                imageSize={imageSizeConstants.w500}
+                                alt={name}
+                                handleClick={() => {
+                                    setImageIndex(index);
+                                    setIsModalOpen(true);
+                                }}
+                            />
+                        </ThumbContainer>
                     ))}
                 </ThumbsContainer>
             </Row>

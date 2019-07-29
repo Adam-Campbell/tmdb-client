@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
 import useHover from '../useHover';
-import useImage from '../useImage';
+import useLazyImage from '../useLazyImage';
 
 const StyledImageLink = styled.a`
     position: relative;
@@ -52,18 +52,19 @@ export function ImageLink({ imagePath, imageSize, alt, linkHref, linkAs, classNa
     const {
         hasImage,
         imageSrc,
-        isLoaded
-    } = useImage({ imagePath, imageSize })
+        isLoaded,
+        containerRef
+    } = useLazyImage({ imagePath, imageSize })
 
     return (
         <Link href={linkHref} as={linkAs} passHref>
-            <StyledImageLink  {...containerProps} className={className}>
+            <StyledImageLink ref={containerRef}  {...containerProps} className={className}>
                 {hasImage ? (
                     <>
                         <StyledImage 
                             isLoaded={isLoaded}
                             isHovered={isHovered}
-                            src={imageSrc} 
+                            src={isLoaded ? imageSrc : null} 
                             alt={alt} 
                         />
                         <ImageOverlay isHovered={isHovered} />

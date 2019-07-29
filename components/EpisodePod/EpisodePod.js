@@ -42,12 +42,23 @@ const EpisodeImageContainer = styled.div`
 `;
 
 const EpisodeImage = styled(SmartImage)`
-    position: absolute;
     width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
+    padding-bottom: 56.25%;
+    flex-shrink: 0;
+    @media (min-width: 768px) {
+        width: 300px;
+        height: 168.75px;
+        padding-bottom: 0;
+    }
 `;
+
+// const EpisodeImage = styled(SmartImage)`
+//     position: absolute;
+//     width: 100%;
+//     height: 100%;
+//     top: 0;
+//     left: 0;
+// `;
 
 const TitleRow = styled.div`
     display: flex;
@@ -142,13 +153,11 @@ export function EpisodePod({
     return (
         <StyledEpisodePod>
             <MainInfoCard>
-                <EpisodeImageContainer>
-                    <EpisodeImage
-                        imagePath={stillPath}
-                        imageSize={imageSizeConstants.w780}
-                        alt={name}
-                    />
-                </EpisodeImageContainer>
+                <EpisodeImage
+                    imagePath={stillPath}
+                    imageSize={imageSizeConstants.w780}
+                    alt={name}
+                />
                 <div>
                     <TitleRow>
                         <EpisodeRatingContainer>

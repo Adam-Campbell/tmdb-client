@@ -24,7 +24,7 @@ const ThumbsContainer = styled.div`
     margin-right: -5px;
 `;
 
-const PosterThumb = styled(SmartImage)`
+const PosterThumbContainer = styled.div`
     margin: 5px;
     width: calc(50% - 10px);
     @media(min-width: 550px) {
@@ -38,7 +38,12 @@ const PosterThumb = styled(SmartImage)`
     }
 `;
 
-const BackdropThumb = styled(SmartImage)`
+const PosterThumb = styled(SmartImage)`
+    width: 100%;
+    padding-bottom: 150%;
+`;
+
+const BackdropThumbContainer = styled.div`
     margin: 5px;
     width: calc(100% - 10px);
     @media(min-width: 600px) {
@@ -47,7 +52,11 @@ const BackdropThumb = styled(SmartImage)`
     @media(min-width: 768px) {
         width: calc(33.33333% - 10px);
     }
-    
+`;
+
+const BackdropThumb = styled(SmartImage)`
+    width: 100%;
+    padding-bottom: 56.25%;
 `;
 
 const imageTypes = [
@@ -90,27 +99,29 @@ function Images({ id, title, posterPath, posters, backdrops }) {
             <Row>
                 <ThumbsContainer>
                     {currentImageType.value === 'poster' ? posters.map((poster, index) => (
-                        <PosterThumb 
-                            key={poster.file_path}
-                            imagePath={poster.file_path}
-                            imageSize={imageSizeConstants.w500}
-                            alt={title}
-                            handleClick={() => {
-                                setImageIndex(index);
-                                setIsModalOpen(true);
-                            }}
-                        />
+                        <PosterThumbContainer key={poster.file_path}>
+                            <PosterThumb 
+                                imagePath={poster.file_path}
+                                imageSize={imageSizeConstants.w500}
+                                alt={title}
+                                handleClick={() => {
+                                    setImageIndex(index);
+                                    setIsModalOpen(true);
+                                }}
+                            />
+                        </PosterThumbContainer>
                     )) : backdrops.map((backdrop, index) => (
-                        <BackdropThumb 
-                            key={backdrop.file_path}
-                            imagePath={backdrop.file_path}
-                            imageSize={imageSizeConstants.w780}
-                            alt={title}
-                            handleClick={() => {
-                                setImageIndex(index);
-                                setIsModalOpen(true);
-                            }}
-                        />
+                        <BackdropThumbContainer key={backdrop.file_path}>
+                            <BackdropThumb 
+                                imagePath={backdrop.file_path}
+                                imageSize={imageSizeConstants.w780}
+                                alt={title}
+                                handleClick={() => {
+                                    setImageIndex(index);
+                                    setIsModalOpen(true);
+                                }}
+                            />
+                        </BackdropThumbContainer>
                     ))}
                 </ThumbsContainer>
             </Row>

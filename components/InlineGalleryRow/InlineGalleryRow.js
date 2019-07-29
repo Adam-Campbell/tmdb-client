@@ -6,15 +6,18 @@ import Link from 'next/link';
 import InlineContentRow from '../InlineContentRow';
 import SmartImage from '../SmartImage';
 
-const InlineGalleryImage = styled(SmartImage)`
+const GalleryImageContainer = styled.div`
     width: calc(50% - 5px);
     margin-top: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    object-fit: cover;
-    object-position: center;
     @media(min-width: 550px) {
         width: calc(25% - 7.5px);
     }
+`;
+
+const InlineGalleryImage = styled(SmartImage)`
+    width: 100%;
+    padding-bottom: 150%;
 `;
 
 export function InlineGalleryRow({ 
@@ -36,12 +39,13 @@ export function InlineGalleryRow({
                 linkDestinationHref={linkDestinationHref}
             >
                 {imagesData.slice(0,4).map(image => (
-                    <InlineGalleryImage 
-                        key={image.file_path}
-                        imagePath={image.file_path}
-                        imageSize={imageSizeConstants.w342}
-                        alt={name}
-                    />
+                    <GalleryImageContainer key={image.file_path}>
+                        <InlineGalleryImage 
+                            imagePath={image.file_path}
+                            imageSize={imageSizeConstants.w342}
+                            alt={name}
+                        />
+                    </GalleryImageContainer>
                 ))}
             </InlineContentRow>
     );

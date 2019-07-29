@@ -1,9 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import useImage from '../useImage';
+import useLazyImage from '../useLazyImage';
+
+const SmartImageContainer = styled.div`
+    position: relative;
+`;
 
 const StyledSmartImage = styled.img`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     opacity: ${({ isLoaded }) => isLoaded ? 1 : 0};
     transition: opacity ease-out 0.2s;
     object-fit: cover;
@@ -22,20 +31,24 @@ export function SmartImage({ imagePath, imageSize, alt, className, handleClick =
     const {
         hasImage,
         imageSrc,
-        isLoaded
-    } = useImage({ imagePath, imageSize });
+        isLoaded,
+        containerRef
+    } = useLazyImage({ imagePath, imageSize });
 
-    return hasImage ? (
-        <StyledSmartImage 
-            className={className}
-            src={imageSrc}
-            alt={alt}
-            isLoaded={isLoaded}
-            onClick={handleClick}
-        />
-    ) : (
-        <ImagePlaceholderContainer className={className} />
-    )
+    return (
+        <SmartImageContainer ref={containerRef} className={className}>
+            {hasImage ? (
+                <StyledSmartImage 
+                    src={isLoaded ? imageSrc : null}
+                    alt={alt}
+                    isLoaded={isLoaded}
+                    onClick={handleClick}
+                />
+            ) : (
+                <ImagePlaceholderContainer />
+            )}
+        </SmartImageContainer>
+    );
 }
 
 SmartImage.propTypes = {
