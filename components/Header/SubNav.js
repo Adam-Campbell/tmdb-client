@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import { NavItem } from './commonElements';
-import SubNavToggle from './SubNavToggle';
+import SubNavToggleLink from './SubNavToggleLink';
 import SubNavLink from './SubNavLink';
 
 const SubNavList = styled.ul`
@@ -35,7 +35,7 @@ export default function SubNav({ name, route, subNavData }) {
             onMouseEnter={() => setIsOpen(true)}
             onMouseLeave={() => setIsOpen(false)}
         >
-            <SubNavToggle 
+            <SubNavToggleLink 
                 route={route}
                 name={name}
                 handleTouch={() => setIsOpen(prev => !prev)}
