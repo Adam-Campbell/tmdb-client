@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import { getPersonDetails } from '../../Api';
 import { getPersonSubNavData, transformCreditsData } from '../../utils';
@@ -85,9 +85,14 @@ const MainCol = styled.div`
 function Credits({ id, name, profilePath, credits }) {
     const [ roleType, setRoleType ] = useState('both');
     const [ mediaType, setMediaType ] = useState('both');
-    const personSubNavDetails = getPersonSubNavData(id);
+
+    const personSubNavDetails = useMemo(() => {
+        return getPersonSubNavData(id);
+    }, [ id ]);
     
-    const creditsToRender = transformCreditsData(credits, roleType, mediaType);
+    const creditsToRender = useMemo(() => {
+        return transformCreditsData(credits, roleType, mediaType);
+    }, [ credits, roleType, mediaType ]);
 
     return (
         <div>
@@ -96,6 +101,7 @@ function Credits({ id, name, profilePath, credits }) {
                 name={name}
                 backHref={`/person?id=${id}`}
                 backAs={`/person/${id}`}
+                isPersonImage={true}
             />
             <SubNav navData={personSubNavDetails} alignCenter={true} />
             <ListViewHeader title="Credits" />

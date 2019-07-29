@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import MinimalHeader from '../../components/MinimalHeader';
 import SubNav from '../../components/SubNav';
@@ -12,9 +12,13 @@ import { connect } from 'react-redux';
 
 function CastAndCrew({ id, title, posterPath, cast, crew }) {
 
-    const movieSubNavData = getMovieSubNavData(id);
+    const movieSubNavData = useMemo(() => {
+        return getMovieSubNavData(id);
+    }, [ id ]);
 
-    const orderedCast = cast.sort((a,b) => a.order - b.order);
+    const orderedCast = useMemo(() => {
+        return cast.sort((a,b) => a.order - b.order);
+    }, [ cast ]);
     
     return (
         <div>

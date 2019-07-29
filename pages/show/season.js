@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { getSeasonDetails } from '../../Api';
@@ -32,9 +32,13 @@ function Season({
     sessionType
 }) {
     
-    const showSubNavData = getShowSubNavData(showId);
+    const showSubNavData = useMemo(() => {
+        return getShowSubNavData(showId);
+    }, [ showId ]);
     
-    const orderedCast = credits.cast.sort((a,b) => a.order - b.order);
+    const orderedCast = useMemo(() => {
+        return credits.cast.sort((a,b) => a.order - b.order);
+    }, [ credits.cast ]);
 
     return (
         <div>

@@ -85,7 +85,8 @@ export function MinimalCard({
     urlSubpath, 
     additionalDetails, 
     isInline,
-    shouldTruncateDetails 
+    shouldTruncateDetails,
+    isPersonImage
 }) {
 
     return (
@@ -96,6 +97,7 @@ export function MinimalCard({
                 alt={name}
                 linkHref={`${urlSubpath}?id=${id}`}
                 linkAs={`${urlSubpath}/${id}`}
+                isPersonImage={isPersonImage}
             />
             <InfoRow>
                 <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
@@ -125,5 +127,6 @@ MinimalCard.propTypes = {
     isInline: PropTypes.bool,
     // When true the string supplied via the additionalDetails props will be truncated via CSS to prevent
     // it from carrying onto multiple lines. 
-    shouldTruncateDetails: PropTypes.bool
+    shouldTruncateDetails: PropTypes.bool,
+    isPersonImage: PropTypes.bool
 };

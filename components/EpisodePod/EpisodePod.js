@@ -157,6 +157,7 @@ export function EpisodePod({
                     imagePath={stillPath}
                     imageSize={imageSizeConstants.w780}
                     alt={name}
+                    isLandscape={true}
                 />
                 <div>
                     <TitleRow>

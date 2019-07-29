@@ -40,11 +40,14 @@ const Thumb = styled(SmartImage)`
 `;
 
 function Images({ id, name, profilePath, profileImages }) {
+
     const [ isModalOpen, setIsModalOpen ] = useState(false);
     const [ currentImageIndex, setImageIndex ] = useState(0);
+
     const personSubNavData  = useMemo(() => {
         return getPersonSubNavData(id);
     }, [ id ]);
+    
     return (
         <div>
             <MinimalHeader 
@@ -52,6 +55,7 @@ function Images({ id, name, profilePath, profileImages }) {
                 name={name}
                 backHref={`/person?id=${id}`}
                 backAs={`/person/${id}`}
+                isPersonImage={true}
             />
             <SubNav navData={personSubNavData} alignCenter={true} />
             <ListViewHeader title="Profile Images" />
@@ -63,6 +67,7 @@ function Images({ id, name, profilePath, profileImages }) {
                                 imagePath={image.file_path}
                                 imageSize={imageSizeConstants.w500}
                                 alt={name}
+                                isPersonImage={true}
                                 handleClick={() => {
                                     setImageIndex(index);
                                     setIsModalOpen(true);

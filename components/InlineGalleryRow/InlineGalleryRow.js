@@ -44,6 +44,7 @@ export function InlineGalleryRow({
                             imagePath={image.file_path}
                             imageSize={imageSizeConstants.w342}
                             alt={name}
+                            isPersonImage={true}
                         />
                     </GalleryImageContainer>
                 ))}

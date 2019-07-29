@@ -6,6 +6,7 @@ import Link from 'next/link';
 import CardInfoRow from './CardInfoRow';
 import useHover from '../useHover';
 import { useInView } from 'react-intersection-observer';
+import {  Tv } from 'styled-icons/material';
 
 const StyledMediaCard = styled.div`
     width: 100%;
@@ -47,9 +48,20 @@ const PlaceholderContainer = styled.div`
     width: 100%;
     height: 100%;
     background: #ddd;
-    display: ${({ hasBackdropImage }) => hasBackdropImage ? 'none' : 'block'};
+    display: ${({ hasBackdropImage }) => hasBackdropImage ? 'none' : 'flex'};
+    justify-content: center;
+    align-items: center;
     @media (min-width: 600px) {
-        display: ${({ hasPosterImage }) => hasPosterImage ? 'none' : 'block'};
+        display: ${({ hasPosterImage }) => hasPosterImage ? 'none' : 'flex'};
+    }
+`;
+
+const PlaceholderIcon = styled(Tv)`
+    color: #222;
+    min-width: 32px;
+    width: 25%;
+    @media (min-width: 600px) {
+        width: 50%;
     }
 `;
 
@@ -201,11 +213,13 @@ export function MediaCard({
         <StyledMediaCard>
             <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
                 <ImageLink ref={ref} {...containerProps} isInline={isInline}>
-                    {(hasPosterImage && hasBackdropImage) || (
+                    {(hasPosterImage && hasBackdropImage) && (
                         <PlaceholderContainer 
                             hasPosterImage={hasPosterImage}
                             hasBackdropImage={hasBackdropImage}
-                        />
+                        >
+                            <PlaceholderIcon />
+                        </PlaceholderContainer>
                     )}
                     {hasPosterImage && (
                         <PosterImage 

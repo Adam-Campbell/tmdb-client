@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import useLazyImage from '../useLazyImage';
+import ImagePlaceholder from '../ImagePlaceholder';
 
 const SmartImageContainer = styled.div`
     position: relative;
@@ -19,14 +20,17 @@ const StyledSmartImage = styled.img`
     object-position: center;
 `;
 
-const ImagePlaceholderContainer = styled.div`
-    background: #ddd;
-    display: flex;
-`;
-
 function noop() {}
 
-export function SmartImage({ imagePath, imageSize, alt, className, handleClick = noop }) {
+export function SmartImage({ 
+    imagePath, 
+    imageSize, 
+    alt,
+    isPersonImage, 
+    isLandscape,
+    handleClick = noop, 
+    className 
+}) {
 
     const {
         hasImage,
@@ -45,7 +49,10 @@ export function SmartImage({ imagePath, imageSize, alt, className, handleClick =
                     onClick={handleClick}
                 />
             ) : (
-                <ImagePlaceholderContainer />
+                <ImagePlaceholder  
+                    isPersonImage={isPersonImage}
+                    isLandscape={isLandscape}
+                />
             )}
         </SmartImageContainer>
     );
@@ -55,8 +62,10 @@ SmartImage.propTypes = {
     imagePath: PropTypes.string,
     imageSize: PropTypes.string.isRequired,
     alt: PropTypes.string.isRequired,
+    isPersonImage: PropTypes.bool,
+    isLandscape: PropTypes.bool,
+    handleClick: PropTypes.func,
     // This prop will only be present if a styled version of this component is created, ie
     // styled(ImageLink)` ... `
-    className: PropTypes.string,
-    handleClick: PropTypes.func
+    className: PropTypes.string
 };

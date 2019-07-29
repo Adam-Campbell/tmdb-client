@@ -59,6 +59,7 @@ export default function PersonListItem({ id, name, description, imagePath, isHid
                 alt={name}
                 linkHref={`/person?id=${id}`}
                 linkAs={`/person/${id}`}
+                isPersonImage={true}
             />
             <div>
                 <Link href={`/person?id=${id}`} as={`/person/${id}`} passHref>

@@ -116,6 +116,7 @@ function Images({ id, title, posterPath, posters, backdrops }) {
                                 imagePath={backdrop.file_path}
                                 imageSize={imageSizeConstants.w500}
                                 alt={title}
+                                isLandscape={true}
                                 handleClick={() => {
                                     setImageIndex(index);
                                     setIsModalOpen(true);

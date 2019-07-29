@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import API_KEY from '../apiKey';
 import { MediaCard } from '../components/Cards';
 import { Row } from '../components/Layout';
+import ImagePlaceholder from '../components/ImagePlaceholder';
 
 async function handleButtonClick() {
   const requestToken = await getRequestToken();
@@ -29,12 +30,21 @@ const mockData = {
   urlSubpath: '/movie'
 }
 
+const PlaceholderContainer = styled.div`
+  position: relative;
+  width: 60px;
+  height: 60px;
+`;
 
 function Home() {
   return (
     <div>
       <Head title="Home" />
-      
+      <Row>
+        <PlaceholderContainer>
+          <ImagePlaceholder type="person" isPortrait={true} />
+        </PlaceholderContainer>
+      </Row>
     </div>
   );
 }

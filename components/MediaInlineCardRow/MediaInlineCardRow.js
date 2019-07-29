@@ -28,7 +28,8 @@ function getCardProps(cardData, cardType) {
                 name: cardData.name,
                 imagePath: cardData.profile_path,
                 urlSubpath: '/person',
-                additionalDetails: cardData.character
+                additionalDetails: cardData.character,
+                isPersonImage: true
             };
         default:
             return null;

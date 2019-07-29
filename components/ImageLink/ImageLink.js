@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import useHover from '../useHover';
 import useLazyImage from '../useLazyImage';
+import ImagePlaceholder from '../ImagePlaceholder';
 
 const StyledImageLink = styled.a`
     position: relative;
@@ -45,7 +46,16 @@ const ImageOverlay = styled.div`
     background: ${({ isHovered }) => isHovered ? 'rgba(17,17,17,0.4)' : 'none'};
 `;
 
-export function ImageLink({ imagePath, imageSize, alt, linkHref, linkAs, className }) {
+export function ImageLink({ 
+    imagePath, 
+    imageSize, 
+    alt, 
+    linkHref, 
+    linkAs,
+    isPersonImage,
+    isLandscape, 
+    className 
+}) {
 
     const { isHovered, containerProps } = useHover();
 
@@ -70,7 +80,7 @@ export function ImageLink({ imagePath, imageSize, alt, linkHref, linkAs, classNa
                         <ImageOverlay isHovered={isHovered} />
                     </>
                 ) : ( 
-                    <PlaceholderContainer />
+                    <ImagePlaceholder isPersonImage={isPersonImage} isLandscape={isLandscape} />
                 )}
             </StyledImageLink>
         </Link>
@@ -83,6 +93,8 @@ ImageLink.propTypes = {
     alt: PropTypes.string.isRequired,
     linkHref: PropTypes.string.isRequired,
     linkAs: PropTypes.string.isRequired,
+    isPersonImage: PropTypes.bool,
+    isLandscape: PropTypes.bool,
     // This prop will only be present if a styled version of this component is created, ie
     // styled(ImageLink)` ... `
     className: PropTypes.string
