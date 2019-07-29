@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { getShowDetails } from '../../Api';
 import MinimalHeader from '../../components/MinimalHeader';
@@ -11,7 +11,11 @@ import { getShowData } from '../../reducers/showReducer';
 import { connect } from 'react-redux';
 
 function Similar({ id, title, posterPath, similar }) {
-    const showSubNavData = getShowSubNavData(id);
+    
+    const showSubNavData = useMemo(() => {
+        return getShowSubNavData(id);
+    }, [ id ]);
+
     return (
         <div>
             <MinimalHeader 

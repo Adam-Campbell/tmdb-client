@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { text, getImageUrl, imageSizeConstants } from '../../utils';
 import Link from 'next/link';
 import CardInfoRow from './CardInfoRow';
+import useHover from '../useHover';
+import { useInView } from 'react-intersection-observer';
+import {  Tv } from 'styled-icons/material';
 
 const StyledMediaCard = styled.div`
     width: 100%;
@@ -21,13 +24,11 @@ const StyledMediaCard = styled.div`
 const ImageLink = styled.a`
     position: relative;
     display: flex;
-`;
-
-const PosterImage = styled.img`
-    display: none;
-    object-fit: cover;
-    object-position: center;
+    width: 100%;
+    padding-bottom: 56.25%;
+    flex-shrink: 0;
     @media (min-width: 600px) {
+        padding-bottom: 0;
         display: block;
         width: 185px;
         height: 278px;
@@ -40,9 +41,63 @@ const PosterImage = styled.img`
     `}
 `;
 
-const BackdropImage = styled.img`
+const PlaceholderContainer = styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: auto;
+    height: 100%;
+    background: #ddd;
+    display: ${({ hasBackdropImage }) => hasBackdropImage ? 'none' : 'flex'};
+    justify-content: center;
+    align-items: center;
+    @media (min-width: 600px) {
+        display: ${({ hasPosterImage }) => hasPosterImage ? 'none' : 'flex'};
+    }
+`;
+
+const PlaceholderIcon = styled(Tv)`
+    color: #222;
+    min-width: 32px;
+    width: 25%;
+    @media (min-width: 600px) {
+        width: 50%;
+    }
+`;
+
+const PosterImage = styled.img`
+    display: none;
+    transition: filter ease-out 0.2s, opacity ease-out 0.2s;
+    opacity: ${({ isLoaded }) => isLoaded ? 1 : 0};
+    ${({ isHovered }) => isHovered && `
+        filter: grayscale(75%) contrast(110%);
+    `}
+    @media (min-width: 600px) {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+    
+`;
+
+const BackdropImage = styled.img`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: all ease-out 0.2s;
+    opacity: ${({ isLoaded }) => isLoaded ? 1 : 0};
+    ${({ isHovered }) => isHovered && `
+        filter: grayscale(75%) contrast(110%);
+    `}
     @media (min-width: 600px) {
         display: none;
     }
@@ -56,8 +111,10 @@ const ImageOverlay = styled.div`
     left: 0;
     transition: background ease-out 0.2s;
     cursor: pointer;
-    &:hover {
-        background: rgba(17,17,17,0.4)
+    background: ${({ isHovered }) => isHovered ? 'rgba(17,17,17,0.4)' : 'none'};
+    display: ${({ hasBackdropImage }) => hasBackdropImage ? 'block' : 'none'};
+    @media (min-width: 600px) {
+        display: ${({ hasPosterImage }) => hasPosterImage ? 'block' : 'none'};
     }
 `;
 
@@ -115,16 +172,78 @@ export function MediaCard({
     children
 }) {
 
-    const posterSrc = getImageUrl(posterPath, imageSizeConstants.w300);
-    const backdropSrc = getImageUrl(backdropPath, imageSizeConstants.w780);
+    const { isHovered, containerProps } = useHover();
+
+    const [ ref, inView, entry ] = useInView({ triggerOnce: true });
+
+    const posterImageSrc = useMemo(() => {
+        return getImageUrl(posterPath, imageSizeConstants.w300);
+    }, [ posterPath ]);
+
+    const backdropImageSrc = useMemo(() => {
+        return getImageUrl(backdropPath, imageSizeConstants.w780);
+    }, [ backdropPath ]);
+
+    const [ posterImageLoaded, setPosterImageLoaded ] = useState(false);
+
+    const [ backdropImageLoaded, setBackdropImageLoaded ] = useState(false);
+
+    const hasPosterImage = Boolean(posterPath);
+    const hasBackdropImage = Boolean(backdropPath);
+
+    useEffect(() => {
+        if (!hasPosterImage || posterImageLoaded || !inView) return;
+        const img = new Image();
+        img.onload = () => {
+            setPosterImageLoaded(true);
+        }
+        img.src = posterImageSrc;
+    }, [ hasPosterImage, posterImageLoaded, posterImageSrc, inView ]);
+
+    useEffect(() => {
+        if (!hasBackdropImage || backdropImageLoaded || !inView) return;
+        const img = new Image();
+        img.onload = () => {
+            setBackdropImageLoaded(true);
+        }
+        img.src = backdropImageSrc;
+    }, [ hasBackdropImage, backdropImageLoaded, backdropImageSrc, inView ]);
 
     return (
         <StyledMediaCard>
             <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
-                <ImageLink>
-                    <PosterImage src={posterSrc} alt="" isInline={isInline} />
-                    <BackdropImage src={backdropSrc} alt="" />
-                    <ImageOverlay />
+                <ImageLink ref={ref} {...containerProps} isInline={isInline}>
+                    {(hasPosterImage && hasBackdropImage) && (
+                        <PlaceholderContainer 
+                            hasPosterImage={hasPosterImage}
+                            hasBackdropImage={hasBackdropImage}
+                        >
+                            <PlaceholderIcon />
+                        </PlaceholderContainer>
+                    )}
+                    {hasPosterImage && (
+                        <PosterImage 
+                            src={posterImageLoaded ? posterImageSrc : null} 
+                            alt={title} 
+                            isHovered={isHovered}
+                            isLoaded={posterImageLoaded}
+                        />
+                    )}
+                    {hasBackdropImage && (
+                        <BackdropImage 
+                            src={backdropImageLoaded ? backdropImageSrc : null} 
+                            alt={title} 
+                            isHovered={isHovered}
+                            isLoaded={backdropImageLoaded}
+                        />
+                    )}
+                    {(hasPosterImage || hasBackdropImage) && (
+                        <ImageOverlay 
+                            isHovered={isHovered}
+                            hasPosterImage={hasPosterImage}
+                            hasBackdropImage={hasBackdropImage} 
+                        />
+                    )}
                 </ImageLink>
             </Link>
             <TextColumn>

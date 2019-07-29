@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row } from '../Layout';
@@ -12,6 +12,7 @@ import { getMovieData } from '../../reducers/movieReducer';
 import { getShowData } from '../../reducers/showReducer';
 import { getSessionType } from '../../reducers/sessionReducer';
 import UserInteractionsRow from './UserInteractionsRow';
+import SmartImage from '../SmartImage';
 
 // is there a better semantic element to use here?
 const MediaHeaderContainer = styled.div`
@@ -35,10 +36,9 @@ const BackdropImageOverlay = styled.div`
     position: relative;
 `;
 
-const PosterImage = styled.img`
+const PosterImage = styled(SmartImage)`
     display: none;
     margin-right: 40px;
-    height: auto;
     flex-shrink: 0;
     @media(min-width: 600px) {
         display: block;
@@ -98,14 +98,23 @@ export function MediaHeader({
     tagline,
     createdBy
 }) {
-    const backdropUrl = getImageUrl(backdropPath, 'original');
-    const posterUrl = getImageUrl(posterPath, imageSizeConstants.w342);
+
+    const backdropUrl = useMemo(() => {
+        return getImageUrl(backdropPath, 'original')
+    }, [ backdropPath ]);
+
+    //const posterUrl = getImageUrl(posterPath, imageSizeConstants.w342);
+
     return (
         <MediaHeaderContainer>
             <BackdropImageHolder imageUrl={backdropUrl} />
             <BackdropImageOverlay>
                 <MediaHeaderContentRow>
-                    <PosterImage src={posterUrl} alt="" />
+                    <PosterImage 
+                        imagePath={posterPath}
+                        imageSize={imageSizeConstants.w342}
+                        alt={title} 
+                    />
                     <div>
 
                         <MediaTitle>{title}</MediaTitle>

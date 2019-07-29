@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { fetchShow } from '../../actions';
 import { getShowData } from '../../reducers/showReducer';
@@ -11,7 +11,9 @@ import { SeasonCard } from '../../components/Cards';
 
 function Seasons({ id, title, posterPath, seasons }) {
 
-    const showSubNavData = getShowSubNavData(id);
+    const showSubNavData = useMemo(() => {
+        return getShowSubNavData(id);
+    }, [ id ]);
 
     return (
         <div>

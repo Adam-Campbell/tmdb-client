@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { text, getImageUrl, imageSizeConstants } from '../../utils';
+import useHover from '../useHover';
+import ImageLink from '../ImageLink';
 
 const StyledPersonListItem = styled.li`
     width: 100%;
@@ -15,15 +17,12 @@ const StyledPersonListItem = styled.li`
     }
 `;
 
-const ImageLink = styled.a`
+const PersonImageLink = styled(ImageLink)`
     margin-right: 20px;
-    display: flex;
     align-items: center;
     flex-shrink: 0;
-`;
-
-const Image = styled.img`
     border-radius: 3px;
+    overflow: hidden;
     width: 100px;
     height: 100px;
     @media (min-width: 550px) {
@@ -35,7 +34,6 @@ const Image = styled.img`
         height: 100px;
     }
 `;
-
 
 const NameLink = styled.a`
     ${text('body', { fontWeight: 700 })}
@@ -52,14 +50,17 @@ const Description = styled.p`
 `;
 
 export default function PersonListItem({ id, name, description, imagePath, isHidden }) {
-    const imageUrl = getImageUrl(imagePath, imageSizeConstants.faceMedium);
+    
     return (
         <StyledPersonListItem isHidden={isHidden}>
-            <Link href={`/person?id=${id}`} as={`/person/${id}`} passHref>
-                <ImageLink>
-                    <Image src={imageUrl} />
-                </ImageLink>
-            </Link>
+            <PersonImageLink 
+                imagePath={imagePath}
+                imageSize={imageSizeConstants.faceMedium}
+                alt={name}
+                linkHref={`/person?id=${id}`}
+                linkAs={`/person/${id}`}
+                isPersonImage={true}
+            />
             <div>
                 <Link href={`/person?id=${id}`} as={`/person/${id}`} passHref>
                     <NameLink>{name}</NameLink>

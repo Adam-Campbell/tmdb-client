@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { getSearchResults } from '../Api';
 import SubNav from '../components/SubNav';
@@ -57,6 +57,7 @@ function getResultCards(searchResults, searchCategory) {
                     urlSubpath="/person"
                     additionalDetails={item.known_for.map(el => el.title || el.name).join(',')}
                     shouldTruncateDetails={true}
+                    isPersonImage={true}
                 /> 
             ));
         default:
@@ -66,7 +67,11 @@ function getResultCards(searchResults, searchCategory) {
 
 
 const Search = ({ searchQuery, searchCategory, searchResults }) => {
-    const navData = getSearchSubNavData(searchQuery);
+
+    const navData = useMemo(() => { 
+        return getSearchSubNavData(searchQuery);
+    }, [ searchQuery ]);
+
     return (
         <div>
             <SubNav navData={navData} alignCenter={true} />

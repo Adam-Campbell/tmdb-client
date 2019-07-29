@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { getShowDetails } from '../../Api';
 import MinimalHeader from '../../components/MinimalHeader';
@@ -13,9 +13,13 @@ import { connect } from 'react-redux';
 
 function CastAndCrew({ id, title, posterPath, cast, crew }) {
 
-    const showSubNavData = getShowSubNavData(id);
+    const showSubNavData = useMemo(() => {
+        return getShowSubNavData(id);
+    }, [ id ]);
 
-    const orderedCast = cast.sort((a,b) => a.order - b.order);
+    const orderedCast = useMemo(() => {
+        return cast.sort((a,b) => a.order - b.order);
+    }, [ cast ]);
 
     return (
         <div>

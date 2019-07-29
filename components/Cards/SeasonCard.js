@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { getImageUrl, imageSizeConstants, text, truncateString, formatDateString } from '../../utils';
+import { imageSizeConstants, text, truncateString, formatDateString } from '../../utils';
+import ImageLink from '../ImageLink';
 
 const StyledSeasonCard = styled.div`
     width: 100%;
@@ -15,34 +16,17 @@ const StyledSeasonCard = styled.div`
     }
 `;
 
-const PosterImageLink = styled.a`
-    position: relative;
-    display: flex;
-`;
-
-const PosterImage = styled.img`
+const PosterImageLink = styled(ImageLink)`
     width: 100px;
-    height: 150.3px;
-    @media(min-width: 360px) {
+    height: 150px;
+    flex-shrink: 0;
+    @media (min-width: 360px) {
         width: 130px;
-        height: 195.4px;
+        height: 210px
     }
-    @media(min-width: 550px) {
+    @media (min-width: 550px) {
         width: 185px;
-        height: 278px;
-    }
-`;
-
-const PosterImageOverlay = styled.div`
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    transition: background ease-out 0.2s;
-    cursor: pointer;
-    &:hover {
-        background: rgba(17,17,17,0.4)
+        height: 277.5px;
     }
 `;
 
@@ -105,30 +89,29 @@ export function SeasonCard({
     showId,
     seasonNumber
 }) {
-    const posterSrc = getImageUrl(posterPath, imageSizeConstants.w185);
-    const year = airDate.split('-')[0];
-    //const truncatedOverview = truncateString(overview, 280);
+    
+    const year = useMemo(() => {
+        return airDate.split('-')[0];
+    }, [ airDate ]);
 
-    const hasNotAired = new Date(airDate) - Date.now() > 0;
-
-    const overviewText = hasNotAired
+    const overviewText = useMemo(() => {
+        const hasNotAired = new Date(airDate) - Date.now() > 0;
+        return hasNotAired
             ? `${name} will air on ${formatDateString(airDate)}.`
             : overview.length
                 ? truncateString(overview, 280)
-                : 'There is no overview for this season.'
+                : 'There is no overview for this season';
+    }, [ airDate, name, overview ]);
 
     return (
         <StyledSeasonCard>
-            <Link 
-                href={`/show/season?id=${showId}&number=${seasonNumber}`} 
-                as={`/show/${showId}/season/${seasonNumber}`} 
-                passHref
-            >
-                <PosterImageLink>
-                    <PosterImage src={posterSrc} alt="" />
-                    <PosterImageOverlay />
-                </PosterImageLink>
-            </Link>
+            <PosterImageLink 
+                imagePath={posterPath}
+                imageSize={imageSizeConstants.w185}
+                alt={name}
+                linkHref={`/show/season?id=${showId}&number=${seasonNumber}`}
+                linkAs={`/show/${showId}/season/${seasonNumber}`}
+            />
             <TextColumn>
                 <TitleRow>
                     <Link

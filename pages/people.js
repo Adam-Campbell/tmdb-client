@@ -28,6 +28,7 @@ const People = (props) => (
                            additionalDetails={knownFor}
                            urlSubpath="/person"
                            shouldTruncateDetails={true}
+                           isPersonImage={true}
                        />
             })}
         </Main>

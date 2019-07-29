@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import MediaHeader from '../../components/MediaHeader';
 import { 
@@ -42,7 +42,10 @@ function Movie({
     genres,
     keywords
 }) {
-    const movieSubNavData = getMovieSubNavData(id); 
+    const movieSubNavData = useMemo(() => {
+        return getMovieSubNavData(id); 
+    }, [ id ]);
+    
     return (
         <div>
             <MediaHeader 

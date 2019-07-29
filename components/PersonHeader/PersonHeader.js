@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row } from '../Layout';
 import { text, getImageUrl, imageSizeConstants } from '../../utils';
+import SmartImage from '../SmartImage';
 
 const PersonHeaderContainer = styled.div`
     background: #ddd;
@@ -19,7 +20,7 @@ const PersonHeaderRow = styled(Row)`
     }
 `;
 
-const ProfileImage = styled.img`
+const ProfileImage = styled(SmartImage)`
     width: 120px;
     height: 180px;
     align-self: center;
@@ -63,7 +64,13 @@ export function PersonHeader({ name, imagePath, biography }) {
     return (
         <PersonHeaderContainer>
             <PersonHeaderRow>
-                <ProfileImage src={imageUrl} />
+                <ProfileImage 
+                    imagePath={imagePath}
+                    imageSize={imageSizeConstants.w342}
+                    alt={name} 
+                    isPersonImage={true}
+                />
+                
                 <TextContainer>
                     <Title>{name}</Title>
                     <Subheading>Biography</Subheading>

@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { text, getImageUrl, imageSizeConstants } from '../../utils';
+import { text, imageSizeConstants } from '../../utils';
 import Link from 'next/link';
+import ImageLink from '../ImageLink';
 
 const StyledMinimalCard = styled.div`
     margin-top: 10px;
@@ -42,26 +43,8 @@ const StyledMinimalCard = styled.div`
     `}
 `;
 
-const ImageLink = styled.a`
-    position: relative;
-    display: flex;
-`;
-
-const Image = styled.img`
-    width: 100%;
-`;
-
-const ImageOverlay = styled.div`
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
-    transition: background ease-out 0.2s;
-    cursor: pointer;
-    &:hover {
-        background: rgba(17,17,17,0.4)
-    }
+const CardImageLink = styled(ImageLink)`
+    padding-bottom: 150%;
 `;
 
 const InfoRow = styled.div`
@@ -102,20 +85,20 @@ export function MinimalCard({
     urlSubpath, 
     additionalDetails, 
     isInline,
-    shouldTruncateDetails 
+    shouldTruncateDetails,
+    isPersonImage
 }) {
-    const imageSrc = getImageUrl(imagePath, imageSizeConstants.w342);
+
     return (
         <StyledMinimalCard isInline={isInline}>
-            <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
-                <ImageLink>
-                    <Image 
-                        src={imageSrc} 
-                        alt=""
-                    />
-                    <ImageOverlay />
-                </ImageLink>
-            </Link>
+            <CardImageLink 
+                imagePath={imagePath}
+                imageSize={imageSizeConstants.w342}
+                alt={name}
+                linkHref={`${urlSubpath}?id=${id}`}
+                linkAs={`${urlSubpath}/${id}`}
+                isPersonImage={isPersonImage}
+            />
             <InfoRow>
                 <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
                     <NameLink>{name}</NameLink>
@@ -144,5 +127,6 @@ MinimalCard.propTypes = {
     isInline: PropTypes.bool,
     // When true the string supplied via the additionalDetails props will be truncated via CSS to prevent
     // it from carrying onto multiple lines. 
-    shouldTruncateDetails: PropTypes.bool
+    shouldTruncateDetails: PropTypes.bool,
+    isPersonImage: PropTypes.bool
 };

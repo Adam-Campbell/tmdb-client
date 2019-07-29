@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { getPersonDetails } from '../../Api';
 import { getPersonSubNavData } from '../../utils';
 import SubNav from '../../components/SubNav';
@@ -19,17 +19,34 @@ import { fetchPerson } from '../../actions';
 import { getPersonData } from '../../reducers/personReducer';
 import { connect } from 'react-redux';
 
-function Person(props) {
+function Person({
+    id,
+    name,
+    profilePath,
+    biography,
+    credits,
+    profileImages,
+    externalIds,
+    website,
+    knownFor,
+    gender,
+    knownCredits,
+    birthday,
+    deathday,
+    placeOfBirth
+}) {
     
-    const personSubNavData = getPersonSubNavData(props.id);
+    const personSubNavData = useMemo(() => {
+        return getPersonSubNavData(id);
+    }, [ id ]);
 
     return (
         <div>
             <PersonHeader 
-                key={props.id}
-                name={props.name}
-                imagePath={props.profilePath}
-                biography={props.biography}
+                key={id}
+                name={name}
+                imagePath={profilePath}
+                biography={biography}
             />
             <SubNav navData={personSubNavData} alignCenter={true} />
             <TwoColLayoutContainer>
@@ -37,49 +54,50 @@ function Person(props) {
                     <MainCol>
                         <PersonTopCreditsCardRow 
                             title="Known for"
-                            creditsData={props.credits}
+                            creditsData={credits}
                             linkText="See all credits"
-                            linkDestinationAs={`/person/${props.id}/credits`}
-                            linkDestinationHref={`/person/credits?id=${props.id}`}
+                            linkDestinationAs={`/person/${id}/credits`}
+                            linkDestinationHref={`/person/credits?id=${id}`}
                         />
                         <InlineGalleryRow 
-                            imagesData={props.profileImages}
+                            imagesData={profileImages}
                             title="Profile images"
                             linkText="See all images"
-                            linkDestinationAs={`/person/${props.id}/images`}
-                            linkDestinationHref={`/person/images?id=${props.id}`}
+                            linkDestinationAs={`/person/${id}/images`}
+                            linkDestinationHref={`/person/images?id=${id}`}
+                            name={name}
                         />
                     </MainCol>
                     <SidebarCol>
                         <SocialLinks 
-                            facebook={props.externalIds.facebook_id}
-                            twitter={props.externalIds.twitter_id}
-                            instagram={props.externalIds.instagram_id}
-                            website={props.website}
+                            facebook={externalIds.facebook_id}
+                            twitter={externalIds.twitter_id}
+                            instagram={externalIds.instagram_id}
+                            website={website}
                         />
                         <SidebarEntry 
                             title="Known for"
-                            value={props.knownFor}
+                            value={knownFor}
                         />
                         <SidebarEntry 
                             title="Gender"
-                            value={props.gender}
+                            value={gender}
                         />
                         <SidebarEntry 
                             title="Known credits"
-                            value={props.knownCredits}
+                            value={knownCredits}
                         />
                         <SidebarEntry 
                             title="Date of birth"
-                            value={props.birthday}
+                            value={birthday}
                         />
                         <SidebarEntry 
                             title="Date of death"
-                            value={props.deathday}
+                            value={deathday}
                         />
                         <SidebarEntry 
                             title="Place of birth"
-                            value={props.placeOfBirth}
+                            value={placeOfBirth}
                         />
                     </SidebarCol>
                 </TwoColLayoutRow>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { getShowDetails } from '../../Api';
 import MediaHeader from '../../components/MediaHeader';
 import { 
@@ -38,7 +38,11 @@ function Show({
     keywords,
     currentSeason
 }) {
-    const showSubNavData = getShowSubNavData(id);
+
+    const showSubNavData = useMemo(() => {
+        return getShowSubNavData(id);
+    }, [ id ]);
+    
     return (
         <div>
             <MediaHeader 
