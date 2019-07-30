@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row } from '../Layout';
 import { text, getImageUrl, imageSizeConstants } from '../../utils';
 import SmartImage from '../SmartImage';
+import Biography from './Biography';
 
 const PersonHeaderContainer = styled.div`
     background: #ddd;
@@ -16,7 +17,7 @@ const PersonHeaderRow = styled(Row)`
     padding-bottom: 40px;
     @media(min-width: 600px) {
         flex-direction: row;
-        align-items: center;
+        align-items: flex-start;
     }
 `;
 
@@ -29,6 +30,7 @@ const ProfileImage = styled(SmartImage)`
         margin-right: 40px;
         width: 200px;
         height: 300px;
+        align-self: flex-start;
     }
     @media(min-width: 768px) {
         width: 300px;
@@ -37,7 +39,9 @@ const ProfileImage = styled(SmartImage)`
 `;
 
 const TextContainer = styled.div`
-
+    @media (min-width: 600px) {
+        align-self: center;
+    }
 `;
 
 const Title = styled.h1`
@@ -55,12 +59,8 @@ const Subheading = styled.p`
     ${text('heading', { fontSize: '1rem' })}
 `;
 
-const Biography = styled.p`
-    ${text('body')}
-`;
-
 export function PersonHeader({ name, imagePath, biography }) {
-    const imageUrl = getImageUrl(imagePath, imageSizeConstants.w342);
+    
     return (
         <PersonHeaderContainer>
             <PersonHeaderRow>
@@ -74,7 +74,7 @@ export function PersonHeader({ name, imagePath, biography }) {
                 <TextContainer>
                     <Title>{name}</Title>
                     <Subheading>Biography</Subheading>
-                    <Biography>{biography}</Biography>
+                    <Biography biography={biography} />
                 </TextContainer>
             </PersonHeaderRow>
         </PersonHeaderContainer>
