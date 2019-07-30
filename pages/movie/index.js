@@ -66,15 +66,11 @@ function Movie({
                             linkDestinationAs={`/movie/${id}/cast-and-crew`}
                             linkDestinationHref={`/movie/cast-and-crew?id=${id}`}
                         />
-                        {reviews.results.length > 0 && (
-                            <ReviewPod 
-                                author={reviews.results[0].author}
-                                content={reviews.results[0].content}
-                                id={reviews.results[0].id}
-                                allReviewsHref="/foo"
-                                allReviewsAs="/foo"
-                            />
-                        )}
+                        <ReviewPod 
+                            reviews={reviews.results}
+                            linkDestinationAs={`/movie/${id}/reviews`}
+                            linkDestinationHref={`/movie/reviews?id=${id}`}
+                        />
                         <MediaInlineCardRow 
                             title="Recommended Movies"
                             cardsData={recommendations}
