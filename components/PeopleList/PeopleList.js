@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import PersonListItem from './PersonListItem';
 import { text } from '../../utils';
 import { ChevronDown } from 'styled-icons/fa-solid';
+import useExpand from '../useExpand';
 
 const Title = styled.h3`
     ${text('heading')}
@@ -45,36 +46,12 @@ export function PeopleList({
     shouldAllowExpansion,
     unexpandedItemCount 
 }) {
-    // Prevent effect from firing on mount
-    const isInitialMount = useRef(true);
-    const buttonEl = useRef(null);
-    // The distance between the button element and the top of the viewport
-    const [ buttonDelta, setButtonDelta ] = useState(0);
-    const [ isExpanded, setExpanded ] = useState(false);
     
-    useLayoutEffect(() => {
-        // The full logic won't be performed on the first render - only on subsequent ones.
-        if (isInitialMount.current) {
-            isInitialMount.current = false;
-        } else {
-            if (isExpanded) return;
-            // in this block buttonDelta is the distance that buttonEl was from the top of the
-            // viewport BEFORE state was updated and the list was collapsed. By comparing this with
-            // the new position of buttonEl after the collapse we can calculate the correct window 
-            // scroll value to ensure buttonEl stays in the same position relative to the viewport.
-            const { top } = buttonEl.current.getBoundingClientRect();
-            const absoluteTop = top + window.scrollY;
-            const newScrollY = absoluteTop - buttonDelta;
-            window.scrollTo(0, newScrollY);
-        }
-    }, [isExpanded, buttonDelta])
-
-
-    function handleToggleClick() {
-        const { top } = buttonEl.current.getBoundingClientRect();
-        setButtonDelta(top);
-        setExpanded(prev => !prev);
-    }
+    const {
+        isExpanded, 
+        anchorRef,
+        handleToggleClick
+    } = useExpand();
 
     return (
         <div>
@@ -93,7 +70,7 @@ export function PeopleList({
             </StyledPeopleList>
             {shouldAllowExpansion && (
                 <ToggleExpandedButton
-                    ref={buttonEl}
+                    ref={anchorRef}
                     onClick={handleToggleClick}
                 >
                     {isExpanded ? 'Show less' : 'Show more'}
