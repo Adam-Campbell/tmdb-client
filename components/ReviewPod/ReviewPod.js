@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
 import { text, truncateString } from '../../utils';
+import ReviewSwitch from './ReviewSwitch';
 
 const StyledReviewPod = styled.div`
+    margin-bottom: 40px;
+`;
+
+const ReviewContainer = styled.div`
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     padding: 20px;
-    margin-bottom: 40px;
 `;
 
 const ReviewAttribution = styled.p`
@@ -21,18 +25,33 @@ const ReviewExcerpt = styled.p`
 const AllReviewsLink = styled.a`
     ${text('body')}
     text-decoration: none;
+    margin-top: 20px;
+    display: inline-block;
     &:hover {
         text-decoration: underline;
     }
 `;
 
-export function ReviewPod({ author, content, id, allReviewsHref, allReviewsAs }) {
+export function ReviewPod({ reviews, linkDestinationHref, linkDestinationAs }) {
+    if (!reviews.length) return null;
+
+    const [ currentIndex, setIndex ] = useState(0);
+
+    const { author, content, id } = reviews[currentIndex]
     const truncatedContent = truncateString(content, 500);
+
     return (
         <StyledReviewPod>
-            <ReviewAttribution>A review by {author}</ReviewAttribution>
-            <ReviewExcerpt>{truncatedContent}</ReviewExcerpt>
-            <Link href={allReviewsHref} as={allReviewsAs} passHref>
+            <ReviewContainer>
+                <ReviewAttribution>A review by {author}</ReviewAttribution>
+                <ReviewExcerpt>{truncatedContent}</ReviewExcerpt>
+            </ReviewContainer>
+            {reviews.length > 1 && <ReviewSwitch 
+                numberOfReviews={reviews.length}
+                currentIndex={currentIndex}
+                setIndex={setIndex}
+            />}
+            <Link href={linkDestinationHref} as={linkDestinationAs} passHref>
                 <AllReviewsLink>View all reviews</AllReviewsLink>
             </Link>
         </StyledReviewPod>
@@ -40,9 +59,7 @@ export function ReviewPod({ author, content, id, allReviewsHref, allReviewsAs })
 }
 
 ReviewPod.propTypes = {
-    author: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-    allReviewsHref: PropTypes.string.isRequired,
-    allReviewsAs: PropTypes.string.isRequired
+    reviews: PropTypes.arrayOf(PropTypes.object),
+    linkDestinationHref: PropTypes.string.isRequired,
+    linkDestinationAs: PropTypes.string.isRequired
 };

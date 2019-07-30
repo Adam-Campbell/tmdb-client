@@ -77,16 +77,11 @@ function Show({
                                 seasonNumber={currentSeason.season_number}
                             />
                         </InlineContentRow>
-
-                        {reviews.results.length > 0 && (
-                            <ReviewPod 
-                                author={reviews.results[0].author}
-                                content={reviews.results[0].content}
-                                id={reviews.results[0].id}
-                                allReviewsHref="/foo"
-                                allReviewsAs="/foo"
-                            />
-                        )}
+                        <ReviewPod 
+                            reviews={reviews.results}
+                            linkDestinationAs={`/show/${id}/reviews`}
+                            linkDestinationHref={`/show/reviews?id=${id}`}
+                        />
                         <MediaInlineCardRow 
                             title="Recommended Shows"
                             cardsData={recommendations}
