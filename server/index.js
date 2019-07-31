@@ -67,6 +67,13 @@ app.prepare()
         app.render(req, res, url, params);
     });
 
+    // handle list route
+    server.get('/me/list/:id', (req, res) => {
+        const url = '/me/list';
+        const params = { id: req.params.id };
+        app.render(req, res, url, params);
+    });
+
     // handle movie subroutes
     server.use('/movie', movieRouter);
 
@@ -78,16 +85,7 @@ app.prepare()
 
     server.use('/api', apiRouter);
 
-    server.get('/movie-endpoint', async (req, res) => {
-        const response = await axios.get('https://api.themoviedb.org/3/movie/popular', {
-            params: {
-                api_key: '366f08c1f54f6edab9d509f393bf0b54'
-            }
-        });
-        res.json({
-            popularMovies: response.data.results
-        });
-    });
+    
 
     // handle all routes that aren't explicitly defined
     server.get('*', (req, res) => handle(req, res));

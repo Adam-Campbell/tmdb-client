@@ -6,6 +6,7 @@ import show from './showReducer';
 import person from './personReducer';
 import user from './user';
 import season from './seasonReducer';
+import list from './listReducer';
 
 export default combineReducers({
     session,
@@ -14,5 +15,6 @@ export default combineReducers({
     show,
     person,
     user,
-    season
+    season,
+    list
 });

@@ -9,11 +9,21 @@ import UserHeader from '../../components/UserHeader';
 import { Row } from '../../components/Layout';
 import { ListCard } from '../../components/Cards';
 import ListViewHeader from '../../components/ListViewHeader';
+import { text } from '../../utils';
 
 const ListCardsContainer = styled(Row)`
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+`;
+
+const CreateListButton = styled.button`
+    ${text('body', { fontWeight: 700, color: '#fff' })}
+    background: #6ee843;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
 `;
 
 function Lists({ lists }) {
@@ -22,6 +32,9 @@ function Lists({ lists }) {
             <UserHeader />
             <SubNav navData={meRoutesSubNavData} alignLeft={true} />
             <ListViewHeader title="My Lists">
+                <CreateListButton>
+                    Create list
+                </CreateListButton>
             </ListViewHeader>
             <ListCardsContainer>
                 {lists.map(list => (

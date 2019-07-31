@@ -98,29 +98,10 @@ export const deleteList = (listId) => async (dispatch, getState) => {
     const userSessionId = getUserSessionId(state);
     dispatch(deleteListRequest());
     try {
+        // Note, currently this is resulting in a 500 error from the TMdb API, even when I 
+        // attempted from the sandbox in their API docs. Despite this, it is still actually
+        // deleting the list as requested, so is most likely a temporary error on their end. 
         const response = await deleteUserList(listId, userSessionId);
-        // You can delete a list both from the main lists view (where you view all of your lists) and from
-        // the individual list view. To handle deletion from the main lists view, I can just have
-        // DELETE_LIST_SUCCESS invalidate the user cache, and then refetch. 
-        //
-        // In order to deal with deletion from the individual list view there are a couple of approaches
-        // I could choose. For the first approach since I'm already going to have DELETE_LIST_SUCCESS 
-        // invalidate the user cache, I can just await this thunk in the component that calls it, and 
-        // after completion I can redirect to the users main lists route. NOTE, I cannot do that inside
-        // this thunk, because there are other contexts (such as within the main lists view) where I want
-        // to dispatch this thunk but without redirecting.
-        //
-        // The other approach if I don't redirect, is to stay on the same route but have the route update to
-        // render a message saying that this list was succesfully deleted. This will require some state for
-        // that component - isDeleted for example. This approach actually makes it easier to delete the list
-        // slice of state - I can just delete it and then update the isDeleted state to show the message. Note,
-        // if I delete the list from the store first and then update state to show the delete message, there will
-        // be a split second where it's expecting the data to be in the store but it isn't there anymore. This
-        // should be imperceptible to the user, but can still cause the app to crash so I need to handle this. I
-        // could update isDeleted state first and then dispatch a separate action to delete. Or I could just add
-        // some rendering logic that if nothing is in the store it will render null. It should be imperctibly 
-        // fast anyway.
-        //
         dispatch(deleteListSuccess());
     } catch (error) {
         dispatch(deleteListFailed(error))
@@ -175,7 +156,7 @@ const removeMovieFromListFailed = (error) => ({
 
 export const removeMovieFromList = (listId, movieId) => async (dispatch, getState) => {
     const state = getState();
-    const userSessionId = getUserSessionId();
+    const userSessionId = getUserSessionId(state);
     dispatch(removeMovieFromListRequest());
     try {
         const response = await postRemoveListMovie(listId, movieId, userSessionId);
@@ -208,9 +189,6 @@ export const clearList = (listId) => async (dispatch, getState) => {
     dispatch(clearListRequest());
     try {
         const response = await postClearList(listId, userSessionId);
-        // Since this thunk can be dispatched from the individual list view, the _SUCCESS
-        // action needs to update the list slice of state by removing all movies/entities from 
-        // the list. 
         dispatch(clearListSuccess(listId));
     } catch (error) {
         dispatch(clearListFailed(error));
