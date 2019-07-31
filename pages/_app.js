@@ -46,6 +46,13 @@ const GlobalStyle = createGlobalStyle`
         border-radius: 3px;
         padding: 10px;
     }
+    .create-list-modal__content-container {
+        background: #fff;
+        border-radius: 3px;
+        padding: 10px;
+        width: calc(100% - 40px);
+        max-width: 600px;
+    }
     .rating-modal__overlay {
         position: absolute;
         top: 0;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { getUsersCreatedLists } from '../../reducers/user';
@@ -10,6 +10,7 @@ import { Row } from '../../components/Layout';
 import { ListCard } from '../../components/Cards';
 import ListViewHeader from '../../components/ListViewHeader';
 import { text } from '../../utils';
+import CreateListModal from '../../components/CreateListModal';
 
 const ListCardsContainer = styled(Row)`
     display: flex;
@@ -27,12 +28,17 @@ const CreateListButton = styled.button`
 `;
 
 function Lists({ lists }) {
+
+    const [ modalIsOpen, setModalIsOpen ] = useState(false);
+
     return (
         <div>
             <UserHeader />
             <SubNav navData={meRoutesSubNavData} alignLeft={true} />
             <ListViewHeader title="My Lists">
-                <CreateListButton>
+                <CreateListButton 
+                    onClick={() => setModalIsOpen(true)}
+                >
                     Create list
                 </CreateListButton>
             </ListViewHeader>
@@ -47,6 +53,12 @@ function Lists({ lists }) {
                     />
                 ))}
             </ListCardsContainer>
+            {modalIsOpen && (
+                <CreateListModal 
+                    isOpen={modalIsOpen}
+                    handleClose={() => setModalIsOpen(false)}
+                />
+            )}
         </div>
     );
 }

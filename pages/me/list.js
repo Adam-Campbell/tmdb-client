@@ -74,14 +74,14 @@ function List({
                         backdropPath={item.backdrop_path}
                         overview={item.overview}
                         urlSubpath={item.title ? '/movie' : '/show'}
-                        hasUserAction={true}
+                        hasUserAction={Boolean(item.title)}
                     >
-                        <CancelInteractionButton 
+                        {Boolean(item.title) && <CancelInteractionButton 
                             label="Remove from list"
                             onClick={() => {
                                 removeMovieFromList(id, item.id);
                             }}
-                        />
+                        />}
                     </MediaCard>
                 ))}
             </Row>
