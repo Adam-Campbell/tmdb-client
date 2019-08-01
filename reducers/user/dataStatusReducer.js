@@ -79,6 +79,12 @@ export default function reducer(state = initialState, action) {
                 isInvalidated: true
             };
 
+        case actionTypes.ADD_MOVIE_TO_LIST_SUCCESS:
+            return {
+                ...state,
+                isInvalidated: true
+            };
+
         default:
             return state;
     }

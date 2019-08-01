@@ -139,6 +139,7 @@ function UserInteractionsRow({
             {isShowingAddToListModal && <AddToListModal 
                 isOpen={isShowingAddToListModal}
                 handleClose={() => setIsShowingAddToListModal(false)}
+                movieId={id}
             />}
         </StyledUserInteractionsRow>
     );

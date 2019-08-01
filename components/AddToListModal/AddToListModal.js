@@ -8,6 +8,9 @@ import { getCreatedLists } from '../../Api';
 import { getUserId } from '../../reducers/user';
 import { getUserSessionId } from '../../reducers/sessionReducer';
 import { text } from '../../utils';
+import useHover from '../useHover';
+import { Times } from 'styled-icons/fa-solid';
+import ModalListItem from './ModalListItem';
 
 const LoaderContainer = styled.div`
     width: 100%;
@@ -24,31 +27,52 @@ const Loader = styled.div`
     background: #ddd;
 `;
 
-const ModalContent = styled.div`
-
+const TitleRow = styled.div`
+    display: flex;
+    align-items: center;
 `;
 
 const ModalTitle = styled.h2`
     ${text('heading')}
+    margin-top: 10px;
+    margin-bottom: 10px;
+`;
+
+const CancelButton = styled.button`
+    border: 0;
+    border-radius: 3px;
+    background: #dc1f3b;
+    margin-left: auto;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+`;
+
+const CancelIcon = styled(Times)`
+    color: #fff;
+    width: 14px;
 `;
 
 const List = styled.ul`
     list-style-type: none;
     padding-left: 0;
-`;
-
-const ListItem = styled.li`
-
-`;
-
-const ListItemText = styled.p`
-    ${text('body')}
-    margin-top: 0;
-    margin-bottom: 0;
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 10px;
 `;
 
 
-function AddToListModal({ accountId, userSessionId, addMovieToList, isOpen, handleClose }) {
+function AddToListModal({ 
+    accountId, 
+    userSessionId, 
+    addMovieToList, 
+    movieId, 
+    isOpen, 
+    handleClose 
+}) {
 
     const [ usersLists, setUsersLists ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(false);
@@ -77,20 +101,36 @@ function AddToListModal({ accountId, userSessionId, addMovieToList, isOpen, hand
                     <Loader />
                 </LoaderContainer>
             ) : (
-                <ModalContent>
-                    <ModalTitle>Choose a list:</ModalTitle>
+                <>
+                    <TitleRow>
+                        <ModalTitle>Choose a list:</ModalTitle>
+                        <CancelButton onClick={handleClose}>
+                            <CancelIcon />
+                        </CancelButton>
+                    </TitleRow>
                     <List>
                         {usersLists.map(list => (
-                            <ListItem key={list.id}>
-                                <ListItemText>{list.name}</ListItemText>
-                            </ListItem>
+                            <ModalListItem 
+                                key={list.id}
+                                name={list.name}
+                                handleClick={() => {
+                                    addMovieToList(list.id, movieId);
+                                    handleClose();
+                                }}
+                            />     
                         ))}
                     </List>
-                </ModalContent>
+                </>
             )}
         </ReactModal>
     );
 }
+
+AddToListModal.propTypes = {
+    movieId: PropTypes.number.isRequired,
+    isOpen: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired
+};
 
 function mapState(state) {
     return {
