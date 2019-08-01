@@ -46,7 +46,7 @@ const GlobalStyle = createGlobalStyle`
         border-radius: 3px;
         padding: 10px;
     }
-    .create-list-modal__overlay {
+    .centered-modal__overlay {
         position: fixed;
         top: 0;
         left: 0;
@@ -64,6 +64,13 @@ const GlobalStyle = createGlobalStyle`
         padding: 10px;
         width: calc(100% - 40px);
         max-width: 600px;
+    }
+    .add-to-list-modal__content-container {
+        background: #fff;
+        border-radius: 3px;
+        padding: 10px;
+        width: calc(100% - 40px);
+        max-width: 320px;
     }
     .rating-modal__overlay {
         position: absolute;

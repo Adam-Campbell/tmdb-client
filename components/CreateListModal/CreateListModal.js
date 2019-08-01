@@ -104,16 +104,12 @@ function CreateListModal({ isOpen, handleClose, createList }) {
 
         await createList(listName, listDescription);
         handleClose();
-        // console.log(`
-        //     name: ${listName}
-        //     description: ${listDescription}
-        // `);
     }
 
     return (
         <ReactModal
             isOpen={isOpen}
-            overlayClassName="create-list-modal__overlay"
+            overlayClassName="centered-modal__overlay"
             className="create-list-modal__content-container"
             shouldCloseOnEscape={true}
             onRequestClose={handleClose}
