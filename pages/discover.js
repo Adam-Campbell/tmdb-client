@@ -48,12 +48,6 @@ const DropdownContainer = styled.div`
     margin-top: 40px;
 `;
 
-const ComboBoxContainer = styled.div`
-    width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 40px;
-`;
 
 const SliderContainer = styled.div`
     width: 100%;
@@ -81,6 +75,11 @@ const InputContainer = styled.div`
     @media(min-width: 900px) {
         width: 100%;
     }
+`;
+
+const ComboBoxContainer = styled.div`
+    width: 100%;
+    margin-bottom: 20px;
 `;
 
 const InputRow = styled.div`
@@ -198,13 +197,13 @@ class Discover extends Component {
                                 labelText="Media type:"
                             />
                         </InputContainer>
-                        <InputContainer>
+                        <ComboBoxContainer>
                             <ComboBox 
                                 items={mediaType.value === 'movies' ? movieGenres : TVGenres}
                                 currentSelection={withGenres}
                                 setSelection={this.updateValue('withGenres')}
                             />
-                        </InputContainer>
+                        </ComboBoxContainer>
                     </InputRow>
                 </ControlsContainer>
                 <ResultsContainer>
