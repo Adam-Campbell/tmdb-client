@@ -17,19 +17,23 @@ export default combineReducers({
 });
 
 export function getUsersRatings(state) {
-    return state.user.rated
+    return state.user.rated;
 }
 
 export function getUsersFavourites(state) {
-    return state.user.favourites
+    return state.user.favourites;
 }
 
 export function getUsersWatchlists(state) {
-    return state.user.watchlists
+    return state.user.watchlists;
+}
+
+export function getUsersCreatedLists(state) {
+    return state.user.createdLists;
 }
 
 export function getUserSummary(state) {
-    return state.user.summary
+    return state.user.summary;
 }
 
 export function getUserId(state) {

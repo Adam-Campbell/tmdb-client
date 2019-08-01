@@ -55,6 +55,36 @@ export default function reducer(state = initialState, action) {
                 isInvalidated: true
             };
 
+        case actionTypes.CLEAR_LIST_SUCCESS:
+            return {
+                ...state,
+                isInvalidated: true
+            };
+
+        case actionTypes.DELETE_LIST_SUCCESS:
+            return {
+                ...state,
+                isInvalidated: true
+            };
+
+        case actionTypes.REMOVE_MOVIE_FROM_LIST_SUCCESS:
+            return {
+                ...state,
+                isInvalidated: true
+            };
+
+        case actionTypes.CREATE_LIST_SUCCESS:
+            return {
+                ...state,
+                isInvalidated: true
+            };
+
+        case actionTypes.ADD_MOVIE_TO_LIST_SUCCESS:
+            return {
+                ...state,
+                isInvalidated: true
+            };
+
         default:
             return state;
     }

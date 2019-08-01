@@ -14,6 +14,11 @@ export const meRoutesSubNavData = [
         as: '/me'
     },
     {
+        name: 'Lists',
+        href: '/me/lists',
+        as: '/me/lists'
+    },
+    {
         name: 'Watchlist',
         href: '/me/watchlist',
         as: '/me/watchlist'

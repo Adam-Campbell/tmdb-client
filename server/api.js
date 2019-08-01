@@ -72,5 +72,30 @@ router.route('/usersession')
         }
     })
 
+router.route('/list')
+    .post(async (req, res) => {
+        const { name, description } = req.body;
+        const { session_id } = req.query;
+        try {
+            const response = await a.request('list', {
+                params: {
+                    api_key: API_KEY,
+                    session_id
+                },
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                data: {
+                    name,
+                    description
+                }
+            });
+            res.json(response.data);
+        } catch (error) {
+            //console.log(error)
+            res.status(401).send();
+        }
+    })
 
 module.exports = router;

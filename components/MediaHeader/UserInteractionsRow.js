@@ -17,6 +17,7 @@ import ReactToolTip from 'react-tooltip';
 import StarRatingPopup from '../StarRatingPopup';
 import usePopup from '../usePopup';
 import InteractionButton from './InteractionButton';
+import AddToListModal from '../AddToListModal';
 
 const RateIcon = styled(Star)`
     width: 15px;
@@ -62,6 +63,8 @@ function UserInteractionsRow({
     rateShow,
     removeShowRating
 }) {
+    
+    const [ isShowingAddToListModal, setIsShowingAddToListModal ] = useState(false);
 
     const {
         isShowingPopup,
@@ -86,7 +89,7 @@ function UserInteractionsRow({
         <StyledUserInteractionsRow>
             <InteractionButton
                 isBeingUsed={false}
-                handleClick={() => {}}
+                handleClick={() => setIsShowingAddToListModal(true)}
                 inUseColor="#fff"
                 tooltipText="Add to list"
             >
@@ -132,6 +135,11 @@ function UserInteractionsRow({
                 topOffset={windowTopOffset}
                 handleChange={handleRatingModalChange}
                 handleRemove={() => removeRatingFn(id)}
+            />}
+            {isShowingAddToListModal && <AddToListModal 
+                isOpen={isShowingAddToListModal}
+                handleClose={() => setIsShowingAddToListModal(false)}
+                movieId={id}
             />}
         </StyledUserInteractionsRow>
     );

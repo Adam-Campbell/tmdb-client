@@ -46,6 +46,32 @@ const GlobalStyle = createGlobalStyle`
         border-radius: 3px;
         padding: 10px;
     }
+    .centered-modal__overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(17,17,17,0.8);
+        z-index: 3000;
+    }
+    .create-list-modal__content-container {
+        background: #fff;
+        border-radius: 3px;
+        padding: 10px;
+        width: calc(100% - 40px);
+        max-width: 600px;
+    }
+    .add-to-list-modal__content-container {
+        background: #fff;
+        border-radius: 3px;
+        padding: 10px;
+        width: calc(100% - 40px);
+        max-width: 320px;
+    }
     .rating-modal__overlay {
         position: absolute;
         top: 0;
