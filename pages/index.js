@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
 import Link from 'next/link'
 import Head from '../components/head'
@@ -11,6 +11,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import API_KEY from '../apiKey';
 import { Row } from '../components/Layout';
+import RoundedSelect from '../components/RoundedSelect';
 
 async function handleButtonClick() {
   const requestToken = await getRequestToken();
@@ -28,14 +29,34 @@ const mockData = {
   urlSubpath: '/movie'
 }
 
+const PaddedRow = styled(Row)`
+  padding-top: 40px;
+  padding-bottom: 200px;
+`;
+
+const selectData = [
+  { value: 'option_one', name: 'Option 1' },
+  { value: 'option_two', name: 'Option 2' },
+  { value: 'option_three', name: 'Option 3' }
+];
 
 function Home() {
+
+  const [ currentValue, setValue ] = useState(selectData[0]);
+
   return (
     <div>
       <Head title="Home" />
-      <Row>
-        <h1>There is nothing here yet</h1>
-      </Row>
+      <PaddedRow>
+        <p>The current value is {currentValue.name}</p>
+        <RoundedSelect 
+          items={selectData}
+          currentValue={currentValue}
+          setValue={setValue}
+          labelText="Sort by:"
+          shouldInlineLabel={true}
+        />
+      </PaddedRow>
     </div>
   );
 }

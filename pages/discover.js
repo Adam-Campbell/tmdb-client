@@ -17,6 +17,7 @@ import {
     convertGenreObjectsToIds
 } from '../utils';
 import { MediaCard } from '../components/Cards';
+import RoundedSelect from '../components/RoundedSelect';
 
 const Wrapper = styled(Row)`
     display: flex;
@@ -73,7 +74,8 @@ const SliderRow = styled.div`
 
 const InputContainer = styled.div`
     width: 100%;
-    @media(min-width: 550px) {
+    margin-bottom: 20px;
+    @media(min-width: 768px) {
         width: calc(50% - 10px);
     }
     @media(min-width: 900px) {
@@ -177,22 +179,22 @@ class Discover extends Component {
                     </SliderRow>
                     <InputRow>
                         <InputContainer>
-                            <ListBox 
+                            <RoundedSelect 
                                 items={sortByOptions}
                                 currentValue={sortBy}
                                 setValue={this.updateValue('sortBy')}
                                 shouldBuffer={true}
-                                shouldInlineLabel={true}
+                                shouldInlineLabel={false}
                                 labelText="Sort by:"
                             />
                         </InputContainer>
                         <InputContainer>
-                            <ListBox 
+                            <RoundedSelect 
                                 items={mediaTypes}
                                 currentValue={mediaType}
                                 setValue={this.updateValue('mediaType')}
                                 shouldBuffer={true}
-                                shouldInlineLabel={true}
+                                shouldInlineLabel={false}
                                 labelText="Media type:"
                             />
                         </InputContainer>
