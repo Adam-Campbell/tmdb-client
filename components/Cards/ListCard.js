@@ -87,7 +87,7 @@ export function ListCard({ imagePath, name, itemCount, listId }) {
                     alt={name}
                     isLoaded={isLoaded}
                 />}
-                <Link href={`/me/list?id=${listId}`} as={`/me/list/${listId}`} passHref>
+                <Link href={`/list?id=${listId}`} as={`/list/${listId}`} passHref>
                     <ListLink>
                         <ContentContainer hasImage={hasImage}>
                             <ListTitle>{name}</ListTitle>

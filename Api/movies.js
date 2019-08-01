@@ -24,13 +24,13 @@ export const getNowPlayingMovies = async () => {
 export const getMovieDetails = async (movieId, session_id) => {
     if (session_id) {
         const response = await get(`movie/${movieId}`, {
-            append_to_response: 'credits,images,recommendations,similar,reviews,external_ids,keywords,account_states',
+            append_to_response: 'credits,images,recommendations,similar,reviews,external_ids,keywords,account_states,lists',
             session_id
         });
         return response.data;
     } else {
         const response = await get(`movie/${movieId}`, {
-            append_to_response: 'credits,images,recommendations,similar,reviews,external_ids,keywords',
+            append_to_response: 'credits,images,recommendations,similar,reviews,external_ids,keywords,lists',
         });
         return response.data;
     }

@@ -3,23 +3,21 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { 
-    fetchFullProfile, 
     fetchList,
     clearList,
     deleteList,
     removeMovieFromList 
-} from '../../actions';
-import { getListData } from '../../reducers/listReducer';
-import SubNav from '../../components/SubNav';
-import { meRoutesSubNavData } from './';
-import UserHeader from '../../components/UserHeader';
-import { Row } from '../../components/Layout';
-import { MediaCard } from '../../components/Cards';
-import ListViewHeader from '../../components/ListViewHeader';
-import { text } from '../../utils';
+} from '../actions';
+import { getListData } from '../reducers/listReducer';
+import { getSessionType } from '../reducers/sessionReducer';
+import { getUserSummary } from '../reducers/user';
+import { Row } from '../components/Layout';
+import { MediaCard } from '../components/Cards';
+import ListViewHeader from '../components/ListViewHeader';
+import { text } from '../utils';
 import Router from 'next/router';
-import { CancelInteractionButton } from '../../components/Buttons';
-
+import { CancelInteractionButton } from '../components/Buttons';
+import ListHeader from '../components/ListHeader';
 
 const ClearListButton = styled.button`
     ${text('body', { fontWeight: 700, color: '#fff' })}
@@ -43,24 +41,31 @@ function List({
     name,
     posterPath,
     id,
+    isOwner,
     clearList,
     deleteList,
     removeMovieFromList
 }) {
     return (
         <div>
-            <UserHeader />
-            <SubNav navData={meRoutesSubNavData} alignLeft={true} />
+            <ListHeader 
+                name={name}
+                createdBy={createdBy}
+                description={description}
+                backdropPath={items.length ? items[0].backdrop_path : ''}
+            />
             <ListViewHeader title={name}>
-                <ClearListButton
-                    onClick={() => clearList(id)}
-                >Clear List</ClearListButton>
-                <DeleteListButton
-                    onClick={() => {
-                        deleteList(id);
-                        Router.push('/me/lists');
-                    }}
-                >Delete List</DeleteListButton>
+                {isOwner && (
+                    <ClearListButton
+                        onClick={() => clearList(id)}
+                    >Clear List</ClearListButton>
+                    <DeleteListButton
+                        onClick={() => {
+                            deleteList(id);
+                            Router.push('/me/lists');
+                        }}
+                    >Delete List</DeleteListButton>
+                )}
             </ListViewHeader>
             <Row>
                 {items.map(item => (
@@ -74,9 +79,9 @@ function List({
                         backdropPath={item.backdrop_path}
                         overview={item.overview}
                         urlSubpath={item.title ? '/movie' : '/show'}
-                        hasUserAction={Boolean(item.title)}
+                        hasUserAction={Boolean(isOwner && item.title)}
                     >
-                        {Boolean(item.title) && <CancelInteractionButton 
+                        {Boolean(isOwner && item.title) && <CancelInteractionButton 
                             label="Remove from list"
                             onClick={() => {
                                 removeMovieFromList(id, item.id);
@@ -91,15 +96,15 @@ function List({
 
 List.getInitialProps = async ({ query, store }) => {
     const id = parseInt(query.id);
-    await Promise.all([
-        store.dispatch(fetchFullProfile()),
-        store.dispatch(fetchList(id))
-    ]);
+    await store.dispatch(fetchList(id))
     return {};
 }
 
 function mapState(state) {
     const l = getListData(state);
+    const user = getUserSummary(state);
+    const isLoggedIn = getSessionType(state) === 'USER';
+    const isOwner = isLoggedIn && (user.username || user.name) === l.createdBy;
     return {
         createdBy: l.created_by,
         description: l.description,
@@ -107,7 +112,8 @@ function mapState(state) {
         itemCount: l.itemCount,
         name: l.name,
         posterPath: l.poster_path,
-        id: parseInt(l.id)
+        id: parseInt(l.id),
+        isOwner,
     };
 }
 

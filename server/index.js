@@ -68,8 +68,8 @@ app.prepare()
     });
 
     // handle list route
-    server.get('/me/list/:id', (req, res) => {
-        const url = '/me/list';
+    server.get('/list/:id', (req, res) => {
+        const url = '/list';
         const params = { id: req.params.id };
         app.render(req, res, url, params);
     });
