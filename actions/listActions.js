@@ -1,6 +1,5 @@
 import * as actionTypes from '../actionTypes';
 import {
-    postList,
     getListDetails,
     deleteUserList,
     postListMovie,
@@ -8,6 +7,8 @@ import {
     postClearList
 } from '../Api';
 import { getSessionType, getUserSessionId } from '../reducers/sessionReducer';
+import axios from 'axios';
+import { fetchFullProfile } from './userActions';
 
 const fetchListRequest = (id) => ({
     type: actionTypes.FETCH_LIST_REQUEST,
@@ -63,17 +64,23 @@ export const createList = (listName, listDescription, listLanguage) => async (di
     const userSessionId = getUserSessionId(state);
     dispatch(createListRequest());
     try {
-        const response = await postList(userSessionId, listName, listDescription, listLanguage);
-        dispatch(createListSuccess(response.id));
-        // The response from this request has only given back the id of the new list, not the list
-        // itself, so it won't make it into the store and hence won't appear in the UI. Either I 
-        // need to dispatch the fetchList thunk, and the user reducer needs to listen for the response
-        // from that and manually add the list into the user slice of state... or I need to make it so
-        // that CREATE_LIST_SUCCESS invalidates the users cache and then we dispatch the fetchFullProfile
-        // thunk (which needs to be imported from ./userActions). With this approach the FETCH_LIST_SUCCESS
-        // action no longer needs to worry about the user slice of state, only the list slice of state
-        // (which is still to be added).
+        const response = await axios.request('http://localhost:3000/api/list', {
+            params: {
+                session_id: userSessionId
+            },
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: {
+                name: listName,
+                description: listDescription
+            }
+        });
+        dispatch(createListSuccess(response.data.list_id));
+        await dispatch(fetchFullProfile());
     } catch (error) {
+        console.log(error);
         dispatch(createListFailed(error));
     }
 }

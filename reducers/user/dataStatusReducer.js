@@ -73,6 +73,12 @@ export default function reducer(state = initialState, action) {
                 isInvalidated: true
             };
 
+        case actionTypes.CREATE_LIST_SUCCESS:
+            return {
+                ...state,
+                isInvalidated: true
+            };
+
         default:
             return state;
     }

@@ -46,6 +46,18 @@ const GlobalStyle = createGlobalStyle`
         border-radius: 3px;
         padding: 10px;
     }
+    .create-list-modal__overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(17,17,17,0.8);
+        z-index: 3000;
+    }
     .create-list-modal__content-container {
         background: #fff;
         border-radius: 3px;

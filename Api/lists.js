@@ -1,7 +1,7 @@
 import { get, a } from './helpers';
 import api_key from '../apiKey';
 
-export function postList(session_id, name = '', description = '', language = '') {
+export function postList(session_id, name = '', description = '', language = 'en') {
     return a.request('list', {
         params: {
             api_key,
@@ -9,7 +9,7 @@ export function postList(session_id, name = '', description = '', language = '')
         },
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json;charset=utf-8'
         },
         data: {
             name,

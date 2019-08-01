@@ -60,6 +60,7 @@ const ListTitle = styled.h2`
     font-style: italic;
     margin-top: 0;
     margin-bottom: 10px;
+    text-align: center;
 `;
 
 const ItemCount = styled.p`
