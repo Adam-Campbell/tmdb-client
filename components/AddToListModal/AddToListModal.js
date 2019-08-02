@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
@@ -11,6 +11,7 @@ import { text } from '../../utils';
 import useHover from '../useHover';
 import { Times } from 'styled-icons/fa-solid';
 import ModalListItem from './ModalListItem';
+import ListBox from '../ListBox';
 
 const LoaderContainer = styled.div`
     width: 100%;
@@ -65,6 +66,15 @@ const List = styled.ul`
 `;
 
 
+function formatListsData(listsData) {
+    return listsData.map(list => ({
+        name: list.name, 
+        value: list.name.toLowerCase().replace(' ', '_'),
+        id: list.id
+    }));
+}
+
+
 function AddToListModal({ 
     accountId, 
     userSessionId, 
@@ -77,16 +87,22 @@ function AddToListModal({
     const [ usersLists, setUsersLists ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(false);
 
+    
+
     useEffect(() => {
         async function fetchCreatedLists() {
             setIsLoading(true);
             const response = await getCreatedLists(accountId, userSessionId);
-            console.log(response.data.results);
             setIsLoading(false);
-            setUsersLists(response.data.results);
+            setUsersLists(formatListsData(response.data.results));
         }
         fetchCreatedLists();
     }, [ accountId, userSessionId ]);
+
+    function handleListSelect(listObject) {
+        addMovieToList(listObject.id, movieId);
+        handleClose();
+    }
 
     return (
         <ReactModal
@@ -103,23 +119,20 @@ function AddToListModal({
             ) : (
                 <>
                     <TitleRow>
-                        <ModalTitle>Choose a list:</ModalTitle>
+                        <ModalTitle>Add to list</ModalTitle>
                         <CancelButton onClick={handleClose}>
                             <CancelIcon />
                         </CancelButton>
                     </TitleRow>
-                    <List>
-                        {usersLists.map(list => (
-                            <ModalListItem 
-                                key={list.id}
-                                name={list.name}
-                                handleClick={() => {
-                                    addMovieToList(list.id, movieId);
-                                    handleClose();
-                                }}
-                            />     
-                        ))}
-                    </List>
+                    <ListBox 
+                        items={usersLists}
+                        currentValue={{}}
+                        setValue={setUsersLists}
+                        labelText="Select a list"
+                        onChange={handleListSelect}
+                        placeholder="No list selected"
+                        maxHeight={280}
+                    />
                 </>
             )}
         </ReactModal>

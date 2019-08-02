@@ -56,15 +56,17 @@ function List({
             />
             <ListViewHeader title={name}>
                 {isOwner && (
-                    <ClearListButton
-                        onClick={() => clearList(id)}
-                    >Clear List</ClearListButton>
-                    <DeleteListButton
-                        onClick={() => {
-                            deleteList(id);
-                            Router.push('/me/lists');
-                        }}
-                    >Delete List</DeleteListButton>
+                    <>
+                        <ClearListButton
+                            onClick={() => clearList(id)}
+                        >Clear List</ClearListButton>
+                        <DeleteListButton
+                            onClick={() => {
+                                deleteList(id);
+                                Router.push('/me/lists');
+                            }}
+                        >Delete List</DeleteListButton>
+                    </>
                 )}
             </ListViewHeader>
             <Row>
@@ -104,7 +106,7 @@ function mapState(state) {
     const l = getListData(state);
     const user = getUserSummary(state);
     const isLoggedIn = getSessionType(state) === 'USER';
-    const isOwner = isLoggedIn && (user.username || user.name) === l.createdBy;
+    const isOwner = isLoggedIn && (user.username || user.name) === l.created_by;
     return {
         createdBy: l.created_by,
         description: l.description,

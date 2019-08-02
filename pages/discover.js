@@ -17,7 +17,7 @@ import {
     convertGenreObjectsToIds
 } from '../utils';
 import { MediaCard } from '../components/Cards';
-import RoundedSelect from '../components/RoundedSelect';
+
 
 const Wrapper = styled(Row)`
     display: flex;
@@ -146,7 +146,10 @@ class Discover extends Component {
 
         const { releaseValues, scoreValues, sortBy, withGenres, mediaType } = this.state;
         const { movieGenres, TVGenres, results } = this.props;
-        
+
+        const stableSortBy = sortByOptions.find(el => el.value === sortBy.value);
+        const stableMediaType = mediaTypes.find(el => el.value === mediaType.value);
+
         return (
             <Wrapper>
                 <ControlsContainer>
@@ -178,9 +181,9 @@ class Discover extends Component {
                     </SliderRow>
                     <InputRow>
                         <InputContainer>
-                            <RoundedSelect 
+                            <ListBox 
                                 items={sortByOptions}
-                                currentValue={sortBy}
+                                currentValue={stableSortBy}
                                 setValue={this.updateValue('sortBy')}
                                 shouldBuffer={true}
                                 shouldInlineLabel={false}
@@ -188,9 +191,9 @@ class Discover extends Component {
                             />
                         </InputContainer>
                         <InputContainer>
-                            <RoundedSelect 
+                            <ListBox 
                                 items={mediaTypes}
-                                currentValue={mediaType}
+                                currentValue={stableMediaType}
                                 setValue={this.updateValue('mediaType')}
                                 shouldBuffer={true}
                                 shouldInlineLabel={false}

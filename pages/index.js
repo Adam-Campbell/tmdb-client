@@ -11,7 +11,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import API_KEY from '../apiKey';
 import { Row } from '../components/Layout';
-import RoundedSelect from '../components/RoundedSelect';
+import ListBox from '../components/ListBox';
 import RangeSelect from '../components/RangeSelect';
 
 async function handleButtonClick() {
@@ -45,12 +45,14 @@ const RangeSelectContainer = styled.div`
 const selectData = [
   { value: 'option_one', name: 'Option 1' },
   { value: 'option_two', name: 'Option 2' },
-  { value: 'option_three', name: 'Option 3' }
+  { value: 'option_three', name: 'Option 3' },
+  { value: 'option_four', name: 'Option 4' },
+  { value: 'option_five', name: 'Option 5' }
 ];
 
 function Home() {
 
-  const [ currentValue, setValue ] = useState(selectData[0]);
+  const [ currentValue, setValue ] = useState({});
 
   const [ currentScoreRange, setScoreRange ] = useState([0, 10])
 
@@ -59,12 +61,14 @@ function Home() {
       <Head title="Home" />
       <PaddedRow>
         <p>The current value is {currentValue.name}</p>
-        <RoundedSelect 
+        <ListBox 
           items={selectData}
           currentValue={currentValue}
           setValue={setValue}
           labelText="Sort by:"
           shouldInlineLabel={true}
+          onChange={() => console.log('change is inevitable')}
+          placeholder="Select a list"
         />
         <RangeSelectContainer>
           <RangeSelect 
