@@ -1,8 +1,8 @@
 import { get, a } from './helpers';
 import api_key from '../apiKey';
 
-export const getPopularMovies = async () => {
-    const response = await get('movie/popular');
+export const getPopularMovies = async (page = 1) => {
+    const response = await get('movie/popular', { page });
     return response.data.results;
 }
 
