@@ -76,6 +76,7 @@ const SelectedTagButton = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
     &:focus {
         outline: none;
     }
@@ -217,7 +218,8 @@ export function ComboBox({ items, currentSelection, setSelection }) {
                             ))}
                             <Input 
                                 {...getInputProps({
-                                    ref: inputEl
+                                    ref: inputEl,
+                                    placeholder: 'Filter by genre...'
                                 })}
                             />
                         </InputRowInner>

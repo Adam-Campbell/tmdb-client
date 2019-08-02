@@ -4,12 +4,12 @@ import styled from 'styled-components';
 
 const StyledTrack = styled.div`
     position: absolute;
-    height: 10px;
+    height: 6px;
     z-index: 5;
     top: 50%;
     transform: translateY(-50%);
     background: #43cbe8;
-    border-radius: 5px;
+    border-radius: 3px;
 `;
 
 export default function Track({ source, target, getTrackProps }) {

@@ -2,48 +2,56 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { roundNum } from './utils';
+import { text } from '../../utils';
+import useHover from '../useHover';
 
 const StyledHandle = styled.span`
     display: flex;
-    min-width: 28px;
-    padding-left: 5px;
-    padding-right: 5px;
-    height: 28px;
-    border-radius: 14px;
-    background: #43cbe8;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
     position: absolute;
     top: 50%;
     transform: translate(-50%, -50%);
-    color: white;
-    justify-content: center;
-    align-items: center;
-    font-family: sans-serif;
-    font-size: 12px;
-    font-weight: 700;
     cursor: pointer;
     z-index: 10;
     &:focus {
         z-index: 20;
+        outline: 0;
     }
 `;
 
-const TouchMarker = styled.span`
+const HandleInner = styled.span`
+    background: #43cbe8;
+    width: 16px;
+    height: 16px;
+    border-radius: 10px;
+`;
+
+const Marker = styled.span`
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: -10px;
-    min-width: 32px;
+    margin-top: -20px;
     padding-left: 5px;
     padding-right: 5px;
-    height: 32px;
-    border-radius: 16px;
-    background: #f58a0b;
+    height: 38px;
+    width: 38px;
+    border-radius: 50% 50% 50% 0;
+    background: #1a435d;
     position: absolute;
     font-family: sans-serif;
     font-weight: 700;
     font-size: 14px;
     color: white;
-    transform: translateX(-50%);
+    transform: translateX(-50%) rotate(-45deg);
+`;
+
+const MarkerText = styled.span`
+    ${text('body', { fontWeight: 700, fontSize: '0.85rem', color: '#fff' })}
+    transform: rotate(45deg);
 `;
 
 /*
@@ -57,26 +65,37 @@ const TouchMarker = styled.span`
 */
 
 export default function Handle({ handle: { id, value, percent }, getHandleProps }) {
-    const [ isTouchActive, setIsTouchActive ] = useState(false);
+    
+    const [ isActive, setIsActive ] = useState(false);
+
+    const { isHovered, containerProps } = useHover();
+
     useEffect(() => {
-        function handleTouchEnd(e) {
-            if (isTouchActive) {
-                setIsTouchActive(false);
+        function handleInteractionEnd(e) {
+            if (isActive) {
+                setIsActive(false);
             }
         }
         if (typeof window !== 'undefined') {
-            window.addEventListener('touchend', handleTouchEnd);
+            window.addEventListener('touchend', handleInteractionEnd);
+            window.addEventListener('mouseup', handleInteractionEnd);
             return function cleanup() {
-                window.removeEventListener('touchend', handleTouchEnd);
+                window.removeEventListener('touchend', handleInteractionEnd);
+                window.removeEventListener('mouseup', handleInteractionEnd)
             }
         }
-    }, [isTouchActive]);
+    }, [isActive]);
     
     const { onKeyDown, onMouseDown, onTouchStart } = getHandleProps(id);
     function handleTouchStart(e) {
         e.preventDefault();
-        setIsTouchActive(true);
+        setIsActive(true);
         onTouchStart(e);
+    }
+    function handleMouseDown(e) {
+        e.preventDefault();
+        setIsActive(true);
+        onMouseDown(e);
     }
     const roundedValue = roundNum(value);
     return (
@@ -85,18 +104,20 @@ export default function Handle({ handle: { id, value, percent }, getHandleProps 
                 style={{ left: `${percent}%` }}
                 tabIndex="0"
                 onKeyDown={onKeyDown}
-                onMouseDown={onMouseDown}
+                onMouseDown={handleMouseDown}
                 onTouchStart={handleTouchStart}
-                isTouchActive={isTouchActive}
+                {...containerProps}
             >
-                {roundedValue}
+                <HandleInner />
             </StyledHandle>
-            {isTouchActive && (
-                <TouchMarker
+            {(isActive || isHovered) && (
+                <Marker
                     style={{ left: `${percent}%` }}
                 >
-                    {roundedValue}
-                </TouchMarker>
+                    <MarkerText>
+                        {roundedValue}
+                    </MarkerText>
+                </Marker>
             )}
         </>
     );

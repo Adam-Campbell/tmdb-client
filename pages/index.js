@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import API_KEY from '../apiKey';
 import { Row } from '../components/Layout';
 import RoundedSelect from '../components/RoundedSelect';
+import RangeSelect from '../components/RangeSelect';
 
 async function handleButtonClick() {
   const requestToken = await getRequestToken();
@@ -34,6 +35,13 @@ const PaddedRow = styled(Row)`
   padding-bottom: 200px;
 `;
 
+const RangeSelectContainer = styled.div`
+  width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+`;
+
 const selectData = [
   { value: 'option_one', name: 'Option 1' },
   { value: 'option_two', name: 'Option 2' },
@@ -43,6 +51,8 @@ const selectData = [
 function Home() {
 
   const [ currentValue, setValue ] = useState(selectData[0]);
+
+  const [ currentScoreRange, setScoreRange ] = useState([0, 10])
 
   return (
     <div>
@@ -56,6 +66,18 @@ function Home() {
           labelText="Sort by:"
           shouldInlineLabel={true}
         />
+        <RangeSelectContainer>
+          <RangeSelect 
+            domain={[0, 10]}
+            stepSize={0.1}
+            initialValues={[0, 10]}
+            numTicks={10}
+            contentDescription="Show me movies that scored"
+            isControlled={true}
+            externalValue={currentScoreRange}
+            setExternalValue={setScoreRange}
+          />
+        </RangeSelectContainer>
       </PaddedRow>
     </div>
   );
