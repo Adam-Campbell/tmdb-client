@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
 import Link from 'next/link'
 import Head from '../components/head'
@@ -11,6 +11,8 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import API_KEY from '../apiKey';
 import { Row } from '../components/Layout';
+import ListBox from '../components/ListBox';
+import RangeSelect from '../components/RangeSelect';
 
 async function handleButtonClick() {
   const requestToken = await getRequestToken();
@@ -28,14 +30,59 @@ const mockData = {
   urlSubpath: '/movie'
 }
 
+const PaddedRow = styled(Row)`
+  padding-top: 40px;
+  padding-bottom: 200px;
+`;
+
+const RangeSelectContainer = styled.div`
+  width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+`;
+
+const selectData = [
+  { value: 'option_one', name: 'Option 1' },
+  { value: 'option_two', name: 'Option 2' },
+  { value: 'option_three', name: 'Option 3' },
+  { value: 'option_four', name: 'Option 4' },
+  { value: 'option_five', name: 'Option 5' }
+];
 
 function Home() {
+
+  const [ currentValue, setValue ] = useState({});
+
+  const [ currentScoreRange, setScoreRange ] = useState([0, 10])
+
   return (
     <div>
       <Head title="Home" />
-      <Row>
-        <h1>There is nothing here yet</h1>
-      </Row>
+      <PaddedRow>
+        <p>The current value is {currentValue.name}</p>
+        <ListBox 
+          items={selectData}
+          currentValue={currentValue}
+          setValue={setValue}
+          labelText="Sort by:"
+          shouldInlineLabel={true}
+          onChange={() => console.log('change is inevitable')}
+          placeholder="Select a list"
+        />
+        <RangeSelectContainer>
+          <RangeSelect 
+            domain={[0, 10]}
+            stepSize={0.1}
+            initialValues={[0, 10]}
+            numTicks={10}
+            contentDescription="Show me movies that scored"
+            isControlled={true}
+            externalValue={currentScoreRange}
+            setExternalValue={setScoreRange}
+          />
+        </RangeSelectContainer>
+      </PaddedRow>
     </div>
   );
 }

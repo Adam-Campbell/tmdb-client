@@ -2,6 +2,8 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Downshift from 'downshift';
+import { text } from '../../utils';
+import { Times } from 'styled-icons/fa-solid';
 
 /*
 
@@ -19,32 +21,35 @@ const StyledComboBox = styled.div`
     z-index: 1000;
 `;
 
+const Label = styled.label`
+    ${text('body')}
+    display: inline-block;
+    margin-left: 20px;
+    margin-bottom: 5px;
+`;
+
 const InputRow = styled.div`
     display: flex;
-    border: solid 1px #222;
-    border-radius: 3px;
-    ${({ isOpen }) => isOpen && `
-        border-bottom: none;
-        border-radius: 3px 3px 0 0;
-    `}
 `;
 
 const InputRowInner = styled.div`
     display: flex;
     flex-wrap: wrap;
     flex-grow: 1;
+    border-radius: 3px;
+    border: solid 1px #eee;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 `;
 
 const Input = styled.input`
-    font-family: sans-serif;
-    font-weight: 400;
-    font-size: 1rem;
-    padding: 10px;
-    color: #222;
-    border: solid 1px #222;
-    border-radius: 3px;
+    ${text('body')}
+    padding: 0 10px 0 0;
+    height: 35px;
+    border: solid 1px transparent;
+    border-radius: 25px;
     margin: 4px;
     flex-grow: 1;
+    text-indent: 20px;
     &:focus {
         outline: none;
         border-color: #43cbe8;
@@ -52,63 +57,58 @@ const Input = styled.input`
 `;
 
 const SelectedTag = styled.div`
+    ${text('body', { fontSize: '0.85rem' })}
     padding: 10px 5px;
     display: inline-flex;
     align-items: center;
-    background: #ddd;
+    background: #eee;
     border-radius: 3px;
     margin: 4px;
-    font-family: sans-serif;
-    font-weight: 400;
-    font-size: 0.85rem;
-    color: #222;
-`;
-
-const SelectedTagText = styled.span`
-
 `;
 
 const SelectedTagButton = styled.button`
-    border-radius: 3px;
-    border: none;
-    background: #222;
-    color: white;
-    text-align: center;
+    background: #dc1f3b;
     margin-left: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    &:focus {
+        outline: none;
+    }
 `;
 
-const ToggleButton = styled.button`
-    font-family: sans-serif;
-    font-size: 1rem;
-    color: #222;
-    background: none;
-    border: none;
+const CancelIcon = styled(Times)`
+    color: #fff;
+    width: 14px;
 `;
 
 const Menu = styled.ul`
     margin: 0;
+    margin-top: 10px;
     list-style-type: none;
     padding-left: 0;
     position: absolute;
     width: 100%;
-    max-height: 220px;
+    border: ${({ isOpen }) => isOpen ? 'solid 1px #eee' : 'none'};
+    box-shadow: ${({ isOpen }) => isOpen ? '0 2px 8px rgba(0,0,0,0.1)' : 'none'};
+    max-height: ${({ isOpen }) => isOpen ? '220px' : 0};
     overflow-y: auto;
-    ${({ isOpen }) => isOpen && `
-        border: solid 1px #222;
-        border-top: none;
-        border-radius: 0 0 3px 3px;
-    `}
+    transition: max-height ease-out 0.2s;
 `;
 
 const MenuItem = styled.li`
-    font-family: sans-serif;
-    font-weight: ${({ isSelected }) => isSelected ? 700 : 400};
-    font-size: 1rem;
-    color: #222;
+    ${text('body')}
+    color: ${({ isActive, isSelected }) => (isActive || isSelected) ? '#fff' : '#222'};
     padding: 10px;
+    cursor: pointer;
     background: ${({ isActive, isSelected }) => (
-        isActive ? '#eee' : 
-                   isSelected ? '#ddd' : 
+        isActive ? '#43cbe8' : 
+                   isSelected ? '#1a435d' : 
                                 '#fff'
     )};
 `;
@@ -197,35 +197,32 @@ export function ComboBox({ items, currentSelection, setSelection }) {
                 getToggleButtonProps,
                 getMenuProps,
                 getItemProps,
+                getLabelProps,
                 isOpen,
                 inputValue,
                 highlightedIndex
             }) => (
                 <StyledComboBox {...getRootProps()}>
+                    <Label {...getLabelProps()}>Genres: </Label>
                     <InputRow isOpen={isOpen}>
                         <InputRowInner>
                             {currentSelection.map(item => (
                                 <SelectedTag key={item.id}>
-                                    <SelectedTagText>{item.name}</SelectedTagText>
+                                    {item.name}
                                     <SelectedTagButton
                                         {...getRemoveButtonProps({ item })}
-                                    >X</SelectedTagButton>
+                                    >
+                                        <CancelIcon />
+                                    </SelectedTagButton>
                                 </SelectedTag>
                             ))}
                             <Input 
                                 {...getInputProps({
-                                    ref: inputEl
+                                    ref: inputEl,
+                                    placeholder: 'Filter by genre...'
                                 })}
                             />
                         </InputRowInner>
-                        <ToggleButton
-                            {...getToggleButtonProps({
-                                onClick(e) {
-                                    e.stopPropagation();
-                                    inputEl.current.focus();
-                                }
-                            })}
-                        >&#9660;</ToggleButton>
                     </InputRow>
                     <Menu {...getMenuProps({ isOpen })}>
                         {isOpen ? getValidItems(inputValue).map((item, index) => (

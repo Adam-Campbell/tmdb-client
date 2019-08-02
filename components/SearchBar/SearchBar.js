@@ -14,10 +14,11 @@ const SearchBarContainer = styled.div`
     left: 0;
     top: 50px;
     width: 100%;
-    border-top: solid 1px #ddd;
-    border-bottom: solid 1px #ddd;
+    border-top: solid 1px #eee;
+    border-bottom: solid 1px #eee;
     background: #fff;
     z-index: 2000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 `;
 
 const InputRow = styled(Row)`
@@ -37,8 +38,15 @@ const Input = styled.input`
     ${text('body')}
     font-style: italic;
     flex-grow: 1;
-    text-indent: 10px;
+    text-indent: 20px;
     border: none;
+    border: solid 1px;
+    border-color: transparent;
+    border-radius: 25px;
+    &:focus {
+        outline: none;
+        border-color: #43cbe8;
+    }
 `;
 
 const Menu = styled.ul`

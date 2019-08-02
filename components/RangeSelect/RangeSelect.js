@@ -6,6 +6,7 @@ import Handle from './Handle';
 import Track from './Track';
 import Tick from './Tick';
 import { roundNum } from './utils';
+import { text } from '../../utils';
 
 // Used to style the <Slider> component
 const sliderStyles = {
@@ -21,20 +22,17 @@ const sliderStyles = {
 const StyledRail = styled.div`
     position: absolute;
     width: 100%;
-    height: 10px;
-    border-radius: 5px;
+    height: 6px;
+    border-radius: 3px;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    background: #ddd;
+    background: #eee;
 `;
 
 const DescriptionText = styled.div`
+    ${text('body', { fontSize: '0.85rem' })}
     text-align: center;
-    font-size: 16px;
-    font-weight: 400;
-    font-family: sans-serif;
-    color: #222;
 `;  
 
 export function RangeSelect({ 

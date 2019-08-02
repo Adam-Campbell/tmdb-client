@@ -18,6 +18,7 @@ import {
 } from '../utils';
 import { MediaCard } from '../components/Cards';
 
+
 const Wrapper = styled(Row)`
     display: flex;
     flex-direction: column;
@@ -47,12 +48,6 @@ const DropdownContainer = styled.div`
     margin-top: 40px;
 `;
 
-const ComboBoxContainer = styled.div`
-    width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 40px;
-`;
 
 const SliderContainer = styled.div`
     width: 100%;
@@ -73,12 +68,18 @@ const SliderRow = styled.div`
 
 const InputContainer = styled.div`
     width: 100%;
-    @media(min-width: 550px) {
+    margin-bottom: 20px;
+    @media(min-width: 768px) {
         width: calc(50% - 10px);
     }
     @media(min-width: 900px) {
         width: 100%;
     }
+`;
+
+const ComboBoxContainer = styled.div`
+    width: 100%;
+    margin-bottom: 20px;
 `;
 
 const InputRow = styled.div`
@@ -145,7 +146,10 @@ class Discover extends Component {
 
         const { releaseValues, scoreValues, sortBy, withGenres, mediaType } = this.state;
         const { movieGenres, TVGenres, results } = this.props;
-        
+
+        const stableSortBy = sortByOptions.find(el => el.value === sortBy.value);
+        const stableMediaType = mediaTypes.find(el => el.value === mediaType.value);
+
         return (
             <Wrapper>
                 <ControlsContainer>
@@ -179,30 +183,30 @@ class Discover extends Component {
                         <InputContainer>
                             <ListBox 
                                 items={sortByOptions}
-                                currentValue={sortBy}
+                                currentValue={stableSortBy}
                                 setValue={this.updateValue('sortBy')}
                                 shouldBuffer={true}
-                                shouldInlineLabel={true}
+                                shouldInlineLabel={false}
                                 labelText="Sort by:"
                             />
                         </InputContainer>
                         <InputContainer>
                             <ListBox 
                                 items={mediaTypes}
-                                currentValue={mediaType}
+                                currentValue={stableMediaType}
                                 setValue={this.updateValue('mediaType')}
                                 shouldBuffer={true}
-                                shouldInlineLabel={true}
+                                shouldInlineLabel={false}
                                 labelText="Media type:"
                             />
                         </InputContainer>
-                        <InputContainer>
+                        <ComboBoxContainer>
                             <ComboBox 
                                 items={mediaType.value === 'movies' ? movieGenres : TVGenres}
                                 currentSelection={withGenres}
                                 setSelection={this.updateValue('withGenres')}
                             />
-                        </InputContainer>
+                        </ComboBoxContainer>
                     </InputRow>
                 </ControlsContainer>
                 <ResultsContainer>
