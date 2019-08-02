@@ -13,21 +13,18 @@ const SearchIcon = styled(Search)`
 `;
 
 const MovieIcon = styled(Movie)`
-    color: #222;
     width: 20px;
     margin-right: 10px;
     flex-shrink: 0;
 `;
 
 const TVIcon = styled(Tv)`
-    color: #222;
     width: 20px;
     margin-right: 10px;
     flex-shrink: 0;
 `;
 
 const PersonIcon = styled(Person)`
-    color: #222;
     width: 20px;
     margin-right: 10px;
     flex-shrink: 0;
@@ -35,7 +32,8 @@ const PersonIcon = styled(Person)`
 
 const StyledSearchItem = styled.li`
     cursor: pointer;
-    background: ${({ isHighlighted }) => isHighlighted ? '#ddd' : '#fff'};
+    background: ${({ isHighlighted }) => isHighlighted ? '#43cbe8' : '#fff'};
+    color: ${({ isHighlighted }) => isHighlighted ? '#fff' : '#222'};
     border-bottom: solid 1px #ddd;
     &:first-child {
         border-top: solid 1px #ddd;
@@ -50,13 +48,13 @@ const SearchItemContentContainer = styled(Row)`
 `;
 
 const SearchItemName = styled.p`
-    ${text('body')}
+    ${text('body', { color: 'inherit' })}
     margin: 0;
     max-width: 100%;
 `;
 
 const CategoryLabel = styled.span`
-    ${text('body', { fontSize: '0.85rem', fontWeight: 300 })}
+    ${text('body', { fontSize: '0.85rem', fontWeight: 300, color: 'inherit' })}
     font-style: italic;
     display: inline-block;
     margin-left: 5px;
