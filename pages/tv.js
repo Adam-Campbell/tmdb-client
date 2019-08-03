@@ -8,15 +8,21 @@ import {
     getPopularMovies
 } from '../Api';
 import MediaListView from '../components/MediaListView';
+import ListViewHeader from '../components/ListViewHeader';
+import InfiniteMediaList from '../components/InfiniteMediaList';
 
-function TV(props) {
+function TV({ results, subcategory }) {
+
+    const fetchingFn = getFetchingFn(subcategory)
+
     return (
         <>
             <main>
-                <MediaListView 
-                    title="TV"
-                    items={props.results}
-                    urlSubpath="/show"
+                <ListViewHeader title="TV shows" />
+                <InfiniteMediaList 
+                    initialData={results}
+                    getDataFn={fetchingFn}
+                    key={subcategory}
                 />
             </main>
         </>
@@ -28,11 +34,9 @@ TV.getInitialProps = async ({ query, req }) => {
     const { subcategory } = query;
     const fetchingFn = getFetchingFn(subcategory);
     const results = await fetchingFn();
-    const serverInfo = req ? { isDevice: req.isDevice } : {};
     return {
         results,
         subcategory,
-        ...serverInfo
     };
 };
 
@@ -52,3 +56,13 @@ function getFetchingFn(subcategory) {
 }
 
 export default TV;
+
+/*
+
+<MediaListView 
+                    title="TV"
+                    items={props.results}
+                    urlSubpath="/show"
+                />
+
+*/

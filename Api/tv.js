@@ -1,23 +1,23 @@
 import { get, a } from './helpers';
 import api_key from '../apiKey';
 
-export const getPopularTV = async () => {
-    const response = await get('tv/popular');
+export const getPopularTV = async (page = 1) => {
+    const response = await get('tv/popular', { page });
     return response.data.results;
 };
 
-export const getTopRatedTV = async () => {
-    const response = await get('tv/top_rated');
+export const getTopRatedTV = async (page = 1) => {
+    const response = await get('tv/top_rated', { page });
     return response.data.results;
 };
 
-export const getOnAirTV = async () => {
-    const response = await get('tv/on_the_air');
+export const getOnAirTV = async (page = 1) => {
+    const response = await get('tv/on_the_air', { page });
     return response.data.results;
 };
 
-export const getAiringTodayTV = async () => {
-    const response = await get('tv/airing_today');
+export const getAiringTodayTV = async (page = 1) => {
+    const response = await get('tv/airing_today', { page });
     return response.data.results;
 };
 

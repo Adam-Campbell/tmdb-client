@@ -6,18 +6,18 @@ export const getPopularMovies = async (page = 1) => {
     return response.data.results;
 }
 
-export const getTopRatedMovies = async () => {
-    const response = await get('movie/top_rated');
+export const getTopRatedMovies = async (page = 1) => {
+    const response = await get('movie/top_rated', { page });
     return response.data.results;
 }
 
-export const getUpcomingMovies = async () => {
-    const response = await get('movie/upcoming', { region: 'GB' });
+export const getUpcomingMovies = async (page = 1) => {
+    const response = await get('movie/upcoming', { region: 'GB', page });
     return response.data.results;
 }
 
-export const getNowPlayingMovies = async () => {
-    const response = await get('movie/now_playing');
+export const getNowPlayingMovies = async (page = 1) => {
+    const response = await get('movie/now_playing', { page });
     return response.data.results;
 };
 
