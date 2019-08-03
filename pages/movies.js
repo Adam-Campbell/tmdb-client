@@ -1,4 +1,12 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { 
+    useState, 
+    useMemo,
+    useEffect, 
+    useReducer,
+    useRef,
+    useCallback,
+    Component 
+} from 'react';
 import styled from 'styled-components';
 import {
     getPopularMovies,
@@ -11,114 +19,103 @@ import ListViewHeader from '../components/ListViewHeader';
 import { MediaCard } from '../components/Cards';
 import { Row } from '../components/Layout';
 import { useInView } from 'react-intersection-observer';
+import usePrevious from '../components/usePrevious';
 
 const MediaCardsContainer = styled(Row)`
     display: flex;
     flex-wrap: wrap;
 `;
 
-function TriggerDiv({ isFetching, currentPage, dispatch }) {
+function Sentinel({ isLoading, getNextPage }) {
+    //console.log('Sentinel rendered');
+    const [ ref, inView, entry ] = useInView({
+        rootMargin: '0px 0px 200px 0px'
+    });
 
-    const [ ref, inView, entry ] = useInView();
+    const prevInView = usePrevious(inView);
 
     useEffect(() => {
-        console.log(`TriggerDiv in view? ${inView}`);
-        console.log(entry);
-
-        // async function fetchResults() {
-        //     console.log('fetchResults was called!');
-        //     if (isFetching || !inView || currentPage >= 6) return;
-        //     console.log('fetchResults made it past the conditional check!');
-        //     dispatch({ type: actionTypes.FETCH_RESULTS_REQUEST });
-        //     await new Promise((resolve) => setTimeout(resolve, 3000));
-        //     const results = await getPopularMovies(currentPage + 1);
-        //     dispatch({
-        //         type: actionTypes.FETCH_RESULTS_SUCCESS,
-        //         payload: { results }
-        //     });
-        //     console.log('fetchResults made it all the way to the end');
-        // }
-        // fetchResults();
-    }, [ inView, isFetching, currentPage, entry ]);
+        console.log('Sentinel effect ran');
+        if (inView && !prevInView && !isLoading) {
+            console.log('Sentinel effect made it past conditional check');
+            getNextPage();
+        }
+    }, [ inView, prevInView, isLoading, getNextPage ]);
 
     return <div ref={ref}></div>
 }
-
-const actionTypes = {
-    FETCH_RESULTS_REQUEST: 'FETCH_RESULTS_REQUEST',
-    FETCH_RESULTS_SUCCESS: 'FETCH_RESULTS_SUCCESS'
-};
 
 
 
 function reducer(state, action) {
     switch (action.type) {
-        case actionTypes.FETCH_RESULTS_REQUEST:
-            return {
-                ...state, 
-                isFetching: true
-            };
 
-        case actionTypes.FETCH_RESULTS_SUCCESS:
+        case 'FETCH_DATA_REQUEST':
             return {
-                ...state, 
-                movieResults: [ ...state.movieResults, ...action.payload.results ],
-                currentPage: state.currentPage + 1,
-                isFetching: false
+                ...state,
+                isLoading: true
             }
+
+        case 'FETCH_DATA_SUCCESS':
+            return {
+                ...state,
+                moviesData: [ ...state.moviesData, ...action.payload.moviesData ],
+                currentPage: state.currentPage + 1,
+                isLoading: false
+            };
     }
 }
 
-function Movies({ results }) { 
+const StyledLoadingIndicator = styled.div`
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #222;
+`;
 
+
+function LoadingIndicator({ isLoading }) {
+    return isLoading ? (
+        <StyledLoadingIndicator>Loading more data...</StyledLoadingIndicator>
+    ) : null;
+}
+
+function Movies({ results }) { 
+    //console.log('Movies rendered');
     const [ state, dispatch ] = useReducer(
         reducer, 
         {
-            movieResults: results,
+            moviesData: results,
             currentPage: 1,
-            isFetching: false
+            isLoading: false
         }
     );
 
-    function fetchResultsRequest() {
-        dispatch({ type: actionTypes.FETCH_RESULTS_REQUEST });
-    }
+    const { moviesData, currentPage, isLoading } = state;
 
-    function fetchResultsSuccess(results, page) {
+    async function getNextPage() {
+        if (currentPage >= 10) return;
+        dispatch({ type: 'FETCH_DATA_REQUEST' });
+        //await new Promise((resolve) => setTimeout(resolve, 2000));
+        const newMoviesData = await getPopularMovies(currentPage + 1);
         dispatch({
-            type: actionTypes.FETCH_RESULTS_SUCCESS,
+            type: 'FETCH_DATA_SUCCESS',
             payload: {
-                results,
-                page
+                moviesData: newMoviesData
             }
-        })
+        });
     }
-
-    // const [ movieResults, updateMovieResults ] = useState(results);
-    // const [ resultsPage, updateResultsPage ] = useState(1);
-
-    // const [ isFetching, setIsFetching ] = useState(false);
-
-    // const [ switchValue, setSwitch ] = useState(false);
-
-    // async function makeNextApiCall() {
-    //     console.log('makeNextApiCall was called');
-    //     if (isFetching) return;
-    //     console.log('isFetching was false when that happened so it made it past conditional');
-    //     setIsFetching(true);
-    //     await new Promise((resolve) => setTimeout(resolve, 3000));
-    //     const results = await getPopularMovies(resultsPage + 1);
-    //     updateMovieResults(prev => ([ ...prev, ...results ]));
-    //     updateResultsPage(prev => prev + 1);
-    //     setIsFetching(false);
-    // }
 
     return (
         <>
             <main>
                 <ListViewHeader title="Movies" />
                 <MediaCardsContainer>
-                {state.movieResults.map(item => (
+                {moviesData.map(item => (
                     <MediaCard 
                         key={item.id}
                         id={item.id}
@@ -132,17 +129,11 @@ function Movies({ results }) {
                     />  
                 ))}
                 </MediaCardsContainer>
-                <button
-                    onClick={(e) => {
-                        e.preventDefault();
-                        //makeNextApiCall()
-                    }}
-                >Fetch more results</button>
-                <TriggerDiv 
-                    isFetching={state.isFetching}
-                    currentPage={state.currentPage}
-                    dispatch={dispatch}
+                <Sentinel 
+                    isLoading={isLoading}
+                    getNextPage={getNextPage}
                 />
+                <LoadingIndicator isLoading={isLoading} />
             </main>
         </>
     );
