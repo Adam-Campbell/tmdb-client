@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components';
 import Link from 'next/link'
 import Head from '../components/head'
@@ -13,6 +13,8 @@ import API_KEY from '../apiKey';
 import { Row } from '../components/Layout';
 import ListBox from '../components/ListBox';
 import RangeSelect from '../components/RangeSelect';
+import usePrevious from '../components/usePrevious';
+import CardPlaceholder from '../components/InfiniteVirtualMediaList/CardPlaceholder';
 
 async function handleButtonClick() {
   const requestToken = await getRequestToken();
@@ -35,53 +37,35 @@ const PaddedRow = styled(Row)`
   padding-bottom: 200px;
 `;
 
-const RangeSelectContainer = styled.div`
-  width: 350px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 40px;
-`;
+// function usePrevious(value) {
+//   const ref = useRef();
+//   useEffect(() => {
+//     ref.current = value;
+//   }, [ value ]);
+//   return ref.current;
+// }
 
-const selectData = [
-  { value: 'option_one', name: 'Option 1' },
-  { value: 'option_two', name: 'Option 2' },
-  { value: 'option_three', name: 'Option 3' },
-  { value: 'option_four', name: 'Option 4' },
-  { value: 'option_five', name: 'Option 5' }
-];
+function Counter() {
+  const [ count, setCount ] = useState(0);
+  const prevCount = usePrevious(count);
+  return (
+    <div>
+      <p>The current count is {count} and the previous count is {prevCount}</p>
+      <button
+        onClick={() => setCount(prev => prev + 1)}
+      >Increment</button>
+    </div>
+  );
+}
+
 
 function Home() {
-
-  const [ currentValue, setValue ] = useState({});
-
-  const [ currentScoreRange, setScoreRange ] = useState([0, 10])
 
   return (
     <div>
       <Head title="Home" />
       <PaddedRow>
-        <p>The current value is {currentValue.name}</p>
-        <ListBox 
-          items={selectData}
-          currentValue={currentValue}
-          setValue={setValue}
-          labelText="Sort by:"
-          shouldInlineLabel={true}
-          onChange={() => console.log('change is inevitable')}
-          placeholder="Select a list"
-        />
-        <RangeSelectContainer>
-          <RangeSelect 
-            domain={[0, 10]}
-            stepSize={0.1}
-            initialValues={[0, 10]}
-            numTicks={10}
-            contentDescription="Show me movies that scored"
-            isControlled={true}
-            externalValue={currentScoreRange}
-            setExternalValue={setScoreRange}
-          />
-        </RangeSelectContainer>
+        <CardPlaceholder />
       </PaddedRow>
     </div>
   );

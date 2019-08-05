@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 import {
     getPopularMovies,
     getTopRatedMovies,
@@ -6,17 +7,23 @@ import {
     getNowPlayingMovies
 } from '../Api';
 import MediaListView from '../components/MediaListView';
+import ListViewHeader from '../components/ListViewHeader';
+import InfiniteMediaList from '../components/InfiniteMediaList';
+import InfiniteVirtualMediaList from '../components/InfiniteVirtualMediaList';
 
+function Movies({ results, subcategory }) { 
+    
+    const fetchingFn = getFetchingFn(subcategory);
 
-function Movies(props) { 
     return (
         <>
             <main>
-                <MediaListView 
-                    title="Movies"
-                    items={props.results}
-                    urlSubpath="/movie"
-                /> 
+                <ListViewHeader title="Movies" />
+                <InfiniteVirtualMediaList 
+                    initialData={results}
+                    getDataFn={fetchingFn}
+                    key={subcategory}
+                />
             </main>
         </>
     );
@@ -27,11 +34,9 @@ Movies.getInitialProps = async ({ query, req }) => {
     const { subcategory } = query;
     const fetchingFn = getFetchingFn(subcategory);
     const results = await fetchingFn();
-    const serverInfo = req ? { isDevice: req.isDevice } : {};
     return {
         results,
-        subcategory,
-        ...serverInfo
+        subcategory
     };
 }
 

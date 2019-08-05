@@ -222,7 +222,8 @@ export function MediaCard({
                         </PlaceholderContainer>
                     )}
                     {hasPosterImage && (
-                        <PosterImage 
+                        <PosterImage
+                            key={id} 
                             src={posterImageLoaded ? posterImageSrc : null} 
                             alt={title} 
                             isHovered={isHovered}
@@ -286,5 +287,5 @@ MediaCard.propTypes = {
     // Indicates whether this component will contain some sort of user interaction button (rate, favourite
     // etc). The buton is provided via the child prop, and this boolean prop simply provides an explicit way
     // of telling the component that is needs to render a user interaction button. 
-    hasUserAction: PropTypes.bool
+    hasUserAction: PropTypes.bool,
 };
