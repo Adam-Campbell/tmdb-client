@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 import styled from 'styled-components';
 import { Row } from '../Layout';
-import { reducer, getCardData } from './reducer';
+import { reducer, getCardData, getNextWindow, doesWindowExceed } from './reducer';
 import Card from './Card';
 import Sentinel from './Sentinel';
 
@@ -48,27 +48,46 @@ placeholders are replaced by the actual data.
 
 export function VirtualList(props) {
 
-    const [ cardData, setCardData ] = useState(() => {
-        return getCardData(60);
-    });
+    // const [ cardData, setCardData ] = useState(() => {
+    //     return getCardData(60);
+    // });
 
     const [ state, dispatch ] = useReducer(reducer, {
         cardData: getCardData(1),
+        page: 1,
         currentWindow: [0, 20],
         furthestWindow: [0, 20]
     });
 
-    const { currentWindow, furthestWindow } = state;
+    const { cardData, page, currentWindow, furthestWindow } = state;
 
-    function pageForwards() {
+    // In page forwards we need to calculate what the next window would be, and compare it with the
+    // max window from state, and if the next window exceeds it we need to grab some more cards, we
+    // can determine which page of cards to get by looking at the page from state and adding 1.
+    async function pageForwards() {
         dispatch({ type: 'PAGE_FORWARDS' });
+        const nextWindow = getNextWindow(currentWindow);
+        const doesExceed = doesWindowExceed(nextWindow, furthestWindow);
+        if (doesExceed) {
+            await new Promise(resolve => setTimeout(resolve, 1500));
+            const nextCardData = getCardData(page + 1);
+            dispatch({
+                type: 'STORE_NEXT_CARD_DATA',
+                payload: {
+                    nextCardData,
+                    page: page + 1
+                }
+            });
+        }
+
     }
 
     function pageBackwards() {
         dispatch({ type: 'PAGE_BACKWARDS' });
     }
 
-    console.log(currentWindow, furthestWindow);
+    //console.log(currentWindow, furthestWindow);
+    console.log(state);
 
     const paddingTop = currentWindow[0] * 120;
     const paddingBottom = (furthestWindow[0] - currentWindow[0]) * 120;
@@ -83,8 +102,8 @@ export function VirtualList(props) {
                 {cardData.slice(...currentWindow).map((card, idx) => (
                     <Card 
                         key={idx}
-                        id={card.id}
-                        description={card.description}
+                        id={card ? card.id : null}
+                        description={card ? card.description : ''}
                     />
                 ))}
             </Row>

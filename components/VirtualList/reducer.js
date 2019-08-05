@@ -4,10 +4,32 @@ function getPrevWindow(window) {
         : window;
 }
 
-function getNextWindow(window) {
-    return window[1] + 10 <= 60
+export function getNextWindow(window) {
+    return window[1] + 10 <= 200
         ? window.map(i => i + 10)
         : window;
+}
+
+export function doesWindowExceed(targetWindow, testWindow) {
+    return targetWindow[1] > testWindow[1];
+}
+
+function getBlankSpaces() {
+    return Array.from({ length: 20 })
+}
+
+function getNextCardData(newWindow, state) {
+    const { cardData, furthestWindow } = state;
+    return doesWindowExceed(newWindow, furthestWindow) 
+        ? [ ...cardData, ...getBlankSpaces() ]
+        : cardData;
+}
+
+function insertCardData(prevData, newData, pageToInsert) {
+    return [
+        ...prevData.slice(0, (pageToInsert - 1) * 20),
+        ...newData
+    ]
 }
 
 export function reducer(state, action) {
@@ -16,6 +38,8 @@ export function reducer(state, action) {
             const newWindow = getNextWindow(state.currentWindow);
             return {
                 ...state,
+                page: state.page + 1,
+                cardData: getNextCardData(newWindow, state),
                 currentWindow: newWindow,
                 furthestWindow: newWindow[0] > state.furthestWindow[0]
                                 ? newWindow
@@ -25,7 +49,18 @@ export function reducer(state, action) {
         case 'PAGE_BACKWARDS':
             return {
                 ...state,
+                page: Math.max(state.page - 1, 1),
                 currentWindow: getPrevWindow(state.currentWindow),
+            };
+
+        case 'STORE_NEXT_CARD_DATA':
+            return {
+                ...state,
+                cardData: insertCardData(
+                    state.cardData, 
+                    action.payload.nextCardData,
+                    action.payload.page
+                )
             };
 
         default:

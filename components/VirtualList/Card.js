@@ -38,13 +38,13 @@ const CardText = styled.p`
 export default function Card({ id, description }) {
     return (
         <StyledCard>
-            <CardIcon>{id}</CardIcon>
-            <CardText>{description}</CardText>
+            <CardIcon>{id || null}</CardIcon>
+            <CardText>{description || 'Loading data...'}</CardText>
         </StyledCard>
     );
 }
 
 Card.propTypes = {
-    id: PropTypes.number.isRequired,
-    description: PropTypes.string.isRequired
+    id: PropTypes.number,
+    description: PropTypes.string
 };
