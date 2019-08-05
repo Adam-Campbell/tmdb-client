@@ -13,7 +13,6 @@ import { getUserSummary } from '../actions';
 import { text } from '../utils';
 //import '../style.css';
 
-
 ReactModal.setAppElement('#__next');
 
 const GlobalStyle = createGlobalStyle`

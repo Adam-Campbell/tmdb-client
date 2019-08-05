@@ -23,7 +23,6 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
         const nextWindow = getNextWindow(currentWindow);
         const doesExceed = doesWindowExceed(nextWindow, furthestWindow);
         if (doesExceed && page <= 20) {
-            //await new Promise(resolve => setTimeout(resolve, 10000));
             const nextCardData = await getDataFn(page + 1);
             dispatch({
                 type: 'STORE_NEXT_CARD_DATA',
@@ -51,7 +50,7 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
             <Row>
                 {cardData.slice(...currentWindow).map((card, idx) => {
                     return card ?
-                        <MediaCard 
+                        <MediaCard
                             key={idx}
                             id={card.id}
                             title={card.title || card.name}
