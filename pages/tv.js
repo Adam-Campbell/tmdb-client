@@ -10,6 +10,7 @@ import {
 import MediaListView from '../components/MediaListView';
 import ListViewHeader from '../components/ListViewHeader';
 import InfiniteMediaList from '../components/InfiniteMediaList';
+import InfiniteVirtualMediaList from '../components/InfiniteVirtualMediaList';
 
 function TV({ results, subcategory }) {
 
@@ -19,7 +20,7 @@ function TV({ results, subcategory }) {
         <>
             <main>
                 <ListViewHeader title="TV shows" />
-                <InfiniteMediaList 
+                <InfiniteVirtualMediaList 
                     initialData={results}
                     getDataFn={fetchingFn}
                     key={subcategory}

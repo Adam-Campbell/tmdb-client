@@ -9,6 +9,7 @@ import {
 import MediaListView from '../components/MediaListView';
 import ListViewHeader from '../components/ListViewHeader';
 import InfiniteMediaList from '../components/InfiniteMediaList';
+import InfiniteVirtualMediaList from '../components/InfiniteVirtualMediaList';
 
 function Movies({ results, subcategory }) { 
     
@@ -18,7 +19,7 @@ function Movies({ results, subcategory }) {
         <>
             <main>
                 <ListViewHeader title="Movies" />
-                <InfiniteMediaList 
+                <InfiniteVirtualMediaList 
                     initialData={results}
                     getDataFn={fetchingFn}
                     key={subcategory}

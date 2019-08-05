@@ -222,7 +222,8 @@ export function MediaCard({
                         </PlaceholderContainer>
                     )}
                     {hasPosterImage && (
-                        <PosterImage 
+                        <PosterImage
+                            key={id} 
                             src={posterImageLoaded ? posterImageSrc : null} 
                             alt={title} 
                             isHovered={isHovered}

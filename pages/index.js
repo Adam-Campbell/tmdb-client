@@ -14,6 +14,7 @@ import { Row } from '../components/Layout';
 import ListBox from '../components/ListBox';
 import RangeSelect from '../components/RangeSelect';
 import usePrevious from '../components/usePrevious';
+import CardPlaceholder from '../components/InfiniteVirtualMediaList/CardPlaceholder';
 
 async function handleButtonClick() {
   const requestToken = await getRequestToken();
@@ -64,7 +65,7 @@ function Home() {
     <div>
       <Head title="Home" />
       <PaddedRow>
-        <Counter />
+        <CardPlaceholder />
       </PaddedRow>
     </div>
   );
