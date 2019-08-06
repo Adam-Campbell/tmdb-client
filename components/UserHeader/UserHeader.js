@@ -132,7 +132,7 @@ const RatingItemSeparator = styled.span`
     }
 `;
 
-function getAverageRating(ratingsArr) {
+export function getAverageRating(ratingsArr) {
     const numberOfRatings = ratingsArr.length;
     const total = ratingsArr.reduce((acc, mediaObject) => (acc + mediaObject.rating), 0);
     return total / numberOfRatings;
@@ -153,7 +153,7 @@ export function UserHeader({ username, ratings }) {
         <StyledUserHeader>
             <HeaderRow>
                 <UsernameRow>
-                    <UserIcon>{userInitial}</UserIcon>
+                    <UserIcon data-testid="user-icon">{userInitial}</UserIcon>
                     <Username>{username}</Username>
                 </UsernameRow>
                 <RatingStatsRow>
