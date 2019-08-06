@@ -44,8 +44,8 @@ export function CancelInteractionButton({ onClick, label }) {
             onClick={onClick}
             {...containerProps}
         >
-            <IconContainer isHovered={isHovered}>
-                <CancelIcon isHovered={isHovered} />
+            <IconContainer isHovered={isHovered} data-testid="icon-container">
+                <CancelIcon isHovered={isHovered} data-testid="icon" />
             </IconContainer>
             {label}
         </StyledCancelInteractionButton>

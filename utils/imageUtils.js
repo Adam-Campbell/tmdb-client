@@ -1,5 +1,5 @@
 // Internal use only
-const rootUrl = 'http://image.tmdb.org/t/p/';
+export const rootUrl = 'http://image.tmdb.org/t/p/';
 const imageSizes = [
     '45',
     '92',
@@ -26,18 +26,6 @@ export const imageSizeConstants = {
     faceMedium: 'w132_and_h132_face',
     faceLarge: 'w264_and_h264_face'
 };
-
-// Take the sizes in imageSizes and create an object where both the key and value are `w${size}`, for each
-// size in imageSizes. This acts as an enum for other parts of the application to reference when they need
-// to set an image size.
-// export const imageSizeConstants = imageSizes.reduce((acc, size) => {
-//     const formattedSize = `w${size}`;
-//     return { 
-//         ...acc, 
-//         [formattedSize]: formattedSize 
-//     };
-// }, {});
-
 
 /**
  * Takes in the unique path to an image and a desired image size, and returns the full Url.
