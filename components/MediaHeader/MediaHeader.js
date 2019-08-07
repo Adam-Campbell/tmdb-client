@@ -59,20 +59,24 @@ const MediaHeaderContentRow = styled(Row)`
 `;
 
 const MediaTitle = styled.h1`
-    ${text('heading', { fontSize: '2rem', color: '#fff' })}
+    ${({ theme }) => theme.fontStacks.heading({ useLight: true })}
+    font-size: 2rem;
 `;
 
 const MediaTagline = styled.p`
-    ${text('heading', { fontFamily: 'serif', fontSize: '1.25rem', color: '#fff' })}
+    font-family: serif;
+    font-size: 1.25rem;
     font-style: italic;
+    color: #fff;
 `;
 
 const Subheading = styled.p`
-    ${text('heading', { fontSize: '1rem', color: '#fff' })}
+    ${({ theme }) => theme.fontStacks.bodyBold({ useLight: true })}
+    font-size: 1rem;
 `;
 
 const MediaOverview = styled.p`
-    ${text('body', { color: '#fff' })}
+    ${({ theme }) => theme.fontStacks.body({ useLight: true })}
 `;
 
 

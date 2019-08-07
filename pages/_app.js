@@ -10,14 +10,16 @@ import makeStore from '../store';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import { getUserSummary } from '../actions';
+import NextHead from 'next/head';
 import { text } from '../utils';
+import { ThemeProvider } from 'styled-components';
+import theme from '../theme';
 //import '../style.css';
 
 ReactModal.setAppElement('#__next');
 
 const GlobalStyle = createGlobalStyle`
     ${normalize}
-    
     * {
     box-sizing: border-box;
     }
@@ -129,15 +131,20 @@ class MyApp extends App {
     render() {
         const { Component, pageProps, store } = this.props;
         return (
-            <>
-                <GlobalStyle />
-                <Provider store={store}>
-                    <Header />
-                    <SearchBar />
-                    <Component {...pageProps} />
-                    <Footer />
-                </Provider>
-            </>
+            <ThemeProvider theme={theme}>
+                <>
+                    <NextHead>
+                        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,600|Roboto:700&display=swap" rel="stylesheet" /> 
+                    </NextHead>
+                    <GlobalStyle />
+                    <Provider store={store}>
+                        <Header />
+                        <SearchBar />
+                        <Component {...pageProps} />
+                        <Footer />
+                    </Provider>
+                </>
+            </ThemeProvider>
         );
     }
 }
