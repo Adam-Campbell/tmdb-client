@@ -34,7 +34,8 @@ const TitleRow = styled.div`
 `;
 
 const ModalTitle = styled.h2`
-    ${text('heading')}
+    ${({ theme }) => theme.fontStacks.heading()}
+    font-size: 1.5rem;
     margin-top: 10px;
     margin-bottom: 10px;
 `;

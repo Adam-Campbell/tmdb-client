@@ -7,8 +7,8 @@ import ImageLink from '../ImageLink';
 
 const StyledSeasonCard = styled.div`
     width: 100%;
-    margin-top: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-top: ${({ theme }) => theme.getSpacing(3)};
+    box-shadow: ${({ theme }) => theme.boxShadow};
     display: flex;
     align-items: center;
     @media(min-width: 550px) {
@@ -39,7 +39,7 @@ const TextColumn = styled.div`
 const TitleRow = styled.div`
     display: flex;
     flex-direction: column;
-    padding: 10px;
+    padding: ${({ theme }) => theme.getSpacing(2)};
     @media (min-width: 550px) {
         flex-direction: row;
         flex-wrap: wrap;
@@ -48,8 +48,8 @@ const TitleRow = styled.div`
 `;
 
 const TitleLink = styled.a`
-    margin-right: 10px;
-    margin-bottom: 10px;
+    margin-right: ${({ theme }) => theme.getSpacing(2)};
+    margin-bottom: ${({ theme }) => theme.getSpacing(2)};
     text-decoration: none;
     @media (min-width: 550px) {
         margin-bottom: 0;
@@ -57,7 +57,8 @@ const TitleLink = styled.a`
 `;
 
 const Title = styled.h2`
-    ${text('heading', { fontSize: '1.25rem' })}
+    ${({ theme }) => theme.fontStacks.heading()}
+    font-size: 1.25rem;
     margin-top: 0;
     margin-bottom: 0;
     cursor: pointer;
@@ -67,14 +68,16 @@ const Title = styled.h2`
 `;
 
 const SeasonInfo = styled.p`
-    ${text('body', { fontWeight: 700, fontSize: '0.85rem' })}
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    font-size: 0.85rem;
     margin-top: 0;
     margin-bottom: 0;
 `;
 
 const SeasonOverview = styled.p`
-    ${text('body', { fontSize: '0.75rem' })}
-    margin: 10px;
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: 0.75rem;
+    margin: ${({ theme }) => theme.getSpacing(2)};
     @media (min-width: 550px) {
         font-size: 0.85rem;
     }

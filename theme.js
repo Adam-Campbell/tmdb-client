@@ -7,6 +7,7 @@ const mineShaft = '#222';
 const gallery = '#eee';
 const alto = '#ddd';
 const white = '#fff';
+const porcelain = '#eaedee';
 
 const spaceBase = 5;
 
@@ -17,20 +18,19 @@ function getPx(exp) {
     return `${Math.pow(2, normalizedExp) * spaceBase}px`;
 }
 
-function getSpaceStyle(styleProp) {
-    return function createSpaceString(...args) {
-        if (args.length === 1) {
-            const [ all ] = args;
-            return `${styleProp}: ${getPx(all)}`;
-        } else if (args.length === 2) {
-            const [ tb, lr ] = args;
-            return `${styleProp}: ${getPx(tb)} ${getPx(lr)}`;
-        } else if (args.length === 4) {
-            const [ t, r, b, l ] = args;
-            return `${styleProp}: ${getPx(t)} ${getPx(r)} ${getPx(b)} ${getPx(l)}`;
-        } else {
-            return null;
-        }
+
+function getSpacing(...args) {
+    if (args.length === 1) {
+        const [ all ] = args;
+        return getPx(all);
+    } else if (args.length === 2) {
+        const [ tb, lr ] = args;
+        return `${getPx(tb)} ${getPx(lr)}`;
+    } else if (args.length === 4) {
+        const [ t, r, b, l ] = args;
+        return `${getPx(t)} ${getPx(r)} ${getPx(b)} ${getPx(l)}`;
+    } else {
+        return null;
     }
 }
 
@@ -38,24 +38,26 @@ const theme = {
     colors: {
         primary: pictonBlue,
         complimentary: nileBlue,
-        textDark: mineShaft,
-        textLight: '#fff',
+        black: mineShaft,
+        white,
         success: conifer,
         warning: alizarinCrimson,
-        info: tahitiGold
+        info: tahitiGold,
+        uiPrimary: porcelain,
+        uiSecondary: alto
     },
     fontStacks: {
-        heading: ({ useLight }) => `
+        heading: ({ useLight } = {}) => `
             font-family: 'Roboto', sans-serif;
             font-weight: 700;
             color: ${useLight ? white : mineShaft};
         `,
-        body: ({ useLight }) => `
+        body: ({ useLight } = {}) => `
             font-family: 'Fira Sans', sans-serif;
             font-weight: 300;
             color: ${useLight ? white : mineShaft};
         `,
-        bodyBold: ({ useLight }) => `
+        bodyBold: ({ useLight } = {}) => `
             font-family: 'Fira Sans', sans-serif;
             font-weight: 600;
             color: ${useLight ? white : mineShaft};
@@ -63,8 +65,7 @@ const theme = {
     },
     borderRadius: '3px',
     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-    getPadding: getSpaceStyle('padding'),
-    getMargin: getSpaceStyle('margin')
+    getSpacing,
 };
 
 export default theme;

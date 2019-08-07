@@ -6,8 +6,8 @@ import Link from 'next/link';
 import ImageLink from '../ImageLink';
 
 const StyledMinimalCard = styled.div`
-    margin-top: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-top: ${({ theme }) => theme.getSpacing(2)};
+    box-shadow: ${({ theme }) => theme.boxShadow};
     ${({ isInline }) => isInline && `
         width: calc(50% - 5px);
         @media (min-width: 550px) {
@@ -48,13 +48,14 @@ const CardImageLink = styled(ImageLink)`
 `;
 
 const InfoRow = styled.div`
-    padding: 10px;
+    padding: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 const NameLink = styled.a`
-    ${text('body', { fontWeight: 700, fontSize: '0.85rem' })}
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    font-size: 0.85rem;
     text-decoration: none;
-    margin-bottom: 5px;
+    margin-bottom: ${({ theme }) => theme.getSpacing(1)};
     display: inline-block;
     &:hover {
         text-decoration: underline;
@@ -66,6 +67,8 @@ const NameLink = styled.a`
 
 const AdditionalDetailsText = styled.span`
     ${text('body', { fontWeight: 300, fontSize: '0.75rem' })}
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: 0.75rem;
     display: block;
     max-width: 100%;
     ${({ shouldTruncateDetails }) => shouldTruncateDetails && `

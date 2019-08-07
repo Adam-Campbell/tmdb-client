@@ -8,28 +8,29 @@ import { Times } from 'styled-icons/fa-solid';
 const StyledCancelInteractionButton = styled.button`
     display: flex;
     align-items: center;
-    padding: 5px;
+    padding: ${({ theme }) => theme.getSpacing(1)};
     background: none;
     border: none;
-    ${text('body', { fontSize: '0.85rem', fontWeight: 700 })}
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    font-size: 0.85rem;
     cursor: pointer;
 `;
 
 const IconContainer = styled.span`
-    border: solid #dc1f3b 2px;
+    border: solid 2px ${({ theme }) => theme.colors.warning};
     border-radius: 50%;
-    background: ${({ isHovered }) => isHovered ? '#dc1f3b' : 'none'};
+    background: ${({ isHovered, theme }) => isHovered ? theme.colors.warning : 'none'};
     display: flex;
     justify-content: center;
     align-items: center;
     width: 25px;
     height: 25px;
     transition: background ease-out 0.2s;
-    margin-right: 5px;
+    margin-right: ${({ theme }) => theme.getSpacing(1)};
 `;
 
 const CancelIcon = styled(Times)`
-    color: ${({ isHovered }) => isHovered ? '#fff' : '#dc1f3b'};
+    color: ${({ isHovered, theme }) => isHovered ? theme.colors.white : theme.colors.warning};
     width: 10px;
     transition: color ease-out 0.2s;
 `;

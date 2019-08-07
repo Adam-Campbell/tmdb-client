@@ -11,6 +11,7 @@ import { ListCard } from '../../components/Cards';
 import ListViewHeader from '../../components/ListViewHeader';
 import { text } from '../../utils';
 import CreateListModal from '../../components/CreateListModal';
+import { Button } from '../../components/Buttons';
 
 const ListCardsContainer = styled(Row)`
     display: flex;
@@ -36,11 +37,12 @@ function Lists({ lists }) {
             <UserHeader />
             <SubNav navData={meRoutesSubNavData} alignLeft={true} />
             <ListViewHeader title="My Lists">
-                <CreateListButton 
+                <Button 
                     onClick={() => setModalIsOpen(true)}
+                    buttonType="success"
                 >
                     Create list
-                </CreateListButton>
+                </Button>
             </ListViewHeader>
             <ListCardsContainer>
                 {lists.map(list => (
