@@ -26,6 +26,9 @@ const Tag = styled.li`
 `;
 
 export function TagList({ title, tagData }) {
+    
+    if (!tagData.length) return null;
+
     return (
         <>
             <TagListHeading>{title}</TagListHeading>

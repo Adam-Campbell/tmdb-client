@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`getMovieSubNavData it matches snapshot 1`] = `
+Array [
+  Object {
+    "as": "/movie/123/similar",
+    "href": "/movie/similar?id=123",
+    "name": "Similar",
+  },
+  Object {
+    "as": "/movie/123/recommended",
+    "href": "/movie/recommended?id=123",
+    "name": "Recommended",
+  },
+  Object {
+    "as": "/movie/123/reviews",
+    "href": "/movie/reviews?id=123",
+    "name": "Reviews",
+  },
+  Object {
+    "as": "/movie/123/cast-and-crew",
+    "href": "/movie/cast-and-crew?id=123",
+    "name": "Cast & Crew",
+  },
+  Object {
+    "as": "/movie/123/images",
+    "href": "/movie/images?id=123",
+    "name": "Images",
+  },
+]
+`;
+
+exports[`getPersonSubNavData it matches snapshot 1`] = `
+Array [
+  Object {
+    "as": "/person/foo/credits",
+    "href": "/person/credits?id=foo",
+    "name": "Credits",
+  },
+  Object {
+    "as": "/person/foo/images",
+    "href": "/person/images?id=foo",
+    "name": "Images",
+  },
+]
+`;
+
+exports[`getSearchSubNavData it matches snapshot 1`] = `
+Array [
+  Object {
+    "as": "/search?category=movie&query=bar",
+    "href": "/search?category=movie&query=bar",
+    "name": "Movies",
+  },
+  Object {
+    "as": "/search?category=tv&query=bar",
+    "href": "/search?category=tv&query=bar",
+    "name": "TV Shows",
+  },
+  Object {
+    "as": "/search?category=person&query=bar",
+    "href": "/search?category=person&query=bar",
+    "name": "People",
+  },
+]
+`;
+
+exports[`getShowSubNavData it matches snapshot 1`] = `
+Array [
+  Object {
+    "as": "/show/123/similar",
+    "href": "/show/similar?id=123",
+    "name": "Similar",
+  },
+  Object {
+    "as": "/show/123/recommended",
+    "href": "/show/recommended?id=123",
+    "name": "Recommended",
+  },
+  Object {
+    "as": "/show/123/reviews",
+    "href": "/show/reviews?id=123",
+    "name": "Reviews",
+  },
+  Object {
+    "as": "/show/123/cast-and-crew",
+    "href": "/show/cast-and-crew?id=123",
+    "name": "Cast & Crew",
+  },
+  Object {
+    "as": "/show/123/images",
+    "href": "/show/images?id=123",
+    "name": "Images",
+  },
+  Object {
+    "as": "/show/123/seasons",
+    "href": "/show/seasons?id=123",
+    "name": "Seasons",
+  },
+]
+`;

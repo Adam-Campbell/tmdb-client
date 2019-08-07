@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "node server/index.js",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "jest"
   },
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
@@ -35,5 +36,13 @@
     "styled-normalize": "^8.0.6",
     "ua-parser-js": "^0.7.20",
     "victory": "^32.3.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@testing-library/jest-dom": "^4.0.0",
+    "@testing-library/react": "^8.0.7",
+    "babel-jest": "^24.8.0",
+    "jest": "^24.8.0",
+    "react-test-renderer": "^16.8.6"
   }
 }

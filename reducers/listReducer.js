@@ -1,5 +1,6 @@
 import * as actionTypes from '../actionTypes';
 
+
 export default function reducer(state = {}, action) {
     switch (action.type) {
 
@@ -12,7 +13,7 @@ export default function reducer(state = {}, action) {
             return {
                 ...state,
                 items: [],
-                itemCount: 0
+                item_count: 0
             };
 
         case actionTypes.REMOVE_MOVIE_FROM_LIST_SUCCESS:

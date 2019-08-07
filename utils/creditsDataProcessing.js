@@ -7,7 +7,7 @@ import { flow, partial, partialRight, reduce, orderBy } from 'lodash';
  * @param {Object} combinedCredits - an object containing cast and crew credits arrays. 
  * @returns {Array} - the array of credits 
  */
-function filterForRoleType(roleType, combinedCredits) {
+export function filterForRoleType(roleType, combinedCredits) {
     switch (roleType) {
         case 'both':
             return [
@@ -33,7 +33,7 @@ function filterForRoleType(roleType, combinedCredits) {
  * @param {Array} creditsArr - the array of credits to be filtered
  * @returns {Array} - the filtered credits array
  */
-function filterForMediaType(mediaType, creditsArr) {
+export function filterForMediaType(mediaType, creditsArr) {
     switch (mediaType) {
         case 'both':
             return creditsArr;
@@ -51,7 +51,7 @@ function filterForMediaType(mediaType, creditsArr) {
  * @param {?String} dateString - the string from which to derive the year
  * @returns {?Number} the year derived from the date string 
  */
-function getYear(dateString) {
+export function getYear(dateString) {
     if (!dateString) return null;
     return new Date(dateString).getFullYear();
 }
@@ -61,7 +61,7 @@ function getYear(dateString) {
  * @param {?String} dateString - the string from which to derive the milliseconds figure
  * @returns {?Number} the milliseconds figure derived from the date string 
  */
-function getMilliseconds(dateString) {
+export function getMilliseconds(dateString) {
     if (!dateString) return null;
     return new Date(dateString).getTime();
 }
@@ -73,17 +73,15 @@ function getMilliseconds(dateString) {
  * @param {Object} cr - the credit object
  * @returns {Object} - the transformed credit object
  */
-function transformCredit(cr) {
+export function transformCredit(cr) {
     return {
         mediaId: cr.id,
         creditId: cr.credit_id,
         mediaType: cr.media_type,
         releaseYear: getYear(cr.release_date || cr.first_air_date),
         fullReleaseDate: cr.release_date || cr.first_air_date,
-        //milliseconds: getMilliseconds(cr.release_date || cr.first_air_date),
-        milliseconds: cr.dateAsMilliseconds,
         name: cr.title || cr.name,
-        averageRating: cr.average_rating || null,
+        //averageRating: cr.average_rating || null,
         creditDescription: cr.character ? `as ${cr.character}` : (cr.job || null)
     }
 }
@@ -99,7 +97,7 @@ function transformCredit(cr) {
  * @param {Object} credit - the current credit object to be processed
  * @returns {Object} - the result of the current reduction 
  */
-function transformAndGroupReducer(acc, credit) {
+export function transformAndGroupReducer(acc, credit) {
     const tCredit = transformCredit(credit);
     if (acc[tCredit.releaseYear]) {
         acc[tCredit.releaseYear].credits.push(tCredit);

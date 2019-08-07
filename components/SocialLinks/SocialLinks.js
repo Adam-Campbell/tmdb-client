@@ -51,32 +51,35 @@ const StyledExternal = styled(Link)`
 `;
 
 export function SocialLinks({ facebook, twitter, instagram, website }) {
+
+    if (!facebook && !twitter && !instagram && !website) return null;
+
     return (
         <StyledSocialLinks>
             {facebook && (
                 <ListItem>
-                    <a href={`https://facebook.com/${facebook}`} target="blank">
+                    <a data-testid="facebook" href={`https://facebook.com/${facebook}`} target="blank">
                         <StyledFacebook />
                     </a>
                 </ListItem>
             )}
             {twitter && (
                 <ListItem>
-                    <a href={`https://twitter.com/${twitter}`} target="blank">
+                    <a data-testid="twitter" href={`https://twitter.com/${twitter}`} target="blank">
                         <StyledTwitter />
                     </a>
                 </ListItem>
             )}
             {instagram && (
                 <ListItem>
-                    <a href={`https://instagram.com/${instagram}`} target="blank">
+                    <a data-testid="instagram" href={`https://instagram.com/${instagram}`} target="blank">
                         <StyledInstagram />
                     </a>
                 </ListItem>
             )}
             {website && (
                 <ListItem>
-                    <a href={website} target="blank">
+                    <a data-testid="website" href={website} target="blank">
                         <StyledExternal />
                     </a>
                 </ListItem>

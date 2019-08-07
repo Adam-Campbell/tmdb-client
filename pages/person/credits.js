@@ -94,6 +94,7 @@ function Credits({ id, name, profilePath, credits }) {
         return transformCreditsData(credits, roleType, mediaType);
     }, [ credits, roleType, mediaType ]);
 
+
     return (
         <div>
             <MinimalHeader 

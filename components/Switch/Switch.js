@@ -3,12 +3,6 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { text, hideElement } from '../../utils';
 
-/*
-
-
-
-*/
-
 const Fieldset = styled.fieldset`
     border: none;
     padding-left: 0;
