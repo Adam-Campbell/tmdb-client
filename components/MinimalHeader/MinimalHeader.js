@@ -8,43 +8,43 @@ import { LongArrowAltLeft } from 'styled-icons/fa-solid';
 import SmartImage from '../SmartImage';
 
 const StyledMinimalHeader = styled.div`
-    background: #dc1f3b;
+    background: ${({ theme }) => theme.colors.warning};
 `;
 
 const MinimalHeaderRow = styled(Row)`
     display: flex;
     align-items: center;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: ${({ theme }) => theme.getSpacing(3, 0)};
 `;
 
 const Image = styled(SmartImage)`
     width: 85px;
     height: 127.5px;
-    margin-right: 20px;
+    margin-right: ${({ theme }) => theme.getSpacing(3)};
 `;
 
 
 const Title = styled.h1`
-    ${text('heading', { color: '#fff', fontSize: '2rem' })}
-    margin-top: 0;
-    margin-bottom: 15px;
+    ${({ theme }) => theme.fontStacks.heading({ useLight: true })}
+    font-size: ${({ theme }) => theme.fontSizes.heading.lg};
+    margin: ${({ theme }) => theme.getSpacing(0, 0, 2, 0)};
 `;
 
 const BackLink = styled.a`
-    ${text('body', { color: '#fff' })}
+    ${({ theme }) => theme.fontStacks.body({ useLight: true })}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
     text-decoration: none;
     display: inline-flex;
     align-items: center;
     &:hover {
         text-decoration: underline;
-        color: #ddd;
+        color: ${({ theme }) => theme.colors.uiSecondary};
     }
 `;
 
 const BackIcon = styled(LongArrowAltLeft)`
     width: 25px;
-    margin-right: 10px;
+    margin-right: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 export function MinimalHeader({ 

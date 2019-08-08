@@ -11,9 +11,8 @@ const StyledInteractionButton = styled.button`
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    margin-left: 5px;
-    margin-right: 5px;
-    background: ${({ isHovered }) => isHovered ? '#fff' : 'none'};
+    margin: ${({ theme }) => theme.getSpacing(0, 1)};
+    background: ${({ theme, isHovered }) => isHovered ? theme.colors.white : 'none'};
     transition: background ease-out 0.2s;
     cursor: pointer;
 `;

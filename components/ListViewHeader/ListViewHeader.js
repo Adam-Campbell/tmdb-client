@@ -9,10 +9,8 @@ const StyledListViewHeader = styled(Row)`
 `;
 
 const HeaderTitle = styled.h1`
-    font-family: sans-serif;
-    font-weight: 700;
-    color: #222;
-    font-size: 1.25rem;
+    ${({ theme }) => theme.fontStacks.heading()}
+    ${({ theme }) => theme.fontSizes.heading.sm};
     margin-right: auto;
 `;
 

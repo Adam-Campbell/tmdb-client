@@ -10,18 +10,17 @@ const StyledPersonListItem = styled.li`
     width: 100%;
     display: ${({ isHidden }) => isHidden ? 'none' : 'flex'};
     align-items: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: ${({ theme }) => theme.getSpacing(2, 0)};
     @media (min-width: 550px) {
         width: 50%;
     }
 `;
 
 const PersonImageLink = styled(ImageLink)`
-    margin-right: 20px;
+    margin-right: ${({ theme }) => theme.getSpacing(3)};
     align-items: center;
     flex-shrink: 0;
-    border-radius: 3px;
+    border-radius: ${({ theme }) => theme.borderRadius};
     overflow: hidden;
     width: 100px;
     height: 100px;
@@ -36,7 +35,8 @@ const PersonImageLink = styled(ImageLink)`
 `;
 
 const NameLink = styled.a`
-    ${text('body', { fontWeight: 700 })}
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
     text-decoration: none;
     &:hover {
         text-decoration: underline;
@@ -44,9 +44,9 @@ const NameLink = styled.a`
 `;
 
 const Description = styled.p`
-    ${text('body', { fontWeight: 300, fontSize: '0.85rem' })}
-    margin-top: 5px;
-    margin-bottom: 0;
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
+    margin: ${({ theme }) => theme.getSpacing(1, 0, 0, 0)};
 `;
 
 export default function PersonListItem({ id, name, description, imagePath, isHidden }) {

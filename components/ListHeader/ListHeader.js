@@ -3,15 +3,14 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row } from '../Layout';
 import { text, getImageUrl, imageSizeConstants } from '../../utils';
+import { cover } from 'polished';
 
 const StyledListHeader = styled.div`
     position: relative;
 `;
 
 const BackdropImageHolder = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
+    ${cover()}
     width: 100%;
     height: 100%;
     background: ${({ imageUrl }) => `url('${imageUrl}')`};
@@ -21,32 +20,34 @@ const BackdropImageHolder = styled.div`
 `;
 
 const BackdropImageOverlay = styled.div`
-    background: ${({ hasImage }) => hasImage ? 'rgba(0,0,0,0.8)' : '#1a435d'};
+    background: ${({ theme, hasImage }) => hasImage ? theme.colors.overlayStrong : theme.colors.complimentary};
     position: relative;
 `;
 
 const HeaderRow = styled(Row)`
-    padding-top: 40px;
-    padding-bottom: 40px;
+    padding: ${({ theme }) => theme.getSpacing(4, 0)};
 `;
 
 const ListName = styled.h1`
-    ${text('heading', { fontSize: '2rem', color: '#fff' })}
-    margin-top: 16px;
-    margin-bottom: 16px;
+    ${({ theme }) => theme.fontStacks.heading({ useLight: true })}
+    font-size: ${({ theme }) => theme.fontSizes.heading.lg};
+    margin: ${({ theme }) => theme.getSpacing(2, 0)};
 `;
 
 const Creator = styled.p`
-    ${text('body', { color: '#43cbe8', fontWeight: 700 })}
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
+    color: ${({ theme }) => theme.colors.primary};
     span {
-        color: #fff;
-        font-weight: 400;
-        margin-right: 5px;
+        color: ${({ theme }) => theme.colors.white};
+        font-weight: 300;
+        margin-right: ${({ theme }) => theme.getSpacing(1)};
     }
 `;
 
 const ListDescription = styled.p`
-    ${text('body', { color: '#fff' })}
+    ${({ theme }) => theme.fontStacks.body({ useLight: true })}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
 `;
 
 export function ListHeader({ name, createdBy, description, backdropPath }) {

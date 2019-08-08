@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row } from '../Layout';
-import { BackdropCard, PosterCard, MediaCard } from '../Cards';
+import { MediaCard } from '../Cards';
 import ListViewHeader from '../ListViewHeader';
-import cardViews from './cardViewsConstant';
-import ListBox from '../ListBox';
-
 
 const DropdownContainer = styled.div`
     width: 220px;
@@ -18,27 +15,10 @@ const MediaCardContainer = styled(Row)`
     flex-wrap: wrap;
 `;
 
-const cardViewsData = [
-    { value: 'backdrop', name: 'Backdrop' },
-    { value: 'poster', name: 'Poster' }
-];
-
 export function MediaListView({ title, items, urlSubpath }) {
-    //const [ cardView, setCardView ] = useState(cardViewsData[0]);
     return (
         <>
-            <ListViewHeader title={title}>
-                {/* <DropdownContainer>
-                    <ListBox 
-                        items={cardViewsData}
-                        currentValue={cardView}
-                        setValue={setCardView}
-                        shouldBuffer={false}
-                        shouldInlineLabel={true}
-                        labelText="Select View: "
-                    />
-                </DropdownContainer> */}
-            </ListViewHeader>
+            <ListViewHeader title={title} />
             <MediaCardContainer>
                 {items.map(item => (
                     <MediaCard 

@@ -8,6 +8,8 @@ const gallery = '#eee';
 const alto = '#ddd';
 const white = '#fff';
 const porcelain = '#eaedee';
+const transparentBlack = 'rgba(0,0,0,0.8)';
+const transparentGrey = 'rgba(17,17,17,04)';
 
 const spaceBase = 5;
 
@@ -43,7 +45,9 @@ const theme = {
         warning: alizarinCrimson,
         info: tahitiGold,
         uiPrimary: porcelain,
-        uiSecondary: alto
+        uiSecondary: alto,
+        overlayStrong: transparentBlack,
+        overlayMild: transparentGrey
     },
     fontStacks: {
         heading: ({ useLight } = {}) => `

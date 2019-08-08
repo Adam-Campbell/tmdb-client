@@ -15,8 +15,9 @@ import SmartImage from '../SmartImage';
 
 const StyledEpisodePod = styled.div`
     width: 100%;
-    margin: ${({ theme }) => theme.getSpacing(3, 0)}
+    margin: ${({ theme }) => theme.getSpacing(3, 0)};
     box-shadow: ${({ theme }) => theme.boxShadow};
+    background: ${({ theme }) => theme.colors.white};
 `;
 
 const MainInfoCard = styled.div`
