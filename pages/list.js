@@ -21,7 +21,7 @@ import ListHeader from '../components/ListHeader';
 
 
 const DeleteListButton = styled(Button)`
-    margin-left: 10px;
+    margin-left: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 function List({

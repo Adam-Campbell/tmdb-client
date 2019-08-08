@@ -19,14 +19,6 @@ const ListCardsContainer = styled(Row)`
     justify-content: space-between;
 `;
 
-const CreateListButton = styled.button`
-    ${text('body', { fontWeight: 700, color: '#fff' })}
-    background: #6ee843;
-    padding: 10px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-`;
 
 function Lists({ lists }) {
 

@@ -60,11 +60,10 @@ const ContentRow = styled(Row)`
 const ControlsCol = styled.div`
     display: flex;
     flex-direction: column;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: ${({ theme }) => theme.getSpacing(3, 0)};
     @media(min-width: 768px) {
         width: 280px;
-        padding: 40px 20px 40px 0;
+        padding: ${({ theme }) => theme.getSpacing(4, 3, 4, 0)};
     }
 `;
 
@@ -73,10 +72,9 @@ const SwitchContainer = styled.div`
 `;
 
 const MainCol = styled.div`
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: ${({ theme }) => theme.getSpacing(3, 0)};
     @media(min-width: 768px) {
-        padding: 40px 0 40px 20px;
+        padding: ${({ theme }) => theme.getSpacing(4, 0, 4, 3)};
         width: calc(100% - 280px);
     }
 `;
