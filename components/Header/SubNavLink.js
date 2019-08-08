@@ -8,15 +8,15 @@ import Link from 'next/link';
 
 const StyledSubNavLink = styled.a`
     display: block;
-    ${text('body', { fontWeight: 700, color: '#fff' })}
+    ${({ theme }) => theme.fontStacks.bodyBold({ useLight: true })}
     cursor: pointer;
     text-decoration: none;
-    padding: 20px;
+    padding: ${({ theme }) => theme.getSpacing(3)};
     @media (min-width: 768px) {
-        padding: 10px;
-        font-weight: ${({ isActive }) => isActive ? 700 : 400};
-        color: ${({ isActive, isHovered }) => (isActive || isHovered) ? '#1a435d' : '#fff'};
-        ${({ isActive }) => isActive && 'border-left: solid 3px #1a435d;'}
+        padding: ${({ theme }) => theme.getSpacing(2)};
+        font-weight: ${({ isActive }) => isActive ? 600 : 300};
+        color: ${({ theme, isActive, isHovered }) => (isActive || isHovered) ? theme.colors.complimentary : theme.colors.white};
+        ${({ theme, isActive }) => isActive && `border-left: solid 3px ${theme.colors.complimentary};`}
     }
 `;
 

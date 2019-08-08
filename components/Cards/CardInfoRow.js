@@ -24,26 +24,25 @@ const TextContainer = styled.div`
 
 const TitleAnchor = styled.a`
     ${({ theme }) => theme.fontStacks.bodyBold()}
-    font-size: 0.85rem;
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
     text-decoration: none;
     margin-bottom: ${({ theme }) => theme.getSpacing(1)};
     &:hover {
         text-decoration: underline;
     }
     @media (min-width: 550px) {
-        font-size: 1rem;
+        font-size: ${({ theme }) => theme.fontSizes.body.md};
     }
-    ${({ isInline }) => isInline || `
+    ${({ theme, isInline }) => isInline || `
         @media (min-width: 900px) {
-            font-size: 1.125rem;
+            font-size: ${theme.fontSizes.body.lg};
         }
     `}
 `;
 
 const ReleaseDate = styled.span`
-    ${text('body', { fontWeight: 300, fontSize: '0.85rem' })}
     ${({ theme }) => theme.fontStacks.body()}
-    font-size: 0.85rem;
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
 `;
 
 const RatingContainer = styled.div`

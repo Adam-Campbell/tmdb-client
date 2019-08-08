@@ -4,13 +4,14 @@ import styled from 'styled-components';
 import ReactModal from 'react-modal';
 import { text } from '../../utils';
 import Link from 'next/link';
+import { ellipsis } from 'polished';
 
 const Username = styled.p`
-    ${text('body', { fontWeight: 700, fontSize: '0.75rem' })}
-    margin: 10px 10px auto 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    font-size: ${({ theme }) => theme.fontSizes.body.xs};
+    margin: ${({ theme }) => theme.getSpacing(2)};
+    margin-bottom: auto;
+    ${ellipsis()}
 `;
 
 const UserMenuList = styled.ul`
@@ -20,25 +21,27 @@ const UserMenuList = styled.ul`
 `;
 
 const ProfileLink = styled.a`
-    ${text('body', { fontSize: '0.85rem' })}
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
     text-decoration: none;
     display: block;
-    padding: 10px;
-    color: ${({ isHovered }) => isHovered ? '#fff' : '#222'};
-    background: ${({ isHovered }) => isHovered ? '#1a435d' : 'none'};
+    padding: ${({ theme }) => theme.getSpacing(2)};
+    color: ${({ theme, isHovered }) => isHovered ? theme.colors.white : theme.colors.black};
+    background: ${({ theme, isHovered }) => isHovered ? theme.colors.complimentary : 'none'};
 `;
 
 const LogoutButton = styled.button`
-    ${text('body', { fontSize: '0.85rem' })}
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
     background: none;
     cursor: pointer;
     display: block;
     width: 100%;
-    padding: 10px;
+    padding: ${({ theme }) => theme.getSpacing(2)};
     border: none;
     text-align: left;
-    color: ${({ isHovered }) => isHovered ? '#fff' : '#222'};
-    background: ${({ isHovered }) => isHovered ? '#1a435d' : 'none'};
+    color: ${({ theme, isHovered }) => isHovered ? theme.colors.white : theme.colors.black};
+    background: ${({ theme, isHovered }) => isHovered ? theme.colors.complimentary : 'none'};
 `;
 
 export default function UserMenu({

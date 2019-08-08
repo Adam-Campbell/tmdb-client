@@ -26,21 +26,19 @@ const ControlsContainer = styled.div`
     justify-content: center;
     align-items: center;
     margin-top: auto;
-    padding-top: 10px;
+    padding-top: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 const BackArrow = styled(ArrowAltCircleLeft)`
-    color: #222;
+    color: ${({ theme }) => theme.colors.black};
     width: 25px;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin: ${({ theme }) => theme.getSpacing(0, 3)};
 `;
 
 const ForwardArrow = styled(ArrowAltCircleRight)`
-    color: #222;
+    color: ${({ theme }) => theme.colors.black};
     width: 25px;
-    margin-left: 20px;
-    margin-right: 20px;
+    margin: ${({ theme }) => theme.getSpacing(0, 3)};
 `;
 
 

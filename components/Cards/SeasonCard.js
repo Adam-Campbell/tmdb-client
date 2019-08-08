@@ -47,9 +47,11 @@ const TitleRow = styled.div`
     }
 `;
 
+//    margin-right: ${({ theme }) => theme.getSpacing(2)};
+//   margin-bottom: ${({ theme }) => theme.getSpacing(2)};
+
 const TitleLink = styled.a`
-    margin-right: ${({ theme }) => theme.getSpacing(2)};
-    margin-bottom: ${({ theme }) => theme.getSpacing(2)};
+    margin: ${({ theme }) => theme.getSpacing(0, 2, 2, 0)};
     text-decoration: none;
     @media (min-width: 550px) {
         margin-bottom: 0;
@@ -58,28 +60,26 @@ const TitleLink = styled.a`
 
 const Title = styled.h2`
     ${({ theme }) => theme.fontStacks.heading()}
-    font-size: 1.25rem;
-    margin-top: 0;
-    margin-bottom: 0;
+    font-size: ${({ theme }) => theme.fontSizes.heading.sm};
+    margin: 0;
     cursor: pointer;
     @media (min-width: 550px) {
-        font-size: 1.5rem;
+        font-size: ${({ theme }) => theme.fontSizes.heading.md};
     }
 `;
 
 const SeasonInfo = styled.p`
     ${({ theme }) => theme.fontStacks.bodyBold()}
-    font-size: 0.85rem;
-    margin-top: 0;
-    margin-bottom: 0;
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
+    margin: 4px 0 0 0;
 `;
 
 const SeasonOverview = styled.p`
     ${({ theme }) => theme.fontStacks.body()}
-    font-size: 0.75rem;
+    font-size: ${({ theme }) => theme.fontSizes.body.xs};
     margin: ${({ theme }) => theme.getSpacing(2)};
     @media (min-width: 550px) {
-        font-size: 0.85rem;
+        font-size: ${({ theme }) => theme.fontSizes.body.sm};
     }
 `;
 

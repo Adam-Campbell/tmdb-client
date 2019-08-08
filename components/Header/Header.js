@@ -9,10 +9,11 @@ import { getRequestToken } from '../../Api';
 import { text } from '../../utils';
 import Nav from './Nav';
 import { Menu } from 'styled-icons/material';
-import UserIcon from './UserIcon'
-
+import UserIcon from './UserIcon';
+import { Button } from '../Buttons';
+ 
 const StyledHeader = styled.header`
-    background-color: #1a435d;
+    background-color: ${({ theme }) => theme.colors.complimentary};
     position: sticky;
     top: 0;
     z-index: 3000;
@@ -32,18 +33,12 @@ const NavContainer = styled.div`
     
 `;
 
-const LoginButton = styled.button`
-    ${text('body', { color: '#fff', fontWeight: 700 })}
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 3px;
-    border: none;
-    background: #43cbe8;
+const LoginButton = styled(Button)`
     margin-left: auto;
 `;
 
 const MenuToggle = styled(Menu)`
-    color: #fff;
+    color: ${({ theme }) => theme.colors.white};
     width: 32px;
     cursor: pointer;
     @media (min-width: 768px) {
@@ -51,33 +46,14 @@ const MenuToggle = styled(Menu)`
     }
 `;
 
-// const UserIcon = styled.span`
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     width: 32px;
-//     height: 32px;
-//     border-radius: 50%;
-//     background: #43cbe8;
-//     text-transform: uppercase;
-//     margin-left: auto;
-//     flex-shrink: 0;
-//     cursor: pointer;
-//     ${text('heading', { color: '#fff', fontSize: '1.25rem' })}
-// `;
-
 async function handleLoginClick() {
     const requestToken = await getRequestToken();
     window.location = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=http://localhost:3000/authenticate`
 }
 
-
-
 function Header({ isLoggedIn }) { 
 
     const [ isOpen, setIsOpen ] = useState(false);
-
-
 
     return (
         <StyledHeader>
@@ -101,13 +77,3 @@ const mapState = (state) => ({
 export const ConnectedHeader = connect(mapState, {
     logoutUser
 })(Header);
-
-/*
-
-{
-                        props.isLoggedIn ? 
-                        <AccountButton warning onClick={props.logoutUser}>Logout</AccountButton> :
-                        <AccountButton onClick={handleLoginClick}>Login</AccountButton>
-                    }
-
-*/

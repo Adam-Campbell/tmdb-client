@@ -20,7 +20,7 @@ const StyledCardRatingButton = styled.button`
     background: none;
     border: none;
     ${({ theme }) => theme.fontStacks.bodyBold()}
-    font-size: 0.85rem;
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
     cursor: pointer;
 `;
 

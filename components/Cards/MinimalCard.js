@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { text, imageSizeConstants } from '../../utils';
 import Link from 'next/link';
 import ImageLink from '../ImageLink';
+import { ellipsis } from 'polished'
 
 const StyledMinimalCard = styled.div`
     margin-top: ${({ theme }) => theme.getSpacing(2)};
@@ -14,9 +15,9 @@ const StyledMinimalCard = styled.div`
             width: calc(25% - 7.5px);
         }
     `}
-    ${({ isInline }) => isInline || `
+    ${({ theme, isInline }) => isInline || `
         width: calc(50% - 5px);
-        margin-right: 10px;
+        margin-right: ${theme.getSpacing(2)};
         @media (max-width: 549px) {
             &:nth-child(2n) {
                 margin-right: 0;
@@ -49,11 +50,14 @@ const CardImageLink = styled(ImageLink)`
 
 const InfoRow = styled.div`
     padding: ${({ theme }) => theme.getSpacing(2)};
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 `;
 
 const NameLink = styled.a`
     ${({ theme }) => theme.fontStacks.bodyBold()}
-    font-size: 0.85rem;
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
     text-decoration: none;
     margin-bottom: ${({ theme }) => theme.getSpacing(1)};
     display: inline-block;
@@ -61,23 +65,18 @@ const NameLink = styled.a`
         text-decoration: underline;
     }
     @media(min-width: 550px) {
-        font-size: 1rem;
+        font-size: ${({ theme }) => theme.fontSizes.body.md};
     }
 `;
 
 const AdditionalDetailsText = styled.span`
-    ${text('body', { fontWeight: 300, fontSize: '0.75rem' })}
     ${({ theme }) => theme.fontStacks.body()}
-    font-size: 0.75rem;
+    font-size: ${({ theme }) => theme.fontSizes.body.xs};
     display: block;
     max-width: 100%;
-    ${({ shouldTruncateDetails }) => shouldTruncateDetails && `
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    `}
+    ${({ shouldTruncateDetails }) => shouldTruncateDetails && ellipsis()}
     @media(min-width: 550px) {
-        font-size: 0.85rem;
+        font-size: ${({ theme }) => theme.fontSizes.body.sm};
     }
 `;
 

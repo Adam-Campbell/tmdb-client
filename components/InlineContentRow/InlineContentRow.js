@@ -5,14 +5,13 @@ import Link from 'next/link';
 import { text } from '../../utils';
 
 const StyledInlineContentRow = styled.div`
-    margin-top: 0;
-    margin-bottom: 40px;
+    margin-bottom: ${({ theme }) => theme.getSpacing(4)};
 `;
 
 const RowTitle = styled.h2`
-    ${text('heading')}
-    margin-bottom: 0;
-    margin-top: 0;
+    ${({ theme }) => theme.fontStacks.heading()}
+    font-size: ${({ theme }) => theme.fontSizes.heading.md}
+    margin: 0;
 `;
 
 const ContentContainer = styled.div`
@@ -22,9 +21,10 @@ const ContentContainer = styled.div`
 `;
 
 const SeeMoreLink = styled.a`
-    ${text('body')}
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
     display: inline-block;
-    margin-top: 20px;
+    margin-top: ${({ theme }) => theme.getSpacing(3)};
     text-decoration: none;
     &:hover {
         text-decoration: underline;

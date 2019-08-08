@@ -44,6 +44,8 @@ const ImageLink = styled.a`
 
 const PlaceholderContainer = styled.div`
     ${cover()}
+    width: 100%;
+    height: 100%;
     background: ${({ theme }) => theme.colors.uiSecondary};
     display: ${({ hasBackdropImage }) => hasBackdropImage ? 'none' : 'flex'};
     justify-content: center;
@@ -72,6 +74,8 @@ const PosterImage = styled.img`
     @media (min-width: 600px) {
         display: block;
         ${cover()}
+        width: 100%;
+        height: 100%;
         object-fit: cover;
         object-position: center;
     }
@@ -80,6 +84,8 @@ const PosterImage = styled.img`
 
 const BackdropImage = styled.img`
     ${cover()}
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     object-position: center;
     transition: all ease-out 0.2s;
@@ -111,18 +117,18 @@ const TextColumn = styled.div`
 
 const OverviewText = styled.p`
     ${({ theme }) => theme.fontStacks.body()}
-    font-size: 0.85rem;
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
     margin-left: ${({ theme }) => theme.getSpacing(2)};
     margin-right: ${({ theme }) => theme.getSpacing(2)};
     @media (min-width: 600px) {
-        font-size: 0.75rem;
+        font-size: ${({ theme }) => theme.fontSizes.body.xs};
     }
     @media (min-width: 768px) {
-        font-size: 0.85rem;
+        font-size: ${({ theme }) => theme.fontSizes.body.sm};
     }
-    ${({ isInline }) => isInline || `
+    ${({ theme, isInline }) => isInline || `
         @media (min-width: 900px) {
-            font-size: 1rem;
+            font-size: ${theme.fontSizes.body.md};
         }
     `}
 `;
@@ -138,7 +144,7 @@ const ActionRow = styled.div`
 
 const MoreInfoLink = styled.a`
     ${({ theme }) => theme.fontStacks.body()}
-    font-size: 0.85rem;
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
     text-decoration: none;
     &:hover {
         text-decoration: underline;

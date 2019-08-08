@@ -3,20 +3,20 @@ import { text } from '../../utils';
 
 export const NavItem = styled.li`
     display: inline-block;
-    border-bottom: solid #fff 2px;
+    border-bottom: solid 2px ${({ theme }) => theme.colors.white};
     @media (min-width: 768px) {
         border-bottom: 0;
         & + & {
-            margin-left: 20px;
+            margin-left: ${({ theme }) => theme.getSpacing(3)};
         }
     }
 `;
 
 export const StyledNavLink = styled.a`
     display: block;
-    ${text('body', { fontWeight: 700, color: '#fff' })}
+    ${({ theme }) => theme.fontStacks.bodyBold({ useLight: true })}
     cursor: pointer;
-    padding: 20px;
+    padding: ${({ theme }) => theme.getSpacing(3)};
     background: transparent;
     transition: background ease-out 0.2s;
     text-decoration: none;
@@ -24,9 +24,8 @@ export const StyledNavLink = styled.a`
         height: 50px;
         display: inline-flex;
         align-items: center;
-        padding-left: 10px;
-        padding-right: 10px;
-        color: ${({ isActive, isHovered }) => (isActive || isHovered) ? '#43cbe8' : '#fff'};
+        padding: ${({ theme }) => theme.getSpacing(3, 2)};
+        color: ${({ theme, isActive, isHovered }) => (isActive || isHovered) ? theme.colors.primary : theme.colors.white};
         ${({ isActive }) => isActive && 'border-bottom: solid 3px;'}
     }
 `;

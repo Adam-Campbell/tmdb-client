@@ -13,26 +13,25 @@ const spaceBase = 5;
 
 // Works on a scale of 1 to 5, with 1 being the spaceBase, and then each successive
 // number being double the number before it, so spaceBase*2, spaceBase*4 etc.
+// Inputs will map to outputs like this:
+// 0 => 0
+// 1 => base * 2^0 = 5px
+// 2 => base * 2^1 = 10px
+// 3 => base * 2^2 = 20px
+// 4 => base * 2^3 = 40px
+// 5 => base * 2^4 = 80px
 function getPx(exp) {
+    if (exp === 0) return exp;
     const normalizedExp = Math.min(Math.max(0, exp - 1), 4);
     return `${Math.pow(2, normalizedExp) * spaceBase}px`;
 }
 
-
 function getSpacing(...args) {
-    if (args.length === 1) {
-        const [ all ] = args;
-        return getPx(all);
-    } else if (args.length === 2) {
-        const [ tb, lr ] = args;
-        return `${getPx(tb)} ${getPx(lr)}`;
-    } else if (args.length === 4) {
-        const [ t, r, b, l ] = args;
-        return `${getPx(t)} ${getPx(r)} ${getPx(b)} ${getPx(l)}`;
-    } else {
-        return null;
-    }
+    return args.slice(0,4)
+               .map(num => getPx(num))
+               .join(' ');
 }
+
 
 const theme = {
     colors: {
@@ -62,6 +61,21 @@ const theme = {
             font-weight: 600;
             color: ${useLight ? white : mineShaft};
         `
+    },
+    fontSizes: {
+        body: {
+            xs: '0.75rem',
+            sm: '0.85rem',
+            md: '1rem',
+            lg: '1.125rem',
+            xl: '1.25rem'
+        },
+        heading: {
+            sm: '1.25rem',
+            md: '1.5rem',
+            lg: '2rem',
+            xl: '2.5rem'
+        }
     },
     borderRadius: '3px',
     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',

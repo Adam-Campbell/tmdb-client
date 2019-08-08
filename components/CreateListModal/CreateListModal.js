@@ -7,12 +7,10 @@ import { createList } from '../../actions';
 import { text } from '../../utils';
 import { Times } from 'styled-icons/fa-solid';
 
-const Form = styled.form`
-
-`;
 
 const FormTitle = styled.h2`
-    ${text('heading')}
+    ${({ theme }) => theme.fontStacks.heading()}
+    font-size: ${({ theme }) => theme.fontSizes.heading.md};
 `;
 
 const Fieldset = styled.fieldset`
@@ -22,59 +20,59 @@ const Fieldset = styled.fieldset`
 `;
 
 const Label = styled.label`
-    ${text('body', { fontWeight: 700 })}
+    ${({ theme }) => theme.fontStacks.bodyBold()}
     display: block;
-    margin-bottom: 5px;
-    margin-top: 40px;
+    margin-bottom: ${({ theme }) => theme.getSpacing(1)};
+    margin-top: ${({ theme }) => theme.getSpacing(4)};
 `;
 
 const NameInput = styled.input`
-    ${text('body')}
+    ${({ theme }) => theme.fontStacks.body()}
     border: none;
-    background: #eee;
+    background: ${({ theme }) => theme.colors.uiPrimary};
     display: block;
-    padding: 10px 10px 10px 0;
-    text-indent: 10px;
-    border-radius: 3px;
+    padding: ${({ theme }) => theme.getSpacing(2, 2, 2, 0)};
+    text-indent: ${({ theme }) => theme.getSpacing(2)};
+    border-radius: ${({ theme }) => theme.borderRadius};
     width: 100%;
     box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
 `;
 
 const NameInputError = styled.div`
-    ${text('body', { color: '#fff' })}
-    padding: 10px;
-    border-radius: 3px;
-    background: #dc1f3b;
-    margin-top: 10px;
+    ${({ theme }) => theme.fontStacks.body({ useLight: true })}
+    padding: ${({ theme }) => theme.getSpacing(2)};
+    border-radius: ${({ theme }) => theme.borderRadius};
+    background: ${({ theme }) => theme.colors.warning};
+    margin-top: ${({ theme }) => theme.getSpacing(2)};
     display: flex;
     align-items: center;
 `;
 
 const CloseErrorIcon = styled(Times)`
     width: 14px;
-    color: #fff;
+    color: ${({ theme }) => theme.colors.white};
     margin-left: auto;
     cursor: pointer;
 `;
 
 
 const Textarea = styled.textarea`
-    ${text('body')}
+    ${({ theme }) => theme.fontStacks.body()}
     border: none;
-    background: #eee;
+    background: ${({ theme }) => theme.colors.uiPrimary};
     display: block;
-    padding: 10px;
-    border-radius: 3px;
+    padding: ${({ theme }) => theme.getSpacing(2)};
+    border-radius: ${({ theme }) => theme.borderRadius};
     width: 100%;
     min-height: 80px;
-    margin-bottom: 40px;
+    margin-bottom: ${({ theme }) => theme.getSpacing(4)};
     box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
 `;
 
 const SubmitButton = styled.button`
-    ${text('body', { fontWeight: 700, color: '#fff' })}
-    background: #6ee843;
-    padding: 10px 20px;
+    ${({ theme }) => theme.fontStacks.bodyBold({ useLight: true })}
+    background: ${({ theme }) => theme.colors.success};
+    padding: ${({ theme }) => theme.getSpacing(2, 3)};
     border: none;
     border-radius: 50px;
     cursor: pointer;
@@ -84,8 +82,8 @@ const SubmitButton = styled.button`
 `;
 
 const CancelButton = styled(SubmitButton)`
-    background: #dc1f3b;
-    margin-left: 10px;
+    background: ${({ theme }) => theme.colors.warning};
+    margin-left: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 
@@ -114,7 +112,7 @@ function CreateListModal({ isOpen, handleClose, createList }) {
             shouldCloseOnEscape={true}
             onRequestClose={handleClose}
         >
-            <Form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <FormTitle>Create a new list</FormTitle>
                 <Fieldset>
                     <Label htmlFor="create-list-name">Name:</Label>
@@ -142,7 +140,7 @@ function CreateListModal({ isOpen, handleClose, createList }) {
                 </Fieldset>
                 <SubmitButton type="submit">Create list</SubmitButton>
                 <CancelButton type="button" onClick={handleClose}>Cancel</CancelButton>
-            </Form>
+            </form>
         </ReactModal>
     );
 }

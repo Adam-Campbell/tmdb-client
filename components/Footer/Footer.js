@@ -1,9 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import { lighten, desaturate } from 'polished';
 
 const StyledFooter = styled.footer`
     min-height: 140px;
-    background: linear-gradient(135deg, #1a435d, #3a5b6f);
+    ${({ theme }) => { 
+        const startColor = theme.colors.complimentary;
+        const endColor = lighten( 0.1, desaturate( 0.1, startColor) );
+        return `background: linear-gradient(135deg, ${startColor}, ${endColor})`;
+    }};
 `;
 
 export function Footer(props) {

@@ -24,6 +24,8 @@ const ListCardInnerContainer = styled.div`
 
 const ListImage = styled.img`
     ${cover()}
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     object-position: center;
     opacity: ${({ isLoaded }) => isLoaded ? 1 : 0};
@@ -33,6 +35,8 @@ const ListImage = styled.img`
 const ListLink = styled.a`
     display: flex;
     ${cover()}
+    width: 100%;
+    height: 100%;
     text-decoration: none;
 `;
 
@@ -50,7 +54,7 @@ const ContentContainer = styled.div`
 
 const ListTitle = styled.h2`
     ${({ theme }) => theme.fontStacks.heading({ useLight: true })}
-    font-size: 2.25rem;
+    font-size: ${({ theme }) => theme.fontSizes.heading.lg};
     font-style: italic;
     margin-top: 0;
     margin-bottom: ${({ theme }) => theme.getSpacing(2)};

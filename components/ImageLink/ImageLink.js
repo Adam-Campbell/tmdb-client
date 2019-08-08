@@ -5,25 +5,22 @@ import Link from 'next/link';
 import useHover from '../useHover';
 import useLazyImage from '../useLazyImage';
 import ImagePlaceholder from '../ImagePlaceholder';
-
+import { cover } from 'polished';
+ 
 const StyledImageLink = styled.a`
     position: relative;
     display: flex;
 `;
 
 const PlaceholderContainer = styled.div`
-    background: #ddd;
-    position: absolute;
-    top: 0;
-    left: 0;
+    background: ${({ theme }) => theme.colors.uiSecondary};
+    ${cover()}
     width: 100%;
     height: 100%;
 `;
 
 const StyledImage = styled.img`
-    position: absolute;
-    top: 0;
-    left: 0;
+    ${cover(0)}
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -36,9 +33,7 @@ const StyledImage = styled.img`
 `;
 
 const ImageOverlay = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
+    ${cover()}
     width: 100%;
     height: 100%;
     transition: background ease-out 0.2s;

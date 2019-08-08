@@ -11,13 +11,13 @@ const SubNavList = styled.ul`
     padding-left: 0;
     margin-top: 0;
     margin-bottom: 0;
-    background: #1a435d;
+    background: ${({ theme }) => theme.colors.complimentary};
     display: ${({ isOpen }) => isOpen ? 'flex' : 'none'};
     flex-direction: column;
     @media (min-width: 768px) {
         position: absolute;
         top: 50px;
-        background: #43cbe8;
+        background: ${({ theme }) => theme.colors.primary};
     }
 `;
 
