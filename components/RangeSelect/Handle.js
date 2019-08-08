@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { roundNum } from './utils';
 import { text } from '../../utils';
@@ -24,7 +23,7 @@ const StyledHandle = styled.span`
 `;
 
 const HandleInner = styled.span`
-    background: #43cbe8;
+    background: ${({ theme }) => theme.colors.primary};
     width: 16px;
     height: 16px;
     border-radius: 10px;
@@ -40,29 +39,16 @@ const Marker = styled.span`
     height: 38px;
     width: 38px;
     border-radius: 50% 50% 50% 0;
-    background: #1a435d;
+    background: ${({ theme }) => theme.colors.complimentary};
     position: absolute;
-    font-family: sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    color: white;
     transform: translateX(-50%) rotate(-45deg);
 `;
 
 const MarkerText = styled.span`
-    ${text('body', { fontWeight: 700, fontSize: '0.85rem', color: '#fff' })}
+    ${({ theme }) => theme.fontStacks.bodyBold({ useLight: true })}
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
     transform: rotate(45deg);
 `;
-
-/*
-    For usability reasons an extra element has to be added during touch interactions only (it allows
-    the user to easily see what the current value is since their finger will be covering the primary
-    place where the value is listed). To achieve this we intercept the onTouchStart handler provided
-    by React-Compound-Slider and create our own handler that calls their handler as well as performing
-    additional logic. This event handler, coupled with a touchend handler we add to the window, manage
-    the isTouchActive local component state, and this state controls whether the additional element
-    is rendered or not.
-*/
 
 export default function Handle({ handle: { id, value, percent }, getHandleProps }) {
     
@@ -122,7 +108,3 @@ export default function Handle({ handle: { id, value, percent }, getHandleProps 
         </>
     );
 }
-
-Handle.propTypes = {
-
-};

@@ -1,64 +1,36 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-
-/*
-border: 0;
-clip: rect(0,0,0,0);
-height: 1px;
-margin: -1px;
-overflow: hidden;
-padding: 0;
-position: absolute;
-width: 1px;
-*/
+import { hideVisually } from 'polished';
 
 const StyledReviewSwitch = styled.fieldset`
     border: none;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 20px;
-    padding-bottom: 0;
+    padding: ${({ theme }) => theme.getSpacing(3, 0, 0, 0)};
     text-align: center;
 `;
 
 const RadioButton = styled.input`
-    border: 0;
-    clip: rect(0,0,0,0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
+    ${hideVisually()}
 `;
 
 const Label = styled.label`
     display: inline-block;
     width: 16px;
     height: 16px;
-    border: solid 2px #222;
+    border: solid 2px ${({ theme }) => theme.colors.black};
     border-radius: 50%;
     background: none;
     transition: background ease-out 0.2s;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin: ${({ theme }) => theme.getSpacing(0, 1)};
     cursor: pointer;
     ${RadioButton}:checked + & {
-        background: #222;
+        background: ${({ theme }) => theme.colors.black};
     }
     
 `;
 
 const HiddenDescription = styled.span`
-    border: 0;
-    clip: rect(0,0,0,0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
+    ${hideVisually()}
 `;
 
 

@@ -7,38 +7,14 @@ import { Star as StarEmpty } from 'styled-icons/fa-regular';
 import { Cancel } from 'styled-icons/material';
 import { NoEntry } from 'styled-icons/boxicons-solid';
 import { text } from '../../utils';
-
-const visuallyHidden = {
-    border: 0,
-    clip: 'rect(0,0,0,0)',
-    height: '1px',
-    margin: '-1px',
-    overflow: 'hidden',
-    padding: 0,
-    position: 'absolute',
-    width: '1px'
-};
+import { hideVisually } from 'polished';
 
 const Radio = styled.input`
-    border: 0;
-    clip: rect(0,0,0,0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
+    ${hideVisually()}
 `;
 
 const HiddenDescription = styled.span`
-    border: 0;
-    clip: rect(0,0,0,0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
+    ${hideVisually()}
 `;
 
 const Label = styled.label`
@@ -46,14 +22,14 @@ const Label = styled.label`
 `;
 
 const StarIcon = styled(Star)`
-    color: ${({ isSelected }) => isSelected ? '#f58a0b' : '#ddd'};
+    color: ${({ theme, isSelected }) => isSelected ? theme.colors.info : theme.colors.uiSecondary};
     width: 30px;
-    margin-left: 5px;
-    margin-right: 5px;
+    margin: ${({ theme }) => theme.getSpacing(0, 1)};
 `;
 
 const ModalTitle = styled.h3`
-    ${text('heading', { fontSize: '1.25rem' })}
+    ${({ theme }) => theme.fontStacks.heading()}
+    font-size: ${({ theme }) => theme.fontSizes.heading.sm};
 `;
 
 const ContentContainer = styled.div`
@@ -63,7 +39,7 @@ const ContentContainer = styled.div`
 
 const ClearRatingIcon = styled(NoEntry)`
     width: 20px;
-    color: #dc1f3b;
+    color: ${({ theme }) => theme.colors.warning};
     margin-right: auto;
 `;
 

@@ -6,26 +6,29 @@ import { text, truncateString } from '../../utils';
 import ReviewSwitch from './ReviewSwitch';
 
 const StyledReviewPod = styled.div`
-    margin-bottom: 40px;
+    margin-bottom: ${({ theme }) => theme.getSpacing(4)};
 `;
 
 const ReviewContainer = styled.div`
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    padding: 20px;
+    box-shadow: ${({ theme }) => theme.boxShadow};
+    padding: ${({ theme }) => theme.getSpacing(3)};
 `;
 
 const ReviewAttribution = styled.p`
-    ${text('heading', { fontSize: '1.25rem' })}
+    ${({ theme }) => theme.fontStacks.heading()}
+    font-size: ${({ theme }) => theme.fontSizes.heading.sm};
 `;
 
 const ReviewExcerpt = styled.p`
-    ${text('body')}
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
 `;
 
 const AllReviewsLink = styled.a`
-    ${text('body')}
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
     text-decoration: none;
-    margin-top: 20px;
+    margin-top: ${({ theme }) => theme.getSpacing(3)};
     display: inline-block;
     &:hover {
         text-decoration: underline;

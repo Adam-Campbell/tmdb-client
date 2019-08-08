@@ -4,9 +4,10 @@ import styled from 'styled-components';
 import { text } from '../../utils';
 
 const StyledSidebarEntry = styled.p`
-    ${text('body')}
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
     strong {
-        font-weight: 700;
+        font-weight: 600;
         line-height: 1.6
     }
 `;

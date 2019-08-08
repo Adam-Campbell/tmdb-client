@@ -4,25 +4,28 @@ import styled from 'styled-components';
 import { text } from '../../utils';
 
 const TagListHeading = styled.h3`
-    ${text('heading', { fontSize: '1.125rem' })}
-    margin-bottom: 5px;
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
+    margin: ${({ theme }) => theme.getSpacing(3, 0, 1, 0)};
 `;
 
 const StyledTagList = styled.ul`
     list-style-type: none;
     padding-left: 0;
-    margin-left: -5px;
-    margin-right: -5px;
+    margin-left: ${({ theme }) => `-${theme.getSpacing(1)}`};
+    margin-right: ${({ theme }) => `-${theme.getSpacing(1)}`};
     margin-top: 0;
+    margin-bottom: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 const Tag = styled.li`
-    background: #eee;
-    padding: 10px;
-    border-radius: 3px;
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
+    background: ${({ theme }) => theme.colors.uiPrimary};
+    padding: ${({ theme }) => theme.getSpacing(2)};
+    border-radius: ${({ theme }) => theme.borderRadius};
     display: inline-block;
-    margin: 5px;
-    ${text('body')}
+    margin: ${({ theme }) => theme.getSpacing(1)};
 `;
 
 export function TagList({ title, tagData }) {

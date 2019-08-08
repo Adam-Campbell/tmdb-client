@@ -14,38 +14,37 @@ const SearchBarContainer = styled.div`
     left: 0;
     top: 50px;
     width: 100%;
-    border-top: solid 1px #eee;
-    border-bottom: solid 1px #eee;
-    background: #fff;
+    border-top: solid 1px ${({ theme }) => theme.colors.uiPrimary};
+    border-bottom: solid 1px ${({ theme }) => theme.colors.uiPrimary};
+    background: ${({ theme }) => theme.colors.white};
+    box-shadow: ${({ theme }) => theme.boxShadow};
     z-index: 2000;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 `;
 
 const InputRow = styled(Row)`
     display: flex;
     align-items: stretch;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: ${({ theme }) => theme.getSpacing(2, 0)};
 `;
 
 const InputIcon = styled(Search)`
-    color: #222;
+    color: ${({ theme }) => theme.colors.black};
     width: 30px;
-    margin-right: 10px;
+    margin-right: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 const Input = styled.input`
     ${text('body')}
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
     font-style: italic;
     flex-grow: 1;
-    text-indent: 20px;
-    border: none;
-    border: solid 1px;
-    border-color: transparent;
+    text-indent: ${({ theme }) => theme.getSpacing(3)};
+    border: solid 1px transparent;
     border-radius: 25px;
     &:focus {
         outline: none;
-        border-color: #43cbe8;
+        border-color: ${({ theme }) => theme.colors.primary};
     }
 `;
 

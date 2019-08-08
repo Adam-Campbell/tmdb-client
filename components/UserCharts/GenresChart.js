@@ -71,14 +71,14 @@ const GenresChartContainer = styled.div`
 
 const OuterContainer = styled.div`
     width: 100%;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: ${({ theme }) => theme.getSpacing(2, 0)};
     max-width: 400px;
 `;
 
 const ChartTitle = styled.h3`
-    ${text('heading', { fontSize: '1rem' })}
-    margin-left: 10px;
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
+    margin-left: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 

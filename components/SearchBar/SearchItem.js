@@ -6,58 +6,61 @@ import { text } from '../../utils';
 import { Row } from '../Layout';
 
 const SearchIcon = styled(Search)`
-    color: #222;
+    color: ${({ theme }) => theme.colors.black};
     width: 20px;
-    margin-right: 10px;
+    margin-right: ${({ theme }) => theme.getSpacing(2)};
     flex-shrink: 0;
 `;
 
 const MovieIcon = styled(Movie)`
     width: 20px;
-    margin-right: 10px;
+    margin-right: ${({ theme }) => theme.getSpacing(2)};
     flex-shrink: 0;
 `;
 
 const TVIcon = styled(Tv)`
     width: 20px;
-    margin-right: 10px;
+    margin-right: ${({ theme }) => theme.getSpacing(2)};
     flex-shrink: 0;
 `;
 
 const PersonIcon = styled(Person)`
     width: 20px;
-    margin-right: 10px;
+    margin-right: ${({ theme }) => theme.getSpacing(2)};
     flex-shrink: 0;
 `;
 
 const StyledSearchItem = styled.li`
     cursor: pointer;
-    background: ${({ isHighlighted }) => isHighlighted ? '#43cbe8' : '#fff'};
-    color: ${({ isHighlighted }) => isHighlighted ? '#fff' : '#222'};
-    border-bottom: solid 1px #ddd;
+    background: ${({ theme, isHighlighted }) => isHighlighted ? theme.colors.primary : theme.colors.white};
+    color: ${({ theme, isHighlighted }) => isHighlighted ? theme.colors.white : theme.colors.black};
+    border-bottom: solid 1px ${({ theme }) => theme.colors.uiSecondary};
     &:first-child {
-        border-top: solid 1px #ddd;
+        border-top: solid 1px ${({ theme }) => theme.colors.uiSecondary};
     }
 `;
 
 const SearchItemContentContainer = styled(Row)`
     display: flex;
     align-items: center;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding: ${({ theme }) => theme.getSpacing(1, 0)};
 `;
 
 const SearchItemName = styled.p`
-    ${text('body', { color: 'inherit' })}
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
+    color: inherit;
     margin: 0;
     max-width: 100%;
 `;
 
 const CategoryLabel = styled.span`
-    ${text('body', { fontSize: '0.85rem', fontWeight: 300, color: 'inherit' })}
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
     font-style: italic;
+    color: inherit;
     display: inline-block;
-    margin-left: 5px;
+    margin-left: ${({ theme }) => theme.getSpacing(1)};
 `;
 
 function getIcon(entityType) {

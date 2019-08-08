@@ -7,14 +7,13 @@ import SmartImage from '../SmartImage';
 import Biography from './Biography';
 
 const PersonHeaderContainer = styled.div`
-    background: #ddd;
+    background: ${({ theme }) => theme.colors.uiSecondary};
 `;
 
 const PersonHeaderRow = styled(Row)`
     display: flex;
     flex-direction: column;
-    padding-top: 40px;
-    padding-bottom: 40px;
+    padding: ${({ theme }) => theme.getSpacing(4, 0)};
     @media(min-width: 600px) {
         flex-direction: row;
         align-items: flex-start;
@@ -27,7 +26,7 @@ const ProfileImage = styled(SmartImage)`
     align-self: center;
     flex-shrink: 0;
     @media(min-width: 600px) {
-        margin-right: 40px;
+        margin-right: ${({ theme }) => theme.getSpacing(4)};
         width: 200px;
         height: 300px;
         align-self: flex-start;
@@ -45,18 +44,19 @@ const TextContainer = styled.div`
 `;
 
 const Title = styled.h1`
-    ${text('heading')}
+    ${({ theme }) => theme.fontStacks.heading()}
+    font-size: ${({ theme }) => theme.fontSizes.heading.lg};
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: ${({ theme }) => theme.getSpacing(3)};
     @media(min-width: 600px) {
-        margin-bottom: 16px;
+        margin-bottom: ${({ theme }) => theme.getSpacing(2)};
         text-align: left;
-        font-size: 2rem;
     }
 `;
 
 const Subheading = styled.p`
-    ${text('heading', { fontSize: '1rem' })}
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
 `;
 
 export function PersonHeader({ name, imagePath, biography }) {

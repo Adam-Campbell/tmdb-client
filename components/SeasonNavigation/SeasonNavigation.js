@@ -7,19 +7,19 @@ import { text } from '../../utils';
 import { Row } from '../Layout';
 
 const StyledSeasonNavigation = styled.div`
-    border-top: solid 2px #ddd;
-    border-bottom: solid 2px #ddd; 
+    border-top: solid 2px ${({ theme }) => theme.colors.uiSecondary};
+    border-bottom: solid 2px ${({ theme }) => theme.colors.uiSecondary};
 `;
 
 const SeasonNavigationRow = styled(Row)`
     display: flex;
     justify-content: space-between;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: ${({ theme }) => theme.getSpacing(3, 0)};
 `;
 
 const SeasonNavigationLink = styled.a`
-    ${text('body', { fontWeight: 700 })}
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -31,15 +31,15 @@ const SeasonNavigationLink = styled.a`
 `;
 
 const BackArrow = styled(ArrowAltCircleLeft)`
-    color: #222;
+    color: ${({ theme }) => theme.colors.black};
     width: 20px;
-    margin-right: 10px;
+    margin-right: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 const ForwardArrow = styled(ArrowAltCircleRight)`
-    color: #222;
+    color: ${({ theme }) => theme.colors.black};
     width: 20px;
-    margin-left: 10px;
+    margin-left: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 export function SeasonNavigation({ currentSeasonNumber, allSeasons, showId }) {

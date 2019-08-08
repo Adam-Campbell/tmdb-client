@@ -6,24 +6,13 @@ import Rating from '../Rating';
 import { getUserSummary, getUsersRatings } from '../../reducers/user';
 import { text } from '../../utils';
 import { Row } from '../Layout';
-
-/*
-
-const deepRed = '#dc1f3b';
-const orange = '#f58a0b';
-const limeGreen = '#6ee843';
-const lightBlue = '#43cbe8';
-const darkBlue = '#1a435d';
-const blueGrey = '#3a5b6f';
-
-*/
-
-// background: linear-gradient(135deg, #1a435d, #3a5b6f);
+import { lighten, desaturate } from 'polished';
 
 const StyledUserHeader = styled.div`
-    background: linear-gradient(135deg, #3a5b6f, #1a435d);
-    padding-top: 40px;
-    padding-bottom: 40px;
+    background: ${({ theme }) => 
+        `linear-gradient(135deg, ${lighten(0.1, desaturate(0.1, theme.colors.complimentary))}, ${theme.colors.complimentary})`
+    };
+    padding: ${({ theme }) => theme.getSpacing(4, 0)};
     overflow-x: hidden;
 `;
 
@@ -36,21 +25,22 @@ const HeaderRow = styled(Row)`
 `;
 
 const UserIcon = styled.span`
+    ${({ theme }) => theme.fontStacks.heading({ useLight: true })}
+    font-size: ${({ theme }) => theme.fontSizes.heading.xl};
     display: flex;
     justify-content: center;
     align-items: center;
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background: #43cbe8;
+    background: ${({ theme }) => theme.colors.primary};
     text-transform: uppercase;
-    margin-right: 20px;
+    margin-right: ${({ theme }) => theme.getSpacing(3)};
     flex-shrink: 0;
-    ${text('heading', { color: '#fff', fontSize: '2.25rem' })}
     @media (min-width: 768px) {
         width: 150px;
         height: 150px;
-        font-size: 3.25rem;
+        font-size: 4.5rem;
         position: absolute;
         left: 0;
         top: 50%;
@@ -59,12 +49,12 @@ const UserIcon = styled.span`
 `;
 
 const Username = styled.h2`
-    ${text('heading', { color: '#fff', fontSize: '1.5rem' })}
-    margin-top: 0;
-    margin-bottom: 0;
+    ${({ theme }) => theme.fontStacks.heading({ useLight: true })}
+    font-size: ${({ theme }) => theme.fontSizes.heading.md};
+    margin: 0;
     max-width: calc(100% - 100px);
     @media (min-width: 768px) {
-        font-size: 2.25rem;
+        font-size: ${({ theme }) => theme.fontSizes.heading.lg};
     }
 `;
 
@@ -82,10 +72,10 @@ const RatingStatsRow = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin-top: 40px;
+    margin-top: ${({ theme }) => theme.getSpacing(4)};
     @media (min-width: 768px) {
         margin-left: 200px;
-        margin-top: 20px;
+        margin-top: ${({ theme }) => theme.getSpacing(3)};
         justify-content: flex-start;
     }
 `;
@@ -103,20 +93,20 @@ const RatingItem = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    
     @media (min-width: 768px) {
         flex-direction: row;
     }
 `;
 
 const RatingDescription = styled.p`
-    ${text('body', { color: '#fff', fontSize: '0.85rem' })}
+    ${({ theme }) => theme.fontStacks.body({ useLight: true })}
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
     text-align: center;
-    margin-top: 8px;
+    margin-top: ${({ theme }) => theme.getSpacing(2)};
     @media (min-width: 768px) {
         text-align: left;
-        font-size: 1rem;
-        margin-left: 10px;
+        font-size: ${({ theme }) => theme.fontSizes.body.md};
+        margin-left: ${({ theme }) => theme.getSpacing(2)};
     }
 `;
 
@@ -124,10 +114,9 @@ const RatingItemSeparator = styled.span`
     display: inline-block;
     width: 2px;
     height: 100px;
-    background: #fff;
+    background: ${({ theme }) => theme.colors.white};
     @media (min-width: 768px) {
-        margin-left: 40px;
-        margin-right: 40px;
+        margin: ${({ theme }) => theme.getSpacing(0, 4)};
         height: 75px;
     }
 `;

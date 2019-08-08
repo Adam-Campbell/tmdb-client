@@ -8,7 +8,7 @@ const StyledTrack = styled.div`
     z-index: 5;
     top: 50%;
     transform: translateY(-50%);
-    background: #43cbe8;
+    background: ${({ theme }) => theme.colors.primary};
     border-radius: 3px;
 `;
 

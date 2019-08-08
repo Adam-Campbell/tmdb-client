@@ -7,7 +7,7 @@ import { text } from '../../utils';
 import SubNavLink from './SubNavLink';
 
 const SubNavContainer = styled.div`
-    background: #eee;
+    background: ${({ theme }) => theme.colors.uiPrimary};
 `;
 
 const StyledSubNav = styled(Row)`
@@ -31,7 +31,7 @@ const SubNavList = styled.ul`
 const SubNavItem = styled.li`
     flex-shrink: 0;
     & + & {
-        margin-left: 10px;
+        margin-left: ${({ theme }) => theme.getSpacing(2)};
     }
 `;
 
