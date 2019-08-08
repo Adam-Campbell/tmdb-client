@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render } from '../../testUtils';
 import { TagList } from './TagList';
 
 test('it renders nothing if no tag objects are passed to it', () => {
