@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '../../testUtils';
 import { Switch } from './Switch';
 
 test('it renders the group label passed to it', () => {

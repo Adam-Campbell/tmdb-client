@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render } from '../../testUtils';
 import { SocialLinks } from './SocialLinks';
 
 test('returns null if no link data is provided', () => {

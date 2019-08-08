@@ -8,8 +8,8 @@ import SmartImage from '../SmartImage';
 
 const GalleryImageContainer = styled.div`
     width: calc(50% - 5px);
-    margin-top: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-top: ${({ theme }) => theme.getSpacing(2)};
+    box-shadow: ${({ theme }) => theme.boxShadow};
     @media(min-width: 550px) {
         width: calc(25% - 7.5px);
     }

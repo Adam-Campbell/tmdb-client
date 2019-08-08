@@ -3,25 +3,12 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { text } from '../../utils';
 import useExpand from '../useExpand';
+import { Button } from '../Buttons';
 
 const Paragraph = styled.p`
-    ${text('body')}
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
 `;
-
-const ToggleButton = styled.button`
-    ${text('body', { fontWeight: 700, color: '#fff' })}
-    background: #43cbe8;
-    padding: 10px;
-    border: none;
-    border-radius: 3px;
-`;
-
-/*
-
-If total bio length is below some threshold, we don't need any state, we don't need to be able
-to expand or collapse the bio, and so we don't need to the truncated version of the bio - 
-
-*/
 
 function formatBioString(bioString) {
     return bioString.replace('&amp;', '&')
@@ -33,8 +20,6 @@ export default function Biography({ biography }) {
 
     const truncationThreshold = 600;
     const isExpandable = biography.length > truncationThreshold;
-
-    //const [ isExpanded, setExpanded ] = useState(false);
 
     const {
         isExpanded, 
@@ -56,12 +41,12 @@ export default function Biography({ biography }) {
                 <Paragraph key={idx}>{paragraph}</Paragraph>
             ))}
             {isExpandable && (
-                <ToggleButton
-                    ref={anchorRef} 
+                <Button
+                    buttonRef={anchorRef} 
                     onClick={handleToggleClick}
                 >
                     {isExpanded ? 'Read less' : 'Read More'}
-                </ToggleButton>
+                </Button>
             )}
         </div>
     );

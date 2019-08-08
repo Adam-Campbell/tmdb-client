@@ -5,17 +5,17 @@ import useHover from '../useHover';
 import { text } from '../../utils';
 
 const StyledMenuListItem = styled.li`
-    padding: 10px;
-    ${text('body')}
+    padding: ${({ theme }) => theme.getSpacing(2)};
+    ${({ theme }) => theme.fontStacks.body()}
     cursor: pointer;
-    background: ${({ isSelected, isHovered }) => { 
+    background: ${({ theme, isSelected, isHovered }) => { 
         return isHovered 
-               ? '#43cbe8'
+               ? theme.colors.primary
                : isSelected
-                   ? '#1a435d' 
-                   : 'none';
+                   ? theme.colors.complimentary
+                   : theme.colors.white;
     }};
-    color: ${({ isSelected, isHovered }) => (isSelected || isHovered) ? '#fff' : '#222'};
+    color: ${({ theme, isSelected, isHovered }) => (isSelected || isHovered) ? theme.colors.white : theme.colors.black};
 `;
 
 export default function MenuListItem({ getItemProps, item, index }) {

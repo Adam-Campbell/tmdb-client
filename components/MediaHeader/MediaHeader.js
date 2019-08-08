@@ -13,6 +13,7 @@ import { getShowData } from '../../reducers/showReducer';
 import { getSessionType } from '../../reducers/sessionReducer';
 import UserInteractionsRow from './UserInteractionsRow';
 import SmartImage from '../SmartImage';
+import { cover } from 'polished';
 
 // is there a better semantic element to use here?
 const MediaHeaderContainer = styled.div`
@@ -20,9 +21,7 @@ const MediaHeaderContainer = styled.div`
 `;
 
 const BackdropImageHolder = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
+    ${cover()}
     width: 100%;
     height: 100%;
     background: ${({ imageUrl }) => `url('${imageUrl}')`};
@@ -32,13 +31,13 @@ const BackdropImageHolder = styled.div`
 `;
 
 const BackdropImageOverlay = styled.div`
-    background: rgba(0,0,0,0.8);
+    background: ${({ theme }) => theme.colors.overlayStrong};
     position: relative;
 `;
 
 const PosterImage = styled(SmartImage)`
     display: none;
-    margin-right: 40px;
+    margin-right: ${({ theme }) => theme.getSpacing(4)};
     flex-shrink: 0;
     @media(min-width: 600px) {
         display: block;
@@ -54,27 +53,30 @@ const PosterImage = styled(SmartImage)`
 const MediaHeaderContentRow = styled(Row)`
     display: flex;
     align-items: center;
-    padding-top: 40px;
-    padding-bottom: 40px;
+    padding: ${({ theme }) => theme.getSpacing(4, 0)};
 `;
 
 const MediaTitle = styled.h1`
-    ${text('heading', { fontSize: '2rem', color: '#fff' })}
+    ${({ theme }) => theme.fontStacks.heading({ useLight: true })}
+    font-size: 2rem;
 `;
 
 const MediaTagline = styled.p`
-    ${text('heading', { fontFamily: 'serif', fontSize: '1.25rem', color: '#fff' })}
+    font-family: serif;
+    font-size: ${({ theme }) => theme.fontSizes.body.xl};
     font-style: italic;
+    color: ${({ theme }) => theme.colors.white};
 `;
 
 const Subheading = styled.p`
-    ${text('heading', { fontSize: '1rem', color: '#fff' })}
+    ${({ theme }) => theme.fontStacks.bodyBold({ useLight: true })}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
 `;
 
 const MediaOverview = styled.p`
-    ${text('body', { color: '#fff' })}
+    ${({ theme }) => theme.fontStacks.body({ useLight: true })}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
 `;
-
 
 const InteractionRow = styled.div`
     display: flex;
@@ -84,7 +86,7 @@ const InteractionRow = styled.div`
 const RatingContainer = styled.div`
     width: 80px;
     height: 80px;
-    margin-right: 20px;
+    margin-right: ${({ theme }) => theme.getSpacing(3)};
 `;
 
 export function MediaHeader({ 
@@ -102,8 +104,6 @@ export function MediaHeader({
     const backdropUrl = useMemo(() => {
         return getImageUrl(backdropPath, 'original')
     }, [ backdropPath ]);
-
-    //const posterUrl = getImageUrl(posterPath, imageSizeConstants.w342);
 
     return (
         <MediaHeaderContainer>

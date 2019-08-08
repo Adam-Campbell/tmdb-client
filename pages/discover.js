@@ -30,14 +30,14 @@ const Wrapper = styled(Row)`
 const ControlsContainer = styled.div`
     @media (min-width: 900px) {
         width: 280px;
-        padding: 40px 20px 40px 0;
+        padding: ${({ theme }) => theme.getSpacing(4, 3, 4, 0)};
     }
 `;
 
 const ResultsContainer = styled.div`
     @media (min-width: 900px) {
         width: calc(100% - 280px);
-        padding: 40px 0 40px 20px;
+        padding: ${({ theme }) => theme.getSpacing(4, 0, 4, 3)};
     }
 `;
 
@@ -45,13 +45,13 @@ const DropdownContainer = styled.div`
     max-width: 320px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 40px;
+    margin-top: ${({ theme }) => theme.getSpacing(4)};
 `;
 
 
 const SliderContainer = styled.div`
     width: 100%;
-    padding: 10px;
+    padding: ${({ theme }) => theme.getSpacing(2)};
     @media (min-width: 768px) {
         width: calc(50% - 20px);
     }
@@ -68,7 +68,7 @@ const SliderRow = styled.div`
 
 const InputContainer = styled.div`
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: ${({ theme }) => theme.getSpacing(3)};
     @media(min-width: 768px) {
         width: calc(50% - 10px);
     }
@@ -79,7 +79,7 @@ const InputContainer = styled.div`
 
 const ComboBoxContainer = styled.div`
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: ${({ theme }) => theme.getSpacing(3)};
 `;
 
 const InputRow = styled.div`

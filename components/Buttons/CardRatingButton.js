@@ -16,10 +16,11 @@ import StarRatingPopup from '../../components/StarRatingPopup';
 const StyledCardRatingButton = styled.button`
     display: flex;
     align-items: center;
-    padding: 5px;
+    padding: ${({ theme }) => theme.getSpacing(1)};
     background: none;
     border: none;
-    ${text('body', { fontSize: '0.85rem', fontWeight: 700 })}
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
     cursor: pointer;
 `;
 
@@ -27,14 +28,14 @@ const CurrentRating = styled.span`
     border: solid 2px ${({ bgColour }) => bgColour};
     border-radius: 50%;
     background: ${({ bgColour }) => bgColour};
-    color: #fff;
+    color: ${({ theme }) => theme.colors.white};
     display: flex;
     justify-content: center;
     align-items: center;
     width: 25px;
     height: 25px;
     transition: all ease-out 0.2s;
-    margin-right: 5px;
+    margin-right: ${({ theme }) => theme.getSpacing(1)};
 `;
 
 function CardRatingButton({ 

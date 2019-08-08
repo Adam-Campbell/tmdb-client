@@ -6,22 +6,22 @@ import { text } from '../../utils';
 const Table = styled.table`
     table-layout: fixed;
     width: 100%;
-    border: solid 1px #ddd;
+    border: solid 1px ${({ theme }) => theme.colors.uiSecondary};
     border-collapse: collapse;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: ${({ theme }) => theme.boxShadow};
 `;
 
 const TableHead = styled.thead`
-    background: #ddd;
+    background: ${({ theme }) => theme.colors.uiSecondary};
 `;
 
 const TableBody = styled.tbody`
-    border: solid 1px #ddd;
+    border: solid 1px ${({ theme }) => theme.colors.uiSecondary};
 `;
 
 const TableHeader = styled.th`
-    padding: 10px;
-    ${text('body', { fontWeight: 700 })}
+    padding: ${({ theme }) => theme.getSpacing(2)};
+    ${({ theme }) => theme.fontStacks.bodyBold()}
 `;
 
 const YearTableHeader = styled(TableHeader)`
@@ -35,16 +35,16 @@ const YearTableHeader = styled(TableHeader)`
 `;
 
 const TableData = styled.td`
-    padding: 10px;
-    ${text('body')}
+    padding: ${({ theme }) => theme.getSpacing(2)};
+    ${({ theme }) => theme.fontStacks.body()}
     ${({ center }) => center && 'text-align: center;'}
     &:first-child {
-        border-right: solid 1px #ddd;
+        border-right: solid 1px ${({ theme }) => theme.colors.uiSecondary};
     }
 `;
 
 const CreditLink = styled.a`
-    ${text('body', { fontWeight: 700 })}
+    ${({ theme }) => theme.fontStacks.bodyBold()}
     text-decoration: none;
     vertical-align: middle;
     &:hover {
@@ -53,15 +53,16 @@ const CreditLink = styled.a`
 `;
 
 const CreditDescription = styled.span`
-    ${text('body', { fontWeight: 300, fontSize: '0.85rem' })}
-    margin-left: 10px;
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
+    margin-left: ${({ theme }) => theme.getSpacing(2)};
     vertical-align: middle;
 `;
 
 const EmptyError = styled.div`
-    padding: 20px;
+    padding: ${({ theme }) => theme.getSpacing(3)};
     text-align: center;
-    ${text('body', { fontWeight: 700 })}
+    ${({ theme }) => theme.fontStacks.bodyBold()}
 `;
 
 export function CreditsTable({ creditsData }) {

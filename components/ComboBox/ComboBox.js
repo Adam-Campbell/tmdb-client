@@ -5,24 +5,13 @@ import Downshift from 'downshift';
 import { text } from '../../utils';
 import { Times } from 'styled-icons/fa-solid';
 
-/*
-
-    ComboBox will manage its own input state (the value of the actual input element) however the selected
-    items will be controlled by a parent. The parent should be as 'dumb' as possible, so any logic for 
-    how to update will be contained within ComboBox. From the parent I will simply expose the current
-    state and the state update function returned from the useState hook. 
-
-
-
-*/
-
 const StyledComboBox = styled.div`
     position: relative;
     z-index: 1000;
 `;
 
 const Label = styled.label`
-    ${text('body')}
+    ${({ theme }) => theme.fontStacks.body()}
     display: inline-block;
     margin-left: 20px;
     margin-bottom: 5px;
@@ -36,13 +25,13 @@ const InputRowInner = styled.div`
     display: flex;
     flex-wrap: wrap;
     flex-grow: 1;
-    border-radius: 3px;
-    border: solid 1px #eee;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: ${({ theme }) => theme.borderRadius};
+    border: solid 1px ${({ theme }) => theme.colors.uiPrimary};
+    box-shadow: ${({ theme }) => theme.boxShadow};
 `;
 
 const Input = styled.input`
-    ${text('body')}
+    ${({ theme }) => theme.fontStacks.body()}
     padding: 0 10px 0 0;
     height: 35px;
     border: solid 1px transparent;
@@ -52,22 +41,23 @@ const Input = styled.input`
     text-indent: 20px;
     &:focus {
         outline: none;
-        border-color: #43cbe8;
+        border-color: ${({ theme }) => theme.colors.primary};
     }
 `;
 
 const SelectedTag = styled.div`
-    ${text('body', { fontSize: '0.85rem' })}
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.sm}
     padding: 10px 5px;
     display: inline-flex;
     align-items: center;
-    background: #eee;
-    border-radius: 3px;
+    background: ${({ theme }) => theme.colors.uiSecondary};
+    border-radius: ${({ theme }) => theme.borderRadius};
     margin: 4px;
 `;
 
 const SelectedTagButton = styled.button`
-    background: #dc1f3b;
+    background: ${({ theme }) => theme.colors.warning};
     margin-left: 4px;
     width: 20px;
     height: 20px;
@@ -83,7 +73,7 @@ const SelectedTagButton = styled.button`
 `;
 
 const CancelIcon = styled(Times)`
-    color: #fff;
+    color: ${({ theme }) => theme.colors.white};
     width: 14px;
 `;
 
@@ -94,8 +84,8 @@ const Menu = styled.ul`
     padding-left: 0;
     position: absolute;
     width: 100%;
-    border: ${({ isOpen }) => isOpen ? 'solid 1px #eee' : 'none'};
-    box-shadow: ${({ isOpen }) => isOpen ? '0 2px 8px rgba(0,0,0,0.1)' : 'none'};
+    border: ${({ theme, isOpen }) => isOpen ? `solid 1px ${theme.colors.uiPrimary}` : 'none'};
+    box-shadow: ${({ theme, isOpen }) => isOpen ? theme.boxShadow : 'none'};
     max-height: ${({ isOpen }) => isOpen ? '220px' : 0};
     overflow-y: auto;
     transition: max-height ease-out 0.2s;
@@ -103,13 +93,13 @@ const Menu = styled.ul`
 
 const MenuItem = styled.li`
     ${text('body')}
-    color: ${({ isActive, isSelected }) => (isActive || isSelected) ? '#fff' : '#222'};
+    color: ${({ theme, isActive, isSelected }) => (isActive || isSelected) ? theme.colors.white : theme.colors.black};
     padding: 10px;
     cursor: pointer;
-    background: ${({ isActive, isSelected }) => (
-        isActive ? '#43cbe8' : 
-                   isSelected ? '#1a435d' : 
-                                '#fff'
+    background: ${({ theme, isActive, isSelected }) => (
+        isActive ? theme.colors.primary : 
+                   isSelected ? theme.colors.complimentary : 
+                                theme.colors.white
     )};
 `;
 

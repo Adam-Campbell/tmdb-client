@@ -5,9 +5,11 @@ import PersonListItem from './PersonListItem';
 import { text } from '../../utils';
 import { ChevronDown } from 'styled-icons/fa-solid';
 import useExpand from '../useExpand';
+import { Button } from '../Buttons';
 
 const Title = styled.h3`
-    ${text('heading')}
+    ${({ theme }) => theme.fontStacks.heading()};
+    font-size: ${({ theme }) => theme.fontSizes.heading.md};
 `;
 
 const StyledPeopleList = styled.ol`
@@ -21,22 +23,15 @@ const StyledPeopleList = styled.ol`
     }
 `;
 
-const ToggleExpandedButton = styled.button`
-    border: none;
-    color: #222;
-    background: #eee;
-    border-radius: 3px;
-    cursor: pointer;
+const ToggleExpandedButton = styled(Button)`
     display: flex;
     align-items: center;
-    padding: 10px;
-    ${text('body', { fontWeight: 400 })}
 `;
 
 const ToggleIcon = styled(ChevronDown)`
-    color: #222;
+    color: ${({ theme }) => theme.colors.white};
     width: 14px;
-    margin-left: 10px;
+    margin-left: ${({ theme }) => theme.getSpacing(2)};
     transform: ${({ isExpanded }) => isExpanded ? 'rotate(180deg)' : 'rotate(0)'};
 `;
 
@@ -70,7 +65,7 @@ export function PeopleList({
             </StyledPeopleList>
             {shouldAllowExpansion && (
                 <ToggleExpandedButton
-                    ref={anchorRef}
+                    buttonRef={anchorRef}
                     onClick={handleToggleClick}
                 >
                     {isExpanded ? 'Show less' : 'Show more'}

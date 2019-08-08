@@ -16,21 +16,12 @@ import { MediaCard } from '../components/Cards';
 import ListViewHeader from '../components/ListViewHeader';
 import { text } from '../utils';
 import Router from 'next/router';
-import { CancelInteractionButton } from '../components/Buttons';
+import { CancelInteractionButton, Button } from '../components/Buttons';
 import ListHeader from '../components/ListHeader';
 
-const ClearListButton = styled.button`
-    ${text('body', { fontWeight: 700, color: '#fff' })}
-    background: #6ee843;
-    padding: 10px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-`;
 
-const DeleteListButton = styled(ClearListButton)`
-    background: #dc1f3b;
-    margin-left: 10px;
+const DeleteListButton = styled(Button)`
+    margin-left: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 function List({
@@ -57,14 +48,16 @@ function List({
             <ListViewHeader title={name}>
                 {isOwner && (
                     <>
-                        <ClearListButton
+                        <Button
                             onClick={() => clearList(id)}
-                        >Clear List</ClearListButton>
+                            buttonType="info"
+                        >Clear List</Button>
                         <DeleteListButton
                             onClick={() => {
                                 deleteList(id);
                                 Router.push('/me/lists');
                             }}
+                            buttonType="warning"
                         >Delete List</DeleteListButton>
                     </>
                 )}

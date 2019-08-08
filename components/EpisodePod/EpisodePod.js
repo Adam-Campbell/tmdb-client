@@ -15,9 +15,9 @@ import SmartImage from '../SmartImage';
 
 const StyledEpisodePod = styled.div`
     width: 100%;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin: ${({ theme }) => theme.getSpacing(3, 0)};
+    box-shadow: ${({ theme }) => theme.boxShadow};
+    background: ${({ theme }) => theme.colors.white};
 `;
 
 const MainInfoCard = styled.div`
@@ -52,81 +52,74 @@ const EpisodeImage = styled(SmartImage)`
     }
 `;
 
-// const EpisodeImage = styled(SmartImage)`
-//     position: absolute;
-//     width: 100%;
-//     height: 100%;
-//     top: 0;
-//     left: 0;
-// `;
-
 const TitleRow = styled.div`
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 const EpisodeRatingContainer = styled.div`
     width: 40px;
     height: 40px;
-    margin-right: 10px;
+    margin-right: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 const EpisodeTitle = styled.h3`
-    ${text('body', { fontWeight: 700, fontSize: '0.85rem' })}
-    margin-top: 0;
-    margin-bottom: 5px;
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
+    margin: ${({ theme }) => theme.getSpacing(0, 0, 1, 0)}
     @media(min-width: 550px) {
-        font-size: 1rem;
+        font-size: ${({ theme }) => theme.fontSizes.body.md};
     }
 `;
 
 const AirDate = styled.p`
-    ${text('body', { fontWeight: 300, fontSize: '0.75rem' })}
-    margin-top: 5px;
-    margin-bottom: 0;
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.xs};
+    margin: ${({ theme }) => theme.getSpacing(1, 0, 0, 0)}
     @media(min-width: 550px) {
-        font-size: 0.85rem;
+        font-size: ${({ theme }) => theme.fontSizes.body.sm};
     } 
 `;
 
 const Overview = styled.p`
-    ${text('body', { fontSize: '0.75rem' })}
-    margin: 10px;
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.xs};
+    margin: ${({ theme }) => theme.getSpacing(2)};
     @media (min-width: 550px) {
-        font-size: 0.85rem;
+        font-size: ${({ theme }) => theme.fontSizes.body.sm};
     }
 `;
 
 const ToggleExpandedRow = styled.div`
-    padding: 5px 10px;
-    border-top: solid #eee 2px;
+    padding: ${({ theme }) => theme.getSpacing(1, 2)};
+    border-top: solid 2px ${({ theme }) => theme.colors.uiPrimary};
 `;
 
 const ToggleExpandedButton = styled.button`
     border: none;
-    color: #222;
+    color: ${({ theme }) => theme.colors.black};
     background: none;
-    border-radius: 3px;
+    border-radius: ${({ theme }) => theme.borderRadius};
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px;
+    padding: ${({ theme }) => theme.getSpacing(2)};
     width: 100%;
-    ${text('body', { fontWeight: 400 })}
+    ${({ theme }) => theme.fontStacks.bodyBold()}
 `;
 
 const ToggleIcon = styled(ChevronDown)`
-    color: #222;
+    color: ${({ theme }) => theme.colors.black};
     width: 14px;
-    margin-left: 10px;
+    margin-left: ${({ theme }) => theme.getSpacing(2)};
     transform: ${({ isExpanded }) => isExpanded ? 'rotate(180deg)' : 'rotate(0)'};
 `;
 
 const AdditionalInfoContainer = styled.div`
     display: ${({ isHidden }) => isHidden ? 'none' : 'block'};
-    padding: 10px;
+    padding: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 export function EpisodePod({

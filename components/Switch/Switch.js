@@ -2,18 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { text, hideElement } from '../../utils';
+import { hideVisually } from 'polished';
 
 const Fieldset = styled.fieldset`
     border: none;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: ${({ theme }) => theme.getSpacing(2, 0)};
 `;
 
 const Legend = styled.legend`
-    ${text('body', { fontWeight: 700 })}
-    ${({ shouldHide }) => shouldHide && hideElement()}
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
+    ${({ shouldHide }) => shouldHide && hideVisually()}
 `;
 
 const RadioButtonsContainer = styled.div`
@@ -22,22 +21,21 @@ const RadioButtonsContainer = styled.div`
 `;
 
 const RadioButton = styled.input`
-    opacity: 0;
-    position: absolute;
-    left: -9999px;
+    ${hideVisually()}
 `;
 
 const RadioButtonLabel = styled.label`
-    ${text('body', { fontSize: '0.85rem' })}
-    padding: 10px;
-    background: #eee;
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
+    padding: ${({ theme }) => theme.getSpacing(2)};
+    background: ${({ theme }) => theme.colors.uiPrimary};
     cursor: pointer;
     transition: background ease-out 0.2s;
     flex-grow: 1;
     text-align: center;
     ${RadioButton}:checked + & {
-        background: #ddd;
-        font-weight: 700;
+        background: ${({ theme }) => theme.colors.uiSecondary};
+        font-weight: 600;
     }
     &:hover {
         background: #e6e6e6;

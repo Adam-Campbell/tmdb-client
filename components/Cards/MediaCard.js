@@ -7,12 +7,13 @@ import CardInfoRow from './CardInfoRow';
 import useHover from '../useHover';
 import { useInView } from 'react-intersection-observer';
 import {  Tv } from 'styled-icons/material';
+import { cover } from 'polished';
 
 const StyledMediaCard = styled.div`
     width: 100%;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-top: ${({ theme }) => theme.getSpacing(3)};
+    margin-bottom: ${({ theme }) => theme.getSpacing(3)};
+    box-shadow: ${({ theme }) => theme.boxShadow};
     display: flex;
     flex-direction: column;
     @media (min-width: 600px) {
@@ -42,12 +43,10 @@ const ImageLink = styled.a`
 `;
 
 const PlaceholderContainer = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
+    ${cover()}
     width: 100%;
     height: 100%;
-    background: #ddd;
+    background: ${({ theme }) => theme.colors.uiSecondary};
     display: ${({ hasBackdropImage }) => hasBackdropImage ? 'none' : 'flex'};
     justify-content: center;
     align-items: center;
@@ -57,7 +56,7 @@ const PlaceholderContainer = styled.div`
 `;
 
 const PlaceholderIcon = styled(Tv)`
-    color: #222;
+    color: ${({ theme }) => theme.colors.black};
     min-width: 32px;
     width: 25%;
     @media (min-width: 600px) {
@@ -74,9 +73,7 @@ const PosterImage = styled.img`
     `}
     @media (min-width: 600px) {
         display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
+        ${cover()}
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -86,9 +83,7 @@ const PosterImage = styled.img`
 `;
 
 const BackdropImage = styled.img`
-    position: absolute;
-    top: 0;
-    left: 0;
+    ${cover()}
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -104,11 +99,7 @@ const BackdropImage = styled.img`
 `;
 
 const ImageOverlay = styled.div`
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0;
-    left: 0;
+    ${cover()}
     transition: background ease-out 0.2s;
     cursor: pointer;
     background: ${({ isHovered }) => isHovered ? 'rgba(17,17,17,0.4)' : 'none'};
@@ -125,18 +116,19 @@ const TextColumn = styled.div`
 `;
 
 const OverviewText = styled.p`
-    ${text('body', { fontSize: '0.85rem' })}
-    margin-left: 10px;
-    margin-right: 10px;
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
+    margin-left: ${({ theme }) => theme.getSpacing(2)};
+    margin-right: ${({ theme }) => theme.getSpacing(2)};
     @media (min-width: 600px) {
-        font-size: 0.75rem;
+        font-size: ${({ theme }) => theme.fontSizes.body.xs};
     }
     @media (min-width: 768px) {
-        font-size: 0.85rem;
+        font-size: ${({ theme }) => theme.fontSizes.body.sm};
     }
-    ${({ isInline }) => isInline || `
+    ${({ theme, isInline }) => isInline || `
         @media (min-width: 900px) {
-            font-size: 1rem;
+            font-size: ${theme.fontSizes.body.md};
         }
     `}
 `;
@@ -144,14 +136,15 @@ const OverviewText = styled.p`
 const ActionRow = styled.div`
     margin-top: auto;
     height: 50px;
-    border-top: solid 1px #ddd;
-    padding-left: 20px;
+    border-top: solid 1px ${({ theme }) => theme.colors.uiSecondary};
+    padding-left: ${({ theme }) => theme.getSpacing(3)};
     display: flex;
     align-items: center;
 `;
 
 const MoreInfoLink = styled.a`
-    ${text('body', { fontSize: '0.85rem' })}
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
     text-decoration: none;
     &:hover {
         text-decoration: underline;

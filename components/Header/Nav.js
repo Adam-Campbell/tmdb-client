@@ -55,7 +55,7 @@ const tvSubNavData = [
 ];
 
 const  StyledNav = styled.nav`
-    background: #43cbe8;
+    background: ${({ theme }) => theme.colors.primary};
     position: fixed;
     top: 0;
     left: ${({ isOpen }) => isOpen ? 0 : '-300px'};
@@ -88,9 +88,8 @@ const NavList = styled.ul`
 
 const CloseNavButton = styled(Close)`
     width: 32px;
-    color: #fff;
-    margin-left: 20px;
-    margin-top: 10px;
+    color: ${({ theme }) => theme.colors.white};
+    margin: ${({ theme }) => theme.getSpacing(2, 0, 0, 3)};
     cursor: pointer;
     @media (min-width: 768px) {
         display: none;

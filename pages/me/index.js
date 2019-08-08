@@ -65,20 +65,6 @@ const Container = styled.div`
     }
 `;
 
-const Title = styled.h1`
-    font-family: sans-serif;
-    color: #222;
-    font-weight: 700;
-    font-size: 2.5rem;
-`;
-
-const BarChartContainer = styled.div`
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 350px;
-    border: solid green 2px;
-`;
 
 function Me(props) {
     return (
@@ -92,7 +78,6 @@ function Me(props) {
         </>
     );
 }
-
 
 Me.getInitialProps = async ({ query, store }) => {
     await store.dispatch(fetchFullProfile());

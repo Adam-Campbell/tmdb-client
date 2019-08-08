@@ -20,33 +20,31 @@ const OuterContainer = styled.div`
 `;
 
 const Label = styled.label`
-    ${text('body')}
-    margin-right: ${({ inlineLabel }) => inlineLabel ? '10px' : 0};
-    margin-left: ${({ inlineLabel }) => inlineLabel ? 0 : '20px'};
-    margin-bottom: ${({ inlineLabel }) => inlineLabel ? 0 : '5px'};
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
+    margin: ${({ theme, inlineLabel }) => inlineLabel ? theme.getSpacing(0,2,0,0) : theme.getSpacing(0,0,1,3)};
 `;
 
 const ListBoxMenuToggle = styled.div`
-    background: #fff;
+    background: ${({ theme }) => theme.colors.white};
     height: 34px;
     border-radius: 17px;
-    border: solid 1px #eee;
+    border: solid 1px ${({ theme }) => theme.colors.uiPrimary};
     display: flex;
     align-items: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: ${({ theme }) => theme.boxShadow};
     cursor: pointer;
     &:focus {
-        border-color: #43cbe8;
+        border-color: ${({ theme }) => theme.colors.primary};
         outline: none;
     }
 `;
 
 const Text = styled.span`
-    padding-left: 20px;
-    
-    ${text('body', { fontWeight: 700, fontSize: '0.85rem' })}
+    padding-left: ${({ theme }) => theme.getSpacing(3)};
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
 `;
-
 
 const IconPlaceholder = styled.span`
     display: inline-flex;
@@ -55,13 +53,13 @@ const IconPlaceholder = styled.span`
     width: 26px;
     height: 26px;
     border-radius: 13px;
-    background: #eee;
+    background: ${({ theme }) => theme.colors.uiPrimary};
     margin-right: 4px;
 `;
 
 const SubtleArrow = styled(KeyboardArrowDown)`
     width: 20px;
-    color: #222;
+    color: ${({ theme }) => theme.colors.black};
     transition: transform ease-out 0.2s;
     transform: ${({ isOpen }) => isOpen ? 'rotate(180deg)' : 'rotate(0deg)'};
 `;
@@ -70,7 +68,7 @@ const Divider = styled.span`
     display: inline-block;
     width: 1px;
     height: 24px;
-    background: #eee;
+    background: ${({ theme }) => theme.colors.uiPrimary};
     margin-left: auto;
     margin-right: 8px;
 `;
@@ -82,15 +80,15 @@ const Menu = styled.ul`
     margin-top: 8px;
     margin-bottom: 0;
     width: 100%;
-    background: #fff;
-    border-radius: 3px;
-    border: ${({ isOpen }) => isOpen ? 'solid 1px #eee' : 'none'};
-    box-shadow: ${({ isOpen }) => isOpen ? '0 2px 8px rgba(0,0,0,0.1)' : 'none'};
+    background: ${({ theme }) => theme.colors.white};
+    border-radius: ${({ theme }) => theme.borderRadius};
+    border: ${({ theme, isOpen }) => isOpen ? `solid 1px ${theme.colors.uiPrimary}` : 'none'};
+    box-shadow: ${({ theme, isOpen }) => isOpen ? theme.boxShadow : 'none'};
     max-height: ${({ isOpen, maxHeight }) => isOpen ? `${maxHeight}px` : 0};
     overflow: auto;
     z-index: 3000;
     &:focus {
-        border-color: #43cbe8;
+        border-color: ${({ theme }) => theme.colors.primary};
         outline: none;
     }
 `;

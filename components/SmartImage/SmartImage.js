@@ -3,15 +3,14 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import useLazyImage from '../useLazyImage';
 import ImagePlaceholder from '../ImagePlaceholder';
-
+import { cover } from 'polished';
+ 
 const SmartImageContainer = styled.div`
     position: relative;
 `;
 
 const StyledSmartImage = styled.img`
-    position: absolute;
-    top: 0;
-    left: 0;
+    ${cover()}
     width: 100%;
     height: 100%;
     opacity: ${({ isLoaded }) => isLoaded ? 1 : 0};

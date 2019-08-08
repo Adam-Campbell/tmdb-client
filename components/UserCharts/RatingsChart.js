@@ -7,6 +7,7 @@ import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme, VictoryStack, Vict
 import { getNumericTicks } from './utils';
 import { text } from '../../utils';
 import customTheme from './customTheme';
+import { hideVisually } from 'polished';
 
 const RatingsChartContainer = styled.div`
     width: 100%;
@@ -14,18 +15,18 @@ const RatingsChartContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: ${({ theme }) => theme.getSpacing(2, 0)};
 `;
 
 const ChartTitle = styled.h3`
-    ${text('heading', { fontSize: '1rem' })}
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
 `;
 
 const TitleContainer = styled.div`
     display: flex;
     flex-direction: column;
-    padding-left: 10px;
+    padding-left: ${({ theme }) => theme.getSpacing(2)};
     @media (min-width: 768px) {
         flex-direction: row;
         align-items: center;
@@ -39,10 +40,7 @@ const Fieldset = styled.fieldset`
 `;
 
 const Legend = styled.legend`
-    ${text('body', { fontWeight: 700, fontSize: '0.85rem' })}
-    opacity: 0;
-    position: absolute;
-    left: -9999px;
+    ${hideVisually()}
 `;
 
 const RadioButtonsContainer = styled.div`
@@ -51,16 +49,15 @@ const RadioButtonsContainer = styled.div`
 `;
 
 const RadioButton = styled.input`
-    opacity: 0;
-    position: absolute;
-    left: -9999px;
+    ${hideVisually()}
 `;
 
 const RadioButtonLabel = styled.label`
-    ${text('body', { fontSize: '0.85rem' })}
-    padding: 5px;
-    background: #eee;
-    border-radius: 3px;
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
+    padding: ${({ theme }) => theme.getSpacing(1)};
+    background: ${({ theme }) => theme.colors.uiPrimary};
+    border-radius: ${({ theme }) => theme.borderRadius};
     margin-left: 3px;
     margin-right: 3px;
     cursor: pointer;
@@ -68,8 +65,8 @@ const RadioButtonLabel = styled.label`
     flex-grow: 1;
     text-align: center;
     ${RadioButton}:checked + & {
-        background: #ddd;
-        font-weight: 700;
+        background: ${({ theme }) => theme.colors.uiSecondary};
+        font-weight: 600;
     }
     &:hover {
         background: #e6e6e6;

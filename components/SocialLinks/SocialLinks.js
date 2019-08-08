@@ -14,39 +14,39 @@ const StyledSocialLinks = styled.ul`
 const ListItem = styled.li`
     display: inline-block;
     & + & {
-        margin-left: 15px;
+        margin-left: ${({ theme }) => theme.getSpacing(3)};
     }
 `;
 
 const StyledFacebook = styled(FacebookSquare)`
-    color: #222;
+    color: ${({ theme }) => theme.colors.black};
     width: 25px;
     &:hover {
-        color: #43cbe8;
+        color: ${({ theme }) => theme.colors.primary};
     }
 `;
 
 const StyledTwitter = styled(TwitterSquare)`
-    color: #222;
+    color: ${({ theme }) => theme.colors.black};
     width: 25px;
     &:hover {
-        color: #43cbe8;
+        color: ${({ theme }) => theme.colors.primary};
     }
 `;
 
 const StyledInstagram = styled(Instagram)`
-    color: #222;
+    color: ${({ theme }) => theme.colors.black};
     width: 25px;
     &:hover {
-        color: #43cbe8;
+        color: ${({ theme }) => theme.colors.primary};
     }
 `;
 
 const StyledExternal = styled(Link)`
-    color: #222;
+    color: ${({ theme }) => theme.colors.black};
     width: 25px;
     &:hover {
-        color: #43cbe8;
+        color: ${({ theme }) => theme.colors.primary};
     }
 `;
 

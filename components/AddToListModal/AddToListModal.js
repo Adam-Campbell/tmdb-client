@@ -34,15 +34,16 @@ const TitleRow = styled.div`
 `;
 
 const ModalTitle = styled.h2`
-    ${text('heading')}
-    margin-top: 10px;
-    margin-bottom: 10px;
+    ${({ theme }) => theme.fontStacks.heading()}
+    font-size: ${({ theme }) => theme.fontSizes.heading.sm};
+    margin-top: ${({ theme }) => theme.getSpacing(2)};
+    margin-bottom: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 const CancelButton = styled.button`
     border: 0;
-    border-radius: 3px;
-    background: #dc1f3b;
+    border-radius: ${({ theme }) => theme.borderRadius};
+    background: ${({ theme }) => theme.colors.warning};
     margin-left: auto;
     width: 30px;
     height: 30px;
@@ -53,7 +54,7 @@ const CancelButton = styled.button`
 `;
 
 const CancelIcon = styled(Times)`
-    color: #fff;
+    color: ${({ theme }) => theme.colors.white};
     width: 14px;
 `;
 
@@ -62,7 +63,7 @@ const List = styled.ul`
     padding-left: 0;
     max-height: 300px;
     overflow-y: auto;
-    margin-top: 10px;
+    margin-top: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 

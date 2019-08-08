@@ -4,19 +4,20 @@ import styled from 'styled-components';
 import { text, imageSizeConstants } from '../../utils';
 import Link from 'next/link';
 import ImageLink from '../ImageLink';
+import { ellipsis } from 'polished'
 
 const StyledMinimalCard = styled.div`
-    margin-top: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-top: ${({ theme }) => theme.getSpacing(2)};
+    box-shadow: ${({ theme }) => theme.boxShadow};
     ${({ isInline }) => isInline && `
         width: calc(50% - 5px);
         @media (min-width: 550px) {
             width: calc(25% - 7.5px);
         }
     `}
-    ${({ isInline }) => isInline || `
+    ${({ theme, isInline }) => isInline || `
         width: calc(50% - 5px);
-        margin-right: 10px;
+        margin-right: ${theme.getSpacing(2)};
         @media (max-width: 549px) {
             &:nth-child(2n) {
                 margin-right: 0;
@@ -48,33 +49,34 @@ const CardImageLink = styled(ImageLink)`
 `;
 
 const InfoRow = styled.div`
-    padding: 10px;
+    padding: ${({ theme }) => theme.getSpacing(2)};
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 `;
 
 const NameLink = styled.a`
-    ${text('body', { fontWeight: 700, fontSize: '0.85rem' })}
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
     text-decoration: none;
-    margin-bottom: 5px;
+    margin-bottom: ${({ theme }) => theme.getSpacing(1)};
     display: inline-block;
     &:hover {
         text-decoration: underline;
     }
     @media(min-width: 550px) {
-        font-size: 1rem;
+        font-size: ${({ theme }) => theme.fontSizes.body.md};
     }
 `;
 
 const AdditionalDetailsText = styled.span`
-    ${text('body', { fontWeight: 300, fontSize: '0.75rem' })}
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.xs};
     display: block;
     max-width: 100%;
-    ${({ shouldTruncateDetails }) => shouldTruncateDetails && `
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    `}
+    ${({ shouldTruncateDetails }) => shouldTruncateDetails && ellipsis()}
     @media(min-width: 550px) {
-        font-size: 0.85rem;
+        font-size: ${({ theme }) => theme.fontSizes.body.sm};
     }
 `;
 

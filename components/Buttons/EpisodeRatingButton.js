@@ -13,12 +13,12 @@ const StyledRatingButton = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-    border: solid 2px #222;
+    border: solid 2px ${({ theme }) => theme.colors.black};
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    margin-right: 10px;
-    background: ${({ isHovered }) => isHovered ? '#222' : 'none'};
+    margin-right: ${({ theme }) => theme.getSpacing(2)};
+    background: ${({ isHovered, theme }) => isHovered ? theme.colors.black : 'none'};
     transition: background ease-out 0.2s;
     cursor: pointer;
 `;

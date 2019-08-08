@@ -7,14 +7,14 @@ import useHover from '../useHover';
 import { text } from '../../utils';
 
 const StyledSubNavLink = styled.a`
-    ${text('body', { fontWeight: 700, color: '#fff' })}
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
     text-decoration: none;
     height: 50px;
     display: inline-flex;
     align-items: center;
-    padding-left: 10px;
-    padding-right: 10px;
-    color: ${({ isActive, isHovered }) => (isActive || isHovered) ? '#43cbe8' : '#222'};
+    padding: ${({ theme }) => theme.getSpacing(0, 2)};
+    color: ${({ theme, isActive, isHovered }) => (isActive || isHovered) ? theme.colors.primary : theme.colors.black};
     ${({ isActive }) => isActive && 'border-bottom: solid 3px;'}
 `;
 

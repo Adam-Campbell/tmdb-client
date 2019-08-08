@@ -9,7 +9,7 @@ const StyledCreatorsList = styled.ul`
     padding-left: 0;
     display: flex;
     flex-wrap: wrap;
-    margin-left: -15px;
+    margin-left: ${({ theme }) => `-${theme.getSpacing(3)}`};
 `;
 
 const CreatorsSubheading = styled.p`
@@ -17,11 +17,11 @@ const CreatorsSubheading = styled.p`
 `;
 
 const ListItem = styled.li`
-    padding: 5px 15px;
+    padding: ${({ theme }) => theme.getSpacing(1, 3)};
 `;
 
 const CreatorLink = styled.a`
-    ${text('body', { color: '#fff' })}
+    ${({ theme }) => theme.fontStacks.body({ useLight: true })}
     text-decoration: none;
     &:hover {
         text-decoration: underline;

@@ -4,11 +4,10 @@ import styled from 'styled-components';
 
 const StyledCardPlaceholder = styled.div`
     width: 100%;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin: ${({ theme }) => theme.getSpacing(3, 0)};
+    box-shadow: ${({ theme }) => theme.boxShadow};
     display: flex;
-    padding: 20px;
+    padding: ${({ theme }) => theme.getSpacing(3)};
     height: 278px;
     @media (min-width: 900px) {
         height: 331px;
@@ -16,7 +15,7 @@ const StyledCardPlaceholder = styled.div`
 `;
 
 const ImagePlaceholder = styled.div`
-    background: #eee;
+    background: ${({ theme }) => theme.colors.uiPrimary};
     width: 159px
     height: 238px;
     @media (min-width: 900px) {
@@ -26,15 +25,15 @@ const ImagePlaceholder = styled.div`
 `;
 
 const TextCol = styled.div`
-    margin-left: 20px;
+    margin-left: ${({ theme }) => theme.getSpacing(3)};
     flex: 1;
 `;
 
 const TextRow = styled.div`
-    background: #eee;
+    background: ${({ theme }) => theme.colors.uiPrimary};
     height: 10px;
     width: ${({ fullWidth }) => fullWidth ? '100%' : '75%'};
-    margin-bottom: 10px;
+    margin-bottom: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 export default function CardPlaceholder() {

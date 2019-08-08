@@ -1,6 +1,6 @@
 import React from 'react';
 import { CancelInteractionButton } from './CancelInteractionButton';
-import { render, fireEvent } from '@testing-library/react'
+import { render, fireEvent } from '../../testUtils';
 
 test('it renders the label text passed to it', () => {
     const { getByText, container } = render(<CancelInteractionButton 

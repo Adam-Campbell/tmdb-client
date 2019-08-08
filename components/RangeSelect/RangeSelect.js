@@ -14,9 +14,7 @@ const sliderStyles = {
     position: 'relative',
     // 100% recommended so it grows and shrinks with its container
     width: '100%',
-    height: 80,
-    // just for clarity while in dev
-    //border: 'solid 1px #43cbe8'
+    height: 80
 };
 
 const StyledRail = styled.div`
@@ -27,11 +25,12 @@ const StyledRail = styled.div`
     left: 0;
     top: 50%;
     transform: translateY(-50%);
-    background: #eee;
+    background: ${({ theme }) => theme.colors.uiPrimary};
 `;
 
 const DescriptionText = styled.div`
-    ${text('body', { fontSize: '0.85rem' })}
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
     text-align: center;
 `;  
 
