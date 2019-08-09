@@ -36,9 +36,9 @@ const TextRow = styled.div`
     margin-bottom: ${({ theme }) => theme.getSpacing(2)};
 `;
 
-export default function CardPlaceholder() {
+export default function CardPlaceholder({ cardRef }) {
     return (
-        <StyledCardPlaceholder>
+        <StyledCardPlaceholder ref={cardRef}>
             <ImagePlaceholder />
             <TextCol>
                 <TextRow fullWidth />

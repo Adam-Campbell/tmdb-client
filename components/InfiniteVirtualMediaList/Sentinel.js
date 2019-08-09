@@ -15,7 +15,7 @@ export default function Sentinel({ name, handleEnter }) {
         // of undefined on the initial load, we don't want to trigger the effect logic if it goes
         // from undefined (read: unitialized) straight to true; only if it goes from false to true. 
         if (inView && prevInView === false) {
-            console.log(`${name} has entered the viewport`);
+            //console.log(`${name} has entered the viewport`);
             handleEnter();
         }
     }, [ inView, prevInView, name, handleEnter ]);
