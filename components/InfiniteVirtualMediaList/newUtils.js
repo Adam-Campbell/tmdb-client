@@ -53,6 +53,11 @@ function getNextCardData(nextPage, cardData) {
         : [ ...cardData, ...Array.from({ length: 20 }) ];
 }
 
+export function getPaddingNum(paddingString) {
+    if (!paddingString) return 0;
+    return parseInt(paddingString.replace('px', ''));
+}
+
 /*
 State: 
 {

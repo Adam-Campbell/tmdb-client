@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import {
     getPopularMovies,
@@ -11,20 +11,30 @@ import ListViewHeader from '../components/ListViewHeader';
 import InfiniteMediaList from '../components/InfiniteMediaList';
 import InfiniteVirtualMediaList from '../components/InfiniteVirtualMediaList';
 
+const Main = styled.main`
+    min-height: 100vh;
+`;
+
 function Movies({ results, subcategory }) { 
     
     const fetchingFn = getFetchingFn(subcategory);
 
+    const [ showList, setShowList ] = useState(false);
+
+    useEffect(() => {
+        setShowList(true);
+    }, []);
+
     return (
         <>
-            <main>
+            <Main>
                 <ListViewHeader title="Movies" />
-                <InfiniteVirtualMediaList 
+                {showList && <InfiniteVirtualMediaList 
                     initialData={results}
                     getDataFn={fetchingFn}
                     key={subcategory}
-                />
-            </main>
+                />}
+            </Main>
         </>
     );
 }
