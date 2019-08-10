@@ -7,7 +7,7 @@ import { MediaCard } from '../Cards';
 import Sentinel from './Sentinel';
 import CardPlaceholder from './CardPlaceholder';
 import usePrevious from '../usePrevious';
-import { reducer, deriveWindowFromPage, deriveApiPageFromPage, getPaddingNum } from './newUtils';
+import { reducer, deriveWindowFromPage, deriveApiPageFromPage, getPaddingNum, setPx } from './newUtils';
 
 
 /*
@@ -27,7 +27,17 @@ backwards (scrolling up) there seems to be a whole page worth of top padding lef
 when we've reached the first page, meaning that there is a large white gap above the list that
 won't go away. 
 
-Look into all of these issues. 
+Look into all of these issues.
+
+
+Fixed:
+
+- The phantom padding when scrolling back to the top has been resolved - it was being causes by some of
+one or more of the sliding operations trying to set a negative padding value, which just results in the
+command being ignored. Fixed by ensuring that all padding setting operations use a clamped value that
+cannot be less than 0. 
+
+
 
 */
 
@@ -147,8 +157,8 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
             const oldBottomPadding = getPaddingNum(c.style.paddingBottom);
             const oldTopPadding = getPaddingNum(c.style.paddingTop);
             
-            c.style.paddingTop = `${oldTopPadding - (windowOneHeight+20)}px`;
-            c.style.paddingBottom = `${oldBottomPadding + (windowTwoHeightCache.current+20)}px`;
+            c.style.paddingTop = setPx(oldTopPadding - (windowOneHeight+20));
+            c.style.paddingBottom = setPx(oldBottomPadding + (windowTwoHeightCache.current+20));
         } 
         // This condition represents sliding down to a page that we have already visited, and therefore
         // its height is already account for, so we don't need to add any additional height to the page,
@@ -167,8 +177,8 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
             const oldBottomPadding = getPaddingNum(c.style.paddingBottom);
             const oldTopPadding = getPaddingNum(c.style.paddingTop);
 
-            c.style.paddingTop = `${oldTopPadding + (windowOneHeightCache.current+20)}px`;
-            c.style.paddingBottom = `${oldBottomPadding - (windowTwoHeight+20)}px`;
+            c.style.paddingTop = setPx(oldTopPadding + (windowOneHeightCache.current+20));
+            c.style.paddingBottom = setPx(oldBottomPadding - (windowTwoHeight+20));
             
         } 
         // This condition represents sliding down into a new page that isn't yet accounted for in the pages
@@ -181,7 +191,7 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
             console.log('Sliding downwards padding adjustment would take place here - external slide');
             const c = containerRef.current;
             const oldTopPadding = getPaddingNum(c.style.paddingTop);
-            c.style.paddingTop = `${oldTopPadding + (windowOneHeightCache.current+20)}px`;
+            c.style.paddingTop = setPx(oldTopPadding + (windowOneHeightCache.current+20));
         }
     }, [ state, prevState ]);
 
@@ -212,10 +222,10 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
     const cardHeight = 351;
 
     const currentWindow = deriveWindowFromPage(currentPage);
-    const furthestWindow = deriveWindowFromPage(furthestPage);
+    //const furthestWindow = deriveWindowFromPage(furthestPage);
 
-    const paddingTop = currentWindow[0] * cardHeight;
-    const paddingBottom = (furthestWindow[0] - currentWindow[0]) * cardHeight;
+    //const paddingTop = currentWindow[0] * cardHeight;
+    //const paddingBottom = (furthestWindow[0] - currentWindow[0]) * cardHeight;
 
     // style={{ paddingTop, paddingBottom }}
     return (

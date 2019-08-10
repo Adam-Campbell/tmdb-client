@@ -58,6 +58,14 @@ export function getPaddingNum(paddingString) {
     return parseInt(paddingString.replace('px', ''));
 }
 
+export function minClamp(num, clamp = 0) {
+    return Math.max(num, clamp);
+}
+
+export function setPx(num) {
+    return `${minClamp(num)}px`;
+}
+
 /*
 State: 
 {
