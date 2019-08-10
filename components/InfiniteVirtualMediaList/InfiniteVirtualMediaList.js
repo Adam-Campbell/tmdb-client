@@ -7,7 +7,13 @@ import { MediaCard } from '../Cards';
 import Sentinel from './Sentinel';
 import CardPlaceholder from './CardPlaceholder';
 import usePrevious from '../usePrevious';
-import { reducer, deriveWindowFromPage, deriveApiPageFromPage, getPaddingNum, setPx } from './newUtils';
+import { 
+    reducer, 
+    deriveWindowFromPage, 
+    deriveApiPageFromPage, 
+    getPaddingNum, 
+    setPx 
+} from './newUtils';
 
 
 /*
@@ -54,29 +60,6 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
 
     const prevState = usePrevious(state);
 
-    // async function pageForwards() {
-    //     if (page > 8) {
-    //         return;
-    //     }
-    //     dispatch({ type: 'PAGE_FORWARDS' });
-    //     const nextWindow = getNextWindow(currentWindow);
-    //     const doesExceed = doesWindowExceed(nextWindow, furthestWindow);
-    //     //console.log(nextWindow, cardData.length);
-    //     if (doesExceed && nextWindow[1] > cardData.length && page <= 20) {
-    //         //console.log('made it into conditional block to fetch more data');
-    //         const nextCardData = await getDataFn(page + 1);
-    //         dispatch({
-    //             type: 'STORE_NEXT_CARD_DATA',
-    //             payload: {
-    //                 nextCardData,
-    //                 page: page + 1
-    //             }
-    //         });
-    //     }
-    // }
-
-    
-
     const windowOneStart = useRef(null);
     const windowOneEnd = useRef(null);
     const windowTwoStart = useRef(null);
@@ -102,28 +85,32 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
 
     async function handlePageForward() {
         if (currentPage > 8) return;
+        // this part will always need to happen
         if (windowOneStart.current && windowOneEnd.current) {
             const windowOneTop = windowOneStart.current.getBoundingClientRect().top;
             const windowOneBottom = windowOneEnd.current.getBoundingClientRect().bottom;
             const windowOneHeight = windowOneBottom - windowOneTop;
             windowOneHeightCache.current = windowOneHeight;
         }
-        dispatch({ type: 'PAGE_FORWARDS' });
+        // take the currentPage, add 1, derive the end index from it and determine whether
+        // incrementing the page causes us to exceed the current cardData.
         const nextPage = currentPage + 1;
-        const nextPageUpperBound = deriveWindowFromPage(nextPage)[1];
+        const nextPageUpperBound = deriveWindowFromPage(nextPage)[1]; 
+        // It if does, await the fetching of the new cardData, and then dispatch the
+        // PAGE_FORWARDS_WITH_NEW_DATA action.
         if (nextPageUpperBound > cardData.length && nextPage < 9) {
-            // fetch the data
-            console.log('made it into conditional');
-            //console.log(nextPage);
-            const nextCardData = await getDataFn(nextPage);
-            console.log(nextCardData);
+            const nextCardData = await getDataFn(
+                deriveApiPageFromPage(nextPage)
+            );
             dispatch({
-                type: 'STORE_CARD_DATA',
+                type: 'PAGE_FORWARDS_WITH_NEW_DATA',
                 payload: {
-                    cardData: nextCardData,
-                    page: deriveApiPageFromPage(nextPage)
+                    cardData: nextCardData
                 }
             });
+            // It it doesn't, then just dispatch the PAGE_FORWARDS action. 
+        } else {
+            dispatch({ type: 'PAGE_FORWARDS' });
         }
     }
 
@@ -138,8 +125,6 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
     }
 
     useLayoutEffect(() => {
-        console.log(windowOneHeightCache, windowTwoHeightCache);
-        //return;
         if (!prevState) return;
 
         // When sliding upwards, the height of the first window (elements 0-9) after sliding needs to
@@ -166,7 +151,7 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
         // from before the slide (stored in mutable ref) is added to the top padding. The height of the
         // second window after the slide is subtracted from the bottom padding. 
         else if (state.currentPage > prevState.currentPage && 
-                state.cardData[state.cardData.length-1] !== undefined
+                state.currentPage < state.furthestPage
         ) {
             console.log('Sliding downwards padding adjustment would take place here - internal slide'); 
             const windowTwoTop = windowTwoStart.current.getBoundingClientRect().top;
@@ -185,9 +170,7 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
         // height. As with the previous condition the height of the first window prior to the slide is added
         // to the top padding, however unlike the previous condition we don't need to do anything to the
         // bottom padding. 
-        else if (prevState.cardData[prevState.cardData.length-1] === undefined &&
-                    state.cardData[state.cardData.length-1] !== undefined
-        ) {
+        else if (state.currentPage > prevState.currentPage) {
             console.log('Sliding downwards padding adjustment would take place here - external slide');
             const c = containerRef.current;
             const oldTopPadding = getPaddingNum(c.style.paddingTop);
@@ -195,59 +178,26 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
         }
     }, [ state, prevState ]);
 
-    // useEffect(() => {
-    //     if (
-    //         !windowOneStart.current || !windowOneEnd.current || 
-    //         !windowTwoStart.current || !windowTwoEnd.current
-    //     ) {
-    //         return;
-    //     } 
-    //     const windowOneTop = windowOneStart.current.getBoundingClientRect().top;
-    //     const windowOneBottom = windowOneEnd.current.getBoundingClientRect().bottom;
-    //     const windowTwoTop = windowTwoStart.current.getBoundingClientRect().top;
-    //     const windowTwoBottom = windowTwoEnd.current.getBoundingClientRect().bottom;
-
-    //     const windowOneRange = windowOneBottom - windowOneTop;
-    //     const windowTwoRange = windowTwoBottom - windowTwoTop;
-    //     //console.log(windowOneRange, windowTwoRange);
-    //     if (containerRef.current) {
-    //         const { paddingTop, paddingBottom } = containerRef.current.style;
-    //         console.log(paddingTop, paddingBottom);
-    //     }
-    // })
-
-    //console.log(cardData)
-    //console.log(state);
-
-    const cardHeight = 351;
-
     const currentWindow = deriveWindowFromPage(currentPage);
-    //const furthestWindow = deriveWindowFromPage(furthestPage);
-
-    //const paddingTop = currentWindow[0] * cardHeight;
-    //const paddingBottom = (furthestWindow[0] - currentWindow[0]) * cardHeight;
-
-    // style={{ paddingTop, paddingBottom }}
+    
     return (
         <div ref={containerRef}>
             <Sentinel name="The top sentinel" handleEnter={handlePageBackward} />
             <Row>
-                {cardData.slice(...currentWindow).map((card, idx) => {
-                    return card ?
-                        <MediaCard
-                            cardRef={getRef(idx)}
-                            key={idx}
-                            id={card.id}
-                            title={card.title || card.name}
-                            releaseDate={card.release_date || card.first_air_date}
-                            averageRating={card.vote_average}
-                            backdropPath={card.backdrop_path}
-                            posterPath={card.poster_path}
-                            overview={card.overview}
-                            urlSubpath={card.title ? '/movie' : '/show'}
-                        /> :
-                        <CardPlaceholder key={idx} cardRef={getRef(idx)} />
-                })}
+                {cardData.slice(...currentWindow).map((card, idx) => (
+                    <MediaCard
+                        cardRef={getRef(idx)}
+                        key={idx}
+                        id={card.id}
+                        title={card.title || card.name}
+                        releaseDate={card.release_date || card.first_air_date}
+                        averageRating={card.vote_average}
+                        backdropPath={card.backdrop_path}
+                        posterPath={card.poster_path}
+                        overview={card.overview}
+                        urlSubpath={card.title ? '/movie' : '/show'}
+                    /> 
+                ))}
             </Row>
             <Sentinel 
                 name="The bottom sentinel" 
@@ -261,67 +211,3 @@ InfiniteVirtualMediaList.propTypes = {
     initialData: PropTypes.arrayOf(PropTypes.object).isRequired,
     getDataFn: PropTypes.func.isRequired
 };
-
-
-
-
-/*
-
-const windowOneStart = useRef(null);
-    const windowOneEnd = useRef(null);
-    const windowTwoStart = useRef(null);
-    const windowTwoEnd = useRef(null);
-    const containerRef = useRef(null);
-
-    function getRef(idx) {
-        switch (idx) {
-            case 0:
-                return windowOneStart;
-            case 9:
-                return windowOneEnd;
-            case 10: 
-                return windowTwoStart;
-            case 19:
-                return windowTwoEnd;
-            default:
-                return null;
-        } 
-    }
-
-    useEffect(() => {
-        //console.log(windowOneStart, windowOneEnd, windowTwoStart, windowTwoEnd);
-        if (
-            !windowOneStart.current || !windowOneEnd.current || 
-            !windowTwoStart.current || !windowTwoEnd.current
-        ) {
-            return;
-        } 
-
-        const windowOneTop = windowOneStart.current.getBoundingClientRect().top;
-        const windowOneBottom = windowOneEnd.current.getBoundingClientRect().bottom;
-        const windowTwoTop = windowTwoStart.current.getBoundingClientRect().top;
-        const windowTwoBottom = windowTwoEnd.current.getBoundingClientRect().bottom;
-
-        const windowOneRange = windowOneBottom - windowOneTop;
-        const windowTwoRange = windowTwoBottom - windowTwoTop;
-        //console.log(windowOneRange, windowTwoRange);
-
-        if (prevState) {
-            const previous = prevState.cardData.slice(prevState.currentWindow[0] + 10, prevState.currentWindow[1]);
-            const current = cardData.slice(currentWindow[0] + 10, currentWindow[1]);
-            //console.log('previous: ', previous);
-            //console.log('current: ', current);
-            if (previous[9] === undefined && current[9] !== undefined) {
-                //console.log('All criteria were met on this render');
-            } else {
-                //console.log('There was previous data, but the undefined check did not pass on this render');
-            }
-        } else {
-            //console.log('There was no previous data for this render');
-        }
-        
-    }, [ cardData, currentWindow, prevState ]);
-
-
-
-*/

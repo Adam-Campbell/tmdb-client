@@ -47,10 +47,10 @@ Movies.getInitialProps = async ({ query, req }) => {
     const [ page1, page2 ] = await Promise.all([
         fetchingFn(),
         fetchingFn(2),
-        fetchingFn(3)
     ]);
     return {
         results: [ ...page1, ...page2 ],
+        //results,
         subcategory
     };
 }
