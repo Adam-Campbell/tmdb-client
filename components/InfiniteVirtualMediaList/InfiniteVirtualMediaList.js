@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row } from '../Layout';
 import { MediaCard } from '../Cards';
-//import { reducer, getNextWindow, doesWindowExceed } from './utils';
 import Sentinel from './Sentinel';
-import CardPlaceholder from './CardPlaceholder';
 import usePrevious from '../usePrevious';
 import { 
     reducer, 
@@ -13,39 +11,8 @@ import {
     deriveApiPageFromPage, 
     getPaddingNum, 
     setPx 
-} from './newUtils';
+} from './utils';
 
-
-/*
-
-Current progress: 
-
-I have the new reducer logic in place, and have useLayoutEffect set up to constantly remeasure the items
-and adjust the container padding accordingly. 
-
-- I haven't tested on mobile yet (only through chrome emulator).
-
-- The layout does seem to jump a bit, intermitently, when scrolling down. Investigate.
-
-- There seems to be issues with the addition / removal of container padding not staying properly
-lined up at smaller viewports (where the layout of the cards changes). Additionally, when paging
-backwards (scrolling up) there seems to be a whole page worth of top padding left at the end even
-when we've reached the first page, meaning that there is a large white gap above the list that
-won't go away. 
-
-Look into all of these issues.
-
-
-Fixed:
-
-- The phantom padding when scrolling back to the top has been resolved - it was being causes by some of
-one or more of the sliding operations trying to set a negative padding value, which just results in the
-command being ignored. Fixed by ensuring that all padding setting operations use a clamped value that
-cannot be less than 0. 
-
-
-
-*/
 
  
 export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
