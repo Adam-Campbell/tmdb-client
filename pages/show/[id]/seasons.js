@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { fetchShow } from '../../actions';
-import { getShowData } from '../../reducers/showReducer';
+import { fetchShow } from '../../../actions';
+import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
-import MinimalHeader from '../../components/MinimalHeader';
-import SubNav from '../../components/SubNav';
-import { getShowSubNavData } from '../../utils';
-import { Row } from '../../components/Layout';
-import { SeasonCard } from '../../components/Cards';
+import MinimalHeader from '../../../components/MinimalHeader';
+import SubNav from '../../../components/SubNav';
+import { getShowSubNavData } from '../../../utils';
+import { Row } from '../../../components/Layout';
+import { SeasonCard } from '../../../components/Cards';
 
 function Seasons({ id, title, posterPath, seasons }) {
 
@@ -20,7 +20,7 @@ function Seasons({ id, title, posterPath, seasons }) {
             <MinimalHeader 
                 imagePath={posterPath}
                 name={title}
-                backHref={`/show?id=${id}`}
+                backHref="/show/[id]"
                 backAs={`/show/${id}`}
             />
             <SubNav navData={showSubNavData} />

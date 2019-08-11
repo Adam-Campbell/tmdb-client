@@ -1,24 +1,24 @@
 import React, { useMemo } from 'react';
-import { getShowDetails } from '../../Api';
-import MediaHeader from '../../components/MediaHeader';
+import { getShowDetails } from '../../../Api';
+import MediaHeader from '../../../components/MediaHeader';
 import { 
     MainCol, 
     SidebarCol, 
     TwoColLayoutContainer,
     TwoColLayoutRow
-} from '../../components/Layout';
-import { getShowSubNavData } from '../../utils';
-import MediaInlineCardRow from '../../components/MediaInlineCardRow';
-import SidebarEntry from '../../components/SidebarEntry';
-import SocialLinks from '../../components/SocialLinks';
-import ReviewPod from '../../components/ReviewPod';
-import TagList from '../../components/TagList';
-import SubNav from '../../components/SubNav';
-import { SeasonCard } from '../../components/Cards';
-import InlineContentRow from '../../components/InlineContentRow';
+} from '../../../components/Layout';
+import { getShowSubNavData } from '../../../utils';
+import MediaInlineCardRow from '../../../components/MediaInlineCardRow';
+import SidebarEntry from '../../../components/SidebarEntry';
+import SocialLinks from '../../../components/SocialLinks';
+import ReviewPod from '../../../components/ReviewPod';
+import TagList from '../../../components/TagList';
+import SubNav from '../../../components/SubNav';
+import { SeasonCard } from '../../../components/Cards';
+import InlineContentRow from '../../../components/InlineContentRow';
 
-import { fetchShow } from '../../actions';
-import { getShowData } from '../../reducers/showReducer';
+import { fetchShow } from '../../../actions';
+import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
  
 function Show({
@@ -59,13 +59,13 @@ function Show({
                             cardType="person"
                             linkText="See full cast & crew"
                             linkDestinationAs={`/show/${id}/cast-and-crew`}
-                            linkDestinationHref={`/show/cast-and-crew?id=${id}`}
+                            linkDestinationHref="/show/[id]/cast-and-crew"
                         />
                         <InlineContentRow
                             title="Current Season"
                             linkText="View all seasons"
                             linkDestinationAs={`/show/${id}/seasons`}
-                            linkDestinationHref={`/show/seasons?id=${id}`}
+                            linkDestinationHref="/show/[id]/seasons"
                         >
                             <SeasonCard 
                                 name={currentSeason.name}
@@ -80,7 +80,7 @@ function Show({
                         <ReviewPod 
                             reviews={reviews.results}
                             linkDestinationAs={`/show/${id}/reviews`}
-                            linkDestinationHref={`/show/reviews?id=${id}`}
+                            linkDestinationHref="/show/[id]/reviews"
                         />
                         <MediaInlineCardRow 
                             title="Recommended Shows"
@@ -88,7 +88,7 @@ function Show({
                             cardType="show"
                             linkText="See all recommended shows"
                             linkDestinationAs={`/show/${id}/recommended`}
-                            linkDestinationHref={`/show/recommended?id=${id}`}
+                            linkDestinationHref="/show/[id]/recommended"
                         />
                         <MediaInlineCardRow 
                             title="Similar Shows"
@@ -96,7 +96,7 @@ function Show({
                             cardType="show"
                             linkText="See all similar shows"
                             linkDestinationAs={`/show/${id}/similar`}
-                            linkDestinationHref={`/show/similar?id=${id}`}
+                            linkDestinationHref="/show/[id]/similar"
                         />
                     </MainCol>
                     <SidebarCol>

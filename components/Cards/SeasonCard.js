@@ -112,13 +112,13 @@ export function SeasonCard({
                 imagePath={posterPath}
                 imageSize={imageSizeConstants.w185}
                 alt={name}
-                linkHref={`/show/season?id=${showId}&number=${seasonNumber}`}
+                linkHref="/show/[id]/season/[number]"
                 linkAs={`/show/${showId}/season/${seasonNumber}`}
             />
             <TextColumn>
                 <TitleRow>
                     <Link
-                        href={`/show/season?id=${showId}&number=${seasonNumber}`} 
+                        href="/show/[id]/season/[number]" 
                         as={`/show/${showId}/season/${seasonNumber}`} 
                         passHref
                     >

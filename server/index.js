@@ -3,10 +3,6 @@ const express = require('express');
 const next = require('next');
 const parser = require('ua-parser-js');
 const cookieParser = require('cookie-parser');
-// require routers
-const movieRoutes = require('./movieRoutes');
-const showRoutes = require('./showRoutes');
-const personRoutes = require('./personRoutes');
 
 const apiRouter = require('./api');
 
@@ -23,11 +19,6 @@ app.prepare()
     // get server instance
     const server = express();
 
-    // create app-aware router instances
-    const movieRouter = movieRoutes(app);
-    const showRouter = showRoutes(app);
-    const personRouter = personRoutes(app);
-
     server.use(cookieParser());
     server.use(express.json());
     // attach device info to all get requests
@@ -39,15 +30,7 @@ app.prepare()
         next();
     });
 
-    // handle movie subroutes
-    server.use('/movie', movieRouter);
-
-    // handle show subroutes
-    server.use('/show', showRouter);
-
     server.use('/api', apiRouter);
-
-    
 
     // handle all routes that aren't explicitly defined
     server.get('*', (req, res) => handle(req, res));

@@ -1,28 +1,28 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import MediaHeader from '../../components/MediaHeader';
+import MediaHeader from '../../../components/MediaHeader';
 import { 
     MainCol, 
     SidebarCol, 
     TwoColLayoutContainer,
     TwoColLayoutRow
-} from '../../components/Layout';
-import MediaInlineCardRow from '../../components/MediaInlineCardRow';
-import TagList from '../../components/TagList';
+} from '../../../components/Layout';
+import MediaInlineCardRow from '../../../components/MediaInlineCardRow';
+import TagList from '../../../components/TagList';
 import { 
     text, 
     formatDateString, 
     formatMinutes, 
     formatDollarFigure, 
     getMovieSubNavData 
-} from '../../utils';
-import SidebarEntry from '../../components/SidebarEntry';
-import SocialLinks from '../../components/SocialLinks';
-import ReviewPod from '../../components/ReviewPod';
-import SubNav from '../../components/SubNav';
+} from '../../../utils';
+import SidebarEntry from '../../../components/SidebarEntry';
+import SocialLinks from '../../../components/SocialLinks';
+import ReviewPod from '../../../components/ReviewPod';
+import SubNav from '../../../components/SubNav';
 
-import { fetchMovie } from '../../actions';
-import { getMovieData } from '../../reducers/movieReducer';
+import { fetchMovie } from '../../../actions';
+import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 
 
@@ -64,12 +64,12 @@ function Movie({
                             cardType="person"
                             linkText="See full cast & crew"
                             linkDestinationAs={`/movie/${id}/cast-and-crew`}
-                            linkDestinationHref={`/movie/cast-and-crew?id=${id}`}
+                            linkDestinationHref="/movie/[id]/cast-and-crew"
                         />
                         <ReviewPod 
                             reviews={reviews.results}
                             linkDestinationAs={`/movie/${id}/reviews`}
-                            linkDestinationHref={`/movie/reviews?id=${id}`}
+                            linkDestinationHref="/movie/[id]/reviews"
                         />
                         <MediaInlineCardRow 
                             title="Recommended Movies"
@@ -77,7 +77,7 @@ function Movie({
                             cardType="movie"
                             linkText="See all recommended movies"
                             linkDestinationAs={`/movie/${id}/recommended`}
-                            linkDestinationHref={`/movie/recommended?id=${id}`}
+                            linkDestinationHref="/movie/[id]/recommended"
                         />
                         <MediaInlineCardRow 
                             title="Similar Movies"
@@ -85,7 +85,7 @@ function Movie({
                             cardType="movie"
                             linkText="See all similar movies"
                             linkDestinationAs={`/movie/${id}/similar`}
-                            linkDestinationHref={`/movie/similar?id=${id}`}
+                            linkDestinationHref="/movie/[id]/similar"
                         />
                     </MainCol>
                     <SidebarCol>

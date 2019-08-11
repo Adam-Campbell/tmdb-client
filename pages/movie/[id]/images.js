@@ -1,15 +1,15 @@
 import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
-import MinimalHeader from '../../components/MinimalHeader';
-import SubNav from '../../components/SubNav';
-import { getMovieSubNavData, getImageUrl, imageSizeConstants } from '../../utils';
-import { Row } from '../../components/Layout';
-import ListViewHeader from '../../components/ListViewHeader';
-import ListBox from '../../components/ListBox';
-import GalleryModal from '../../components/GalleryModal';
-import SmartImage from '../../components/SmartImage';
-import { fetchMovie } from '../../actions';
-import { getMovieData } from '../../reducers/movieReducer';
+import MinimalHeader from '../../../components/MinimalHeader';
+import SubNav from '../../../components/SubNav';
+import { getMovieSubNavData, getImageUrl, imageSizeConstants } from '../../../utils';
+import { Row } from '../../../components/Layout';
+import ListViewHeader from '../../../components/ListViewHeader';
+import ListBox from '../../../components/ListBox';
+import GalleryModal from '../../../components/GalleryModal';
+import SmartImage from '../../../components/SmartImage';
+import { fetchMovie } from '../../../actions';
+import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 
 const DropdownContainer = styled.div`
@@ -80,7 +80,7 @@ function Images({ id, title, posterPath, posters, backdrops }) {
             <MinimalHeader 
                 imagePath={posterPath}
                 name={title}
-                backHref={`/movie?id=${id}`}
+                backHref={`/movie/[id]`}
                 backAs={`/movie/${id}`}
             />
             <SubNav navData={movieSubNavData} />

@@ -1,20 +1,20 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { getSeasonDetails } from '../../Api';
-import MinimalHeader from '../../components/MinimalHeader';
-import SubNav from '../../components/SubNav';
-import { getShowSubNavData, text } from '../../utils';
-import PeopleList from '../../components/PeopleList';
-import { Row } from '../../components/Layout';
-import EpisodePod from '../../components/EpisodePod';
-import { fetchSeason, fetchShow } from '../../actions';
+import { getSeasonDetails } from '../../../../../Api';
+import MinimalHeader from '../../../../../components/MinimalHeader';
+import SubNav from '../../../../../components/SubNav';
+import { getShowSubNavData, text } from '../../../../../utils';
+import PeopleList from '../../../../../components/PeopleList';
+import { Row } from '../../../../../components/Layout';
+import EpisodePod from '../../../../../components/EpisodePod';
+import { fetchSeason, fetchShow } from '../../../../../actions';
 import { connect } from 'react-redux';
-import { getSeasonData } from '../../reducers/seasonReducer';
-import { getShowData } from '../../reducers/showReducer';
-import { getSessionType } from '../../reducers/sessionReducer';
-import SeasonNavigation from '../../components/SeasonNavigation';
-import SeasonRatingsChart from '../../components/SeasonRatingsChart';
+import { getSeasonData } from '../../../../../reducers/seasonReducer';
+import { getShowData } from '../../../../../reducers/showReducer';
+import { getSessionType } from '../../../../../reducers/sessionReducer';
+import SeasonNavigation from '../../../../../components/SeasonNavigation';
+import SeasonRatingsChart from '../../../../../components/SeasonRatingsChart';
 
 function Season({
     accountStates,
@@ -45,7 +45,7 @@ function Season({
             <MinimalHeader 
                 imagePath={posterPath}
                 name={name}
-                backHref={`/show/seasons?id=${showId}`}
+                backHref="/show/[id]/seasons"
                 backAs={`/show/${showId}/seasons`}
                 backText="Back to season list"
             />
@@ -118,4 +118,4 @@ function mapState(state) {
     }
 }
 
-export default connect(mapState)(Season)
+export default connect(mapState)(Season);

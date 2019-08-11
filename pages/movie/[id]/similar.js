@@ -1,11 +1,11 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import MinimalHeader from '../../components/MinimalHeader';
-import SubNav from '../../components/SubNav';
-import { getMovieSubNavData } from '../../utils';
-import MediaListView from '../../components/MediaListView';
-import { fetchMovie } from '../../actions';
-import { getMovieData } from '../../reducers/movieReducer';
+import MinimalHeader from '../../../components/MinimalHeader';
+import SubNav from '../../../components/SubNav';
+import { getMovieSubNavData } from '../../../utils';
+import MediaListView from '../../../components/MediaListView';
+import { fetchMovie } from '../../../actions';
+import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 
 function Similar({ id, title, posterPath, similar }) {
@@ -19,7 +19,7 @@ function Similar({ id, title, posterPath, similar }) {
             <MinimalHeader 
                 imagePath={posterPath}
                 name={title}
-                backHref={`/movie?id=${id}`}
+                backHref={`/movie/[id]`}
                 backAs={`/movie/${id}`}
             />
             <SubNav navData={movieSubNavData} />

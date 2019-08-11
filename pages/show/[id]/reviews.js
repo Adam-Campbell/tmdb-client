@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { getShowDetails } from '../../Api';
-import MinimalHeader from '../../components/MinimalHeader';
-import SubNav from '../../components/SubNav';
-import { getShowSubNavData } from '../../utils';
-import { TwoColLayoutContainer, TwoColLayoutRow, MainCol, SidebarCol } from '../../components/Layout';
-import ReviewPod from '../../components/ReviewPod';
+import { getShowDetails } from '../../../Api';
+import MinimalHeader from '../../../components/MinimalHeader';
+import SubNav from '../../../components/SubNav';
+import { getShowSubNavData } from '../../../utils';
+import { TwoColLayoutContainer, TwoColLayoutRow, MainCol, SidebarCol } from '../../../components/Layout';
+import ReviewPod from '../../../components/ReviewPod';
 
-import { fetchShow } from '../../actions';
-import { getShowData } from '../../reducers/showReducer';
+import { fetchShow } from '../../../actions';
+import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 
 function Reviews({ id, title, posterPath, reviews }) {
@@ -22,7 +22,7 @@ function Reviews({ id, title, posterPath, reviews }) {
             <MinimalHeader 
                 imagePath={posterPath}
                 name={title}
-                backHref={`/show?id=${id}`}
+                backHref="/show/[id]"
                 backAs={`/show/${id}`}
             />
             <SubNav navData={showSubNavData} />

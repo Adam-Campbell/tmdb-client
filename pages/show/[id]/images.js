@@ -1,16 +1,16 @@
 import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
-import { getShowDetails } from '../../Api';
-import MinimalHeader from '../../components/MinimalHeader';
-import SubNav from '../../components/SubNav';
-import { getShowSubNavData, getImageUrl, imageSizeConstants } from '../../utils';
-import { Row } from '../../components/Layout';
-import ListViewHeader from '../../components/ListViewHeader';
-import ListBox from '../../components/ListBox';
-import GalleryModal from '../../components/GalleryModal';
-import SmartImage from '../../components/SmartImage';
-import { fetchShow } from '../../actions';
-import { getShowData } from '../../reducers/showReducer';
+import { getShowDetails } from '../../../Api';
+import MinimalHeader from '../../../components/MinimalHeader';
+import SubNav from '../../../components/SubNav';
+import { getShowSubNavData, getImageUrl, imageSizeConstants } from '../../../utils';
+import { Row } from '../../../components/Layout';
+import ListViewHeader from '../../../components/ListViewHeader';
+import ListBox from '../../../components/ListBox';
+import GalleryModal from '../../../components/GalleryModal';
+import SmartImage from '../../../components/SmartImage';
+import { fetchShow } from '../../../actions';
+import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 
 
@@ -80,7 +80,7 @@ function Images({ id, title, posterPath, posters, backdrops }) {
             <MinimalHeader 
                 imagePath={posterPath}
                 name={title}
-                backHref={`/show?id=${id}`}
+                backHref="/show/[id]"
                 backAs={`/show/${id}`}
             />
             <SubNav navData={showSubNavData} />

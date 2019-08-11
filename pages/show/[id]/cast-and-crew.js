@@ -1,14 +1,14 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { getShowDetails } from '../../Api';
-import MinimalHeader from '../../components/MinimalHeader';
-import SubNav from '../../components/SubNav';
-import { getShowSubNavData } from '../../utils';
-import PeopleList from '../../components/PeopleList';
-import { Row } from '../../components/Layout';
+import { getShowDetails } from '../../../Api';
+import MinimalHeader from '../../../components/MinimalHeader';
+import SubNav from '../../../components/SubNav';
+import { getShowSubNavData } from '../../../utils';
+import PeopleList from '../../../components/PeopleList';
+import { Row } from '../../../components/Layout';
 
-import { fetchShow } from '../../actions';
-import { getShowData } from '../../reducers/showReducer';
+import { fetchShow } from '../../../actions';
+import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 
 function CastAndCrew({ id, title, posterPath, cast, crew }) {
@@ -26,7 +26,7 @@ function CastAndCrew({ id, title, posterPath, cast, crew }) {
             <MinimalHeader 
                 imagePath={posterPath}
                 name={title}
-                backHref={`/show?id=${id}`}
+                backHref="/show/[id]"
                 backAs={`/show/${id}`}
             />
             <SubNav navData={showSubNavData} />

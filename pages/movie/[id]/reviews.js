@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import MinimalHeader from '../../components/MinimalHeader';
-import SubNav from '../../components/SubNav';
-import { getMovieSubNavData } from '../../utils';
-import { TwoColLayoutContainer, TwoColLayoutRow, MainCol, SidebarCol } from '../../components/Layout';
-import ReviewPod from '../../components/ReviewPod';
+import MinimalHeader from '../../../components/MinimalHeader';
+import SubNav from '../../../components/SubNav';
+import { getMovieSubNavData } from '../../../utils';
+import { TwoColLayoutContainer, TwoColLayoutRow, MainCol, SidebarCol } from '../../../components/Layout';
+import ReviewPod from '../../../components/ReviewPod';
 
-import { fetchMovie } from '../../actions';
-import { getMovieData } from '../../reducers/movieReducer';
+import { fetchMovie } from '../../../actions';
+import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 
 function Reviews({ id, title, posterPath, reviews }) {
@@ -21,7 +21,7 @@ function Reviews({ id, title, posterPath, reviews }) {
             <MinimalHeader 
                 imagePath={posterPath}
                 name={title}
-                backHref={`/movie?id=${id}`}
+                backHref={`/movie/[id]`}
                 backAs={`/movie/${id}`}
             />
             <SubNav navData={movieSubNavData} />

@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import MinimalHeader from '../../components/MinimalHeader';
-import SubNav from '../../components/SubNav';
-import { getMovieSubNavData } from '../../utils';
-import PeopleList from '../../components/PeopleList';
-import { Row } from '../../components/Layout';
+import MinimalHeader from '../../../components/MinimalHeader';
+import SubNav from '../../../components/SubNav';
+import { getMovieSubNavData } from '../../../utils';
+import PeopleList from '../../../components/PeopleList';
+import { Row } from '../../../components/Layout';
 
-import { fetchMovie } from '../../actions';
-import { getMovieData } from '../../reducers/movieReducer';
+import { fetchMovie } from '../../../actions';
+import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 
 function CastAndCrew({ id, title, posterPath, cast, crew }) {
@@ -25,7 +25,7 @@ function CastAndCrew({ id, title, posterPath, cast, crew }) {
             <MinimalHeader 
                 imagePath={posterPath}
                 name={title}
-                backHref={`/movie?id=${id}`}
+                backHref={`/movie/[id]`}
                 backAs={`/movie/${id}`}
             />
             <SubNav navData={movieSubNavData} />
