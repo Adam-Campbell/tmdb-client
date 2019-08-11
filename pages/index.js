@@ -11,10 +11,9 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import API_KEY from '../apiKey';
 import { Row } from '../components/Layout';
-import ListBox from '../components/ListBox';
-import RangeSelect from '../components/RangeSelect';
 import usePrevious from '../components/usePrevious';
-import CardPlaceholder from '../components/InfiniteVirtualMediaList/CardPlaceholder';
+import { useInView } from 'react-intersection-observer';
+
 
 async function handleButtonClick() {
   const requestToken = await getRequestToken();
@@ -33,8 +32,8 @@ const mockData = {
 }
 
 const PaddedRow = styled(Row)`
-  padding-top: 40px;
-  padding-bottom: 200px;
+  padding-top: 800px;
+  padding-bottom: 800px;
 `;
 
 // function usePrevious(value) {
@@ -44,6 +43,12 @@ const PaddedRow = styled(Row)`
 //   }, [ value ]);
 //   return ref.current;
 // }
+
+function Trigger() {
+  const [ ref, inView, entry ] = useInView({ triggerOnce: true });
+  console.log(`Is in view? ${inView}`);
+  return <div ref={ref}></div>;
+}
 
 function Counter() {
   const [ count, setCount ] = useState(0);
@@ -65,7 +70,9 @@ function Home() {
     <div>
       <Head title="Home" />
       <PaddedRow>
-        <CardPlaceholder />
+        <Trigger />
+        <Trigger />
+        <Trigger />
       </PaddedRow>
     </div>
   );

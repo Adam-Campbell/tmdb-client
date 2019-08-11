@@ -17,7 +17,7 @@
     "formik": "^1.5.7",
     "intersection-observer": "^0.7.0",
     "lodash": "^4.17.11",
-    "next": "8.1.0",
+    "next": "^9.0.3",
     "next-redux-wrapper": "^3.0.0-alpha.3",
     "polished": "^3.4.1",
     "prop-types": "^15.7.2",

@@ -12,6 +12,11 @@ const StyledImageLink = styled.a`
     display: flex;
 `;
 
+const LinkContentContainer = styled.div`
+    position: relative;
+    display: flex;
+`;
+
 const PlaceholderContainer = styled.div`
     background: ${({ theme }) => theme.colors.uiSecondary};
     ${cover()}
@@ -63,21 +68,23 @@ export function ImageLink({
 
     return (
         <Link href={linkHref} as={linkAs} passHref>
-            <StyledImageLink ref={containerRef}  {...containerProps} className={className}>
-                {hasImage ? (
-                    <>
-                        <StyledImage 
-                            isLoaded={isLoaded}
-                            isHovered={isHovered}
-                            src={isLoaded ? imageSrc : null} 
-                            alt={alt} 
-                        />
-                        <ImageOverlay isHovered={isHovered} />
-                    </>
-                ) : ( 
-                    <ImagePlaceholder isPersonImage={isPersonImage} isLandscape={isLandscape} />
-                )}
-            </StyledImageLink>
+            <a>
+                <LinkContentContainer ref={containerRef}  {...containerProps} className={className}>
+                    {hasImage ? (
+                        <>
+                            <StyledImage 
+                                isLoaded={isLoaded}
+                                isHovered={isHovered}
+                                src={isLoaded ? imageSrc : null} 
+                                alt={alt} 
+                            />
+                            <ImageOverlay isHovered={isHovered} />
+                        </>
+                    ) : ( 
+                        <ImagePlaceholder isPersonImage={isPersonImage} isLandscape={isLandscape} />
+                    )}
+                </LinkContentContainer>
+            </a>
         </Link>
     );
 }
