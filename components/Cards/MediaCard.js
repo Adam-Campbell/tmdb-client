@@ -205,7 +205,7 @@ export function MediaCard({
 
     return (
         <StyledMediaCard ref={cardRef}>
-            <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
+            <Link href={`${urlSubpath}/[id]`} as={`${urlSubpath}/${id}`} passHref>
                 <a>
                     <ImageContentContainer ref={ref} {...containerProps} isInline={isInline}>
                         {(hasPosterImage && hasBackdropImage) && (
@@ -257,7 +257,7 @@ export function MediaCard({
                 </OverviewText>
                 <ActionRow>
                     {hasUserAction ? children : (
-                        <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
+                        <Link href={`${urlSubpath}/[id]`} as={`${urlSubpath}/${id}`} passHref>
                             <MoreInfoLink>More Info</MoreInfoLink>
                         </Link>
                     )}

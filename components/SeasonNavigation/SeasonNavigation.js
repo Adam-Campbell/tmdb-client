@@ -52,7 +52,7 @@ export function SeasonNavigation({ currentSeasonNumber, allSeasons, showId }) {
             <SeasonNavigationRow>
                 {prevSeason && (
                     <Link
-                        href={`/show/season?id=${showId}&number=${prevSeason.season_number}`}
+                        href="/show/[id]/season/[number]"
                         as={`/show/${showId}/season/${prevSeason.season_number}`}
                         passHref
                     >
@@ -64,7 +64,7 @@ export function SeasonNavigation({ currentSeasonNumber, allSeasons, showId }) {
                 )}
                 {nextSeason && (
                     <Link
-                        href={`/show/season?id=${showId}&number=${nextSeason.season_number}`}
+                        href="/show/[id]/season/[number]"
                         as={`/show/${showId}/season/${nextSeason.season_number}`}
                         passHref
                     >

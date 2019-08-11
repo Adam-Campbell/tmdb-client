@@ -97,12 +97,12 @@ export function MinimalCard({
                 imagePath={imagePath}
                 imageSize={imageSizeConstants.w342}
                 alt={name}
-                linkHref={`${urlSubpath}?id=${id}`}
+                linkHref={`${urlSubpath}/[id]`}
                 linkAs={`${urlSubpath}/${id}`}
                 isPersonImage={isPersonImage}
             />
             <InfoRow>
-                <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
+                <Link href={`${urlSubpath}/[id]`} as={`${urlSubpath}/${id}`} passHref>
                     <NameLink>{name}</NameLink>
                 </Link>
                 {additionalDetails && (

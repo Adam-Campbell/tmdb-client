@@ -58,7 +58,7 @@ const CardInfoRow = ({ rating, title, releaseDate, id, urlSubpath, isInline }) =
             <Rating rating={rating} />
         </RatingContainer>
         <TextContainer>
-            <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
+            <Link href={`${urlSubpath}/[id]`} as={`${urlSubpath}/${id}`} passHref>
                 <TitleAnchor isInline={isInline}>{title}</TitleAnchor>
             </Link>
             <ReleaseDate>{formatDateString(releaseDate)}</ReleaseDate>
