@@ -10,46 +10,46 @@ import NavLink from './NavLink';
 
 const moviesSubNavData = [
     {
-        href: '/movies?subcategory=popular',
-        as: '/movies',
+        href: '/movies/[subcategory]',
+        as: '/movies/popular',
         name: 'Popular'
     },
     {
+        href: '/movies/[subcategory]',
         as: '/movies/top-rated',
-        href: '/movies?subcategory=top-rated',
         name: 'Top rated'
     },
     {
+        href: '/movies/[subcategory]',
         as: '/movies/now-playing',
-        href: '/movies?subcategory=now-playing',
         name: 'Now playing'
     },
     {
+        href: '/movies/[subcategory]',
         as: '/movies/upcoming',
-        href: '/movies?subcategory=upcoming',
         name: 'Upcoming'
     }
 ]
 
 const tvSubNavData = [
     {
-        as: '/tv',
-        href: '/tv?subcategory=popular',
+        href: '/tv/[subcategory]',
+        as: '/tv/popular',
         name: 'Popular'
     },
     {
+        href: '/tv/[subcategory]',
         as: '/tv/top-rated',
-        href: '/tv?subcategory=top-rated',
         name: 'Top rated'
     },
     {
+        href: '/tv/[subcategory]',
         as: '/tv/on-tv',
-        href: '/tv?subcategory=on-tv',
         name: 'On TV'
     },
     {
+        href: '/tv/[subcategory]',
         as: '/tv/airing-today',
-        href: '/tv?subcategory=airing-today',
         name: 'Airing today'
     }
 ];
