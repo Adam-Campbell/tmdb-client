@@ -1,4 +1,19 @@
 /**
+ * Accepts two refs representing the cards at the start and end of a window, and calculates 
+ * the distance from the top of the starting card to the bottom of the end card.
+ * @param {Object} windowStartRef - the ref for the card at the start of the window 
+ * @param {Object} windowEndRef  - the ref for the card at the end of the window
+ * @returns {Number} - the distance calculated
+ */
+export function calculateWindowHeight(windowStartRef, windowEndRef) {
+    if (!windowStartRef.current || !windowEndRef.current) return 0;
+    const windowTop = windowStartRef.current.getBoundingClientRect().top;
+    const windowBottom = windowEndRef.current.getBoundingClientRect().bottom;
+    const windowHeight = windowBottom - windowTop;
+    return windowHeight;
+}
+
+/**
  * Given a page number, derives the subarray of the main data array that that page represents, 
  * and returns a tuple where the first element represents the start of that subarray, and the
  * second element represents the element AFTER the last element in the subarray. The element 

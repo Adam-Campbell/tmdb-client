@@ -10,11 +10,10 @@ import {
     deriveWindowFromPage, 
     deriveApiPageFromPage, 
     getPaddingNum, 
-    setPx 
+    setPx,
+    calculateWindowHeight
 } from './utils';
 
-
- 
 export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
 
     const [ state, dispatch ] = useReducer(reducer, {
@@ -27,15 +26,25 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
 
     const prevState = usePrevious(state);
 
+    // Two 'windows' of 10 cards each will be rendered at any given time, these refs are
+    // assigned to the cards at the start and end of each of those windows.
     const windowOneStart = useRef(null);
     const windowOneEnd = useRef(null);
     const windowTwoStart = useRef(null);
     const windowTwoEnd = useRef(null);
+    // This ref will be assigned to the container element, which will have padding values assigned
+    // to it in order to simulate expansion and traversal of the page.
     const containerRef = useRef(null);
+    // In order to calculate the correct padding values after a window update has occurred, we need
+    // to know the height of one of the windows from before the update. Those heights are captured
+    // just before the window update and stored in these refs to be accessed after the update.
     const windowOneHeightCache = useRef(0);
     const windowTwoHeightCache = useRef(0);
 
-    function getRef(idx) {
+    // Returns either a specific ref, or null, depending on the index value provided. When rendering
+    // a set of cards all of their refs can be set by calling this function for each card with that
+    // cards index, removing this logic from the actual mapping operation.
+    function getCardRef(idx) {
         switch (idx) {
             case 0:
                 return windowOneStart;
@@ -50,22 +59,17 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
         } 
     }
 
+    // Contains all logic for moving down to the next page/window, including data fetching when required.
     async function handlePageForward() {
-        if (currentPage > 8) return;
-        // this part will always need to happen
-        if (windowOneStart.current && windowOneEnd.current) {
-            const windowOneTop = windowOneStart.current.getBoundingClientRect().top;
-            const windowOneBottom = windowOneEnd.current.getBoundingClientRect().bottom;
-            const windowOneHeight = windowOneBottom - windowOneTop;
-            windowOneHeightCache.current = windowOneHeight;
-        }
+        if (currentPage > 20) return;
+        windowOneHeightCache.current = calculateWindowHeight(windowOneStart, windowOneEnd);
         // take the currentPage, add 1, derive the end index from it and determine whether
         // incrementing the page causes us to exceed the current cardData.
         const nextPage = currentPage + 1;
         const nextPageUpperBound = deriveWindowFromPage(nextPage)[1]; 
         // It if does, await the fetching of the new cardData, and then dispatch the
         // PAGE_FORWARDS_WITH_NEW_DATA action.
-        if (nextPageUpperBound > cardData.length && nextPage < 9) {
+        if (nextPageUpperBound > cardData.length && nextPage < 20) {
             const nextCardData = await getDataFn(
                 deriveApiPageFromPage(nextPage)
             );
@@ -81,16 +85,14 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
         }
     }
 
+    // Contains all logic for moving up to the page/window.
     function handlePageBackward() {
-        if (windowTwoStart.current && windowTwoEnd.current) {
-            const windowTwoTop = windowTwoStart.current.getBoundingClientRect().top;
-            const windowTwoBottom = windowTwoEnd.current.getBoundingClientRect().bottom;
-            const windowTwoHeight = windowTwoBottom - windowTwoTop;
-            windowTwoHeightCache.current = windowTwoHeight;
-        }
+        windowTwoHeightCache.current = calculateWindowHeight(windowTwoStart, windowTwoEnd);
         dispatch({ type: 'PAGE_BACKWARDS' });
     }
 
+    // Responsible for updating the padding on the container element in order to simulate scrolling
+    // through an actual list of DOM nodes. 
     useLayoutEffect(() => {
         if (!prevState) return;
 
@@ -99,12 +101,7 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
         // before sliding (accessed through a mutable ref) need to be added to the containers bottom
         // padding. 
         if (state.currentPage < prevState.currentPage) {
-            console.log('Sliding upwards padding adjustment would take place here');
-
-            const windowOneTop = windowOneStart.current.getBoundingClientRect().top;
-            const windowOneBottom = windowOneEnd.current.getBoundingClientRect().bottom;
-            const windowOneHeight = windowOneBottom - windowOneTop;
-
+            const windowOneHeight = calculateWindowHeight(windowOneStart, windowOneEnd);
             const c = containerRef.current;
             const oldBottomPadding = getPaddingNum(c.style.paddingBottom);
             const oldTopPadding = getPaddingNum(c.style.paddingTop);
@@ -120,25 +117,19 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
         else if (state.currentPage > prevState.currentPage && 
                 state.currentPage < state.furthestPage
         ) {
-            console.log('Sliding downwards padding adjustment would take place here - internal slide'); 
-            const windowTwoTop = windowTwoStart.current.getBoundingClientRect().top;
-            const windowTwoBottom = windowTwoEnd.current.getBoundingClientRect().bottom;
-            const windowTwoHeight = windowTwoBottom - windowTwoTop;
-
+            const windowTwoHeight = calculateWindowHeight(windowTwoTop, windowTwoBottom);
             const c = containerRef.current;
             const oldBottomPadding = getPaddingNum(c.style.paddingBottom);
             const oldTopPadding = getPaddingNum(c.style.paddingTop);
 
             c.style.paddingTop = setPx(oldTopPadding + (windowOneHeightCache.current+20));
             c.style.paddingBottom = setPx(oldBottomPadding - (windowTwoHeight+20));
-            
         } 
         // This condition represents sliding down into a new page that isn't yet accounted for in the pages
         // height. As with the previous condition the height of the first window prior to the slide is added
         // to the top padding, however unlike the previous condition we don't need to do anything to the
         // bottom padding. 
         else if (state.currentPage > prevState.currentPage) {
-            console.log('Sliding downwards padding adjustment would take place here - external slide');
             const c = containerRef.current;
             const oldTopPadding = getPaddingNum(c.style.paddingTop);
             c.style.paddingTop = setPx(oldTopPadding + (windowOneHeightCache.current+20));
@@ -149,11 +140,11 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
     
     return (
         <div ref={containerRef}>
-            <Sentinel name="The top sentinel" handleEnter={handlePageBackward} />
+            <Sentinel handleEnter={handlePageBackward} />
             <Row>
                 {cardData.slice(...currentWindow).map((card, idx) => (
                     <MediaCard
-                        cardRef={getRef(idx)}
+                        cardRef={getCardRef(idx)}
                         key={idx}
                         id={card.id}
                         title={card.title || card.name}
@@ -166,10 +157,7 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
                     /> 
                 ))}
             </Row>
-            <Sentinel 
-                name="The bottom sentinel" 
-                handleEnter={handlePageForward} 
-            />
+            <Sentinel handleEnter={handlePageForward} />
         </div>
     );
 }
