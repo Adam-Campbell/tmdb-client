@@ -43,14 +43,12 @@ function Movies({ results, subcategory }) {
 Movies.getInitialProps = async ({ query, req }) => {
     const { subcategory } = query;
     const fetchingFn = getFetchingFn(subcategory);
-    //const results = await fetchingFn();
     const [ page1, page2 ] = await Promise.all([
         fetchingFn(),
         fetchingFn(2),
     ]);
     return {
         results: [ ...page1, ...page2 ],
-        //results,
         subcategory
     };
 }
