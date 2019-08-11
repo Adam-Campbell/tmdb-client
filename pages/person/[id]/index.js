@@ -1,22 +1,22 @@
 import React, { useMemo } from 'react';
-import { getPersonDetails } from '../../Api';
-import { getPersonSubNavData } from '../../utils';
-import SubNav from '../../components/SubNav';
-import PersonHeader from '../../components/PersonHeader';
+import { getPersonDetails } from '../../../Api';
+import { getPersonSubNavData } from '../../../utils';
+import SubNav from '../../../components/SubNav';
+import PersonHeader from '../../../components/PersonHeader';
 import { 
     TwoColLayoutContainer,
     TwoColLayoutRow,
     MainCol,
     SidebarCol
-} from '../../components/Layout';
-import SocialLinks from '../../components/SocialLinks';
-import ReviewPod from '../../components/ReviewPod';
-import SidebarEntry from '../../components/SidebarEntry';
-import PersonTopCreditsCardRow from '../../components/PersonTopCreditsCardRow';
-import InlineGalleryRow from '../../components/InlineGalleryRow';
+} from '../../../components/Layout';
+import SocialLinks from '../../../components/SocialLinks';
+import ReviewPod from '../../../components/ReviewPod';
+import SidebarEntry from '../../../components/SidebarEntry';
+import PersonTopCreditsCardRow from '../../../components/PersonTopCreditsCardRow';
+import InlineGalleryRow from '../../../components/InlineGalleryRow';
 
-import { fetchPerson } from '../../actions';
-import { getPersonData } from '../../reducers/personReducer';
+import { fetchPerson } from '../../../actions';
+import { getPersonData } from '../../../reducers/personReducer';
 import { connect } from 'react-redux';
 
 function Person({
@@ -57,14 +57,14 @@ function Person({
                             creditsData={credits}
                             linkText="See all credits"
                             linkDestinationAs={`/person/${id}/credits`}
-                            linkDestinationHref={`/person/credits?id=${id}`}
+                            linkDestinationHref="/person[id]/credits"
                         />
                         <InlineGalleryRow 
                             imagesData={profileImages}
                             title="Profile images"
                             linkText="See all images"
                             linkDestinationAs={`/person/${id}/images`}
-                            linkDestinationHref={`/person/images?id=${id}`}
+                            linkDestinationHref="/person/[id]/images"
                             name={name}
                         />
                     </MainCol>

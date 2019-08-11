@@ -39,49 +39,11 @@ app.prepare()
         next();
     });
 
-    // handle default movies route (popular movies)
-    // server.get('/movies', (req, res) => {
-    //     const url = '/movies';
-    //     const params = { subcategory: 'popular' };
-    //     app.render(req, res, url, params);
-    // });
-
-    // handle alternate movies routes 
-    // server.get('/movies/:subcategory', (req, res) => {
-    //     const url = '/movies';
-    //     const params = { subcategory: req.params.subcategory };
-    //     app.render(req, res, url, params);
-    // });
-
-    // handle default tv route (popular tv) 
-    // server.get('/tv', (req, res) => {
-    //     const url = '/tv';
-    //     const params = { subcategory: 'popular' };
-    //     app.render(req, res, url, params);
-    // });
-
-    // handle alternative tv routes
-    // server.get('/tv/:subcategory', (req, res) => {
-    //     const url = '/tv';
-    //     const params = { subcategory: req.params.subcategory };
-    //     app.render(req, res, url, params);
-    // });
-
-    // handle list route
-    server.get('/list/:id', (req, res) => {
-        const url = '/list';
-        const params = { id: req.params.id };
-        app.render(req, res, url, params);
-    });
-
     // handle movie subroutes
     server.use('/movie', movieRouter);
 
     // handle show subroutes
     server.use('/show', showRouter);
-
-    // handle person subroutes
-    server.use('/person', personRouter);
 
     server.use('/api', apiRouter);
 

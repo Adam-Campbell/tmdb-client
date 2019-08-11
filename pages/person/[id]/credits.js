@@ -1,16 +1,16 @@
 import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
-import { getPersonDetails } from '../../Api';
-import { getPersonSubNavData, transformCreditsData } from '../../utils';
-import SubNav from '../../components/SubNav';
-import MinimalHeader from '../../components/MinimalHeader';
-import Switch from '../../components/Switch';
-import { Row } from '../../components/Layout'; 
-import ListViewHeader from '../../components/ListViewHeader';
-import CreditsTable from '../../components/CreditsTable';
+import { getPersonDetails } from '../../../Api';
+import { getPersonSubNavData, transformCreditsData } from '../../../utils';
+import SubNav from '../../../components/SubNav';
+import MinimalHeader from '../../../components/MinimalHeader';
+import Switch from '../../../components/Switch';
+import { Row } from '../../../components/Layout'; 
+import ListViewHeader from '../../../components/ListViewHeader';
+import CreditsTable from '../../../components/CreditsTable';
 
-import { fetchPerson } from '../../actions';
-import { getPersonData } from '../../reducers/personReducer';
+import { fetchPerson } from '../../../actions';
+import { getPersonData } from '../../../reducers/personReducer';
 import { connect } from 'react-redux';
 
 const mediaTypeRadioButtonsData = [
@@ -98,7 +98,7 @@ function Credits({ id, name, profilePath, credits }) {
             <MinimalHeader 
                 imagePath={profilePath}
                 name={name}
-                backHref={`/person?id=${id}`}
+                backHref={`/person/[id]`}
                 backAs={`/person/${id}`}
                 isPersonImage={true}
             />

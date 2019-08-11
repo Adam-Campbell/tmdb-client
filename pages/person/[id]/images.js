@@ -1,15 +1,15 @@
 import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
-import { getPersonDetails } from '../../Api';
-import SubNav from '../../components/SubNav';
-import MinimalHeader from '../../components/MinimalHeader';
-import ListViewHeader from '../../components/ListViewHeader';
-import { Row } from '../../components/Layout';
-import { getPersonSubNavData, getImageUrl, imageSizeConstants } from '../../utils';
-import GalleryModal from '../../components/GalleryModal';
-import SmartImage from '../../components/SmartImage';
-import { fetchPerson } from '../../actions';
-import { getPersonData } from '../../reducers/personReducer';
+import { getPersonDetails } from '../../../Api';
+import SubNav from '../../../components/SubNav';
+import MinimalHeader from '../../../components/MinimalHeader';
+import ListViewHeader from '../../../components/ListViewHeader';
+import { Row } from '../../../components/Layout';
+import { getPersonSubNavData, getImageUrl, imageSizeConstants } from '../../../utils';
+import GalleryModal from '../../../components/GalleryModal';
+import SmartImage from '../../../components/SmartImage';
+import { fetchPerson } from '../../../actions';
+import { getPersonData } from '../../../reducers/personReducer';
 import { connect } from 'react-redux';
 
 
@@ -53,7 +53,7 @@ function Images({ id, name, profilePath, profileImages }) {
             <MinimalHeader 
                 imagePath={profilePath}
                 name={name}
-                backHref={`/person?id=${id}`}
+                backHref={`/person/[id]`}
                 backAs={`/person/${id}`}
                 isPersonImage={true}
             />

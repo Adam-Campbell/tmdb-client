@@ -63,7 +63,7 @@ function getSubNavData(routeGroup, subrouteData) {
     return function mapData(id) {
         return subrouteData.map(subroute => ({
             name: subroute.name,
-            href: `/${routeGroup}/${subroute.path}?id=${id}`,
+            href: `/${routeGroup}/[id]/${subroute.path}`,
             as: `/${routeGroup}/${id}/${subroute.path}`
         }));
     }

@@ -7,17 +7,17 @@ import {
     clearList,
     deleteList,
     removeMovieFromList 
-} from '../actions';
-import { getListData } from '../reducers/listReducer';
-import { getSessionType } from '../reducers/sessionReducer';
-import { getUserSummary } from '../reducers/user';
-import { Row } from '../components/Layout';
-import { MediaCard } from '../components/Cards';
-import ListViewHeader from '../components/ListViewHeader';
-import { text } from '../utils';
+} from '../../../actions';
+import { getListData } from '../../../reducers/listReducer';
+import { getSessionType } from '../../../reducers/sessionReducer';
+import { getUserSummary } from '../../../reducers/user';
+import { Row } from '../../../components/Layout';
+import { MediaCard } from '../../../components/Cards';
+import ListViewHeader from '../../../components/ListViewHeader';
+import { text } from '../../../utils';
 import Router from 'next/router';
-import { CancelInteractionButton, Button } from '../components/Buttons';
-import ListHeader from '../components/ListHeader';
+import { CancelInteractionButton, Button } from '../../../components/Buttons';
+import ListHeader from '../../../components/ListHeader';
 
 
 const DeleteListButton = styled(Button)`
