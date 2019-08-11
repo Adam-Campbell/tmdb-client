@@ -162,7 +162,8 @@ export function MediaCard({
     urlSubpath,
     isInline,
     hasUserAction,
-    children
+    children,
+    cardRef
 }) {
 
     const { isHovered, containerProps } = useHover();
@@ -203,7 +204,7 @@ export function MediaCard({
     }, [ hasBackdropImage, backdropImageLoaded, backdropImageSrc, inView ]);
 
     return (
-        <StyledMediaCard>
+        <StyledMediaCard ref={cardRef}>
             <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
                 <ImageLink ref={ref} {...containerProps} isInline={isInline}>
                     {(hasPosterImage && hasBackdropImage) && (
