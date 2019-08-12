@@ -2,6 +2,7 @@ import * as actionTypes from '../actionTypes';
 import { getMovieId, getMovieData } from '../reducers/movieReducer';
 import { getUserSessionId } from '../reducers/sessionReducer';
 import { getMovieDetails, postMovieRating, deleteMovieRating } from '../Api';
+import { a } from '../axiosClient';
 
 const fetchMovieRequest = () => ({
     type: actionTypes.FETCH_MOVIE_REQUEST
@@ -28,8 +29,9 @@ export const fetchMovie = (id) => async (dispatch, getState) => {
     if (id === getMovieId(state)) return;
     dispatch(fetchMovieRequest());
     try {
-        const response = await getMovieDetails(id, getUserSessionId(state));
-        dispatch(fetchMovieSuccess(response, id));
+        //const response = await getMovieDetails(id, getUserSessionId(state));
+        const response = await a.get(`api/movie/${id}`);
+        dispatch(fetchMovieSuccess(response.data, id));
     } catch (error) {
         dispatch(fetchMovieFailed(error));
     }

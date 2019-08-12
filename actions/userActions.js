@@ -1,5 +1,5 @@
 import * as actionTypes from '../actionTypes';
-import { getSessionType, getUserSessionId } from '../reducers/sessionReducer';
+import { getSessionType, getUserSessionId, getHasSession } from '../reducers/sessionReducer';
 import { hasGotUserSummary, getUserId } from '../reducers/user';
 import { getUserDataStatus } from '../reducers/user/dataStatusReducer';
 import { 
@@ -16,6 +16,7 @@ import {
     getShowWatchlist
 } from '../Api';
 import axios from 'axios';
+import { a } from '../axiosClient';
 
 const storeUserSummary = (userSummary) => ({
     type: actionTypes.STORE_USER_SUMMARY,
@@ -24,13 +25,15 @@ const storeUserSummary = (userSummary) => ({
     }
 });
 
-export const getUserSummary = () => async (dispatch, getState) => {
+export const getUserSummary = (ssrHeaders = {}) => async (dispatch, getState) => {
     const state = getState();
-    if (getSessionType(state) === 'USER' && !hasGotUserSummary(state)) {
+    if (getHasSession(state) && !hasGotUserSummary(state)) {
         try {
-            const userSessionId = getUserSessionId(state);
-            const userSummary = await fetchUserSummary(userSessionId);
-            dispatch(storeUserSummary(userSummary));
+            //const userSummary = await fetchUserSummary(userSessionId);
+            const userSummary = await a.get('api/user/summary', {
+                headers: { ...ssrHeaders }
+            });
+            dispatch(storeUserSummary(userSummary.data));
         } catch (err) {
             console.log(err);
         }

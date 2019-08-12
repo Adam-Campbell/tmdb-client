@@ -121,7 +121,13 @@ class MyApp extends App {
         let pageProps = {};
         // If there is no need to fetch a user summary then this just returns immediately after
         // verifying it isn't needed, becoming more or less a no-op.
-        await ctx.store.dispatch(getUserSummary());
+        let ssrHeaders = {};
+        if (ctx.req) {
+            //console.log(ctx.req.headers.cookie);
+            //cookieHeader = ctx.req.headers.cookie;
+            ssrHeaders.cookie = ctx.req.headers.cookie;
+        }
+        await ctx.store.dispatch(getUserSummary(ssrHeaders));
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx);
         }

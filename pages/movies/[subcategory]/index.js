@@ -4,8 +4,9 @@ import {
     getTopRatedMovies,
     getUpcomingMovies,
     getNowPlayingMovies
-} from '../../../Api';
+} from '../../../clientApi';
 import ExploreMediaPage from '../../../components/ExploreMediaPage';
+import { a } from '../../../axiosClient';
 
 export function getFetchingFn(subcategory) {
     switch (subcategory) {

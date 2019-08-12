@@ -13,6 +13,7 @@ import API_KEY from '../apiKey';
 import { Row } from '../components/Layout';
 import usePrevious from '../components/usePrevious';
 import { useInView } from 'react-intersection-observer';
+import { a } from '../axiosClient';
 
 
 async function handleButtonClick() {
@@ -63,6 +64,12 @@ function Counter() {
   );
 }
 
+async function hitCookieEndpoint() {
+  //const cookieResponse = await fetch('http://localhost:3000/api/cookie', { credentials: 'include' });
+  const cookieResponse = await a.get('/api/cookie');
+  console.log('response is: ', cookieResponse.data);
+}
+
 
 function Home() {
 
@@ -70,6 +77,7 @@ function Home() {
     <div>
       <Head title="Home" />
       <PaddedRow>
+        <button onClick={hitCookieEndpoint}>Hit cookie endpoint</button>
         <Trigger />
         <Trigger />
         <Trigger />
@@ -82,12 +90,19 @@ function Home() {
 
 Home.getInitialProps = async ({ req }) => {
   const tvResults = await getOnAirTV();
-  const moviesResults = await getNowPlayingMovies();
-  const serverInfo = req ? { isDevice: req.isDevice } : {};
+  //const moviesResults = await getNowPlayingMovies();
+  //const moviesResults = await a.get('api/movies/popular', { params: { page: 1 } });
+  const moviesResults = await a.get('api/movies/popular');
+  //const serverInfo = req ? { isDevice: req.isDevice } : {};
+  //const cookieResponse = await a.get('/api/cookie');
+  //const cookieResponse = await fetch('http://localhost:3000/api/cookie', { credentials: 'include' });
+  //const parsedCookie = await cookieResponse.json();
   return {
     tv: tvResults,
-    movies: moviesResults,
-    ...serverInfo
+    //cookie: parsedCookie
+    //movies: moviesResults,
+    //movies: moviesResults.data,
+    //...serverInfo
   }
   //const results = await axios.get('http://localhost:3000/api/home');
   //return { ...results.data };

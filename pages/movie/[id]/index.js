@@ -42,6 +42,9 @@ function Movie({
     genres,
     keywords
 }) {
+
+    return null;
+
     const movieSubNavData = useMemo(() => {
         return getMovieSubNavData(id); 
     }, [ id ]);
@@ -150,4 +153,4 @@ function mapState(state) {
     };
 }
 
-export default connect(mapState)(Movie);
+export default connect()(Movie);

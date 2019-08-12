@@ -1,3 +1,5 @@
+/*
+
 // require necessary modules
 const express = require('express');
 const next = require('next');
@@ -41,3 +43,5 @@ app.prepare()
         console.log('Ready on http://localhost:3000');
     });
 })
+
+*/
