@@ -35,7 +35,7 @@ function Person({
     deathday,
     placeOfBirth
 }) {
-    
+
     const personSubNavData = useMemo(() => {
         return getPersonSubNavData(id);
     }, [ id ]);

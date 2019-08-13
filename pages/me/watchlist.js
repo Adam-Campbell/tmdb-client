@@ -11,6 +11,7 @@ import { CancelInteractionButton } from '../../components/Buttons';
 import ListViewHeader from '../../components/ListViewHeader';
 import Switch from '../../components/Switch';
 import UserHeader from '../../components/UserHeader';
+import { getInitialMeProps } from './';
 
 function Watchlist(props) {
 
@@ -65,10 +66,7 @@ function Watchlist(props) {
     );
 }
 
-Watchlist.getInitialProps = async ({ query, store }) => {
-    await store.dispatch(fetchFullProfile());
-    return {};
-}
+Watchlist.getInitialProps = getInitialMeProps;
 
 function mapState(state) {
     return {

@@ -185,12 +185,12 @@ const fetchFullProfileFailed = (error) => ({
     }
 });
 
-export const fetchFullProfile = () => async (dispatch, getState) => {
+export const fetchFullProfile = (ssrHeaders = {}) => async (dispatch, getState) => {
     
     const state = getState();
 
     // If we have somehow called this without there being a user session then return immediately
-    if (getSessionType(state) !== 'USER') return;
+    if (!getHasSession(state)) return;
 
     const { hasFetched, fetchedAt, isInvalidated } = getUserDataStatus(state); 
     // If all of these conditions are met then the data is present and still considered fresh, so
@@ -204,41 +204,19 @@ export const fetchFullProfile = () => async (dispatch, getState) => {
     }
 
     try {
-        const userSessionId = getUserSessionId(state);
+
         const userId = getUserId(state);
-        const [
-            createdLists,
-            favouriteMovies,
-            favouriteShows,
-            ratedMovies,
-            ratedShows,
-            ratedEpisodes,
-            movieWatchlist,
-            showWatchlist
-        ] = await Promise.all([
-            getCreatedLists(userId, userSessionId),
-            getFavouriteMovies(userId, userSessionId),
-            getFavouriteShows(userId, userSessionId), 
-            getRatedMovies(userId, userSessionId),
-            getRatedShows(userId, userSessionId), 
-            getRatedEpisodes(userId, userSessionId),
-            getMovieWatchlist(userId, userSessionId),
-            getShowWatchlist(userId, userSessionId)
-        ])
-        .then(results => results.map(r => r.data.results));
-        const favourites = {
-            movies: favouriteMovies,
-            shows: favouriteShows
-        };
-        const rated = {
-            movies: ratedMovies,
-            shows: ratedShows,
-            episodes: ratedEpisodes
-        };
-        const watchlists = {
-            movies: movieWatchlist,
-            shows: showWatchlist
-        };
+        const {
+            data: {
+                createdLists,
+                favourites,
+                rated,
+                watchlists
+            }
+        } = await a.get(`api/user/${userId}/profile`, { 
+            headers: ssrHeaders    
+        });
+
         dispatch(fetchFullProfileSuccess(createdLists, favourites, rated, watchlists));
     } catch (error) {
         console.log(error);

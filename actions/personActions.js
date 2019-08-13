@@ -1,6 +1,6 @@
 import * as actionTypes from '../actionTypes';
 import { getPersonId } from '../reducers/personReducer';
-import { getPersonDetails } from '../Api';
+import { a } from '../axiosClient';
 
 const fetchPersonRequest = () => ({
     type: actionTypes.FETCH_PERSON_REQUEST
@@ -26,8 +26,8 @@ export const fetchPerson = (id) => async (dispatch, getState) => {
     if (id === getPersonId(state)) return;
 
     try {
-        const response = await getPersonDetails(id);
-        dispatch(fetchPersonSuccess(response, id));
+        const response = await a.get(`api/person/${id}`);
+        dispatch(fetchPersonSuccess(response.data, id));
     } catch (error) {
         dispatch(fetchPersonFailed(error));
     }

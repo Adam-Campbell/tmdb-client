@@ -6,6 +6,7 @@ import RatingsChart from '../../components/UserCharts/RatingsChart';
 import GenresChart from '../../components/UserCharts/GenresChart';
 import SubNav from '../../components/SubNav';
 import UserHeader from '../../components/UserHeader';
+import { getSSRHeaders } from '../../utils';
 
 export const meRoutesSubNavData = [
     {
@@ -66,7 +67,15 @@ const Container = styled.div`
 `;
 
 
+export async function getInitialMeProps({ req, query, store }) {
+    await store.dispatch(fetchFullProfile(getSSRHeaders(req)));
+    return {};
+}
+
 function Me(props) {
+
+    return null;
+
     return (
         <>
             <UserHeader />
@@ -79,9 +88,6 @@ function Me(props) {
     );
 }
 
-Me.getInitialProps = async ({ query, store }) => {
-    await store.dispatch(fetchFullProfile());
-    return {};
-}
+Me.getInitialProps = getInitialMeProps;
 
 export default connect()(Me);
