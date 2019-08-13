@@ -62,7 +62,7 @@ export const loginUser = (request_token) => async (dispatch, getState) => {
     const state = getState();
     if (!request_token || hasGotUserSummary(state)) return;
     try {
-        const response = await axios.request(`http://localhost:3000/api/usersession`, {
+        const response = await a.request(`api/session`, {
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -71,8 +71,9 @@ export const loginUser = (request_token) => async (dispatch, getState) => {
                 request_token
             }
         });
-        const userSessionId = response.data.session_id.session_id;
-        dispatch(loginUserSuccess(userSessionId));
+        //const userSessionId = response.data.session_id.session_id;
+        console.log(response);
+        dispatch(loginUserSuccess());
         dispatch(getUserSummary());
     } catch (err) {
         dispatch(loginUserFailed(err));
@@ -82,7 +83,7 @@ export const loginUser = (request_token) => async (dispatch, getState) => {
 
 export const logoutUser = () => async (dispatch, getState) => {
     try {
-        const response = await axios.delete('http://localhost:3000/api/usersession');
+        const response = await a.delete('api/session');
         dispatch({
             type: actionTypes.LOGOUT_USER
         });

@@ -1,5 +1,4 @@
 export * from './auth';
-export * from './discover';
 export * from './movies';
 export * from './search';
 export * from './tv';

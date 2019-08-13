@@ -41,12 +41,11 @@ export const getDiscoverResults = async (options) => {
         [`${releaseDateString}.lte`]: `${release_lte}-12-31`,
         'vote_average.gte': score_gte,
         'vote_average.lte': score_lte,
-        //with_genres,
         with_genres: with_genres.replace('%2C', ','),
         sort_by: sort_by.replace(/release_date/g, releaseDateString)
     };
 
-    //console.log(paramsObject);
+    console.log(paramsObject);
     const response = await get(discoverUrl, paramsObject);
     return response.data.results;
 }

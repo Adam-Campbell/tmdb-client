@@ -11,13 +11,13 @@ async function handlePost(req, res) {
         res.status(401).json({ error: 'No request token provided' });
     }
     try {
-        const response = await a.request(`authentication/session/new`, {
+        const response = await a.request('authentication/session/new', {
             headers: {
                 'Content-Type': 'application/json'
             },
             method: 'POST',
             params: {
-                api_key: API_KEY
+                api_key
             },
             data: {
                 request_token
@@ -32,22 +32,41 @@ async function handlePost(req, res) {
             path: '/'
         });
         res.setHeader('Set-Cookie', cookie);
-        res.status(204);
+        res.status(204).end();
     } catch (error) {
         console.log(error);
     }
 }
 
 async function handleDelete(req, res) {
-    const cookie = serialize('userSessionId', '', {
-        maxAge: 0,
-        domain: 'localhost',
-        httpOnly: true,
-        secure: false,
-        path: '/'
-    });
-    res.setHeader('Set-Cookie', cookie);
-    res.status(204);
+    //console.log('Made it into the delete handler!');
+    const { userSessionId } = req.cookies;
+    try {
+
+        const response = await a.request('authentication/session', {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            method: 'DELETE',
+            params: {
+                api_key
+            },
+            data: {
+                session_id: userSessionId
+            }
+        });
+        const cookie = serialize('userSessionId', '', {
+            maxAge: 0,
+            domain: 'localhost',
+            httpOnly: true,
+            secure: false,
+            path: '/'
+        });
+        res.setHeader('Set-Cookie', cookie);
+        res.status(204).end();
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export default async function handler(req, res) {
