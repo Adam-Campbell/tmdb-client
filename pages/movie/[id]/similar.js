@@ -7,7 +7,8 @@ import MediaListView from '../../../components/MediaListView';
 import { fetchMovie } from '../../../actions';
 import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
-
+import { getInitialMovieProps } from './';
+ 
 function Similar({ id, title, posterPath, similar }) {
     
     const movieSubNavData = useMemo(() => {
@@ -32,11 +33,7 @@ function Similar({ id, title, posterPath, similar }) {
     );
 }
 
-Similar.getInitialProps = async ({ query, req, store }) => {
-    const id = parseInt(query.id);
-    await store.dispatch(fetchMovie(id));
-    return {};
-}
+Similar.getInitialProps = getInitialMovieProps;
 
 function mapState(state) {
     const m = getMovieData(state);

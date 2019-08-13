@@ -9,6 +9,7 @@ import MediaListView from '../../../components/MediaListView';
 import { fetchShow } from '../../../actions';
 import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
+import { getInitialShowProps } from './';
 
 function Recommended({ id, title, posterPath, recommendations }) {
 
@@ -34,11 +35,7 @@ function Recommended({ id, title, posterPath, recommendations }) {
     );
 }
 
-Recommended.getInitialProps = async ({ query, req, store }) => {
-    const id = parseInt(query.id);
-    await store.dispatch(fetchShow(id));
-    return {};
-}
+Recommended.getInitialProps = getInitialShowProps;
 
 function mapState(state) {
     const s = getShowData(state);

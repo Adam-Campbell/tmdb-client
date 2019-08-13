@@ -14,7 +14,8 @@ import {
     formatDateString, 
     formatMinutes, 
     formatDollarFigure, 
-    getMovieSubNavData 
+    getMovieSubNavData,
+    getSSRHeaders 
 } from '../../../utils';
 import SidebarEntry from '../../../components/SidebarEntry';
 import SocialLinks from '../../../components/SocialLinks';
@@ -25,6 +26,11 @@ import { fetchMovie } from '../../../actions';
 import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 
+export async function getInitialMovieProps({ query, req, store }) {
+    const id = parseInt(query.id);
+    await store.dispatch(fetchMovie(id, getSSRHeaders(req)));
+    return {};
+}
 
 function Movie({
     id,
@@ -43,7 +49,7 @@ function Movie({
     keywords
 }) {
 
-    return null;
+    //return null;
 
     const movieSubNavData = useMemo(() => {
         return getMovieSubNavData(id); 
@@ -127,11 +133,7 @@ function Movie({
     );
 }
 
-Movie.getInitialProps = async ({ query, req, store }) => {
-    const id = parseInt(query.id);
-    await store.dispatch(fetchMovie(id));
-    return {};
-};
+Movie.getInitialProps = getInitialMovieProps;
 
 function mapState(state) {
     const m = getMovieData(state);
@@ -153,4 +155,4 @@ function mapState(state) {
     };
 }
 
-export default connect()(Movie);
+export default connect(mapState)(Movie);

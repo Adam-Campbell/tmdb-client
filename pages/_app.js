@@ -11,7 +11,7 @@ import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 import { getUserSummary } from '../actions';
 import NextHead from 'next/head';
-import { text } from '../utils';
+import { text, getSSRHeaders } from '../utils';
 import { ThemeProvider } from 'styled-components';
 import theme from '../theme';
 //import '../style.css';
@@ -121,13 +121,7 @@ class MyApp extends App {
         let pageProps = {};
         // If there is no need to fetch a user summary then this just returns immediately after
         // verifying it isn't needed, becoming more or less a no-op.
-        let ssrHeaders = {};
-        if (ctx.req) {
-            //console.log(ctx.req.headers.cookie);
-            //cookieHeader = ctx.req.headers.cookie;
-            ssrHeaders.cookie = ctx.req.headers.cookie;
-        }
-        await ctx.store.dispatch(getUserSummary(ssrHeaders));
+        await ctx.store.dispatch(getUserSummary(getSSRHeaders(ctx.req)));
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx);
         }

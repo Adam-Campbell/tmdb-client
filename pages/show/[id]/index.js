@@ -7,7 +7,7 @@ import {
     TwoColLayoutContainer,
     TwoColLayoutRow
 } from '../../../components/Layout';
-import { getShowSubNavData } from '../../../utils';
+import { getShowSubNavData, getSSRHeaders } from '../../../utils';
 import MediaInlineCardRow from '../../../components/MediaInlineCardRow';
 import SidebarEntry from '../../../components/SidebarEntry';
 import SocialLinks from '../../../components/SocialLinks';
@@ -20,6 +20,12 @@ import InlineContentRow from '../../../components/InlineContentRow';
 import { fetchShow } from '../../../actions';
 import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
+
+export async function getInitialShowProps({ query, req, store }) {
+    const id = parseInt(query.id);
+    await store.dispatch(fetchShow(id, getSSRHeaders(req)));
+    return {};
+}
  
 function Show({
     id, 
@@ -135,11 +141,7 @@ function Show({
     );
 }
 
-Show.getInitialProps = async ({ query, req, store }) => {
-    const id = parseInt(query.id);
-    await store.dispatch(fetchShow(id));
-    return {};
-};
+Show.getInitialProps = getInitialShowProps;
 
 function mapState(state) {
     const s = getShowData(state);

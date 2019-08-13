@@ -12,7 +12,7 @@ import SmartImage from '../../../components/SmartImage';
 import { fetchShow } from '../../../actions';
 import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
-
+import { getInitialShowProps } from './';
 
 const DropdownContainer = styled.div`
     width: 220px;
@@ -137,11 +137,7 @@ function Images({ id, title, posterPath, posters, backdrops }) {
     );
 }
 
-Images.getInitialProps = async ({ query, req, store }) => {
-    const id = parseInt(query.id);
-    await store.dispatch(fetchShow(id));
-    return {};
-};
+Images.getInitialProps = getInitialShowProps;
 
 function mapState(state) {
     const s = getShowData(state);

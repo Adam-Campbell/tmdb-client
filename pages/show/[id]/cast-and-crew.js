@@ -10,6 +10,7 @@ import { Row } from '../../../components/Layout';
 import { fetchShow } from '../../../actions';
 import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
+import { getInitialShowProps } from './';
 
 function CastAndCrew({ id, title, posterPath, cast, crew }) {
 
@@ -44,11 +45,7 @@ function CastAndCrew({ id, title, posterPath, cast, crew }) {
     );
 }
 
-CastAndCrew.getInitialProps = async ({ query, req, store }) => {
-    const id = parseInt(query.id);
-    await store.dispatch(fetchShow(id));
-    return {};
-}
+CastAndCrew.getInitialProps = getInitialShowProps;
 
 function mapState(state) {
     const s = getShowData(state);

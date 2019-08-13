@@ -9,6 +9,7 @@ import ReviewPod from '../../../components/ReviewPod';
 import { fetchMovie } from '../../../actions';
 import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
+import { getInitialMovieProps } from './';
 
 function Reviews({ id, title, posterPath, reviews }) {
     
@@ -48,12 +49,7 @@ function Reviews({ id, title, posterPath, reviews }) {
     );
 }
 
-Reviews.getInitialProps = async ({ query, req, store }) => {
-    
-    const id = parseInt(query.id);
-    await store.dispatch(fetchMovie(id));
-    return {};
-};
+Reviews.getInitialProps = getInitialMovieProps;
 
 function mapState(state) {
     const m = getMovieData(state);

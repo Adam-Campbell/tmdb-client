@@ -24,13 +24,15 @@ const fetchMovieFailed = (error) => ({
 });
 
 
-export const fetchMovie = (id) => async (dispatch, getState) => {
+export const fetchMovie = (id, ssrHeaders = {}) => async (dispatch, getState) => {
     const state = getState();
     if (id === getMovieId(state)) return;
     dispatch(fetchMovieRequest());
     try {
         //const response = await getMovieDetails(id, getUserSessionId(state));
-        const response = await a.get(`api/movie/${id}`);
+        const response = await a.get(`api/movie/${id}`, {
+            headers: ssrHeaders
+        });
         dispatch(fetchMovieSuccess(response.data, id));
     } catch (error) {
         dispatch(fetchMovieFailed(error));

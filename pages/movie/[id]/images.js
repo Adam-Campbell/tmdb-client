@@ -11,6 +11,7 @@ import SmartImage from '../../../components/SmartImage';
 import { fetchMovie } from '../../../actions';
 import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
+import { getInitialMovieProps } from './';
 
 const DropdownContainer = styled.div`
     width: 220px;
@@ -137,11 +138,7 @@ function Images({ id, title, posterPath, posters, backdrops }) {
     );
 }
 
-Images.getInitialProps = async ({ query, req, store }) => {
-    const id = parseInt(query.id);
-    await store.dispatch(fetchMovie(id));
-    return {};
-};
+Images.getInitialProps = getInitialMovieProps;
 
 function mapState(state) {
     const m = getMovieData(state);

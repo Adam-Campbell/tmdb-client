@@ -9,6 +9,7 @@ import { Row } from '../../../components/Layout';
 import { fetchMovie } from '../../../actions';
 import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
+import { getInitialMovieProps } from './';
 
 function CastAndCrew({ id, title, posterPath, cast, crew }) {
 
@@ -43,11 +44,7 @@ function CastAndCrew({ id, title, posterPath, cast, crew }) {
     );
 }
 
-CastAndCrew.getInitialProps = async ({ query, req, store }) => {
-    const id = parseInt(query.id);
-    await store.dispatch(fetchMovie(id));
-    return {};
-}
+CastAndCrew.getInitialProps = getInitialMovieProps;
 
 function mapState(state) {
     const m = getMovieData(state);

@@ -10,6 +10,7 @@ import ReviewPod from '../../../components/ReviewPod';
 import { fetchShow } from '../../../actions';
 import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
+import { getInitialShowProps } from './';
 
 function Reviews({ id, title, posterPath, reviews }) {
 
@@ -49,11 +50,7 @@ function Reviews({ id, title, posterPath, reviews }) {
     );
 }
 
-Reviews.getInitialProps = async ({ query, req, store }) => {
-    const id = parseInt(query.id);
-    await store.dispatch(fetchShow(id));
-    return {};
-};
+Reviews.getInitialProps = getInitialShowProps;
 
 function mapState(state) {
     const s = getShowData(state);

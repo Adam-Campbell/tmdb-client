@@ -8,6 +8,7 @@ import SubNav from '../../../components/SubNav';
 import { getShowSubNavData } from '../../../utils';
 import { Row } from '../../../components/Layout';
 import { SeasonCard } from '../../../components/Cards';
+import { getInitialShowProps } from './';
 
 function Seasons({ id, title, posterPath, seasons }) {
 
@@ -42,11 +43,7 @@ function Seasons({ id, title, posterPath, seasons }) {
     );
 }
 
-Seasons.getInitialProps = async ({ query, store }) => {
-    const id = parseInt(query.id);
-    await store.dispatch(fetchShow(id));
-    return {};
-}
+Seasons.getInitialProps = getInitialShowProps;
 
 function mapState(state) {
     const s = getShowData(state);

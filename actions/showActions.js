@@ -2,6 +2,7 @@ import * as actionTypes from '../actionTypes';
 import { getShowDetails, postShowRating, deleteShowRating } from '../Api';
 import { getShowId } from '../reducers/showReducer';
 import { getUserSessionId } from '../reducers/sessionReducer';
+import { a } from '../axiosClient'
 
 const fetchShowRequest = () => ({
     type: actionTypes.FETCH_SHOW_REQUEST
@@ -23,13 +24,15 @@ const fetchShowFailed = (error) => ({
 });
 
 
-export const fetchShow = (id) => async (dispatch, getState) => {
+export const fetchShow = (id, ssrHeaders = {}) => async (dispatch, getState) => {
     const state = getState();
     if (id === getShowId(state)) return;
 
     try {
-        const response = await getShowDetails(id, getUserSessionId(state));
-        dispatch(fetchShowSuccess(response, id));
+        const response = await a.get(`api/show/${id}`, {
+            headers: ssrHeaders
+        });
+        dispatch(fetchShowSuccess(response.data, id));
     } catch (error) {
         dispatch(fetchShowFailed(error));
     }
