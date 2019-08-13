@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { getSeasonDetails } from '../../../../../Api';
 import MinimalHeader from '../../../../../components/MinimalHeader';
 import SubNav from '../../../../../components/SubNav';
-import { getShowSubNavData, text } from '../../../../../utils';
+import { getShowSubNavData, text, getSSRHeaders } from '../../../../../utils';
 import PeopleList from '../../../../../components/PeopleList';
 import { Row } from '../../../../../components/Layout';
 import EpisodePod from '../../../../../components/EpisodePod';
@@ -12,7 +12,7 @@ import { fetchSeason, fetchShow } from '../../../../../actions';
 import { connect } from 'react-redux';
 import { getSeasonData } from '../../../../../reducers/seasonReducer';
 import { getShowData } from '../../../../../reducers/showReducer';
-import { getSessionType } from '../../../../../reducers/sessionReducer';
+import { getHasSession } from '../../../../../reducers/sessionReducer';
 import SeasonNavigation from '../../../../../components/SeasonNavigation';
 import SeasonRatingsChart from '../../../../../components/SeasonRatingsChart';
 
@@ -29,7 +29,7 @@ function Season({
     seasonNumber,
     showId,
     allSeasons,
-    sessionType
+    hasSession
 }) {
     
     const showSubNavData = useMemo(() => {
@@ -80,7 +80,7 @@ function Season({
                         stillPath={episode.still_path || ''}
                         averageRating={episode.vote_average}
                         userRating={accountStates ? accountStates.results[idx].rated : false}
-                        sessionType={sessionType}
+                        hasSession={hasSession}
                     />
                 ))}
             </Row>
@@ -88,12 +88,12 @@ function Season({
     );
 }
 
-Season.getInitialProps = async ({ query, store }) => {
+Season.getInitialProps = async ({ req, query, store }) => {
     const showId = parseInt(query.id);
     const seasonNumber = parseInt(query.number);
     await Promise.all([
-        store.dispatch(fetchShow(showId)),
-        store.dispatch(fetchSeason(showId, seasonNumber))
+        store.dispatch(fetchShow(showId, getSSRHeaders(req))),
+        store.dispatch(fetchSeason(showId, seasonNumber, getSSRHeaders(req)))
     ]);
     return {
         showId
@@ -114,7 +114,7 @@ function mapState(state) {
         posterPath: s.poster_path || '',
         seasonNumber: s.season_number,
         allSeasons: getShowData(state).seasons,
-        sessionType: getSessionType(state)
+        hasSession: getHasSession(state)
     }
 }
 

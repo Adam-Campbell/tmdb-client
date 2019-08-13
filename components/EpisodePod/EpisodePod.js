@@ -134,7 +134,7 @@ export function EpisodePod({
     stillPath,
     averageRating,
     userRating,
-    sessionType
+    hasSession
 }) {
 
     const [ isExpanded, setExpanded ] = useState(false);
@@ -157,7 +157,7 @@ export function EpisodePod({
                         <EpisodeRatingContainer>
                             <Rating rating={averageRating} />
                         </EpisodeRatingContainer>
-                        {sessionType === 'USER' && (
+                        {hasSession && (
                             <EpisodeRatingButton 
                                 showId={showId}
                                 seasonNumber={seasonNumber}
@@ -211,5 +211,5 @@ EpisodePod.propTypes = {
             value: PropTypes.number
         })
     ]).isRequired,
-    sessionType: PropTypes.string
+    hasSession: PropTypes.bool
 }

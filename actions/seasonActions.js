@@ -6,6 +6,7 @@ import {
 } from '../Api';
 import { getSeasonIdentifiers } from '../reducers/seasonReducer';
 import { getUserSessionId } from '../reducers/sessionReducer';
+import { a } from '../axiosClient';
 
 const fetchSeasonRequest = () => ({
     type: actionTypes.FETCH_SEASON_REQUEST
@@ -27,14 +28,16 @@ const fetchSeasonFailed = (error) => ({
     }
 });
 
-export const fetchSeason = (showId, seasonNumber) => async (dispatch, getState) => {
+export const fetchSeason = (showId, seasonNumber, ssrHeaders = {}) => async (dispatch, getState) => {
     const state = getState();
     const cached = getSeasonIdentifiers(state);
     if (showId === cached.showId && seasonNumber === cached.seasonNumber) return;
     dispatch(fetchSeasonRequest());
     try {
-        const response = await getSeasonDetails(showId, seasonNumber, getUserSessionId(state));
-        dispatch(fetchSeasonSuccess(response, showId, seasonNumber));
+        const response = await a.get(`api/show/${showId}/season/${seasonNumber}`, {
+            headers: ssrHeaders
+        });
+        dispatch(fetchSeasonSuccess(response.data, showId, seasonNumber));
     } catch (error) {
         dispatch(fetchSeasonFailed(error));
     }
