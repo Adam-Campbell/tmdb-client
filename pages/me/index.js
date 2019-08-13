@@ -74,8 +74,6 @@ export async function getInitialMeProps({ req, query, store }) {
 
 function Me(props) {
 
-    return null;
-
     return (
         <>
             <UserHeader />

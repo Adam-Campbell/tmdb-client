@@ -30,9 +30,9 @@ export const getTrendingSearches = async () => {
     return response.data.results.slice(0, 10).map(formatTrendingEntity);
 };
 
-export const getSearchResults = async (searchQuery, searchCategory = 'movie') => {
-    const response = await get(`search/${searchCategory}`, {
-        query: searchQuery
-    });
-    return response.data.results;
-};
+// export const getSearchResults = async (searchQuery, searchCategory = 'movie') => {
+//     const response = await get(`search/${searchCategory}`, {
+//         query: searchQuery
+//     });
+//     return response.data.results;
+// };

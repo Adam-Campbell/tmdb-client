@@ -4,8 +4,9 @@ import {
     getTopRatedTV,
     getOnAirTV,
     getAiringTodayTV,
-} from '../../../Api';
+} from '../../../clientApi';
 import ExploreMediaPage from '../../../components/ExploreMediaPage';
+
 
 function getFetchingFn(subcategory) {
     switch (subcategory) {

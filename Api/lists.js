@@ -19,9 +19,9 @@ export function postList(session_id, name = '', description = '', language = 'en
     });
 }
 
-export function getListDetails(listId) {
-    return get(`list/${listId}`);
-}
+// export function getListDetails(listId) {
+//     return get(`list/${listId}`);
+// }
 
 export function deleteUserList(listId, session_id) {
     return a.request(`list/${listId}`, {

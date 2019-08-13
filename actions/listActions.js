@@ -1,6 +1,6 @@
 import * as actionTypes from '../actionTypes';
 import {
-    getListDetails,
+    //getListDetails,
     deleteUserList,
     postListMovie,
     postRemoveListMovie,
@@ -9,6 +9,7 @@ import {
 import { getSessionType, getUserSessionId } from '../reducers/sessionReducer';
 import axios from 'axios';
 import { fetchFullProfile } from './userActions';
+import { a } from '../axiosClient';
 
 const fetchListRequest = (id) => ({
     type: actionTypes.FETCH_LIST_REQUEST,
@@ -34,7 +35,7 @@ const fetchListFailed = (error) => ({
 export const fetchList = (listId) => async (dispatch) => {
     dispatch(fetchListRequest(listId));
     try {
-        const response = await getListDetails(listId);
+        const response = await a.get(`api/list/${listId}`);
         dispatch(fetchListSuccess(response.data));
     } catch (error) {
         dispatch(fetchListFailed(error));

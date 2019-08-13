@@ -1,15 +1,13 @@
 import { get } from '../../../axiosServer';
 
-export default async (req, res) => {
+export default async function handler(req, res) {
 
     const page = req.query.page || 1;
-    const { region } = req.query;
 
     try {
-        const response = await get('movie/upcoming', { page, region });
+        const response = await get('tv/airing_today', { page });
         res.status(200).json(response.data.results);
     } catch (error) {
         console.log(error);
     }
-
 }

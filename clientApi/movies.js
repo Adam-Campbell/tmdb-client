@@ -12,10 +12,10 @@ export const getTopRatedMovies = async (page = 1) => {
 
 export const getUpcomingMovies = async (page = 1) => {
     const response = await get('api/movies/upcoming', { region: 'GB', page });
-    return response.data.results;
+    return response.data;
 }
 
 export const getNowPlayingMovies = async (page = 1) => {
     const response = await get('api/movies/now-playing', { page });
-    return response.data.results;
+    return response.data;
 };

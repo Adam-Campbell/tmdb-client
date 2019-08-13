@@ -3,10 +3,8 @@ import styled from 'styled-components';
 import Link from 'next/link'
 import Head from '../components/head'
 import {
-  getNowPlayingMovies,
   getOnAirTV,
-  getRequestToken
-} from '../Api';
+} from '../clientApi';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import API_KEY from '../apiKey';
@@ -17,8 +15,8 @@ import { a } from '../axiosClient';
 
 
 async function handleButtonClick() {
-  const requestToken = await getRequestToken();
-  window.location = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=http://localhost:3000/authenticate`
+  //const requestToken = await getRequestToken();
+  //window.location = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=http://localhost:3000/authenticate`
 }
 
 const mockData = {
@@ -37,51 +35,14 @@ const PaddedRow = styled(Row)`
   padding-bottom: 800px;
 `;
 
-// function usePrevious(value) {
-//   const ref = useRef();
-//   useEffect(() => {
-//     ref.current = value;
-//   }, [ value ]);
-//   return ref.current;
-// }
-
-function Trigger() {
-  const [ ref, inView, entry ] = useInView({ triggerOnce: true });
-  console.log(`Is in view? ${inView}`);
-  return <div ref={ref}></div>;
-}
-
-function Counter() {
-  const [ count, setCount ] = useState(0);
-  const prevCount = usePrevious(count);
-  return (
-    <div>
-      <p>The current count is {count} and the previous count is {prevCount}</p>
-      <button
-        onClick={() => setCount(prev => prev + 1)}
-      >Increment</button>
-    </div>
-  );
-}
-
-async function hitCookieEndpoint() {
-  //const cookieResponse = await fetch('http://localhost:3000/api/cookie', { credentials: 'include' });
-  const cookieResponse = await a.get('/api/cookie');
-  console.log('response is: ', cookieResponse.data);
-}
-
-
 function Home() {
 
   return (
     <div>
       <Head title="Home" />
-      <PaddedRow>
-        <button onClick={hitCookieEndpoint}>Hit cookie endpoint</button>
-        <Trigger />
-        <Trigger />
-        <Trigger />
-      </PaddedRow>
+      <Row>
+        <h1>This is the home page</h1>
+      </Row>
     </div>
   );
 }
@@ -90,22 +51,10 @@ function Home() {
 
 Home.getInitialProps = async ({ req }) => {
   const tvResults = await getOnAirTV();
-  //const moviesResults = await getNowPlayingMovies();
-  //const moviesResults = await a.get('api/movies/popular', { params: { page: 1 } });
-  const moviesResults = await a.get('api/movies/popular');
-  //const serverInfo = req ? { isDevice: req.isDevice } : {};
-  //const cookieResponse = await a.get('/api/cookie');
-  //const cookieResponse = await fetch('http://localhost:3000/api/cookie', { credentials: 'include' });
-  //const parsedCookie = await cookieResponse.json();
+  //const moviesResults = await a.get('api/movies/popular');
   return {
     tv: tvResults,
-    //cookie: parsedCookie
-    //movies: moviesResults,
-    //movies: moviesResults.data,
-    //...serverInfo
   }
-  //const results = await axios.get('http://localhost:3000/api/home');
-  //return { ...results.data };
 }
 
 export default connect(state => state)(Home)

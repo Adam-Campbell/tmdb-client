@@ -1,6 +1,6 @@
 import React from 'react';
-import { getPopularTV } from '../../Api';
 import ExploreMediaPage from '../../components/ExploreMediaPage';
+import { getPopularTV } from '../../clientApi';
 
 function TVWithoutSubcategory({ results, subcategory }) {
 
