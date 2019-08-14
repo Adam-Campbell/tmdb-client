@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Downshift from 'downshift';
-import { getTrendingSearches } from '../../Api';
 import SearchItem from './SearchItem';
 import { Search } from 'styled-icons/material';
 import { Row } from '../Layout';
 import { text } from '../../utils';
 import Router from 'next/router';
+import { a } from '../../axiosClient';
 
 const SearchBarContainer = styled.div`
     position: sticky;
@@ -98,8 +98,8 @@ export function SearchBar(props) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const trendingData = await getTrendingSearches();
-                setTrendingSearches(trendingData);
+                const trendingDataResponse = await a.get('api/trending');
+                setTrendingSearches(trendingDataResponse.data);
             } catch (error) {
                 console.log(error);
             }

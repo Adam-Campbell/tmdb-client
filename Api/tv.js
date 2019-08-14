@@ -21,20 +21,20 @@ import api_key from '../apiKey';
 //     return response.data.results;
 // };
 
-export const getShowDetails = async (showId, session_id) => {
-    if (session_id) {
-        const response = await get(`tv/${showId}`, {
-            append_to_response: 'credits,images,recommendations,similar,reviews,external_ids,keywords,account_states',
-            session_id
-        });
-        return response.data;
-    } else {
-        const response = await get(`tv/${showId}`, {
-            append_to_response: 'credits,images,recommendations,similar,reviews,external_ids,keywords'
-        });
-        return response.data;
-    }
-};
+// export const getShowDetails = async (showId, session_id) => {
+//     if (session_id) {
+//         const response = await get(`tv/${showId}`, {
+//             append_to_response: 'credits,images,recommendations,similar,reviews,external_ids,keywords,account_states',
+//             session_id
+//         });
+//         return response.data;
+//     } else {
+//         const response = await get(`tv/${showId}`, {
+//             append_to_response: 'credits,images,recommendations,similar,reviews,external_ids,keywords'
+//         });
+//         return response.data;
+//     }
+// };
 
 export const postShowRating = (rating, showId, session_id) => {
     return a.request(`tv/${showId}/rating`, {

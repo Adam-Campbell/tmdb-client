@@ -1,4 +1,4 @@
-import { get } from './helpers';
+import { get } from '../../../axiosServer';
 
 function formatTrendingEntity(entity) {
     // entity is a movie
@@ -25,14 +25,12 @@ function formatTrendingEntity(entity) {
     }
 }
 
-// export const getTrendingSearches = async () => {
-//     const response = await get('trending/all/day');
-//     return response.data.results.slice(0, 10).map(formatTrendingEntity);
-// };
-
-// export const getSearchResults = async (searchQuery, searchCategory = 'movie') => {
-//     const response = await get(`search/${searchCategory}`, {
-//         query: searchQuery
-//     });
-//     return response.data.results;
-// };
+export default async function handler(req, res) {
+    try {
+        const response = await get('trending/all/day');
+        const formattedResponse = response.data.results.slice(0,10).map(formatTrendingEntity);
+        res.json(formattedResponse);
+    } catch (error) {
+        console.log(error);
+    }
+}

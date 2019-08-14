@@ -6,9 +6,9 @@ import api_key from '../apiKey';
 //     return response.data;
 // };
 
-// export const getCreatedLists = async (account_id, session_id) => {
-//     return get(`account/${account_id}/lists`, { session_id });
-// };
+export const getCreatedLists = async (account_id, session_id) => {
+    return get(`account/${account_id}/lists`, { session_id });
+};
 
 // export const getFavouriteMovies = async (account_id, session_id) => {
 //     return get(`account/${account_id}/favorite/movies`, { session_id });
