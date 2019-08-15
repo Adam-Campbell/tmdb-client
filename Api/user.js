@@ -48,23 +48,23 @@ export const getCreatedLists = async (account_id, session_id) => {
  * @param {Number} accountId - the users account id 
  * @param {String} session_id - the users session id 
  */
-export const postFavourite = (media_type, media_id, favorite, accountId, session_id) => {
-    return a.request(`account/${accountId}/favorite`, {
-        params: {
-            api_key,
-            session_id
-        },
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        data: {
-            media_type,
-            media_id,
-            favorite
-        }
-    });
-};
+// export const postFavourite = (media_type, media_id, favorite, accountId, session_id) => {
+//     return a.request(`account/${accountId}/favorite`, {
+//         params: {
+//             api_key,
+//             session_id
+//         },
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         method: 'POST',
+//         data: {
+//             media_type,
+//             media_id,
+//             favorite
+//         }
+//     });
+// };
 
 /**
  * Add or remove an item from the users watchlist
@@ -75,21 +75,21 @@ export const postFavourite = (media_type, media_id, favorite, accountId, session
  * @param {Number} accountId - the users account id 
  * @param {String} session_id - the users session id 
  */
-export const postWatchlist = (media_type, media_id, watchlist, accountId, session_id) => {
-    return a.request(`account/${accountId}/watchlist`, {
-        params: {
-            api_key,
-            session_id
-        },
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        data: {
-            media_type,
-            media_id,
-            watchlist
-        }
-    });
-};
+// export const postWatchlist = (media_type, media_id, watchlist, accountId, session_id) => {
+//     return a.request(`account/${accountId}/watchlist`, {
+//         params: {
+//             api_key,
+//             session_id
+//         },
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         method: 'POST',
+//         data: {
+//             media_type,
+//             media_id,
+//             watchlist
+//         }
+//     });
+// };
 

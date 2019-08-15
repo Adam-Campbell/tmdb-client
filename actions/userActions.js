@@ -1,20 +1,7 @@
 import * as actionTypes from '../actionTypes';
-import { getSessionType, getUserSessionId, getHasSession } from '../reducers/sessionReducer';
+import { getSessionType, getHasSession } from '../reducers/sessionReducer';
 import { hasGotUserSummary, getUserId } from '../reducers/user';
 import { getUserDataStatus } from '../reducers/user/dataStatusReducer';
-import { 
-    fetchUserSummary, 
-    postFavourite, 
-    postWatchlist,
-    getCreatedLists,
-    getFavouriteMovies,
-    getFavouriteShows, 
-    getRatedMovies,
-    getRatedShows, 
-    getRatedEpisodes,
-    getMovieWatchlist,
-    getShowWatchlist
-} from '../Api';
 import axios from 'axios';
 import { a } from '../axiosClient';
 
@@ -29,7 +16,6 @@ export const getUserSummary = (ssrHeaders = {}) => async (dispatch, getState) =>
     const state = getState();
     if (getHasSession(state) && !hasGotUserSummary(state)) {
         try {
-            //const userSummary = await fetchUserSummary(userSessionId);
             const userSummary = await a.get('api/user/summary', {
                 headers: { ...ssrHeaders }
             });
@@ -71,7 +57,6 @@ export const loginUser = (request_token) => async (dispatch, getState) => {
                 request_token
             }
         });
-        //const userSessionId = response.data.session_id.session_id;
         console.log(response);
         dispatch(loginUserSuccess());
         dispatch(getUserSummary());
@@ -109,19 +94,27 @@ const markFavouriteFailed = (error) => ({
     }
 });
 
-export const markFavourite = (mediaType, mediaId, isMarking) => async (dispatch, getState) => {
+export const markFavourite = (mediaType, mediaId, isFavouriting) => async (dispatch, getState) => {
     const state = getState();
-    const sessionId = getUserSessionId(state);
     const accountId = getUserId(state);
-    if (!sessionId) {
+    if (!getHasSession(state)) {
         dispatch(markFavouriteFailed('User is not logged in'));
         return;
     }
 
     try {
-        const response = await postFavourite(mediaType, mediaId, isMarking, accountId, sessionId);
-        //console.log(response);
-        dispatch(markFavouriteSuccess(mediaId, mediaType, isMarking));
+        const response = await a.request(`api/user/${accountId}/favorite`, {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            method: 'POST',
+            data: {
+                mediaType,
+                mediaId,
+                isFavouriting
+            }
+        });
+        dispatch(markFavouriteSuccess(mediaId, mediaType, isFavouriting));
     } catch (error) {
         dispatch(markFavouriteFailed(error));
     }
@@ -147,16 +140,23 @@ const editWatchlistFailed = (error) => ({
 export const editWatchlist = (mediaType, mediaId, isAdding) => async (dispatch, getState) => {
     console.log('editWatchlist was called!');
     const state = getState();
-    const sessionId = getUserSessionId(state);
     const accountId = getUserId(state);
-    if (!sessionId) {
+    if (!getHasSession(state)) {
         dispatch(editWatchlistFailed('User is not logged in'));
         return;
     }
-
     try {
-        const response = await postWatchlist(mediaType, mediaId, isAdding, accountId, sessionId);
-        //console.log(response);
+        const response = await a.request(`api/user/${accountId}/watchlist`, {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            method: 'POST',
+            data: {
+                mediaType,
+                mediaId,
+                isAdding
+            }
+        });
         dispatch(editWatchlistSuccess(mediaId, mediaType, isAdding));
     } catch (error) {
         dispatch(editWatchlistFailed(error));
