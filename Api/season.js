@@ -16,31 +16,31 @@ import api_key from '../apiKey';
 //     }
 // }
 
-export const postEpisodeRating = async (showId, seasonNumber, episodeNumber, rating, session_id) => {
-    return a.request(`tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/rating`, {
-        params: {
-            api_key,
-            session_id,
-        },
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        data: {
-            value: rating
-        }
-    });
-};
+// export const postEpisodeRating = async (showId, seasonNumber, episodeNumber, rating, session_id) => {
+//     return a.request(`tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/rating`, {
+//         params: {
+//             api_key,
+//             session_id,
+//         },
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         method: 'POST',
+//         data: {
+//             value: rating
+//         }
+//     });
+// };
 
-export const deleteEpisodeRating = async (showId, seasonNumber, episodeNumber, session_id) => {
-    return a.request(`tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/rating`, {
-        params: {
-            api_key,
-            session_id,
-        },
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        method: 'DELETE'
-    });
-}
+// export const deleteEpisodeRating = async (showId, seasonNumber, episodeNumber, session_id) => {
+//     return a.request(`tv/${showId}/season/${seasonNumber}/episode/${episodeNumber}/rating`, {
+//         params: {
+//             api_key,
+//             session_id,
+//         },
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         method: 'DELETE'
+//     });
+// }
