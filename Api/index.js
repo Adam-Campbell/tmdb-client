@@ -4,4 +4,4 @@
 //export * from './tv';
 //export * from './user';
 //export * from './season';
-export * from './lists';
+//export * from './lists';

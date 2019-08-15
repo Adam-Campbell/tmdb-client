@@ -1,12 +1,5 @@
 import * as actionTypes from '../actionTypes';
-import {
-    //getListDetails,
-    deleteUserList,
-    postListMovie,
-    postRemoveListMovie,
-    postClearList
-} from '../Api';
-import { getSessionType, getUserSessionId } from '../reducers/sessionReducer';
+import { getSessionType } from '../reducers/sessionReducer';
 import axios from 'axios';
 import { fetchFullProfile } from './userActions';
 import { a } from '../axiosClient';
@@ -61,14 +54,9 @@ const createListFailed = (error) => ({
 });
 
 export const createList = (listName, listDescription, listLanguage) => async (dispatch, getState) => {
-    const state = getState();
-    const userSessionId = getUserSessionId(state);
     dispatch(createListRequest());
     try {
-        const response = await axios.request('http://localhost:3000/api/list', {
-            params: {
-                session_id: userSessionId
-            },
+        const response = await a.request('api/list', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -102,14 +90,11 @@ const deleteListFailed = (error) => ({
 });
 
 export const deleteList = (listId) => async (dispatch, getState) => {
-    const state = getState();
-    const userSessionId = getUserSessionId(state);
     dispatch(deleteListRequest());
     try {
-        // Note, currently this is resulting in a 500 error from the TMdb API, even when I 
-        // attempted from the sandbox in their API docs. Despite this, it is still actually
-        // deleting the list as requested, so is most likely a temporary error on their end. 
-        const response = await deleteUserList(listId, userSessionId);
+        const response = await a.request(`api/list/${listId}`, {
+            method: 'DELETE'
+        });
         dispatch(deleteListSuccess());
     } catch (error) {
         dispatch(deleteListFailed(error))
@@ -133,10 +118,15 @@ const addMovieToListFailed = (error) => ({
 
 export const addMovieToList = (listId, movieId) => async (dispatch, getState) => {
     const state = getState();
-    const userSessionId = getUserSessionId(state);
     dispatch(addMovieToListRequest());
     try {
-        const response = await postListMovie(listId, movieId, userSessionId);
+        //const response = await postListMovie(listId, movieId, userSessionId);
+        const resposne = await a.request(`api/list/${listId}/add-item`, {
+            method: 'POST', 
+            data: {
+                movieId
+            }
+        });
         dispatch(addMovieToListSuccess());
     } catch (error) {
         dispatch(addMovieToListFailed(error));
@@ -163,13 +153,17 @@ const removeMovieFromListFailed = (error) => ({
 });
 
 export const removeMovieFromList = (listId, movieId) => async (dispatch, getState) => {
-    const state = getState();
-    const userSessionId = getUserSessionId(state);
     dispatch(removeMovieFromListRequest());
     try {
-        const response = await postRemoveListMovie(listId, movieId, userSessionId);
+        //const response = await postRemoveListMovie(listId, movieId, userSessionId);
         // Since this thunk can be dispatch from the individual list view, the _SUCCESS
         // action needs to update the list slice of state by removing the movie
+        const response = await a.request(`api/list/${listId}/remove-item`, {
+            method: 'POST',
+            data: {
+                movieId
+            }
+        });
         dispatch(removeMovieFromListSuccess(movieId, listId));
     } catch (error) {
         dispatch(removeMovieFromListFailed(error));
@@ -192,11 +186,11 @@ const clearListFailed = (error) => ({
 });
 
 export const clearList = (listId) => async (dispatch, getState) => {
-    const state = getState();
-    const userSessionId = getUserSessionId(state);
     dispatch(clearListRequest());
     try {
-        const response = await postClearList(listId, userSessionId);
+        const response = await a.request(`api/list/${listId}/clear`, {
+            method: 'POST'
+        });
         dispatch(clearListSuccess(listId));
     } catch (error) {
         dispatch(clearListFailed(error));
