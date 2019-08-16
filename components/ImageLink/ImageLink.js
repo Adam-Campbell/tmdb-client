@@ -54,7 +54,8 @@ export function ImageLink({
     linkAs,
     isPersonImage,
     isLandscape, 
-    className 
+    className,
+    children
 }) {
 
     const { isHovered, containerProps } = useHover();
@@ -79,9 +80,13 @@ export function ImageLink({
                                 alt={alt} 
                             />
                             <ImageOverlay isHovered={isHovered} />
+                            {children}
                         </>
-                    ) : ( 
-                        <ImagePlaceholder isPersonImage={isPersonImage} isLandscape={isLandscape} />
+                    ) : (
+                        <> 
+                            <ImagePlaceholder isPersonImage={isPersonImage} isLandscape={isLandscape} />
+                            {children}
+                        </>
                     )}
                 </LinkContentContainer>
             </a>
