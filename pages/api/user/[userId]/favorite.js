@@ -2,7 +2,7 @@ import { a } from '../../../../axiosServer';
 import api_key from '../../../../apiKey';
 import { apiMethodHandler } from '../../../../utils';
 
-export default async function handlePost(req, res) {
+async function handlePost(req, res) {
     const { userSessionId } = req.cookies;
     const { userId } = req.query;
     const { mediaType, mediaId, isFavouriting } = req.body;
