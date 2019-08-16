@@ -4,21 +4,26 @@ import Link from 'next/link'
 import Head from '../components/head'
 import {
   getOnAirTV,
+  getNowPlayingMovies
 } from '../clientApi';
 import { connect } from 'react-redux';
 import { Row } from '../components/Layout';
 import usePrevious from '../components/usePrevious';
 import { useInView } from 'react-intersection-observer';
 import { a } from '../axiosClient';
+import MediaGridLayout from '../components/MediaGridLayout';
 
-function Home() {
+function Home({ onAirTV, nowPlayingMovies }) {
 
   return (
     <div>
       <Head title="Home" />
-      <Row>
-        <h1>This is the home page</h1>
-      </Row>
+      <MediaGridLayout 
+        gridOneTitle="On Air"
+        gridOneData={onAirTV}
+        gridTwoTitle="In Theatres"
+        gridTwoData={nowPlayingMovies}
+      />
     </div>
   );
 }
@@ -26,11 +31,17 @@ function Home() {
 
 
 Home.getInitialProps = async ({ req }) => {
-  const tvResults = await getOnAirTV();
-  //const moviesResults = await a.get('api/movies/popular');
+  const [
+    onAirTV,
+    nowPlayingMovies
+  ] = await Promise.all([
+    getOnAirTV(),
+    getNowPlayingMovies()
+  ]);
   return {
-    tv: tvResults,
+    onAirTV,
+    nowPlayingMovies
   }
 }
 
-export default connect(state => state)(Home)
+export default Home;
