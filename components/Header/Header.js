@@ -5,7 +5,6 @@ import { Row } from '../Layout';
 import { connect } from 'react-redux';
 import { getHasSession } from '../../reducers/sessionReducer';
 import { logoutUser } from '../../actions';
-import { getRequestToken } from '../../Api';
 import { text } from '../../utils';
 import Nav from './Nav';
 import { Menu } from 'styled-icons/material';

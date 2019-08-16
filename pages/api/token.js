@@ -2,8 +2,9 @@
 // token - that is the token that allows you to try and initiate a session for
 // the user. 
 import { get } from '../../axiosServer';
+import { apiMethodHandler } from '../../utils';
 
-export default async function handler(req, res) {
+async function handleGet(req, res) {
     try {
         const response = await get('authentication/token/new');
         const { request_token } = response.data;
@@ -12,3 +13,5 @@ export default async function handler(req, res) {
         console.log(error);
     }
 }
+
+export default apiMethodHandler({ GET: handleGet });

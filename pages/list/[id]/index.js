@@ -9,7 +9,7 @@ import {
     removeMovieFromList 
 } from '../../../actions';
 import { getListData } from '../../../reducers/listReducer';
-import { getSessionType } from '../../../reducers/sessionReducer';
+import { getHasSession } from '../../../reducers/sessionReducer';
 import { getUserSummary } from '../../../reducers/user';
 import { Row } from '../../../components/Layout';
 import { MediaCard } from '../../../components/Cards';
@@ -98,8 +98,7 @@ List.getInitialProps = async ({ query, store }) => {
 function mapState(state) {
     const l = getListData(state);
     const user = getUserSummary(state);
-    const isLoggedIn = getSessionType(state) === 'USER';
-    const isOwner = isLoggedIn && (user.username || user.name) === l.created_by;
+    const isOwner = getHasSession(state) && (user.username || user.name) === l.created_by;
     return {
         createdBy: l.created_by,
         description: l.description,

@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import { getPersonDetails } from '../../../Api';
 import { getPersonSubNavData } from '../../../utils';
 import SubNav from '../../../components/SubNav';
 import PersonHeader from '../../../components/PersonHeader';

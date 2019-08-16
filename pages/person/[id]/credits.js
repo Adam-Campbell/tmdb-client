@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
-import { getPersonDetails } from '../../../Api';
 import { getPersonSubNavData, transformCreditsData } from '../../../utils';
 import SubNav from '../../../components/SubNav';
 import MinimalHeader from '../../../components/MinimalHeader';

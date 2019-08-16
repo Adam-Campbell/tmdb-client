@@ -1,6 +1,7 @@
 import { get } from '../../../../axiosServer';
+import { apiMethodHandler } from '../../../../utils';
 
-export default async function handler(req, res) {
+async function handleGet(req, res) {
     // Check for presence of user session cookie and set the params for the request accordingly
     const { showId } = req.query;
     const { userSessionId } = req.cookies;
@@ -14,8 +15,10 @@ export default async function handler(req, res) {
 
     try {
         const response = await get(`tv/${showId}`, paramsObject);
-        res.status(200).json(response.data);
+        res.json(response.data);
     } catch (error) {
         console.log(error);
     }
 }
+
+export default apiMethodHandler({ GET: handleGet });

@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import { getShowDetails } from '../../../Api';
 import MediaHeader from '../../../components/MediaHeader';
 import { 
     MainCol, 

@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import axios from 'axios';
-//import { getSessionId } from '../Api';
 import { loginUser } from '../actions';
 import { connect } from 'react-redux';
 

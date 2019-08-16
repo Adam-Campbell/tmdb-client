@@ -1,5 +1,6 @@
 import { a, get } from '../../../../axiosServer';
 import api_key from '../../../../apiKey';
+import { apiMethodHandler } from '../../../../utils';
 
 async function handleGet(req, res) {
     const { listId } = req.query;
@@ -37,15 +38,7 @@ async function handleDelete(req, res) {
     }
 }
 
-
-export default async function handler(req, res) {
-    if (req.method === 'GET') {
-        handleGet(req, res);
-    } else if (req.method === 'DELETE') {
-        handleDelete(req, res);
-    } else {
-        res.setHeader('Allow', 'GET, DELETE')
-        .status(405)
-        .end();
-    }
-}
+export default apiMethodHandler({
+    GET: handleGet,
+    DELETE: handleDelete
+});

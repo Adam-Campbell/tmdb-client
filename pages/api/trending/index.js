@@ -1,4 +1,5 @@
 import { get } from '../../../axiosServer';
+import { apiMethodHandler } from '../../../utils';
 
 function formatTrendingEntity(entity) {
     // entity is a movie
@@ -25,7 +26,7 @@ function formatTrendingEntity(entity) {
     }
 }
 
-export default async function handler(req, res) {
+async function handleGet(req, res) {
     try {
         const response = await get('trending/all/day');
         const formattedResponse = response.data.results.slice(0,10).map(formatTrendingEntity);
@@ -34,3 +35,5 @@ export default async function handler(req, res) {
         console.log(error);
     }
 }
+
+export default apiMethodHandler({ GET: handleGet });

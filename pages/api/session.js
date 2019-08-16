@@ -1,6 +1,7 @@
 import { serialize } from 'cookie';
 import { a } from '../../axiosServer';
 import api_key from '../../apiKey';
+import { apiMethodHandler } from '../../utils';
 
 // A POST request to this endpoint will create a new user session using a pre-authenticated
 // token. A DELETE request to this endpoint will terminate the session, and delete the cookie. 
@@ -39,7 +40,6 @@ async function handlePost(req, res) {
 }
 
 async function handleDelete(req, res) {
-    //console.log('Made it into the delete handler!');
     const { userSessionId } = req.cookies;
     try {
 
@@ -69,11 +69,7 @@ async function handleDelete(req, res) {
     }
 }
 
-export default async function handler(req, res) {
-    if (req.method === 'POST') {
-        handlePost(req, res);
-    } else if (req.method === 'DELETE') {
-        handleDelete(req, res);
-    }
-}
-
+export default apiMethodHandler({
+    POST: handlePost,
+    DELETE: handleDelete
+});

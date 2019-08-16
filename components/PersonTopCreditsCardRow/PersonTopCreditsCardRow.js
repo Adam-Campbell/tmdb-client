@@ -1,14 +1,27 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import InlineContentRow from '../InlineContentRow';
 import { MinimalCard } from '../Cards';
 import { uniqBy } from 'lodash';
 
-const mediaTypeToSubpathMap = {
-    movie: '/movie',
-    tv: '/show'
-};
+/**
+ * Takes in a persons full credits data, dedupes them and returns the 4 most popular credits, transformed
+ * into objects containing the props required by the component.
+ * @param {Array} creditsData - an array of credit objects
+ * @returns {Array} - the array of transformed popular credits objects.
+ */
+function getPropsForPopularCredits(creditsData) {
+    return uniqBy(creditsData, 'id')
+    .slice(0, 4)
+    .map(credit => ({
+        key: credit.id,
+        id: credit.id,
+        name: credit.title || credit.name,
+        imagePath: credit.poster_path,
+        urlSubpath: credit.media_type === 'movie' ? '/movie' : '/show'
+    }));
+}
 
 export function PersonTopCreditsCardRow({ 
     title, 
@@ -17,16 +30,10 @@ export function PersonTopCreditsCardRow({
     linkDestinationAs,
     linkDestinationHref 
 }) {
-    const cardsProps = uniqBy(creditsData, 'id')
-    .sort((a, b) => b.popularity - a.popularity)
-    .slice(0, 4)
-    .map(credit => ({
-        key: credit.id,
-        id: credit.id,
-        name: credit.title || credit.name,
-        imagePath: credit.poster_path,
-        urlSubpath: mediaTypeToSubpathMap[credit.media_type]
-    }));
+
+    const cardsProps = useMemo(() => {
+        return getPropsForPopularCredits(creditsData);
+    }, [ creditsData ]);
 
     return (
         <InlineContentRow

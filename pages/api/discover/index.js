@@ -1,6 +1,7 @@
 import { get } from '../../../axiosServer';
+import { apiMethodHandler } from '../../../utils';
 
-export default async function handler(req, res) {
+async function handleGet(req, res) {
     const {
         release_gte,
         release_lte,
@@ -32,3 +33,5 @@ export default async function handler(req, res) {
     }
 
 }
+
+export default apiMethodHandler({ GET: handleGet });

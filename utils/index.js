@@ -1,3 +1,4 @@
+export * from './apiMethodHandler';
 export * from './imageUtils';
 export * from './formatDateString';
 export * from './discoverDataProcessing';

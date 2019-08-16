@@ -1,6 +1,7 @@
 import { get } from '../../../../axiosServer';
+import { apiMethodHandler } from '../../../../utils';
 
-export default async function handler(req, res) {
+async function handleGet(req, res) {
     const { personId } = req.query;
     try {
         const response = await get(`person/${personId}`, {
@@ -11,3 +12,5 @@ export default async function handler(req, res) {
         console.log(error);
     }
 }
+
+export default apiMethodHandler({ GET: handleGet });

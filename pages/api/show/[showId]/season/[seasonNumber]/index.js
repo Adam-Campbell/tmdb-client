@@ -1,6 +1,7 @@
 import { get } from '../../../../../../axiosServer';
+import { apiMethodHandler } from '../../../../../../utils';
 
-export default async function handler(req, res) {
+async function handleGet(req, res) {
     const { showId, seasonNumber } = req.query;
     const { userSessionId } = req.cookies;
     const baseAppends = 'credits,images';
@@ -12,8 +13,10 @@ export default async function handler(req, res) {
     });
     try {
         const response = await get(`tv/${showId}/season/${seasonNumber}`, paramsObject);
-        res.status(200).json(response.data);
+        res.json(response.data);
     } catch (error) {
         console.log(error);
     }
 }
+
+export default apiMethodHandler({ GET: handleGet });

@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { getSeasonDetails } from '../../../../../Api';
 import MinimalHeader from '../../../../../components/MinimalHeader';
 import SubNav from '../../../../../components/SubNav';
 import { getShowSubNavData, text, getSSRHeaders } from '../../../../../utils';

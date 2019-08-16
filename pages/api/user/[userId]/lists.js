@@ -1,6 +1,7 @@
 import { get } from '../../../../axiosServer';
+import { apiMethodHandler } from '../../../../utils';
 
-export default async function handler(req, res) {
+async function handleGet(req, res) {
     const { userId } = req.query;
     const { userSessionId } = req.cookies;
     if (!userSessionId) {
@@ -14,3 +15,5 @@ export default async function handler(req, res) {
         console.log(error)
     }
 }
+
+export default apiMethodHandler({ GET: handleGet });

@@ -1,5 +1,6 @@
 import { a } from '../../../../axiosServer';
 import api_key from '../../../../apiKey';
+import { apiMethodHandler } from '../../../../utils';
 
 async function handlePost(req, res) {
     const { userSessionId } = req.cookies;
@@ -8,7 +9,7 @@ async function handlePost(req, res) {
         res.status(401).end();
         return;
     }
-    if (!movieId || rating === undefined) {
+    if (!rating) {
         res.status(400).end();
         return;
     }
@@ -61,15 +62,7 @@ async function handleDelete(req, res) {
     }
 }
 
-export default async function handler(req, res) {
-    console.log('')
-    if (req.method === 'POST') {
-        handlePost(req, res);
-    } else if (req.method === 'DELETE') {
-        handleDelete(req, res);
-    } else {
-        res.setHeader('Allow', 'POST, DELETE')
-        .status(405)
-        .end();
-    }
-}
+export default apiMethodHandler({
+    POST: handlePost,
+    DELETE: handleDelete
+});
