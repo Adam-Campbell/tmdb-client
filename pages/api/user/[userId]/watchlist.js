@@ -10,7 +10,7 @@ async function handlePost(req, res) {
         res.status(401).end();
         return;
     }
-    if (!userId || !mediaType || !mediaId || isAdding === undefined) {
+    if (!mediaType || !mediaId || isAdding === undefined) {
         res.status(400).end();
         return;
     }

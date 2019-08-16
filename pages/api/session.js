@@ -41,8 +41,10 @@ async function handlePost(req, res) {
 
 async function handleDelete(req, res) {
     const { userSessionId } = req.cookies;
+    if (!userSessionId) {
+        res.status(401).end();
+    }
     try {
-
         const response = await a.request('authentication/session', {
             headers: {
                 'Content-Type': 'application/json'

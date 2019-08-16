@@ -9,7 +9,7 @@ async function handlePost(req, res) {
         res.status(401).end();
         return;
     }
-    if (!showId || rating === undefined) {
+    if (!rating) {
         res.status(400).end();
         return;
     }
@@ -39,10 +39,6 @@ async function handleDelete(req, res) {
     const { showId } = req.query;
     if (!userSessionId) {
         res.status(401).end();
-        return;
-    }
-    if (!showId) {
-        res.status(400).end();
         return;
     }
     try {

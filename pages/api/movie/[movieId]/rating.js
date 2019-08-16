@@ -41,10 +41,6 @@ async function handleDelete(req, res) {
         res.status(401).end();
         return;
     }
-    if (!movieId) {
-        res.status(400).end();
-        return;
-    }
     try {
         const response = await a.request(`movie/${movieId}/rating`, {
             params: {

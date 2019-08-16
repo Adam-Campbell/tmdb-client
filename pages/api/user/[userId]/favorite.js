@@ -10,7 +10,7 @@ export default async function handlePost(req, res) {
         res.status(401).end();
         return;
     }
-    if (!userId || !mediaType || !mediaId || isFavouriting === undefined) {
+    if (!mediaType || !mediaId || isFavouriting === undefined) {
         res.status(400).end();
         return;
     }

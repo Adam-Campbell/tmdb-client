@@ -4,15 +4,15 @@ import { apiMethodHandler } from '../../../utils';
 
 async function handleGet(req, res) {
     const { userSessionId } = req.cookies;
-    if (userSessionId) {
-        try {
-            const response = await get('account', { session_id: userSessionId });
-            res.json(response.data);
-        } catch (error) {
-            console.log(error);
-        }
-    } else {
-        res.status(401);
+    if (!userSessionId) {
+        res.status(401).end();
+        return;
+    }
+    try {
+        const response = await get('account', { session_id: userSessionId });
+        res.json(response.data);
+    } catch (error) {
+        console.log(error);
     }
 }
 

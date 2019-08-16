@@ -9,7 +9,7 @@ async function handlePost(req, res) {
         res.status(401).end();
         return;
     }
-    if (!showId || !rating || (!seasonNumber && seasonNumber !== 0) || !episodeNumber) {
+    if (!rating || !episodeNumber) {
         res.status(400).end();
         return;
     }
