@@ -1,7 +1,8 @@
 import * as actionTypes from '../actionTypes';
 import { getMovieId, getMovieData } from '../reducers/movieReducer';
-import { getUserSessionId } from '../reducers/sessionReducer';
-import { getMovieDetails, postMovieRating, deleteMovieRating } from '../Api';
+import { getUserSessionId, getHasSession } from '../reducers/sessionReducer';
+//import { getMovieDetails, postMovieRating, deleteMovieRating } from '../Api';
+import { a } from '../axiosClient';
 
 const fetchMovieRequest = () => ({
     type: actionTypes.FETCH_MOVIE_REQUEST
@@ -23,13 +24,16 @@ const fetchMovieFailed = (error) => ({
 });
 
 
-export const fetchMovie = (id) => async (dispatch, getState) => {
+export const fetchMovie = (id, ssrHeaders = {}) => async (dispatch, getState) => {
     const state = getState();
     if (id === getMovieId(state)) return;
     dispatch(fetchMovieRequest());
     try {
-        const response = await getMovieDetails(id, getUserSessionId(state));
-        dispatch(fetchMovieSuccess(response, id));
+        //const response = await getMovieDetails(id, getUserSessionId(state));
+        const response = await a.get(`api/movie/${id}`, {
+            headers: ssrHeaders
+        });
+        dispatch(fetchMovieSuccess(response.data, id));
     } catch (error) {
         dispatch(fetchMovieFailed(error));
     }
@@ -54,13 +58,16 @@ const rateMovieFailed = (error) => ({
 export const rateMovie = (rating, movieId) => async (dispatch, getState) => {
     //console.log('rateMovie called with: ', rating, movieId);
     const state = getState();
-    const session_id = getUserSessionId(state);
-    if (!session_id) {
+    if (!getHasSession(state)) {
         dispatch(rateMovieFailed('User not logged in'));
         return;
     }
     try {
-        const response = await postMovieRating(rating, movieId, session_id);
+        //const response = await postMovieRating(rating, movieId, session_id);
+        const response = await a.request(`api/movie/${movieId}/rating`, {
+            params: { rating },
+            method: 'POST'
+        });
         console.log(response);
         console.log(rating, movieId);
         dispatch(rateMovieSuccess(rating, movieId));
@@ -86,13 +93,15 @@ const removeMovieRatingFailed = (error) => ({
 
 export const removeMovieRating = (movieId) => async (dispatch, getState) => {
     const state = getState();
-    const session_id = getUserSessionId(state);
-    if (!session_id) {
+    if (!getHasSession(state)) {
         dispatch(removeMovieRatingFailed('User not logged in'));
         return;
     }
     try {
-        const response = await deleteMovieRating(movieId, session_id);
+        //const response = await deleteMovieRating(movieId, session_id);
+        const response = await a.request(`api/movie/${movieId}/rating`, {
+            method: 'DELETE'
+        });
         dispatch(removeMovieRatingSuccess(movieId));
     } catch (error) {
         console.log(error);

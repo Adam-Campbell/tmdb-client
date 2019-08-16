@@ -1,11 +1,7 @@
 import * as actionTypes from '../actionTypes';
-import { 
-    getSeasonDetails,
-    postEpisodeRating,
-    deleteEpisodeRating 
-} from '../Api';
 import { getSeasonIdentifiers } from '../reducers/seasonReducer';
-import { getUserSessionId } from '../reducers/sessionReducer';
+import { getHasSession } from '../reducers/sessionReducer';
+import { a } from '../axiosClient';
 
 const fetchSeasonRequest = () => ({
     type: actionTypes.FETCH_SEASON_REQUEST
@@ -27,14 +23,16 @@ const fetchSeasonFailed = (error) => ({
     }
 });
 
-export const fetchSeason = (showId, seasonNumber) => async (dispatch, getState) => {
+export const fetchSeason = (showId, seasonNumber, ssrHeaders = {}) => async (dispatch, getState) => {
     const state = getState();
     const cached = getSeasonIdentifiers(state);
     if (showId === cached.showId && seasonNumber === cached.seasonNumber) return;
     dispatch(fetchSeasonRequest());
     try {
-        const response = await getSeasonDetails(showId, seasonNumber, getUserSessionId(state));
-        dispatch(fetchSeasonSuccess(response, showId, seasonNumber));
+        const response = await a.get(`api/show/${showId}/season/${seasonNumber}`, {
+            headers: ssrHeaders
+        });
+        dispatch(fetchSeasonSuccess(response.data, showId, seasonNumber));
     } catch (error) {
         dispatch(fetchSeasonFailed(error));
     }
@@ -60,13 +58,18 @@ const rateEpisodeFailed = (error) => ({
 
 export const rateEpisode = (showId, seasonNumber, episodeNumber, rating) => async (dispatch, getState) => {
     const state = getState();
-    const sessionId = getUserSessionId(state);
-    if (!sessionId) {
+    if (!getHasSession(state)) {
         dispatch(rateEpisodeFailed('User not logged in'));
         return;
     }
     try {
-        const response = await postEpisodeRating(showId, seasonNumber, episodeNumber, rating, sessionId);
+        const response = await a.request(`api/show/${showId}/season/${seasonNumber}/rating`, {
+            params: {
+                episodeNumber,
+                rating
+            },
+            method: 'POST'
+        });
         dispatch(rateEpisodeSuccess(rating, showId, seasonNumber, episodeNumber));
     } catch (error) {
         console.log(error);
@@ -92,13 +95,15 @@ const removeEpisodeRatingFailed = (error) => ({
 
 export const removeEpisodeRating = (showId, seasonNumber, episodeNumber) => async (dispatch, getState) => {
     const state = getState();
-    const sessionId = getUserSessionId(state);
-    if (!sessionId) {
+    if (!getHasSession(state)) {
         dispatch(removeEpisodeRatingFailed('User not logged in'));
         return;
     }
     try {
-        const response = await deleteEpisodeRating(showId, seasonNumber, episodeNumber, sessionId);
+        const response = await a.request(`api/show/${showId}/season/${seasonNumber}/rating`, {
+            params: { episodeNumber },
+            method: 'DELETE'
+        });
         dispatch(removeEpisodeRatingSuccess(showId, seasonNumber, episodeNumber));
     } catch (error) {
         console.log(error);

@@ -11,6 +11,7 @@ import { Row } from '../../components/Layout';
 import { CardRatingButton } from '../../components/Buttons';
 import ListViewHeader from '../../components/ListViewHeader';
 import Switch from '../../components/Switch';
+import { getInitialMeProps } from './';
 
 function Ratings(props) {
 
@@ -60,10 +61,7 @@ function Ratings(props) {
     );
 }
 
-Ratings.getInitialProps = async ({ query, store }) => {
-    await store.dispatch(fetchFullProfile());
-    return {};
-}
+Ratings.getInitialProps = getInitialMeProps;
 
 function mapState(state) {
     return {

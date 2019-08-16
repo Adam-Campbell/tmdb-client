@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
-import { getSearchResults } from '../Api';
+import { getSearchResults } from '../clientApi';
 import SubNav from '../components/SubNav';
 import { getSearchSubNavData } from '../utils';
 import { PosterCard, PersonCard, MediaCard, MinimalCard } from '../components/Cards';
@@ -87,7 +87,7 @@ Search.getInitialProps = async ({ query, req }) => {
     // we use for our query param (/search?query=foo) hence the query.query
     const searchQuery = query.query;
     const searchCategory = query.category;
-    console.log(searchQuery, searchCategory);
+    //console.log(searchQuery, searchCategory);
     const searchResults = await getSearchResults(searchQuery, searchCategory);
     const serverInfo = req ? { isDevice: req.isDevice } : {};
     return { 

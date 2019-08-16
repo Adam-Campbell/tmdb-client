@@ -57,12 +57,12 @@ export default function PersonListItem({ id, name, description, imagePath, isHid
                 imagePath={imagePath}
                 imageSize={imageSizeConstants.faceMedium}
                 alt={name}
-                linkHref={`/person?id=${id}`}
+                linkHref="/person/[id]"
                 linkAs={`/person/${id}`}
                 isPersonImage={true}
             />
             <div>
-                <Link href={`/person?id=${id}`} as={`/person/${id}`} passHref>
+                <Link href="/person/[id]" as={`/person/${id}`} passHref>
                     <NameLink>{name}</NameLink>
                 </Link>
                 <Description>{description}</Description>

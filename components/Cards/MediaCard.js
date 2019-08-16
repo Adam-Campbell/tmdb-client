@@ -22,7 +22,7 @@ const StyledMediaCard = styled.div`
     }
 `;
 
-const ImageLink = styled.a`
+const ImageContentContainer = styled.div`
     position: relative;
     display: flex;
     width: 100%;
@@ -205,41 +205,43 @@ export function MediaCard({
 
     return (
         <StyledMediaCard ref={cardRef}>
-            <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
-                <ImageLink ref={ref} {...containerProps} isInline={isInline}>
-                    {(hasPosterImage && hasBackdropImage) && (
-                        <PlaceholderContainer 
-                            hasPosterImage={hasPosterImage}
-                            hasBackdropImage={hasBackdropImage}
-                        >
-                            <PlaceholderIcon />
-                        </PlaceholderContainer>
-                    )}
-                    {hasPosterImage && (
-                        <PosterImage
-                            key={id} 
-                            src={posterImageLoaded ? posterImageSrc : null} 
-                            alt={title} 
-                            isHovered={isHovered}
-                            isLoaded={posterImageLoaded}
-                        />
-                    )}
-                    {hasBackdropImage && (
-                        <BackdropImage 
-                            src={backdropImageLoaded ? backdropImageSrc : null} 
-                            alt={title} 
-                            isHovered={isHovered}
-                            isLoaded={backdropImageLoaded}
-                        />
-                    )}
-                    {(hasPosterImage || hasBackdropImage) && (
-                        <ImageOverlay 
-                            isHovered={isHovered}
-                            hasPosterImage={hasPosterImage}
-                            hasBackdropImage={hasBackdropImage} 
-                        />
-                    )}
-                </ImageLink>
+            <Link href={`${urlSubpath}/[id]`} as={`${urlSubpath}/${id}`} passHref>
+                <a>
+                    <ImageContentContainer ref={ref} {...containerProps} isInline={isInline}>
+                        {(hasPosterImage && hasBackdropImage) && (
+                            <PlaceholderContainer 
+                                hasPosterImage={hasPosterImage}
+                                hasBackdropImage={hasBackdropImage}
+                            >
+                                <PlaceholderIcon />
+                            </PlaceholderContainer>
+                        )}
+                        {hasPosterImage && (
+                            <PosterImage
+                                key={id} 
+                                src={posterImageLoaded ? posterImageSrc : null} 
+                                alt={title} 
+                                isHovered={isHovered}
+                                isLoaded={posterImageLoaded}
+                            />
+                        )}
+                        {hasBackdropImage && (
+                            <BackdropImage 
+                                src={backdropImageLoaded ? backdropImageSrc : null} 
+                                alt={title} 
+                                isHovered={isHovered}
+                                isLoaded={backdropImageLoaded}
+                            />
+                        )}
+                        {(hasPosterImage || hasBackdropImage) && (
+                            <ImageOverlay 
+                                isHovered={isHovered}
+                                hasPosterImage={hasPosterImage}
+                                hasBackdropImage={hasBackdropImage} 
+                            />
+                        )}
+                    </ImageContentContainer>
+                </a>
             </Link>
             <TextColumn>
                 <CardInfoRow 
@@ -255,7 +257,7 @@ export function MediaCard({
                 </OverviewText>
                 <ActionRow>
                     {hasUserAction ? children : (
-                        <Link href={`${urlSubpath}?id=${id}`} as={`${urlSubpath}/${id}`} passHref>
+                        <Link href={`${urlSubpath}/[id]`} as={`${urlSubpath}/${id}`} passHref>
                             <MoreInfoLink>More Info</MoreInfoLink>
                         </Link>
                     )}

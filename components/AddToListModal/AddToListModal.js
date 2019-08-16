@@ -4,14 +4,13 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import ReactModal from 'react-modal';
 import { addMovieToList } from '../../actions';
-import { getCreatedLists } from '../../Api';
 import { getUserId } from '../../reducers/user';
-import { getUserSessionId } from '../../reducers/sessionReducer';
 import { text } from '../../utils';
 import useHover from '../useHover';
 import { Times } from 'styled-icons/fa-solid';
 import ModalListItem from './ModalListItem';
 import ListBox from '../ListBox';
+import { a } from '../../axiosClient';
 
 const LoaderContainer = styled.div`
     width: 100%;
@@ -78,7 +77,6 @@ function formatListsData(listsData) {
 
 function AddToListModal({ 
     accountId, 
-    userSessionId, 
     addMovieToList, 
     movieId, 
     isOpen, 
@@ -93,12 +91,13 @@ function AddToListModal({
     useEffect(() => {
         async function fetchCreatedLists() {
             setIsLoading(true);
-            const response = await getCreatedLists(accountId, userSessionId);
+            //const response = await getCreatedLists(accountId, userSessionId);
+            const response = await a.get(`api/user/${accountId}/lists`);
             setIsLoading(false);
-            setUsersLists(formatListsData(response.data.results));
+            setUsersLists(formatListsData(response.data));
         }
         fetchCreatedLists();
-    }, [ accountId, userSessionId ]);
+    }, [ accountId ]);
 
     function handleListSelect(listObject) {
         addMovieToList(listObject.id, movieId);
@@ -148,7 +147,7 @@ AddToListModal.propTypes = {
 
 function mapState(state) {
     return {
-        userSessionId: getUserSessionId(state),
+        //userSessionId: getUserSessionId(state),
         accountId: getUserId(state)
     };
 }

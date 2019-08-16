@@ -12,6 +12,7 @@ import ListViewHeader from '../../components/ListViewHeader';
 import { text } from '../../utils';
 import CreateListModal from '../../components/CreateListModal';
 import { Button } from '../../components/Buttons';
+import { getInitialMeProps } from './';
 
 const ListCardsContainer = styled(Row)`
     display: flex;
@@ -57,10 +58,7 @@ function Lists({ lists }) {
     );
 }
 
-Lists.getInitialProps = async ({ query, store }) => {
-    await store.dispatch(fetchFullProfile());
-    return {};
-}
+Lists.getInitialProps = getInitialMeProps;
 
 function mapState(state) {
     return {

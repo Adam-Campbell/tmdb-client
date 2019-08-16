@@ -10,7 +10,7 @@ import { text } from '../../utils';
 import { connect } from 'react-redux';
 import { getMovieData } from '../../reducers/movieReducer';
 import { getShowData } from '../../reducers/showReducer';
-import { getSessionType } from '../../reducers/sessionReducer';
+import { getHasSession } from '../../reducers/sessionReducer';
 import UserInteractionsRow from './UserInteractionsRow';
 import SmartImage from '../SmartImage';
 import { cover } from 'polished';
@@ -91,7 +91,7 @@ const RatingContainer = styled.div`
 
 export function MediaHeader({ 
     mediaType,
-    sessionType,
+    hasSession,
     backdropPath,
     posterPath,
     title,
@@ -124,7 +124,7 @@ export function MediaHeader({
                             <RatingContainer>
                                 <Rating rating={averageRating} />
                             </RatingContainer>
-                            {sessionType === 'USER' && (
+                            {hasSession && (
                                 <UserInteractionsRow mediaType={mediaType} />
                             )}
                         </InteractionRow>
@@ -146,7 +146,7 @@ export function MediaHeader({
 
 MediaHeader.propTypes = {
     mediaType: PropTypes.oneOf(['movie', 'tv']),
-    sessionType: PropTypes.oneOf(['USER', 'GUEST', null]),
+    hasSession: PropTypes.bool.isRequired,
     backdropPath: PropTypes.string.isRequired,
     posterPath: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
@@ -167,7 +167,7 @@ MediaHeader.propTypes = {
 function mapState(state, ownProps) {
     const m = ownProps.mediaType === 'movie' ? getMovieData(state) : getShowData(state);
     return {
-        sessionType: getSessionType(state),
+        hasSession: getHasSession(state),
         backdropPath: m.backdrop_path,
         posterPath: m.poster_path,
         title: ownProps.mediaType === 'movie' ? m.title : m.name,

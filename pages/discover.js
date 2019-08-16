@@ -5,7 +5,7 @@ import ListBox from '../components/ListBox';
 import Router from 'next/router';
 import ComboBox from '../components/ComboBox';
 import MediaListView from '../components/MediaListView';
-import { getDiscoverResults } from '../Api';
+import { getDiscoverResults } from '../clientApi';
 import { Row } from '../components/Layout';
 import {
     sortByOptions,
@@ -230,15 +230,6 @@ class Discover extends Component {
     }
 }
 
-/*
-
-<MediaListView 
-                title="Results"
-                items={results}
-                urlSubpath="foo"
-            />
-
-*/
 
 Discover.getInitialProps = async ({ query, req }) => {
     const parsedParams = parseQueryParams(

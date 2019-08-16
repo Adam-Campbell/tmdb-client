@@ -1,21 +1,9 @@
 import * as actionTypes from '../actionTypes';
-import { getSessionType, getUserSessionId } from '../reducers/sessionReducer';
+import { getSessionType, getHasSession } from '../reducers/sessionReducer';
 import { hasGotUserSummary, getUserId } from '../reducers/user';
 import { getUserDataStatus } from '../reducers/user/dataStatusReducer';
-import { 
-    fetchUserSummary, 
-    postFavourite, 
-    postWatchlist,
-    getCreatedLists,
-    getFavouriteMovies,
-    getFavouriteShows, 
-    getRatedMovies,
-    getRatedShows, 
-    getRatedEpisodes,
-    getMovieWatchlist,
-    getShowWatchlist
-} from '../Api';
 import axios from 'axios';
+import { a } from '../axiosClient';
 
 const storeUserSummary = (userSummary) => ({
     type: actionTypes.STORE_USER_SUMMARY,
@@ -24,13 +12,14 @@ const storeUserSummary = (userSummary) => ({
     }
 });
 
-export const getUserSummary = () => async (dispatch, getState) => {
+export const getUserSummary = (ssrHeaders = {}) => async (dispatch, getState) => {
     const state = getState();
-    if (getSessionType(state) === 'USER' && !hasGotUserSummary(state)) {
+    if (getHasSession(state) && !hasGotUserSummary(state)) {
         try {
-            const userSessionId = getUserSessionId(state);
-            const userSummary = await fetchUserSummary(userSessionId);
-            dispatch(storeUserSummary(userSummary));
+            const userSummary = await a.get('api/user/summary', {
+                headers: { ...ssrHeaders }
+            });
+            dispatch(storeUserSummary(userSummary.data));
         } catch (err) {
             console.log(err);
         }
@@ -59,7 +48,7 @@ export const loginUser = (request_token) => async (dispatch, getState) => {
     const state = getState();
     if (!request_token || hasGotUserSummary(state)) return;
     try {
-        const response = await axios.request(`http://localhost:3000/api/usersession`, {
+        const response = await a.request(`api/session`, {
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -68,8 +57,8 @@ export const loginUser = (request_token) => async (dispatch, getState) => {
                 request_token
             }
         });
-        const userSessionId = response.data.session_id.session_id;
-        dispatch(loginUserSuccess(userSessionId));
+        console.log(response);
+        dispatch(loginUserSuccess());
         dispatch(getUserSummary());
     } catch (err) {
         dispatch(loginUserFailed(err));
@@ -79,7 +68,7 @@ export const loginUser = (request_token) => async (dispatch, getState) => {
 
 export const logoutUser = () => async (dispatch, getState) => {
     try {
-        const response = await axios.delete('http://localhost:3000/api/usersession');
+        const response = await a.delete('api/session');
         dispatch({
             type: actionTypes.LOGOUT_USER
         });
@@ -105,19 +94,27 @@ const markFavouriteFailed = (error) => ({
     }
 });
 
-export const markFavourite = (mediaType, mediaId, isMarking) => async (dispatch, getState) => {
+export const markFavourite = (mediaType, mediaId, isFavouriting) => async (dispatch, getState) => {
     const state = getState();
-    const sessionId = getUserSessionId(state);
     const accountId = getUserId(state);
-    if (!sessionId) {
+    if (!getHasSession(state)) {
         dispatch(markFavouriteFailed('User is not logged in'));
         return;
     }
 
     try {
-        const response = await postFavourite(mediaType, mediaId, isMarking, accountId, sessionId);
-        //console.log(response);
-        dispatch(markFavouriteSuccess(mediaId, mediaType, isMarking));
+        const response = await a.request(`api/user/${accountId}/favorite`, {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            method: 'POST',
+            data: {
+                mediaType,
+                mediaId,
+                isFavouriting
+            }
+        });
+        dispatch(markFavouriteSuccess(mediaId, mediaType, isFavouriting));
     } catch (error) {
         dispatch(markFavouriteFailed(error));
     }
@@ -143,16 +140,23 @@ const editWatchlistFailed = (error) => ({
 export const editWatchlist = (mediaType, mediaId, isAdding) => async (dispatch, getState) => {
     console.log('editWatchlist was called!');
     const state = getState();
-    const sessionId = getUserSessionId(state);
     const accountId = getUserId(state);
-    if (!sessionId) {
+    if (!getHasSession(state)) {
         dispatch(editWatchlistFailed('User is not logged in'));
         return;
     }
-
     try {
-        const response = await postWatchlist(mediaType, mediaId, isAdding, accountId, sessionId);
-        //console.log(response);
+        const response = await a.request(`api/user/${accountId}/watchlist`, {
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            method: 'POST',
+            data: {
+                mediaType,
+                mediaId,
+                isAdding
+            }
+        });
         dispatch(editWatchlistSuccess(mediaId, mediaType, isAdding));
     } catch (error) {
         dispatch(editWatchlistFailed(error));
@@ -182,12 +186,12 @@ const fetchFullProfileFailed = (error) => ({
     }
 });
 
-export const fetchFullProfile = () => async (dispatch, getState) => {
+export const fetchFullProfile = (ssrHeaders = {}) => async (dispatch, getState) => {
     
     const state = getState();
 
     // If we have somehow called this without there being a user session then return immediately
-    if (getSessionType(state) !== 'USER') return;
+    if (!getHasSession(state)) return;
 
     const { hasFetched, fetchedAt, isInvalidated } = getUserDataStatus(state); 
     // If all of these conditions are met then the data is present and still considered fresh, so
@@ -201,41 +205,19 @@ export const fetchFullProfile = () => async (dispatch, getState) => {
     }
 
     try {
-        const userSessionId = getUserSessionId(state);
+
         const userId = getUserId(state);
-        const [
-            createdLists,
-            favouriteMovies,
-            favouriteShows,
-            ratedMovies,
-            ratedShows,
-            ratedEpisodes,
-            movieWatchlist,
-            showWatchlist
-        ] = await Promise.all([
-            getCreatedLists(userId, userSessionId),
-            getFavouriteMovies(userId, userSessionId),
-            getFavouriteShows(userId, userSessionId), 
-            getRatedMovies(userId, userSessionId),
-            getRatedShows(userId, userSessionId), 
-            getRatedEpisodes(userId, userSessionId),
-            getMovieWatchlist(userId, userSessionId),
-            getShowWatchlist(userId, userSessionId)
-        ])
-        .then(results => results.map(r => r.data.results));
-        const favourites = {
-            movies: favouriteMovies,
-            shows: favouriteShows
-        };
-        const rated = {
-            movies: ratedMovies,
-            shows: ratedShows,
-            episodes: ratedEpisodes
-        };
-        const watchlists = {
-            movies: movieWatchlist,
-            shows: showWatchlist
-        };
+        const {
+            data: {
+                createdLists,
+                favourites,
+                rated,
+                watchlists
+            }
+        } = await a.get(`api/user/${userId}/profile`, { 
+            headers: ssrHeaders    
+        });
+
         dispatch(fetchFullProfileSuccess(createdLists, favourites, rated, watchlists));
     } catch (error) {
         console.log(error);

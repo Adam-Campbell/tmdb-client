@@ -1,7 +1,7 @@
 import * as actionTypes from '../actionTypes';
-import { getShowDetails, postShowRating, deleteShowRating } from '../Api';
+import { getHasSession } from '../reducers/sessionReducer';
 import { getShowId } from '../reducers/showReducer';
-import { getUserSessionId } from '../reducers/sessionReducer';
+import { a } from '../axiosClient';
 
 const fetchShowRequest = () => ({
     type: actionTypes.FETCH_SHOW_REQUEST
@@ -23,13 +23,15 @@ const fetchShowFailed = (error) => ({
 });
 
 
-export const fetchShow = (id) => async (dispatch, getState) => {
+export const fetchShow = (id, ssrHeaders = {}) => async (dispatch, getState) => {
     const state = getState();
     if (id === getShowId(state)) return;
 
     try {
-        const response = await getShowDetails(id, getUserSessionId(state));
-        dispatch(fetchShowSuccess(response, id));
+        const response = await a.get(`api/show/${id}`, {
+            headers: ssrHeaders
+        });
+        dispatch(fetchShowSuccess(response.data, id));
     } catch (error) {
         dispatch(fetchShowFailed(error));
     }
@@ -53,13 +55,16 @@ const rateShowFailed = (error) => ({
 
 export const rateShow = (rating, showId) => async (dispatch, getState) => {
     const state = getState();
-    const session_id = getUserSessionId(state);
-    if (!session_id) {
+    if (!getHasSession(state)) {
         dispatch(rateShowFailed('User not logged in'));
         return;
     }
     try {
-        const response = await postShowRating(rating, showId, session_id);
+        //const response = await postShowRating(rating, showId, session_id);
+        const response = await a.request(`api/show/${showId}/rating`, {
+            params: { rating },
+            method: 'POST'
+        });
         dispatch(rateShowSuccess(rating, showId));
     } catch (error) {
         console.log(error);
@@ -83,13 +88,15 @@ const removeShowRatingFailed = (error) => ({
 
 export const removeShowRating = (showId) => async (dispatch, getState) => {
     const state = getState();
-    const session_id = getUserSessionId(state);
-    if (!session_id) {
+    if (!getHasSession(state)) {
         dispatch(removeShowRatingFailed('User not logged in'));
         return;
     }
     try {
-        const response = await deleteShowRating(showId, session_id);
+        //const response = await deleteShowRating(showId, session_id);
+        const response = await a.request(`api/show/${showId}/rating`, {
+            method: 'DELETE'
+        });
         dispatch(removeShowRatingSuccess(showId));
     } catch (error) {
         //console.log(error);

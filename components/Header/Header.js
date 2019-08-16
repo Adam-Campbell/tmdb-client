@@ -3,14 +3,14 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { Row } from '../Layout';
 import { connect } from 'react-redux';
-import { getSessionType, getUserSessionId } from '../../reducers/sessionReducer';
+import { getHasSession } from '../../reducers/sessionReducer';
 import { logoutUser } from '../../actions';
-import { getRequestToken } from '../../Api';
 import { text } from '../../utils';
 import Nav from './Nav';
 import { Menu } from 'styled-icons/material';
 import UserIcon from './UserIcon';
 import { Button } from '../Buttons';
+import { a } from '../../axiosClient';
  
 const StyledHeader = styled.header`
     background-color: ${({ theme }) => theme.colors.complimentary};
@@ -47,8 +47,13 @@ const MenuToggle = styled(Menu)`
 `;
 
 async function handleLoginClick() {
-    const requestToken = await getRequestToken();
-    window.location = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=http://localhost:3000/authenticate`
+    try { 
+        const response = await a.get('api/token');
+        const requestToken = response.data.request_token;
+        window.location = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=http://localhost:3000/authenticate`;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 function Header({ isLoggedIn }) { 
@@ -71,7 +76,7 @@ function Header({ isLoggedIn }) {
 }
 
 const mapState = (state) => ({
-    isLoggedIn: getSessionType(state) === 'USER'
+    isLoggedIn: getHasSession(state)
 });
 
 export const ConnectedHeader = connect(mapState, {

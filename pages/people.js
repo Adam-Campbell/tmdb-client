@@ -1,7 +1,7 @@
 import React from 'react';
 import {
     getPopularPeople
-} from '../Api';
+} from '../clientApi';
 import styled from 'styled-components';
 import ListViewHeader from '../components/ListViewHeader';
 import { MinimalCard } from '../components/Cards';
@@ -37,10 +37,8 @@ const People = (props) => (
 
 People.getInitialProps = async ({ req }) => {
     const results = await getPopularPeople();
-    const serverInfo = req ? { isDevice: req.isDevice } : {};
     return {
         results,
-        ...serverInfo
     };
 };
 

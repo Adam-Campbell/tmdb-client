@@ -1,6 +1,7 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import reducer from './reducers';
+import { parse } from 'cookie';
 
 const composeEnhancers = (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
 
@@ -27,14 +28,22 @@ const makeStore = (initialState, options) => {
         //console.log(options.req.headers.cookie);
         //console.log(options.req.cookies);
         //console.log(options.req.cookies);
-        if (options.req.cookies.userSessionId) {
+        console.log(options.req.headers.cookie);
+        const { userSessionId } = parse(options.req.headers.cookie || '');
+        if (userSessionId) {
             initialState = {
                 session: {
-                    userSessionId: options.req.cookies.userSessionId,
-                    guestSessionId: null
+                    hasSession: true
                 }
             }
         }
+        // if (options.req.cookies.userSessionId) {
+        //     initialState = {
+        //         session: {
+        //             hasSession: true
+        //         }
+        //     }
+        // }
     }
     return createStore(
         reducer,
