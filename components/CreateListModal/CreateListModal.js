@@ -6,7 +6,7 @@ import ReactModal from 'react-modal';
 import { createList } from '../../actions';
 import { text } from '../../utils';
 import { Times } from 'styled-icons/fa-solid';
-
+import { Button } from '../Buttons';
 
 const FormTitle = styled.h2`
     ${({ theme }) => theme.fontStacks.heading()}
@@ -55,7 +55,6 @@ const CloseErrorIcon = styled(Times)`
     cursor: pointer;
 `;
 
-
 const Textarea = styled.textarea`
     ${({ theme }) => theme.fontStacks.body()}
     border: none;
@@ -69,20 +68,7 @@ const Textarea = styled.textarea`
     box-shadow: 0 1px 0 rgba(0,0,0,0.03) inset;
 `;
 
-const SubmitButton = styled.button`
-    ${({ theme }) => theme.fontStacks.bodyBold({ useLight: true })}
-    background: ${({ theme }) => theme.colors.success};
-    padding: ${({ theme }) => theme.getSpacing(2, 3)};
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    &:focus {
-        outline: 0;
-    }
-`;
-
-const CancelButton = styled(SubmitButton)`
-    background: ${({ theme }) => theme.colors.warning};
+const CancelButton = styled(Button)`
     margin-left: ${({ theme }) => theme.getSpacing(2)};
 `;
 
@@ -138,8 +124,14 @@ function CreateListModal({ isOpen, handleClose, createList }) {
                         onChange={e => setListDescription(e.target.value)}
                     />
                 </Fieldset>
-                <SubmitButton type="submit">Create list</SubmitButton>
-                <CancelButton type="button" onClick={handleClose}>Cancel</CancelButton>
+                <Button 
+                    buttonType="success" 
+                    shouldSubmit={true}
+                >Create list</Button>
+                <CancelButton 
+                    buttonType="warning" 
+                    onClick={handleClose}
+                >Cancel</CancelButton>
             </form>
         </ReactModal>
     );
