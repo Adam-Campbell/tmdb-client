@@ -23,7 +23,8 @@ export function Button({
     buttonType = 'primary', 
     className, 
     children,
-    buttonRef
+    buttonRef,
+    shouldSubmit
 }) {
     const { isHovered, containerProps } = useHover();
 
@@ -35,6 +36,7 @@ export function Button({
             isHovered={isHovered}
             {...containerProps}
             ref={buttonRef}
+            type={shouldSubmit ? 'submit' : 'button'}
         >
             {children}
         </StyledButton>
@@ -42,9 +44,10 @@ export function Button({
 }
 
 Button.propTypes = {
-    onClick: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
     buttonType: PropTypes.oneOf(['primary', 'success', 'warning', 'info']),
     className: PropTypes.string,
     children: PropTypes.any,
-    buttonRef: PropTypes.object
+    buttonRef: PropTypes.object,
+    shouldSubmit: PropTypes.bool
 }
