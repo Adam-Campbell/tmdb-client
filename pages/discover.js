@@ -4,6 +4,7 @@ import RangeSelect from '../components/RangeSelect';
 import ListBox from '../components/ListBox';
 import Router from 'next/router';
 import ComboBox from '../components/ComboBox';
+import ListViewHeader from '../components/ListViewHeader';
 import MediaListView from '../components/MediaListView';
 import { getDiscoverResults } from '../clientApi';
 import { Row } from '../components/Layout';
@@ -17,77 +18,57 @@ import {
     convertGenreObjectsToIds
 } from '../utils';
 import { MediaCard } from '../components/Cards';
+import { Button } from '../components/Buttons';
+import { SlidersH, Times } from 'styled-icons/fa-solid';
 
+const PageWrapper = styled.div`
+    overflow-x: hidden;
+`;
 
-const Wrapper = styled(Row)`
+const ContentWrapper = styled(Row)`
     display: flex;
-    flex-direction: column;
-    @media (min-width: 900px) {
-        flex-direction: row;
+`;
+
+const ControlsCol = styled.div`
+    display: ${({ isShowingFilters }) => isShowingFilters ? 'block' : 'none'};
+    width: 280px;
+    margin-right: ${({ theme, isShowingFilters }) => isShowingFilters ? theme.getSpacing(4) : 0};
+    flex-shrink: 0;
+    padding-top: ${({ theme }) => theme.getSpacing(3)};
+    @media (min-width: 340px) {
+        width: 300px;
     }
 `;
 
-const ControlsContainer = styled.div`
-    @media (min-width: 900px) {
-        width: 280px;
-        padding: ${({ theme }) => theme.getSpacing(4, 3, 4, 0)};
-    }
+const ResultsCol = styled.div`
+    width: 100%;
+    flex-shrink: 0;
 `;
-
-const ResultsContainer = styled.div`
-    @media (min-width: 900px) {
-        width: calc(100% - 280px);
-        padding: ${({ theme }) => theme.getSpacing(4, 0, 4, 3)};
-    }
-`;
-
-const DropdownContainer = styled.div`
-    max-width: 320px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: ${({ theme }) => theme.getSpacing(4)};
-`;
-
 
 const SliderContainer = styled.div`
     width: 100%;
     padding: ${({ theme }) => theme.getSpacing(2)};
-    @media (min-width: 768px) {
-        width: calc(50% - 20px);
-    }
-    @media (min-width: 900px) {
-        width: 100%;
-    }
-`;
-
-const SliderRow = styled.div`
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
 `;
 
 const InputContainer = styled.div`
     width: 100%;
-    margin-bottom: ${({ theme }) => theme.getSpacing(3)};
-    @media(min-width: 768px) {
-        width: calc(50% - 10px);
-    }
-    @media(min-width: 900px) {
-        width: 100%;
-    }
+    margin: ${({ theme }) => theme.getSpacing(3, 0)};
 `;
 
 const ComboBoxContainer = styled.div`
     width: 100%;
-    margin-bottom: ${({ theme }) => theme.getSpacing(3)};
+    margin-bottom: ${({ theme }) => theme.getSpacing(3, 0)};
 `;
 
-const InputRow = styled.div`
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+const FiltersIcon = styled(SlidersH)`
+    width: 16px;
+    margin-left: ${({ theme }) => theme.getSpacing(2)};
 `;
 
+const CloseIcon = styled(Times)`
+    width: 11px;
+    margin-left: ${({ theme }) => theme.getSpacing(2)};
+`;
 
 class Discover extends Component {
 
@@ -96,7 +77,8 @@ class Discover extends Component {
         scoreValues: this.props.scoreValues,
         sortBy: this.props.sortBy,
         withGenres: this.props.withGenres,
-        mediaType: this.props.mediaType
+        mediaType: this.props.mediaType, 
+        isShowingFilters: false
     };
 
     componentDidUpdate(prevProps, prevState) {
@@ -108,6 +90,12 @@ class Discover extends Component {
             withGenres: this.props.withGenres,
             mediaType: this.props.mediaType
         }); 
+    }
+
+    toggleFilters = () => {
+        this.setState(prevState => ({
+            isShowingFilters: !prevState.isShowingFilters
+        }));
     }
 
     updateValue = (key) => (value) => {
@@ -144,16 +132,22 @@ class Discover extends Component {
 
     render() {
 
-        const { releaseValues, scoreValues, sortBy, withGenres, mediaType } = this.state;
+        const { releaseValues, scoreValues, sortBy, withGenres, mediaType, isShowingFilters } = this.state;
         const { movieGenres, TVGenres, results } = this.props;
 
         const stableSortBy = sortByOptions.find(el => el.value === sortBy.value);
         const stableMediaType = mediaTypes.find(el => el.value === mediaType.value);
 
         return (
-            <Wrapper>
-                <ControlsContainer>
-                    <SliderRow>
+            <PageWrapper>
+                <ListViewHeader title="Discover">
+                    <Button onClick={this.toggleFilters}>
+                        {isShowingFilters ? 'Hide Filters' : 'Show Filters'}
+                        {isShowingFilters ? <CloseIcon /> : <FiltersIcon />}
+                    </Button>
+                </ListViewHeader>
+                <ContentWrapper>
+                    <ControlsCol isShowingFilters={isShowingFilters}>
                         <SliderContainer>
                             <RangeSelect 
                                 domain={[0, 10]}
@@ -178,8 +172,6 @@ class Discover extends Component {
                                 setExternalValue={this.updateValue('releaseValues')}
                             />
                         </SliderContainer>
-                    </SliderRow>
-                    <InputRow>
                         <InputContainer>
                             <ListBox 
                                 items={sortByOptions}
@@ -207,25 +199,25 @@ class Discover extends Component {
                                 setSelection={this.updateValue('withGenres')}
                             />
                         </ComboBoxContainer>
-                    </InputRow>
-                </ControlsContainer>
-                <ResultsContainer>
-                    {results.map(item => (
-                        <MediaCard 
-                            key={item.id}
-                            id={item.id}
-                            title={item.title || item.name}
-                            releaseDate={item.release_date || item.first_air_date}
-                            averageRating={item.vote_average}
-                            backdropPath={item.backdrop_path}
-                            posterPath={item.poster_path}
-                            overview={item.overview}
-                            urlSubpath={mediaType.value === 'movies' ? '/movie' : '/show'}
-                            isInline={true}
-                        /> 
-                    ))}
-                </ResultsContainer>
-            </Wrapper>
+                    </ControlsCol>
+                    <ResultsCol>
+                        {results.map(item => (
+                            <MediaCard 
+                                key={item.id}
+                                id={item.id}
+                                title={item.title || item.name}
+                                releaseDate={item.release_date || item.first_air_date}
+                                averageRating={item.vote_average}
+                                backdropPath={item.backdrop_path}
+                                posterPath={item.poster_path}
+                                overview={item.overview}
+                                urlSubpath={mediaType.value === 'movies' ? '/movie' : '/show'}
+                                isInline={true}
+                            /> 
+                        ))}
+                    </ResultsCol>
+                </ContentWrapper>
+            </PageWrapper>
         );
     }
 }
