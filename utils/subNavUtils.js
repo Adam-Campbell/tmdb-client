@@ -81,7 +81,7 @@ export function getSearchSubNavData(searchQuery) {
     }
     return ['movie', 'tv', 'person'].map(category => ({
         name: names[category],
-        href: `/search?category=${category}&query=${searchQuery}`,
-        as: `/search?category=${category}&query=${searchQuery}`
+        href: `/search?category=${category}&query=${encodeURIComponent(searchQuery)}`,
+        as: `/search?category=${category}&query=${encodeURIComponent(searchQuery)}`
     }));
 }

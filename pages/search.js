@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react';
 import styled from 'styled-components';
 import { getSearchResults } from '../clientApi';
-import SubNav from '../components/SubNav';
-import { getSearchSubNavData } from '../utils';
-import { PosterCard, PersonCard, MediaCard, MinimalCard } from '../components/Cards';
+import { MediaCard, MinimalCard } from '../components/Cards';
 import { Row } from '../components/Layout';
+import SearchNavigation from '../components/SearchNavigation';
 
 const CardsContainer = styled(Row)`
     display: flex;
@@ -66,28 +65,24 @@ function getResultCards(searchResults, searchCategory) {
 }
 
 
-const Search = ({ searchQuery, searchCategory, searchResults }) => {
-
-    const navData = useMemo(() => { 
-        return getSearchSubNavData(searchQuery);
-    }, [ searchQuery ]);
-
+function Search({ searchQuery, searchCategory, searchResults }) {
     return (
         <div>
-            <SubNav navData={navData} alignCenter={true} />
+            <SearchNavigation 
+                searchQuery={searchQuery}
+            />
             <CardsContainer>
                 {getResultCards(searchResults, searchCategory)}
             </CardsContainer>
         </div>
     );
-};
+}
 
 Search.getInitialProps = async ({ query, req }) => {
     // query is the object provided by NextJS containing all query params, but it is also the name
     // we use for our query param (/search?query=foo) hence the query.query
     const searchQuery = query.query;
     const searchCategory = query.category;
-    //console.log(searchQuery, searchCategory);
     const searchResults = await getSearchResults(searchQuery, searchCategory);
     const serverInfo = req ? { isDevice: req.isDevice } : {};
     return { 
