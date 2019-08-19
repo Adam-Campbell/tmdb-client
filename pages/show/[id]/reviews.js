@@ -10,6 +10,7 @@ import { fetchShow } from '../../../actions';
 import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 import { getInitialShowProps } from './';
+import withErrorHandling from '../../../components/withErrorHandling';
 
 function Reviews({ id, title, posterPath, reviews }) {
 
@@ -61,4 +62,10 @@ function mapState(state) {
     };
 }
 
-export default connect(mapState)(Reviews);
+const ReviewsPage = withErrorHandling(
+    connect(mapState)(Reviews)
+);
+
+ReviewsPage.getInitialProps = getInitialShowProps;
+
+export default ReviewsPage;

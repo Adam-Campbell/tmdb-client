@@ -35,6 +35,7 @@ export const fetchSeason = (showId, seasonNumber, ssrHeaders = {}) => async (dis
         dispatch(fetchSeasonSuccess(response.data, showId, seasonNumber));
     } catch (error) {
         dispatch(fetchSeasonFailed(error));
+        throw new Error(error.response.status);
     }
 }
 

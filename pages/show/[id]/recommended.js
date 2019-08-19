@@ -9,6 +9,7 @@ import { fetchShow } from '../../../actions';
 import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 import { getInitialShowProps } from './';
+import withErrorHandling from '../../../components/withErrorHandling';
 
 function Recommended({ id, title, posterPath, recommendations }) {
 
@@ -34,8 +35,6 @@ function Recommended({ id, title, posterPath, recommendations }) {
     );
 }
 
-Recommended.getInitialProps = getInitialShowProps;
-
 function mapState(state) {
     const s = getShowData(state);
     return {
@@ -46,4 +45,10 @@ function mapState(state) {
     };
 }
 
-export default connect(mapState)(Recommended);
+const RecommendedPage = withErrorHandling(
+    connect(mapState)(Recommended)
+);
+
+RecommendedPage.getInitialProps = getInitialShowProps;
+
+export default RecommendedPage;

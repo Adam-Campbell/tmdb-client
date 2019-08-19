@@ -34,6 +34,7 @@ export const fetchShow = (id, ssrHeaders = {}) => async (dispatch, getState) => 
         dispatch(fetchShowSuccess(response.data, id));
     } catch (error) {
         dispatch(fetchShowFailed(error));
+        throw new Error(error.response.status);
     }
 }
 

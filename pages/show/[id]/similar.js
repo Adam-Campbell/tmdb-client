@@ -9,6 +9,7 @@ import { fetchShow } from '../../../actions';
 import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 import { getInitialShowProps } from './';
+import withErrorHandling from '../../../components/withErrorHandling';
 
 function Similar({ id, title, posterPath, similar }) {
     
@@ -34,8 +35,6 @@ function Similar({ id, title, posterPath, similar }) {
     );
 }
 
-Similar.getInitialProps = getInitialShowProps;
-
 function mapState(state) {
     const s = getShowData(state)
     return {
@@ -46,4 +45,11 @@ function mapState(state) {
     };
 }
 
-export default connect(mapState)(Similar);
+
+const SimilarPage = withErrorHandling(
+    connect(mapState)(Similar)
+);
+
+SimilarPage.getInitialProps = getInitialShowProps;
+
+export default SimilarPage;

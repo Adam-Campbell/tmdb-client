@@ -14,6 +14,7 @@ import { getShowData } from '../../../../../reducers/showReducer';
 import { getHasSession } from '../../../../../reducers/sessionReducer';
 import SeasonNavigation from '../../../../../components/SeasonNavigation';
 import SeasonRatingsChart from '../../../../../components/SeasonRatingsChart';
+import withErrorHandling from '../../../../../components/withErrorHandling';
 
 function Season({
     accountStates,
@@ -87,18 +88,6 @@ function Season({
     );
 }
 
-Season.getInitialProps = async ({ req, query, store }) => {
-    const showId = parseInt(query.id);
-    const seasonNumber = parseInt(query.number);
-    await Promise.all([
-        store.dispatch(fetchShow(showId, getSSRHeaders(req))),
-        store.dispatch(fetchSeason(showId, seasonNumber, getSSRHeaders(req)))
-    ]);
-    return {
-        showId
-    };
-}
-
 function mapState(state) {
     const s = getSeasonData(state);
     return {
@@ -117,4 +106,27 @@ function mapState(state) {
     }
 }
 
-export default connect(mapState)(Season);
+const SeasonPage = withErrorHandling(
+    connect(mapState)(Season)
+);
+
+SeasonPage.getInitialProps = async ({ req, query, store }) => {
+    try {
+    const showId = parseInt(query.id);
+    const seasonNumber = parseInt(query.number);
+    await Promise.all([
+        store.dispatch(fetchShow(showId, getSSRHeaders(req))),
+        store.dispatch(fetchSeason(showId, seasonNumber, getSSRHeaders(req)))
+    ]);
+    return {
+        showId
+    };
+    } catch (error) {
+        return {
+            hasError: true,
+            errorCode: error.message
+        };
+    }
+}
+
+export default SeasonPage;

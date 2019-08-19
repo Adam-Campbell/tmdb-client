@@ -5,11 +5,11 @@ import SubNav from '../../../components/SubNav';
 import { getShowSubNavData } from '../../../utils';
 import PeopleList from '../../../components/PeopleList';
 import { Row } from '../../../components/Layout';
-
 import { fetchShow } from '../../../actions';
 import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 import { getInitialShowProps } from './';
+import withErrorHandling from '../../../components/withErrorHandling';
 
 function CastAndCrew({ id, title, posterPath, cast, crew }) {
 
@@ -44,8 +44,6 @@ function CastAndCrew({ id, title, posterPath, cast, crew }) {
     );
 }
 
-CastAndCrew.getInitialProps = getInitialShowProps;
-
 function mapState(state) {
     const s = getShowData(state);
     return {
@@ -57,4 +55,10 @@ function mapState(state) {
     };
 }
 
-export default connect(mapState)(CastAndCrew);
+const CastAndCrewPage = withErrorHandling(
+    connect(mapState)(CastAndCrew)
+);
+
+CastAndCrewPage.getInitialProps = getInitialShowProps;
+
+export default CastAndCrewPage;
