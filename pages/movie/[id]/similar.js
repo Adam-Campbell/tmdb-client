@@ -8,6 +8,7 @@ import { fetchMovie } from '../../../actions';
 import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import { getInitialMovieProps } from './';
+import withErrorHandling from '../../../components/withErrorHandling';
  
 function Similar({ id, title, posterPath, similar }) {
     
@@ -33,8 +34,6 @@ function Similar({ id, title, posterPath, similar }) {
     );
 }
 
-Similar.getInitialProps = getInitialMovieProps;
-
 function mapState(state) {
     const m = getMovieData(state);
     return {
@@ -45,4 +44,10 @@ function mapState(state) {
     };
 }
 
-export default connect(mapState)(Similar);
+const SimilarPage = withErrorHandling(
+    connect(mapState)(Similar)
+);
+
+SimilarPage.getInitialProps = getInitialMovieProps;
+
+export default SimilarPage;

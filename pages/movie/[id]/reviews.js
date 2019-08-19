@@ -10,6 +10,7 @@ import { fetchMovie } from '../../../actions';
 import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import { getInitialMovieProps } from './';
+import withErrorHandling from '../.../../components/withErrorHandling';
 
 function Reviews({ id, title, posterPath, reviews }) {
     
@@ -49,8 +50,6 @@ function Reviews({ id, title, posterPath, reviews }) {
     );
 }
 
-Reviews.getInitialProps = getInitialMovieProps;
-
 function mapState(state) {
     const m = getMovieData(state);
     return {
@@ -61,4 +60,10 @@ function mapState(state) {
     };
 }
 
-export default connect(mapState)(Reviews);
+const ReviewsPage = withErrorHandling(
+    connect(mapState)(Reviews)
+);
+
+ReviewsPage.getInitialProps = getInitialMovieProps;
+
+export default ReviewsPage;

@@ -29,13 +29,13 @@ export const fetchMovie = (id, ssrHeaders = {}) => async (dispatch, getState) =>
     if (id === getMovieId(state)) return;
     dispatch(fetchMovieRequest());
     try {
-        //const response = await getMovieDetails(id, getUserSessionId(state));
         const response = await a.get(`api/movie/${id}`, {
             headers: ssrHeaders
         });
         dispatch(fetchMovieSuccess(response.data, id));
     } catch (error) {
         dispatch(fetchMovieFailed(error));
+        throw new Error(error.response.status);
     }
 }
 
