@@ -47,7 +47,7 @@ async function handleGet(req, res) {
             }
         });
     } catch (error) {
-        console.log(error);
+        res.status(error.response.status).end();
     }
 }
 

@@ -13,13 +13,13 @@ import { text } from '../../utils';
 import CreateListModal from '../../components/CreateListModal';
 import { Button } from '../../components/Buttons';
 import { getInitialMeProps } from './';
+import withErrorHandling from '../../components/withErrorHandling';
 
 const ListCardsContainer = styled(Row)`
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 `;
-
 
 function Lists({ lists }) {
 
@@ -58,12 +58,16 @@ function Lists({ lists }) {
     );
 }
 
-Lists.getInitialProps = getInitialMeProps;
-
 function mapState(state) {
     return {
         lists: getUsersCreatedLists(state)
     };
 }
 
-export default connect(mapState)(Lists);
+const ListsPage = withErrorHandling(
+    connect(mapState)(Lists)
+);
+
+ListsPage.getInitialProps = getInitialMeProps;
+
+export default ListsPage;

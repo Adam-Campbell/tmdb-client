@@ -220,7 +220,7 @@ export const fetchFullProfile = (ssrHeaders = {}) => async (dispatch, getState) 
 
         dispatch(fetchFullProfileSuccess(createdLists, favourites, rated, watchlists));
     } catch (error) {
-        console.log(error);
         dispatch(fetchFullProfileFailed(error));
+        throw new Error(error.response.status);
     }
 }

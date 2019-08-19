@@ -32,6 +32,7 @@ export const fetchList = (listId) => async (dispatch) => {
         dispatch(fetchListSuccess(response.data));
     } catch (error) {
         dispatch(fetchListFailed(error));
+        throw new Error(error.response.status);
     }
 }
 

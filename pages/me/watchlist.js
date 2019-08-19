@@ -12,6 +12,7 @@ import ListViewHeader from '../../components/ListViewHeader';
 import Switch from '../../components/Switch';
 import UserHeader from '../../components/UserHeader';
 import { getInitialMeProps } from './';
+import withErrorHandling from '../../components/withErrorHandling';
 
 function Watchlist(props) {
 
@@ -66,12 +67,16 @@ function Watchlist(props) {
     );
 }
 
-Watchlist.getInitialProps = getInitialMeProps;
-
 function mapState(state) {
     return {
         watchlists: getUsersWatchlists(state)
     }
 }
 
-export default connect(mapState, { editWatchlist })(Watchlist);
+const WatchlistPage = withErrorHandling(
+    connect(mapState, { editWatchlist })(Watchlist)
+);
+
+WatchlistPage.getInitialProps = getInitialMeProps;
+
+export default WatchlistPage;

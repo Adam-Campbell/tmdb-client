@@ -13,6 +13,7 @@ import ListViewHeader from '../../components/ListViewHeader';
 import Switch from '../../components/Switch';
 import UserHeader from '../../components/UserHeader';
 import { getInitialMeProps } from './';
+import withErrorHandling from '../../components/withErrorHandling';
 
 function Favourites(props) {
 
@@ -67,12 +68,16 @@ function Favourites(props) {
     );
 }
 
-Favourites.getInitialProps = getInitialMeProps;
-
 function mapState(state) {
     return {
         favourites: getUsersFavourites(state)
     }
 }
 
-export default connect(mapState, { markFavourite })(Favourites);
+const FavouritesPage = withErrorHandling(
+    connect(mapState, { markFavourite })(Favourites)
+);
+
+FavouritesPage.getInitialProps = getInitialMeProps;
+
+export default FavouritesPage;
