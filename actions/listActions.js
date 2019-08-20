@@ -122,8 +122,7 @@ export const addMovieToList = (listId, movieId) => async (dispatch, getState) =>
     const state = getState();
     dispatch(addMovieToListRequest());
     try {
-        //const response = await postListMovie(listId, movieId, userSessionId);
-        const resposne = await a.request(`api/list/${listId}/add-item`, {
+        const response = await a.request(`api/list/${listId}/add-item`, {
             method: 'POST', 
             data: {
                 movieId
@@ -133,6 +132,7 @@ export const addMovieToList = (listId, movieId) => async (dispatch, getState) =>
         toast.success('Successfully added to list', { delay: 300 });
     } catch (error) {
         dispatch(addMovieToListFailed(error));
+        toast.error(error.response.data);
     }
 }
 
