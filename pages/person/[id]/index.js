@@ -13,10 +13,23 @@ import ReviewPod from '../../../components/ReviewPod';
 import SidebarEntry from '../../../components/SidebarEntry';
 import PersonTopCreditsCardRow from '../../../components/PersonTopCreditsCardRow';
 import InlineGalleryRow from '../../../components/InlineGalleryRow';
-
 import { fetchPerson } from '../../../actions';
 import { getPersonData } from '../../../reducers/personReducer';
 import { connect } from 'react-redux';
+import withErrorHandling from '../../../components/withErrorHandling';
+
+export async function getInitialPersonProps({ query, req, store }) {
+    try {
+        const { id } = query;
+        await store.dispatch(fetchPerson(id));
+        return {};
+    } catch (error) {
+        return {
+            hasError: true,
+            errorCode: error.message
+        };
+    }
+}
 
 function Person({
     id,
@@ -105,12 +118,6 @@ function Person({
     );
 }
 
-Person.getInitialProps = async ({ query, req, store }) => {
-    const { id } = query;
-    await store.dispatch(fetchPerson(id));
-    return {};
-};
-
 function mapState(state) {
     const p = getPersonData(state);
     return {
@@ -133,4 +140,10 @@ function mapState(state) {
     };
 }
 
-export default connect(mapState)(Person);
+const PersonPage = withErrorHandling(
+    connect(mapState)(Person)
+);
+
+PersonPage.getInitialProps = getInitialPersonProps;
+
+export default PersonPage;

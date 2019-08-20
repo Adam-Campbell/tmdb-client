@@ -2,6 +2,7 @@ import * as actionTypes from '../actionTypes';
 import { getSeasonIdentifiers } from '../reducers/seasonReducer';
 import { getHasSession } from '../reducers/sessionReducer';
 import { a } from '../axiosClient';
+import toast from '../toast';
 
 const fetchSeasonRequest = () => ({
     type: actionTypes.FETCH_SEASON_REQUEST
@@ -35,6 +36,7 @@ export const fetchSeason = (showId, seasonNumber, ssrHeaders = {}) => async (dis
         dispatch(fetchSeasonSuccess(response.data, showId, seasonNumber));
     } catch (error) {
         dispatch(fetchSeasonFailed(error));
+        throw new Error(error.response.status);
     }
 }
 
@@ -60,6 +62,7 @@ export const rateEpisode = (showId, seasonNumber, episodeNumber, rating) => asyn
     const state = getState();
     if (!getHasSession(state)) {
         dispatch(rateEpisodeFailed('User not logged in'));
+        toast.error('Login required to perform this action');
         return;
     }
     try {
@@ -71,9 +74,10 @@ export const rateEpisode = (showId, seasonNumber, episodeNumber, rating) => asyn
             method: 'POST'
         });
         dispatch(rateEpisodeSuccess(rating, showId, seasonNumber, episodeNumber));
+        toast.success('Episode successfully rated');
     } catch (error) {
-        console.log(error);
         dispatch(rateEpisodeFailed(error));
+        toast.error(error.response.data);
     }
 }
 
@@ -97,6 +101,7 @@ export const removeEpisodeRating = (showId, seasonNumber, episodeNumber) => asyn
     const state = getState();
     if (!getHasSession(state)) {
         dispatch(removeEpisodeRatingFailed('User not logged in'));
+        toast.error('Login required to perform this action');
         return;
     }
     try {
@@ -105,8 +110,9 @@ export const removeEpisodeRating = (showId, seasonNumber, episodeNumber) => asyn
             method: 'DELETE'
         });
         dispatch(removeEpisodeRatingSuccess(showId, seasonNumber, episodeNumber));
+        toast.success('Episode rating successfully removed');
     } catch (error) {
-        console.log(error);
         dispatch(removeEpisodeRatingFailed(error));
+        toast.error(error.response.data);
     }
 } 

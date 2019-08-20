@@ -9,7 +9,7 @@ async function handleGet(req, res) {
         });
         res.status(200).json(response.data);
     } catch (error) {
-        console.log(error);
+        res.status(error.response.status).end();
     }
 }
 

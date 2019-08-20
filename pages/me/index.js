@@ -7,6 +7,7 @@ import GenresChart from '../../components/UserCharts/GenresChart';
 import SubNav from '../../components/SubNav';
 import UserHeader from '../../components/UserHeader';
 import { getSSRHeaders } from '../../utils';
+import withErrorHandling from '../../components/withErrorHandling';
 
 export const meRoutesSubNavData = [
     {
@@ -68,8 +69,15 @@ const Container = styled.div`
 
 
 export async function getInitialMeProps({ req, query, store }) {
-    await store.dispatch(fetchFullProfile(getSSRHeaders(req)));
-    return {};
+    try {
+        await store.dispatch(fetchFullProfile(getSSRHeaders(req)));
+        return {};
+    } catch (error) {
+        return {
+            hasError: true,
+            errorCode: error.message
+        };
+    }
 }
 
 function Me(props) {
@@ -86,6 +94,8 @@ function Me(props) {
     );
 }
 
-Me.getInitialProps = getInitialMeProps;
+const MePage = withErrorHandling(Me);
 
-export default connect()(Me);
+MePage.getInitialProps = getInitialMeProps;
+
+export default MePage;

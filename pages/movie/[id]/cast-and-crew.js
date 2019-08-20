@@ -10,6 +10,7 @@ import { fetchMovie } from '../../../actions';
 import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import { getInitialMovieProps } from './';
+import withErrorHandling from '../../../components/withErrorHandling';
 
 function CastAndCrew({ id, title, posterPath, cast, crew }) {
 
@@ -44,7 +45,7 @@ function CastAndCrew({ id, title, posterPath, cast, crew }) {
     );
 }
 
-CastAndCrew.getInitialProps = getInitialMovieProps;
+
 
 function mapState(state) {
     const m = getMovieData(state);
@@ -57,4 +58,10 @@ function mapState(state) {
     };
 }
 
-export default connect(mapState)(CastAndCrew);
+const CastAndCrewPage = withErrorHandling(
+    connect(mapState)(CastAndCrew)
+);
+
+CastAndCrewPage.getInitialProps = getInitialMovieProps;
+
+export default CastAndCrewPage;

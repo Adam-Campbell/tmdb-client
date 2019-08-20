@@ -8,8 +8,10 @@ import { fetchMovie } from '../../../actions';
 import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import { getInitialMovieProps } from './';
+import withErrorHandling from '../../../components/withErrorHandling';
 
 function Recommended({ id, title, posterPath, recommendations }) {
+
     const movieSubNavData = useMemo(() => {
         return getMovieSubNavData(id);
     }, [ id ]);
@@ -32,9 +34,7 @@ function Recommended({ id, title, posterPath, recommendations }) {
     );
 }
 
-Recommended.getInitialProps = getInitialMovieProps;
-
-function mapState(state) {
+function mapState(state, ownProps) {
     const m = getMovieData(state);
     return {
         id: m.id,
@@ -44,4 +44,10 @@ function mapState(state) {
     };
 }
 
-export default connect(mapState)(Recommended);
+const RecommendedPage = withErrorHandling( 
+    connect(mapState)(Recommended)
+);
+
+RecommendedPage.getInitialProps = getInitialMovieProps;
+
+export default RecommendedPage;

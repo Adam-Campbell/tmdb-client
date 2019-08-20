@@ -9,6 +9,7 @@ import { getShowSubNavData } from '../../../utils';
 import { Row } from '../../../components/Layout';
 import { SeasonCard } from '../../../components/Cards';
 import { getInitialShowProps } from './';
+import withErrorHandling from '../../../components/withErrorHandling';
 
 function Seasons({ id, title, posterPath, seasons }) {
 
@@ -43,8 +44,6 @@ function Seasons({ id, title, posterPath, seasons }) {
     );
 }
 
-Seasons.getInitialProps = getInitialShowProps;
-
 function mapState(state) {
     const s = getShowData(state);
     return {
@@ -55,4 +54,10 @@ function mapState(state) {
     };
 }
 
-export default connect(mapState)(Seasons);
+const SeasonsPage = withErrorHandling(
+    connect(mapState)(Seasons)
+);
+
+SeasonsPage.getInitialProps = getInitialShowProps;
+
+export default SeasonsPage;

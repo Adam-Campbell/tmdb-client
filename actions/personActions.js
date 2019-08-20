@@ -30,5 +30,6 @@ export const fetchPerson = (id) => async (dispatch, getState) => {
         dispatch(fetchPersonSuccess(response.data, id));
     } catch (error) {
         dispatch(fetchPersonFailed(error));
+        throw new Error(error.response.status);
     }
 }

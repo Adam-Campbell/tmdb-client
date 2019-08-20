@@ -2,6 +2,7 @@ import * as actionTypes from '../actionTypes';
 import { getHasSession } from '../reducers/sessionReducer';
 import { getShowId } from '../reducers/showReducer';
 import { a } from '../axiosClient';
+import toast from '../toast';
 
 const fetchShowRequest = () => ({
     type: actionTypes.FETCH_SHOW_REQUEST
@@ -34,6 +35,7 @@ export const fetchShow = (id, ssrHeaders = {}) => async (dispatch, getState) => 
         dispatch(fetchShowSuccess(response.data, id));
     } catch (error) {
         dispatch(fetchShowFailed(error));
+        throw new Error(error.response.status);
     }
 }
 
@@ -57,18 +59,19 @@ export const rateShow = (rating, showId) => async (dispatch, getState) => {
     const state = getState();
     if (!getHasSession(state)) {
         dispatch(rateShowFailed('User not logged in'));
+        toast.error('Login required to perform this action');
         return;
     }
     try {
-        //const response = await postShowRating(rating, showId, session_id);
         const response = await a.request(`api/show/${showId}/rating`, {
             params: { rating },
             method: 'POST'
         });
         dispatch(rateShowSuccess(rating, showId));
+        toast.success('TV show successfully rated');
     } catch (error) {
-        console.log(error);
         dispatch(rateShowFailed(error));
+        toast.error(error.response.data);
     }
 }
 
@@ -90,16 +93,17 @@ export const removeShowRating = (showId) => async (dispatch, getState) => {
     const state = getState();
     if (!getHasSession(state)) {
         dispatch(removeShowRatingFailed('User not logged in'));
+        toast.error('Login required to perform this action');
         return;
     }
     try {
-        //const response = await deleteShowRating(showId, session_id);
         const response = await a.request(`api/show/${showId}/rating`, {
             method: 'DELETE'
         });
         dispatch(removeShowRatingSuccess(showId));
+        toast.success('TV show rating successfully removed');
     } catch (error) {
-        //console.log(error);
         dispatch(removeShowRatingFailed(error));
+        toast.error(error.response.data);
     }
 }

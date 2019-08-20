@@ -10,6 +10,8 @@ import SmartImage from '../../../components/SmartImage';
 import { fetchPerson } from '../../../actions';
 import { getPersonData } from '../../../reducers/personReducer';
 import { connect } from 'react-redux';
+import { getInitialPersonProps } from './';
+import withErrorHandling from '../../../components/withErrorHandling';
 
 
 const ThumbsContainer = styled.div`
@@ -87,12 +89,6 @@ function Images({ id, name, profilePath, profileImages }) {
     );
 }
 
-Images.getInitialProps = async ({ query, req, store }) => {
-    const { id } = query;
-    await store.dispatch(fetchPerson(id));
-    return {};
-}
-
 function mapState(state) {
     const p = getPersonData(state);
     return {
@@ -103,4 +99,10 @@ function mapState(state) {
     };
 }
 
-export default connect(mapState)(Images);
+const ImagesPage = withErrorHandling(
+    connect(mapState)(Images)
+);
+
+ImagesPage.getInitialProps = getInitialPersonProps;
+
+export default ImagesPage;

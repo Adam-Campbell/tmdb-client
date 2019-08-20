@@ -17,7 +17,7 @@ async function handleGet(req, res) {
         const response = await get(`movie/${movieId}`, paramsObject);
         res.status(200).json(response.data);
     } catch (error) {
-        console.log(error);
+        res.status(error.response.status).end();
     }
 }
 

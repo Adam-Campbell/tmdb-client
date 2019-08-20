@@ -15,15 +15,22 @@ import TagList from '../../../components/TagList';
 import SubNav from '../../../components/SubNav';
 import { SeasonCard } from '../../../components/Cards';
 import InlineContentRow from '../../../components/InlineContentRow';
-
 import { fetchShow } from '../../../actions';
 import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
+import withErrorHandling from '../../../components/withErrorHandling';
 
 export async function getInitialShowProps({ query, req, store }) {
+    try {
     const id = parseInt(query.id);
     await store.dispatch(fetchShow(id, getSSRHeaders(req)));
     return {};
+    } catch (error) {
+        return {
+            hasError: true,
+            errorCode: error.message
+        };
+    }
 }
  
 function Show({
@@ -140,8 +147,6 @@ function Show({
     );
 }
 
-Show.getInitialProps = getInitialShowProps;
-
 function mapState(state) {
     const s = getShowData(state);
     return {
@@ -163,4 +168,10 @@ function mapState(state) {
     };
 }
 
-export default connect(mapState)(Show);
+const ShowPage = withErrorHandling(
+    connect(mapState)(Show)
+);
+
+ShowPage.getInitialProps = getInitialShowProps;
+
+export default ShowPage;

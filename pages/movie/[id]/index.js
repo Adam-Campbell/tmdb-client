@@ -25,11 +25,19 @@ import SubNav from '../../../components/SubNav';
 import { fetchMovie } from '../../../actions';
 import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
+import withErrorHandling from '../../../components/withErrorHandling';
 
 export async function getInitialMovieProps({ query, req, store }) {
-    const id = parseInt(query.id);
-    await store.dispatch(fetchMovie(id, getSSRHeaders(req)));
-    return {};
+    try {
+        const id = parseInt(query.id);
+        await store.dispatch(fetchMovie(id, getSSRHeaders(req)));
+        return {};
+    } catch (error) {
+        return {
+            hasError: true,
+            errorCode: error.message
+        };
+    }
 }
 
 function Movie({
@@ -46,10 +54,8 @@ function Movie({
     budget,
     revenue,
     genres,
-    keywords
+    keywords,
 }) {
-
-    //return null;
 
     const movieSubNavData = useMemo(() => {
         return getMovieSubNavData(id); 
@@ -133,8 +139,6 @@ function Movie({
     );
 }
 
-Movie.getInitialProps = getInitialMovieProps;
-
 function mapState(state) {
     const m = getMovieData(state);
     return {
@@ -155,4 +159,12 @@ function mapState(state) {
     };
 }
 
-export default connect(mapState)(Movie);
+
+
+const MoviePage = withErrorHandling(
+    connect(mapState)(Movie)
+);
+
+MoviePage.getInitialProps = getInitialMovieProps;
+
+export default MoviePage;

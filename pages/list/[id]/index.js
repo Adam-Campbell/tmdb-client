@@ -18,7 +18,7 @@ import { text } from '../../../utils';
 import Router from 'next/router';
 import { CancelInteractionButton, Button } from '../../../components/Buttons';
 import ListHeader from '../../../components/ListHeader';
-
+import withErrorHandling from '../../../components/withErrorHandling';
 
 const DeleteListButton = styled(Button)`
     margin-left: ${({ theme }) => theme.getSpacing(2)};
@@ -89,12 +89,6 @@ function List({
     );
 }
 
-List.getInitialProps = async ({ query, store }) => {
-    const id = parseInt(query.id);
-    await store.dispatch(fetchList(id))
-    return {};
-}
-
 function mapState(state) {
     const l = getListData(state);
     const user = getUserSummary(state);
@@ -111,8 +105,25 @@ function mapState(state) {
     };
 }
 
-export default connect(mapState, { 
-    clearList, 
-    deleteList,
-    removeMovieFromList 
-})(List);
+const ListPage = withErrorHandling(
+    connect(mapState, { 
+        clearList, 
+        deleteList,
+        removeMovieFromList 
+    })(List)
+);
+
+ListPage.getInitialProps = async ({ query, store }) => {
+    try {
+        const id = parseInt(query.id);
+        await store.dispatch(fetchList(id))
+        return {};
+    } catch (error) {
+        return {
+            hasError: true,
+            errorCode: error.message
+        };
+    }
+};
+
+export default ListPage;

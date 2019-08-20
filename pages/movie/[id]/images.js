@@ -12,6 +12,7 @@ import { fetchMovie } from '../../../actions';
 import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import { getInitialMovieProps } from './';
+import withErrorHandling from '../../../components/withErrorHandling';
 
 const DropdownContainer = styled.div`
     width: 220px;
@@ -68,6 +69,7 @@ const imageTypes = [
 
 
 function Images({ id, title, posterPath, posters, backdrops }) {
+
     const [ currentImageType, setImageType ] = useState(imageTypes[0]);
     const [ isModalOpen, setIsModalOpen ] = useState(false);
     const [ currentImageIndex, setImageIndex ] = useState(0);
@@ -138,8 +140,6 @@ function Images({ id, title, posterPath, posters, backdrops }) {
     );
 }
 
-Images.getInitialProps = getInitialMovieProps;
-
 function mapState(state) {
     const m = getMovieData(state);
     return {
@@ -151,4 +151,11 @@ function mapState(state) {
     };
 }
 
-export default connect(mapState)(Images);
+const ImagesPage = withErrorHandling(
+    connect(mapState)(Images)
+);
+
+ImagesPage.getInitialProps = getInitialMovieProps;
+
+export default ImagesPage;
+

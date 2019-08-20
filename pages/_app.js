@@ -14,6 +14,8 @@ import NextHead from 'next/head';
 import { text, getSSRHeaders } from '../utils';
 import { ThemeProvider } from 'styled-components';
 import theme from '../theme';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 //import '../style.css';
 
 ReactModal.setAppElement('#__next');
@@ -113,6 +115,27 @@ const GlobalStyle = createGlobalStyle`
         color: #222 !important;
         background: #fff !important;
     }
+    .toast-error {
+        background-color: #dc1f3b;
+        font-family: 'Fira Sans', sans-serif;
+        font-weight: 600;
+        color: #fff;
+        border-radius: 3px;
+    }
+    .toast-success {
+        background-color: #6ee843;
+        font-family: 'Fira Sans', sans-serif;
+        font-weight: 600;
+        color: #fff;
+        border-radius: 3px;
+    }
+    .toast-info {
+        background-color: #43cbe8;
+        font-family: 'Fira Sans', sans-serif;
+        font-weight: 600;
+        color: #fff;
+        border-radius: 3px;
+    }
 `;
 
 class MyApp extends App {
@@ -142,6 +165,7 @@ class MyApp extends App {
                         <SearchBar />
                         <Component {...pageProps} />
                         <Footer />
+                        <ToastContainer position="top-center" />
                     </Provider>
                 </>
             </ThemeProvider>

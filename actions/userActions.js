@@ -1,9 +1,10 @@
 import * as actionTypes from '../actionTypes';
-import { getSessionType, getHasSession } from '../reducers/sessionReducer';
+import { getHasSession } from '../reducers/sessionReducer';
 import { hasGotUserSummary, getUserId } from '../reducers/user';
 import { getUserDataStatus } from '../reducers/user/dataStatusReducer';
 import axios from 'axios';
 import { a } from '../axiosClient';
+import toast from '../toast';
 
 const storeUserSummary = (userSummary) => ({
     type: actionTypes.STORE_USER_SUMMARY,
@@ -99,6 +100,7 @@ export const markFavourite = (mediaType, mediaId, isFavouriting) => async (dispa
     const accountId = getUserId(state);
     if (!getHasSession(state)) {
         dispatch(markFavouriteFailed('User is not logged in'));
+        toast.error('Login required to perform this action');
         return;
     }
 
@@ -115,8 +117,12 @@ export const markFavourite = (mediaType, mediaId, isFavouriting) => async (dispa
             }
         });
         dispatch(markFavouriteSuccess(mediaId, mediaType, isFavouriting));
+        const mediaTypeDescription = mediaType === 'movie' ? 'Movie' : 'TV show';
+        const actionDescription = isFavouriting ? 'added to' : 'removed from';
+        toast.success(`${mediaTypeDescription} successfully ${actionDescription} favourites`);
     } catch (error) {
         dispatch(markFavouriteFailed(error));
+        toast.error(error.response.data);
     }
 }
 
@@ -143,6 +149,7 @@ export const editWatchlist = (mediaType, mediaId, isAdding) => async (dispatch, 
     const accountId = getUserId(state);
     if (!getHasSession(state)) {
         dispatch(editWatchlistFailed('User is not logged in'));
+        toast.error('Login required to perform this action');
         return;
     }
     try {
@@ -158,8 +165,12 @@ export const editWatchlist = (mediaType, mediaId, isAdding) => async (dispatch, 
             }
         });
         dispatch(editWatchlistSuccess(mediaId, mediaType, isAdding));
+        const mediaTypeDescription = mediaType === 'movie' ? 'Movie' : 'TV show';
+        const actionDescription = isAdding ? 'added to' : 'removed from';
+        toast.success(`${mediaTypeDescription} successfully ${actionDescription} watchlist`);
     } catch (error) {
         dispatch(editWatchlistFailed(error));
+        toast.error(error.response.data);
     }
 }
 
@@ -220,7 +231,7 @@ export const fetchFullProfile = (ssrHeaders = {}) => async (dispatch, getState) 
 
         dispatch(fetchFullProfileSuccess(createdLists, favourites, rated, watchlists));
     } catch (error) {
-        console.log(error);
         dispatch(fetchFullProfileFailed(error));
+        throw new Error(error.response.status);
     }
 }

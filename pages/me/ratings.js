@@ -12,6 +12,7 @@ import { CardRatingButton } from '../../components/Buttons';
 import ListViewHeader from '../../components/ListViewHeader';
 import Switch from '../../components/Switch';
 import { getInitialMeProps } from './';
+import withErrorHandling from '../../components/withErrorHandling';
 
 function Ratings(props) {
 
@@ -61,12 +62,16 @@ function Ratings(props) {
     );
 }
 
-Ratings.getInitialProps = getInitialMeProps;
-
 function mapState(state) {
     return {
         ratings: getUsersRatings(state)
     }
 }
 
-export default connect(mapState)(Ratings);
+const RatingsPage = withErrorHandling(
+    connect(mapState)(Ratings)
+);
+
+RatingsPage.getInitialProps = getInitialMeProps;
+
+export default RatingsPage;

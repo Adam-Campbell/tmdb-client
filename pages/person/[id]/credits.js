@@ -7,10 +7,11 @@ import Switch from '../../../components/Switch';
 import { Row } from '../../../components/Layout'; 
 import ListViewHeader from '../../../components/ListViewHeader';
 import CreditsTable from '../../../components/CreditsTable';
-
 import { fetchPerson } from '../../../actions';
 import { getPersonData } from '../../../reducers/personReducer';
 import { connect } from 'react-redux';
+import { getInitialPersonProps } from './';
+import withErrorHandling from '../../../components/withErrorHandling';
 
 const mediaTypeRadioButtonsData = [
     {
@@ -134,12 +135,6 @@ function Credits({ id, name, profilePath, credits }) {
     );
 }
 
-Credits.getInitialProps = async ({ query, req, store }) => {
-    const { id } = query;
-    await store.dispatch(fetchPerson(id));
-    return {};
-};
-
 function mapState(state) {
     const p = getPersonData(state);
     return {
@@ -150,4 +145,10 @@ function mapState(state) {
     };
 }
 
-export default connect(mapState)(Credits);
+const CreditsPage = withErrorHandling(
+    connect(mapState)(Credits)
+);
+
+CreditsPage.getInitialProps = getInitialPersonProps;
+
+export default CreditsPage;

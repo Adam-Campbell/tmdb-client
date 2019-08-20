@@ -12,6 +12,7 @@ import { fetchShow } from '../../../actions';
 import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 import { getInitialShowProps } from './';
+import withErrorHandling from '../../../components/withErrorHandling';
 
 const DropdownContainer = styled.div`
     width: 220px;
@@ -136,8 +137,6 @@ function Images({ id, title, posterPath, posters, backdrops }) {
     );
 }
 
-Images.getInitialProps = getInitialShowProps;
-
 function mapState(state) {
     const s = getShowData(state);
     return {
@@ -149,4 +148,10 @@ function mapState(state) {
     }
 }
 
-export default connect(mapState)(Images);
+const ImagesPage = withErrorHandling(
+    connect(mapState)(Images)
+);
+
+ImagesPage.getInitialProps = getInitialShowProps;
+
+export default ImagesPage;
