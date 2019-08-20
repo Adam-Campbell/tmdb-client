@@ -13,6 +13,7 @@ import { useInView } from 'react-intersection-observer';
 import { a } from '../axiosClient';
 import MediaGridLayout from '../components/MediaGridLayout';
 import axios from 'axios';
+import toast from '../toast';
 
 async function makeBadRequest() {
   try {
@@ -34,6 +35,9 @@ function Home({ onAirTV, nowPlayingMovies }) {
     <div>
       <Head title="Home" />
       <button onClick={makeBadRequest}>Click me!</button>
+      <button onClick={() => {
+        toast.error('404 error encountered');
+      }}>Click 4 toast</button>
       <MediaGridLayout 
         gridOneTitle="On Air"
         gridOneData={onAirTV}

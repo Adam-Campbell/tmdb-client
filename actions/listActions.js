@@ -3,6 +3,7 @@ import { getSessionType } from '../reducers/sessionReducer';
 import axios from 'axios';
 import { fetchFullProfile } from './userActions';
 import { a } from '../axiosClient';
+import toast from '../toast';
 
 const fetchListRequest = (id) => ({
     type: actionTypes.FETCH_LIST_REQUEST,
@@ -129,6 +130,7 @@ export const addMovieToList = (listId, movieId) => async (dispatch, getState) =>
             }
         });
         dispatch(addMovieToListSuccess());
+        toast.success('Successfully added to list', { delay: 300 });
     } catch (error) {
         dispatch(addMovieToListFailed(error));
     }
