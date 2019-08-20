@@ -34,7 +34,7 @@ async function handleDelete(req, res) {
             res.status(204).end();
             return;
         }
-        console.log(error);
+        res.status(error.response.status).json(error.response.data.status_message);
     }
 }
 

@@ -69,10 +69,11 @@ export const createList = (listName, listDescription, listLanguage) => async (di
             }
         });
         dispatch(createListSuccess(response.data.list_id));
+        toast.success('List successfully created');
         await dispatch(fetchFullProfile());
     } catch (error) {
-        console.log(error);
         dispatch(createListFailed(error));
+        toast.error(error.response.data);
     }
 }
 
@@ -80,8 +81,11 @@ const deleteListRequest = () => ({
     type: actionTypes.DELETE_LIST_REQUEST
 });
 
-const deleteListSuccess = () => ({
-    type: actionTypes.DELETE_LIST_SUCCESS
+const deleteListSuccess = (id) => ({
+    type: actionTypes.DELETE_LIST_SUCCESS,
+    payload: {
+        id
+    }
 });
 
 const deleteListFailed = (error) => ({
@@ -97,9 +101,11 @@ export const deleteList = (listId) => async (dispatch, getState) => {
         const response = await a.request(`api/list/${listId}`, {
             method: 'DELETE'
         });
-        dispatch(deleteListSuccess());
+        dispatch(deleteListSuccess(listId));
+        toast.success('List successfully deleted', { delay: 300 });
     } catch (error) {
-        dispatch(deleteListFailed(error))
+        dispatch(deleteListFailed(error));
+        toast.error(error.response.data);
     }
 }
 
@@ -168,8 +174,10 @@ export const removeMovieFromList = (listId, movieId) => async (dispatch, getStat
             }
         });
         dispatch(removeMovieFromListSuccess(movieId, listId));
+        toast.success('Movie successfully removed from list');
     } catch (error) {
         dispatch(removeMovieFromListFailed(error));
+        toast.error(error.response.data);
     }
 };
 
@@ -195,7 +203,9 @@ export const clearList = (listId) => async (dispatch, getState) => {
             method: 'POST'
         });
         dispatch(clearListSuccess(listId));
+        toast.success('List successfully cleared');
     } catch (error) {
         dispatch(clearListFailed(error));
+        toast.error(error.response.data);
     }
 }

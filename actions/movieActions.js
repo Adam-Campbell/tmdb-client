@@ -1,8 +1,8 @@
 import * as actionTypes from '../actionTypes';
 import { getMovieId, getMovieData } from '../reducers/movieReducer';
-import { getUserSessionId, getHasSession } from '../reducers/sessionReducer';
-//import { getMovieDetails, postMovieRating, deleteMovieRating } from '../Api';
+import { getHasSession } from '../reducers/sessionReducer';
 import { a } from '../axiosClient';
+import toast from '../toast';
 
 const fetchMovieRequest = () => ({
     type: actionTypes.FETCH_MOVIE_REQUEST
@@ -56,24 +56,23 @@ const rateMovieFailed = (error) => ({
 });
 
 export const rateMovie = (rating, movieId) => async (dispatch, getState) => {
-    //console.log('rateMovie called with: ', rating, movieId);
     const state = getState();
     if (!getHasSession(state)) {
         dispatch(rateMovieFailed('User not logged in'));
+        toast.error('Login required to perform this action');
         return;
     }
     try {
-        //const response = await postMovieRating(rating, movieId, session_id);
+        
         const response = await a.request(`api/movie/${movieId}/rating`, {
             params: { rating },
             method: 'POST'
         });
-        console.log(response);
-        console.log(rating, movieId);
         dispatch(rateMovieSuccess(rating, movieId));
+        toast.success('Movie successfully rated');
     } catch (error) {
-        console.log(error);
         dispatch(rateMovieFailed(error));
+        toast.error(error.response.data);
     }
 }
 
@@ -95,16 +94,17 @@ export const removeMovieRating = (movieId) => async (dispatch, getState) => {
     const state = getState();
     if (!getHasSession(state)) {
         dispatch(removeMovieRatingFailed('User not logged in'));
+        toast.error('Login required to perform this action');
         return;
     }
     try {
-        //const response = await deleteMovieRating(movieId, session_id);
         const response = await a.request(`api/movie/${movieId}/rating`, {
             method: 'DELETE'
         });
         dispatch(removeMovieRatingSuccess(movieId));
+        toast.success('Movie rating successfully removed');
     } catch (error) {
-        console.log(error);
         dispatch(removeMovieRatingFailed(error));
+        toast.error(error.response.data);
     }
 }

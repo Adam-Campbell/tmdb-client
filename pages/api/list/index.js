@@ -30,7 +30,7 @@ async function handlePost(req, res) {
         });
         res.json(response.data);
     } catch (error) {   
-        console.log(error);
+        res.status(error.response.status).json(error.response.data.status_message);
     }
 }
 

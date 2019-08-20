@@ -29,7 +29,7 @@ async function handlePost(req, res) {
         });
         res.status(204).end();
     } catch (error) {
-        console.log(error);
+        res.status(error.response.status).json(error.response.data.status_message);
     }
 
 }
@@ -54,7 +54,7 @@ async function handleDelete(req, res) {
         });
         res.status(204).end();
     } catch (error) {
-        console.log(error);
+        res.status(error.response.status).json(error.response.data.status_message);
     }
 }
 
