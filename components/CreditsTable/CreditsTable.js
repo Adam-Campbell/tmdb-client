@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { text } from '../../utils';
+import Link from 'next/link';
 
 const Table = styled.table`
     table-layout: fixed;
@@ -87,7 +87,12 @@ export function CreditsTable({ creditsData }) {
                         <tr key={credit.creditId}>
                             <TableData center>{credit.releaseYear || '-'}</TableData>
                             <TableData>
-                                <CreditLink href="#">{credit.name}</CreditLink>
+                                <Link 
+                                    href={`${credit.mediaType === 'movie' ? 'movie' : 'show'}/[id]`} 
+                                    as={`${credit.mediaType === 'movie' ? 'movie' : 'show'}/${credit.mediaId}`}
+                                >
+                                    <CreditLink>{credit.name}</CreditLink>
+                                </Link>
                                 {credit.creditDescription && (
                                     <CreditDescription>{credit.creditDescription}</CreditDescription>
                                 )}
@@ -103,8 +108,7 @@ export function CreditsTable({ creditsData }) {
 CreditsTable.propTypes = {
     creditsData: PropTypes.arrayOf(PropTypes.shape({
         releaseYear: PropTypes.number,
-        credits: PropTypes.arrayOf(PropTypes.shape({
-            averageRating: PropTypes.number, 
+        credits: PropTypes.arrayOf(PropTypes.shape({ 
             creditDescription: PropTypes.string,
             creditId: PropTypes.string.isRequired,
             mediaId: PropTypes.number.isRequired,

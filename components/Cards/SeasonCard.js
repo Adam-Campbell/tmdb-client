@@ -7,7 +7,7 @@ import ImageLink from '../ImageLink';
 
 const StyledSeasonCard = styled.div`
     width: 100%;
-    margin-top: ${({ theme }) => theme.getSpacing(3)};
+    margin: ${({ theme }) => theme.getSpacing(3, 0)};
     box-shadow: ${({ theme }) => theme.boxShadow};
     display: flex;
     align-items: center;
@@ -83,6 +83,15 @@ const SeasonOverview = styled.p`
     }
 `;
 
+export function getOverviewText(overview, airDate, name) {
+    const hasNotAired = new Date(airDate) - Date.now() > 0;
+    return hasNotAired
+        ? `${name} will air on ${formatDateString(airDate)}.`
+        : overview.length
+            ? truncateString(overview, 280)
+            : 'There is no overview for this season';
+}
+
 export function SeasonCard({ 
     name, 
     posterPath, 
@@ -98,13 +107,8 @@ export function SeasonCard({
     }, [ airDate ]);
 
     const overviewText = useMemo(() => {
-        const hasNotAired = new Date(airDate) - Date.now() > 0;
-        return hasNotAired
-            ? `${name} will air on ${formatDateString(airDate)}.`
-            : overview.length
-                ? truncateString(overview, 280)
-                : 'There is no overview for this season';
-    }, [ airDate, name, overview ]);
+        return getOverviewText(overview, airDate, name);
+    }, [ overview, airDate, name ]);
 
     return (
         <StyledSeasonCard>

@@ -10,10 +10,16 @@ const Paragraph = styled.p`
     font-size: ${({ theme }) => theme.fontSizes.body.md};
 `;
 
-function formatBioString(bioString) {
-    return bioString.replace('&amp;', '&')
+export function formatBio(bioString) {
+    return bioString.replace(/&amp;/g, '&')
             .split('\n')
             .filter(el => el !== '');
+}
+
+export function truncateBioIfNeeded(bioString, shouldTruncate, truncationThreshold) {
+    return shouldTruncate ? 
+        bioString.slice(0, truncationThreshold - 3) + '...' :
+        bioString;
 }
 
 export default function Biography({ biography }) {
@@ -28,22 +34,25 @@ export default function Biography({ biography }) {
     } = useExpand();
 
     const bioData = useMemo(() => {
-        const bioString = (isExpandable && !isExpanded)
-            ? biography.slice(0, truncationThreshold - 3) + '...'
-            : biography;
-            
-        return formatBioString(bioString);
-    }, [ biography, isExpanded, isExpandable ]);
+        return formatBio(
+            truncateBioIfNeeded(
+                biography,
+                (isExpandable && !isExpanded),
+                truncationThreshold 
+            )
+        );
+    }, [ biography, isExpanded, isExpandable, truncationThreshold ]);
 
     return (
         <div>
             {bioData.map((paragraph, idx) => (
-                <Paragraph key={idx}>{paragraph}</Paragraph>
+                <Paragraph data-testid="biography-text" key={idx}>{paragraph}</Paragraph>
             ))}
             {isExpandable && (
                 <Button
                     buttonRef={anchorRef} 
                     onClick={handleToggleClick}
+                    testId="expand-button"
                 >
                     {isExpanded ? 'Read less' : 'Read More'}
                 </Button>

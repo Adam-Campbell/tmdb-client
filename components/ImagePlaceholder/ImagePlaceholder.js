@@ -28,7 +28,7 @@ const MediaIcon = styled(Tv)`
 
 export function ImagePlaceholder({ isPersonImage, isLandscape }) {
     return (
-        <StyledImagePlaceholder>
+        <StyledImagePlaceholder data-testid="placeholder-element">
             {isPersonImage ? (
                 <PersonIcon Landscape={isLandscape} />
             ) : (

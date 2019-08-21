@@ -38,7 +38,7 @@ const CurrentRating = styled.span`
     margin-right: ${({ theme }) => theme.getSpacing(1)};
 `;
 
-function CardRatingButton({ 
+export function CardRatingButton({ 
     userRating,
     mediaType,
     id,
