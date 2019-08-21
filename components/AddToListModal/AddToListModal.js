@@ -91,7 +91,6 @@ function AddToListModal({
     useEffect(() => {
         async function fetchCreatedLists() {
             setIsLoading(true);
-            //const response = await getCreatedLists(accountId, userSessionId);
             const response = await a.get(`api/user/${accountId}/lists`);
             setIsLoading(false);
             setUsersLists(formatListsData(response.data));

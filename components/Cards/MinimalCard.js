@@ -103,7 +103,7 @@ export function MinimalCard({
             />
             <InfoRow>
                 <Link href={`${urlSubpath}/[id]`} as={`${urlSubpath}/${id}`} passHref>
-                    <NameLink>{name}</NameLink>
+                    <NameLink data-testid="name-link">{name}</NameLink>
                 </Link>
                 {additionalDetails && (
                     <AdditionalDetailsText

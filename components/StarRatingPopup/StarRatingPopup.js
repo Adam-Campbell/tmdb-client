@@ -109,7 +109,7 @@ export function StarRatingPopup({
             }}
             
         >
-            <ContentContainer>
+            <ContentContainer data-testid="star-rating-popup-container">
                 <ClearRatingIcon onClick={() => {
                     handleRemove();
                     setRating(0);
