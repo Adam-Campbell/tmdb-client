@@ -24,7 +24,7 @@ export function Button({
     className, 
     children,
     buttonRef,
-    shouldSubmit
+    shouldSubmit,
 }) {
     const { isHovered, containerProps } = useHover();
 
@@ -49,5 +49,5 @@ Button.propTypes = {
     className: PropTypes.string,
     children: PropTypes.any,
     buttonRef: PropTypes.object,
-    shouldSubmit: PropTypes.bool
+    shouldSubmit: PropTypes.bool,
 }

@@ -46,6 +46,7 @@ export function SmartImage({
                     alt={alt}
                     isLoaded={isLoaded}
                     onClick={handleClick}
+                    data-testid="image-element"
                 />
             ) : (
                 <ImagePlaceholder  
