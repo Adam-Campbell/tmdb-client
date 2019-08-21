@@ -1,8 +1,11 @@
 const nileBlue = '#1a435d';
+const tiber = '#062438';
 const pictonBlue = '#43cbe8';
 const alizarinCrimson = '#dc1f3b';
 const conifer = '#6ee843';
+const mountainMeadow = '#23bd4d';
 const tahitiGold = '#f58a0b';
+const westSide = '#fb8e0f';
 const mineShaft = '#222';
 const gallery = '#eee';
 const alto = '#ddd';
@@ -38,12 +41,12 @@ function getSpacing(...args) {
 const theme = {
     colors: {
         primary: pictonBlue,
-        complimentary: nileBlue,
+        complimentary: tiber,
         black: mineShaft,
         white,
-        success: conifer,
+        success: mountainMeadow,
         warning: alizarinCrimson,
-        info: tahitiGold,
+        info: westSide,
         uiPrimary: porcelain,
         uiSecondary: alto,
         overlayStrong: transparentBlack,

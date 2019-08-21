@@ -29,9 +29,9 @@ export function Rating({ rating }) {
 
     let chartColor;
     if (_rating >= 7) {
-        chartColor = '#6ee843';
+        chartColor = '#23bd4d';
     } else if (_rating >= 4) {
-        chartColor = '#f58a0b';
+        chartColor = '#fb8e0f';
     } else {
         chartColor = '#dc1f3b';
     }
@@ -43,7 +43,7 @@ export function Rating({ rating }) {
                 cx={200}
                 cy={200}
                 r={200}
-                style={{ fill: '#1a435d' }}
+                style={{ fill: '#062438' }}
             />
             <VictoryPie
                 

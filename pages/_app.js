@@ -67,6 +67,9 @@ const GlobalStyle = createGlobalStyle`
         padding: 10px;
         width: calc(100% - 40px);
         max-width: 600px;
+        @media (min-width: 400px) {
+            padding: 20px;
+        }
     }
     .add-to-list-modal__content-container {
         background: #fff;
@@ -74,6 +77,10 @@ const GlobalStyle = createGlobalStyle`
         padding: 10px;
         width: calc(100% - 40px);
         max-width: 320px;
+        @media (min-width: 400px) {
+            max-width: 360px;
+            padding: 20px;
+        }
     }
     .rating-modal__overlay {
         position: absolute;

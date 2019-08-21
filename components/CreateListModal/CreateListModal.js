@@ -11,6 +11,7 @@ import { Button } from '../Buttons';
 const FormTitle = styled.h2`
     ${({ theme }) => theme.fontStacks.heading()}
     font-size: ${({ theme }) => theme.fontSizes.heading.md};
+    margin: ${({ theme }) => theme.getSpacing(2, 0, 0, 0)};
 `;
 
 const Fieldset = styled.fieldset`
