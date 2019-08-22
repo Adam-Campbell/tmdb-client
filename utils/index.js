@@ -5,6 +5,7 @@ export * from './discoverDataProcessing';
 export * from './styleUtils';
 export * from './formatMinutes';
 export * from './formatDollarFigure';
+export * from './truncateAndFormatTextBody';
 export * from './truncateString';
 export * from './getSSRHeaders';
 export * from './subNavUtils';

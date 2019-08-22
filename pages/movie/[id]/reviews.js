@@ -10,7 +10,14 @@ import { fetchMovie } from '../../../actions';
 import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import { getInitialMovieProps } from './';
-import withErrorHandling from '../.../../components/withErrorHandling';
+import withErrorHandling from '../../../components/withErrorHandling';
+import { ReviewCard } from '../../../components/Cards';
+import MovieSidebar from '../../../components/MovieSidebar';
+
+const NoReviewsMessage = styled.p`
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    margin: 0;
+`;
 
 function Reviews({ id, title, posterPath, backdropPath, reviews }) {
     
@@ -31,19 +38,20 @@ function Reviews({ id, title, posterPath, backdropPath, reviews }) {
             <TwoColLayoutContainer>
                 <TwoColLayoutRow>
                     <MainCol>
-                        {reviews.map(review => (
-                            <ReviewPod 
-                                key={review.id}
+                        {reviews.length ? reviews.map(review => (
+                            <ReviewCard
+                                key={review.id} 
                                 author={review.author}
                                 content={review.content}
-                                id={review.id}
-                                allReviewsHref="/foo"
-                                allReviewsAs="/foo"
-                            />
-                        ))}
+                            />  
+                        )) : (
+                            <NoReviewsMessage>
+                                There are no user reviews for this movie
+                            </NoReviewsMessage>
+                        )}
                     </MainCol>
                     <SidebarCol>
-
+                        <MovieSidebar />
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>
