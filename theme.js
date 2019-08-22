@@ -14,7 +14,7 @@ const alto = '#ddd';
 const white = '#fff';
 const porcelain = '#eaedee';
 const transparentBlack = 'rgba(0,0,0,0.8)';
-const transparentGrey = 'rgba(17,17,17,04)';
+const transparentGrey = 'rgba(17,17,17,0.4)';
 
 const spaceBase = 5;
 

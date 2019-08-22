@@ -54,14 +54,25 @@ const tvSubNavData = [
     }
 ];
 
-const  StyledNav = styled.nav`
+const StyledNav = styled.nav`
     background: ${({ theme }) => theme.colors.primary};
+    width: 300px;
+    height: 100vh;
+    @media (min-width: 768px) {
+        width: auto;
+        height: auto;
+        background: none;
+    }
+`;
+
+const NavContainer = styled.div`
+    background: ${({ theme }) => theme.colors.overlayStrong};
     position: fixed;
     top: 0;
-    left: ${({ isOpen }) => isOpen ? 0 : '-300px'};
+    left: ${({ isOpen }) => isOpen ? 0 : '-100vw'};
     z-index: 1000;
     height: 100vh;
-    width: 300px;
+    width: 100vw;
     @media (min-width: 768px) {
         position: static;
         height: auto;
@@ -98,31 +109,33 @@ const CloseNavButton = styled(Close)`
 
 export default function Nav({ isOpen, closeMenu }) {
     return (
-        <StyledNav isOpen={isOpen}>
-            <CloseNavButton onClick={closeMenu} />
-            <NavList>
-                <NavItem>
-                    <NavLink route="/" name="Home" />
-                </NavItem>
-                <NavItem>
-                    <NavLink route="/discover" name="Discover" />
-                </NavItem>
-                <SubNav 
-                    name="Movies" 
-                    route="/movies"
-                    subNavData={moviesSubNavData}
-                />
-                <SubNav 
-                    name="TV" 
-                    route="/tv"
-                    subNavData={tvSubNavData}  
-                />
-                <NavItem>
-                    <NavLink route="/people" name="People" />
-                </NavItem>
-                
-            </NavList>
-        </StyledNav>
+        <NavContainer isOpen={isOpen}>
+            <StyledNav isOpen={isOpen}>
+                <CloseNavButton onClick={closeMenu} />
+                <NavList>
+                    <NavItem>
+                        <NavLink route="/" name="Home" />
+                    </NavItem>
+                    <NavItem>
+                        <NavLink route="/discover" name="Discover" />
+                    </NavItem>
+                    <SubNav 
+                        name="Movies" 
+                        route="/movies"
+                        subNavData={moviesSubNavData}
+                    />
+                    <SubNav 
+                        name="TV" 
+                        route="/tv"
+                        subNavData={tvSubNavData}  
+                    />
+                    <NavItem>
+                        <NavLink route="/people" name="People" />
+                    </NavItem>
+                    
+                </NavList>
+            </StyledNav>
+        </NavContainer>
     );
 }
 
