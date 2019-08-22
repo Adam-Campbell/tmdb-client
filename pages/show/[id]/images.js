@@ -68,7 +68,7 @@ const imageTypes = [
 
 
 
-function Images({ id, title, posterPath, posters, backdrops }) {
+function Images({ id, title, posterPath, backdropPath, posters, backdrops }) {
     const [ currentImageType, setImageType ] = useState(imageTypes[0]);
     const [ isModalOpen, setIsModalOpen ] = useState(false);
     const [ currentImageIndex, setImageIndex ] = useState(0);
@@ -79,6 +79,7 @@ function Images({ id, title, posterPath, posters, backdrops }) {
         <div>
             <MinimalHeader 
                 imagePath={posterPath}
+                backdropPath={backdropPath}
                 name={title}
                 backHref="/show/[id]"
                 backAs={`/show/${id}`}
@@ -143,6 +144,7 @@ function mapState(state) {
         id: s.id,
         title: s.name,
         posterPath: s.poster_path,
+        backdropPath: s.backdrop_path,
         posters: s.images.posters,
         backdrops: s.images.backdrops
     }

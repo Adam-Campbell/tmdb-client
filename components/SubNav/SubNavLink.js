@@ -14,7 +14,7 @@ const StyledSubNavLink = styled.a`
     display: inline-flex;
     align-items: center;
     padding: ${({ theme }) => theme.getSpacing(0, 2)};
-    color: ${({ theme, isActive, isHovered }) => (isActive || isHovered) ? theme.colors.primary : theme.colors.black};
+    color: ${({ theme, isActive, isHovered }) => (isActive || isHovered) ? theme.colors.complimentary : theme.colors.white};
     ${({ isActive }) => isActive && 'border-bottom: solid 3px;'}
 `;
 

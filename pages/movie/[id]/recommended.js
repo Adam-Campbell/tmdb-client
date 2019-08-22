@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { getInitialMovieProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
 
-function Recommended({ id, title, posterPath, recommendations }) {
+function Recommended({ id, title, posterPath, backdropPath, recommendations }) {
 
     const movieSubNavData = useMemo(() => {
         return getMovieSubNavData(id);
@@ -20,6 +20,7 @@ function Recommended({ id, title, posterPath, recommendations }) {
         <div>
             <MinimalHeader 
                 imagePath={posterPath}
+                backdropPath={backdropPath}
                 name={title}
                 backHref={`/movie/[id]`}
                 backAs={`/movie/${id}`}
@@ -40,6 +41,7 @@ function mapState(state, ownProps) {
         id: m.id,
         title: m.title,
         posterPath: m.poster_path,
+        backdropPath: m.backdrop_path,
         recommendations: m.recommendations.results
     };
 }

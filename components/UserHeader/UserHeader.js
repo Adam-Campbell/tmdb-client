@@ -9,9 +9,7 @@ import { Row } from '../Layout';
 import { lighten, desaturate } from 'polished';
 
 const StyledUserHeader = styled.div`
-    background: ${({ theme }) => 
-        `linear-gradient(35deg, ${theme.colors.complimentary} 35%, ${lighten(0.1, desaturate(0.1, theme.colors.success))})`
-    };
+    background: ${({ theme }) => theme.gradients.primary};
     padding: ${({ theme }) => theme.getSpacing(4, 0)};
     overflow-x: hidden;
 `;

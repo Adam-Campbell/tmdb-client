@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row } from '../Layout';
@@ -6,9 +6,25 @@ import { text, getImageUrl, imageSizeConstants } from '../../utils';
 import Link from 'next/link';
 import { LongArrowAltLeft } from 'styled-icons/fa-solid';
 import SmartImage from '../SmartImage';
+import { cover } from 'polished';
 
 const StyledMinimalHeader = styled.div`
-    background: ${({ theme }) => theme.colors.warning};
+    position: relative;
+`;
+
+const BackdropImageHolder = styled.div`
+    ${cover()}
+    width: 100%;
+    height: 100%;
+    background: ${({ imageUrl }) => `url('${imageUrl}')`};
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(75%) contrast(110%);
+`;
+
+const BackdropImageOverlay = styled.div`
+    background: ${({ theme, hasImage }) => hasImage ? theme.colors.overlayStrong : theme.gradients.primary};
+    position: relative;
 `;
 
 const MinimalHeaderRow = styled(Row)`
@@ -53,28 +69,37 @@ export function MinimalHeader({
     backHref, 
     backAs, 
     backText = 'Back to main',
-    isPersonImage 
+    isPersonImage,
+    backdropPath
 }) {
+
+    const backdropUrl = useMemo(() => {
+        if (!backdropPath) return '';
+        return getImageUrl(backdropPath, 'original');
+    }, [ backdropPath ])
     
     return (
         <StyledMinimalHeader>
-            <MinimalHeaderRow>
-                <Image 
-                    imagePath={imagePath}
-                    imageSize={imageSizeConstants.w185}
-                    alt={name}
-                    isPersonImage={isPersonImage}
-                />
-                <div>
-                    <Title>{name}</Title>
-                    <Link href={backHref} as={backAs} passHref>
-                        <BackLink>
-                            <BackIcon />
-                            {backText}
-                        </BackLink>
-                    </Link>
-                </div>
-            </MinimalHeaderRow>
+            {backdropUrl && <BackdropImageHolder imageUrl={backdropUrl} />}
+            <BackdropImageOverlay hasImage={Boolean(backdropUrl)}>
+                <MinimalHeaderRow>
+                    <Image 
+                        imagePath={imagePath}
+                        imageSize={imageSizeConstants.w185}
+                        alt={name}
+                        isPersonImage={isPersonImage}
+                    />
+                    <div>
+                        <Title>{name}</Title>
+                        <Link href={backHref} as={backAs} passHref>
+                            <BackLink>
+                                <BackIcon />
+                                {backText}
+                            </BackLink>
+                        </Link>
+                    </div>
+                </MinimalHeaderRow>
+            </BackdropImageOverlay>
         </StyledMinimalHeader>
     );
 }
@@ -85,5 +110,6 @@ MinimalHeader.propTypes = {
     backHref: PropTypes.string.isRequired,
     backAs: PropTypes.string.isRequired,
     backText: PropTypes.string,
-    isPersonImage: PropTypes.bool
+    isPersonImage: PropTypes.bool,
+    backdropPath: PropTypes.string
 };

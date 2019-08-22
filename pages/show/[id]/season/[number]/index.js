@@ -26,6 +26,7 @@ function Season({
     name,
     overview,
     posterPath,
+    backdropPath,
     seasonNumber,
     showId,
     allSeasons,
@@ -44,6 +45,7 @@ function Season({
         <div>
             <MinimalHeader 
                 imagePath={posterPath}
+                backdropPath={backdropPath}
                 name={name}
                 backHref="/show/[id]/seasons"
                 backAs={`/show/${showId}/seasons`}
@@ -90,6 +92,7 @@ function Season({
 
 function mapState(state) {
     const s = getSeasonData(state);
+    const show = getShowData(state);
     return {
         accountStates: s.account_states,
         airDate: s.air_date,
@@ -100,8 +103,9 @@ function mapState(state) {
         name: s.name || '',
         overview: s.overview || '',
         posterPath: s.poster_path || '',
+        backdropPath: show.backdrop_path,
         seasonNumber: s.season_number,
-        allSeasons: getShowData(state).seasons,
+        allSeasons: show.seasons,
         hasSession: getHasSession(state)
     }
 }

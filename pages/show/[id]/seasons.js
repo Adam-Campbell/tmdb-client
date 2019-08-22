@@ -11,7 +11,7 @@ import { SeasonCard } from '../../../components/Cards';
 import { getInitialShowProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
 
-function Seasons({ id, title, posterPath, seasons }) {
+function Seasons({ id, title, posterPath, backdropPath, seasons }) {
 
     const showSubNavData = useMemo(() => {
         return getShowSubNavData(id);
@@ -21,6 +21,7 @@ function Seasons({ id, title, posterPath, seasons }) {
         <div>
             <MinimalHeader 
                 imagePath={posterPath}
+                backdropPath={backdropPath}
                 name={title}
                 backHref="/show/[id]"
                 backAs={`/show/${id}`}
@@ -50,6 +51,7 @@ function mapState(state) {
         id: s.id,
         title: s.name,
         posterPath: s.poster_path,
+        backdropPath: s.backdrop_path,
         seasons: s.seasons
     };
 }

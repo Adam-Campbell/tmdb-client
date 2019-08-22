@@ -7,7 +7,7 @@ import { text } from '../../utils';
 import SubNavLink from './SubNavLink';
 
 const SubNavContainer = styled.div`
-    background: ${({ theme }) => theme.colors.uiPrimary};
+    background: ${({ theme }) => theme.colors.primary};
 `;
 
 const StyledSubNav = styled(Row)`
