@@ -1,6 +1,21 @@
 import React, { useReducer, useRef, useEffect, useCallback } from 'react';
 import computeScrollIntoView from 'compute-scroll-into-view';
 
+/*
+
+Currently there is a bug where clicking on the menu toggle whilst the menu is already open will result in 
+the menu closing and then immediately opening again. This is because the menu closes when it loses focus, 
+which happens on the downwards click (if using a mouse), and then the actual onClick event which happens 
+afterwards causes the menu to open again. 
+
+I can possibly get around this by attaching the toggleMenu function to mousedown and touchstart events
+which I believe should fix it so that the menu is still closed when the event handler fires. 
+
+The whole thing could probably do with improvement however.
+
+*/
+
+
 function noop() {}
 
 const actionConstants = {

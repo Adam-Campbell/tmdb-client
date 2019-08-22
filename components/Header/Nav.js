@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
@@ -107,9 +107,24 @@ const CloseNavButton = styled(Close)`
 `;
 
 export default function Nav({ isOpen, closeMenu }) {
+
+    const navEl = useRef(null);
+
+    useEffect(() => {
+        function closeOnOuterClick(e) {
+            if (navEl.current && isOpen && !e.path.includes(navEl.current)) {
+                closeMenu();
+            }
+        }
+        document.body.addEventListener('click', closeOnOuterClick);
+        return function cleanup() {
+            document.body.removeEventListener('click', closeOnOuterClick);
+        }
+    }, [ isOpen, closeMenu ]);
+
     return (
         <NavContainer isOpen={isOpen}>
-            <StyledNav isOpen={isOpen}>
+            <StyledNav isOpen={isOpen} ref={navEl}>
                 <CloseNavButton onClick={closeMenu} />
                 <NavList>
                     <NavItem>
