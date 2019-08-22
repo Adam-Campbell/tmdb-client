@@ -7,7 +7,6 @@ import { NavItem } from './commonElements';
 import SubNav from './SubNav';
 import NavLink from './NavLink';
 
-
 const moviesSubNavData = [
     {
         href: '/movies/[subcategory]',
@@ -114,23 +113,25 @@ export default function Nav({ isOpen, closeMenu }) {
                 <CloseNavButton onClick={closeMenu} />
                 <NavList>
                     <NavItem>
-                        <NavLink route="/" name="Home" />
+                        <NavLink route="/" name="Home" icon="home" />
                     </NavItem>
                     <NavItem>
-                        <NavLink route="/discover" name="Discover" />
+                        <NavLink route="/discover" name="Discover" icon="discover" />
                     </NavItem>
                     <SubNav 
                         name="Movies" 
                         route="/movies"
                         subNavData={moviesSubNavData}
+                        icon="movies"
                     />
                     <SubNav 
                         name="TV" 
                         route="/tv"
-                        subNavData={tvSubNavData}  
+                        subNavData={tvSubNavData} 
+                        icon="tv" 
                     />
                     <NavItem>
-                        <NavLink route="/people" name="People" />
+                        <NavLink route="/people" name="People" icon="people" />
                     </NavItem>
                     
                 </NavList>

@@ -4,8 +4,9 @@ import Link from 'next/link';
 import useHover from '../useHover';
 import { useRouter } from 'next/router';
 import { StyledNavLink } from './commonElements';
+import NavIcon from './NavIcon';
 
-export default function NavLink({ route, name }) {
+export default function NavLink({ route, name, icon }) {
     const { isHovered, containerProps } = useHover();
     const router = useRouter();
     return (
@@ -15,6 +16,7 @@ export default function NavLink({ route, name }) {
                 isHovered={isHovered}
                 {...containerProps}
             >
+                <NavIcon icon={icon} />
                 {name}
             </StyledNavLink>
         </Link>
@@ -24,4 +26,11 @@ export default function NavLink({ route, name }) {
 NavLink.propTypes = {
     route: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+    icon: PropTypes.oneOf([
+        'home', 
+        'discover',
+        'movies', 
+        'tv', 
+        'people' 
+    ]).isRequired
 };

@@ -26,7 +26,7 @@ const SubNavItem = styled.li`
     flex-shrink: 0;
 `;
 
-export default function SubNav({ name, route, subNavData }) {
+export default function SubNav({ name, route, subNavData, icon }) {
     const [ isOpen, setIsOpen ] = useState(false);
     const router = useRouter();
 
@@ -39,6 +39,7 @@ export default function SubNav({ name, route, subNavData }) {
                 route={route}
                 name={name}
                 handleTouch={() => setIsOpen(prev => !prev)}
+                icon={icon}
             />
             <SubNavList isOpen={isOpen}>
                 {subNavData.map((el, index) => (
@@ -59,4 +60,11 @@ SubNav.propTypes = {
     name: PropTypes.string.isRequired,
     route: PropTypes.string.isRequired,
     subNavData: PropTypes.arrayOf(PropTypes.object).isRequired,
+    icon: PropTypes.oneOf([
+        'home', 
+        'discover',
+        'movies', 
+        'tv', 
+        'people' 
+    ]).isRequired
 };

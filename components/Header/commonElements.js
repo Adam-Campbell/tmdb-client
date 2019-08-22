@@ -13,7 +13,9 @@ export const NavItem = styled.li`
 `;
 
 export const StyledNavLink = styled.a`
-    display: block;
+    display: flex;
+    align-items: center;
+    width: 100%;
     ${({ theme }) => theme.fontStacks.bodyBold({ useLight: true })}
     cursor: pointer;
     padding: ${({ theme }) => theme.getSpacing(3)};
