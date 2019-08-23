@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import SidebarEntry from '../SidebarEntry';
 import SocialLinks from '../SocialLinks';
 import TagList from '../TagList';

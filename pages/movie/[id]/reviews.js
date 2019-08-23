@@ -3,10 +3,12 @@ import styled from 'styled-components';
 import MinimalHeader from '../../../components/MinimalHeader';
 import SubNav from '../../../components/SubNav';
 import { getMovieSubNavData } from '../../../utils';
-import { TwoColLayoutContainer, TwoColLayoutRow, MainCol, SidebarCol } from '../../../components/Layout';
-import ReviewPod from '../../../components/ReviewPod';
-
-import { fetchMovie } from '../../../actions';
+import { 
+    TwoColLayoutContainer, 
+    TwoColLayoutRow, 
+    MainCol, 
+    SidebarCol 
+} from '../../../components/Layout';
 import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import { getInitialMovieProps } from './';
