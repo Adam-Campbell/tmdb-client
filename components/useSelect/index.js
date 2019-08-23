@@ -156,7 +156,8 @@ export default function useSelect({
     );
 
     const toggleMenu = useCallback(
-        () => {
+        (e) => {
+            e.preventDefault();
             if (state.isOpen) {
                 closeMenu();
                 toggleEl.current.focus();
@@ -287,7 +288,8 @@ export default function useSelect({
         () => ({
             ref: toggleEl,
             tabIndex: '0',
-            onClick: toggleMenu,
+            onMouseDown: toggleMenu,
+            onTouchStart: toggleMenu,
             onKeyDown: handleLabelKeyDown,
         }),
         [toggleEl, toggleMenu, handleLabelKeyDown]
