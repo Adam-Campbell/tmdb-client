@@ -55,8 +55,8 @@ const Container = styled.div`
     max-width: 1080px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: ${({ theme }) => theme.getSpacing(3)};
-    margin-bottom: ${({ theme }) => theme.getSpacing(3)};
+    margin-top: ${({ theme }) => theme.getSpacing(4)};
+    margin-bottom: ${({ theme }) => theme.getSpacing(4)};
     display: flex;
     flex-direction: column;
     align-items: center;

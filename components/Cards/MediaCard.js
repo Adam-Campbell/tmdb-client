@@ -14,6 +14,7 @@ const StyledMediaCard = styled.div`
     margin-top: ${({ theme }) => theme.getSpacing(3)};
     margin-bottom: ${({ theme }) => theme.getSpacing(3)};
     box-shadow: ${({ theme }) => theme.boxShadow};
+    border: solid 1px ${({ theme }) => theme.colors.uiPrimary};
     display: flex;
     flex-direction: column;
     @media (min-width: 600px) {

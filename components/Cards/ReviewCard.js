@@ -10,6 +10,7 @@ const StyledReviewCard = styled.div`
     margin-top: ${({ theme }) => theme.getSpacing(3)};
     margin-bottom: ${({ theme }) => theme.getSpacing(3)};
     box-shadow: ${({ theme }) => theme.boxShadow};
+    border: solid 1px ${({ theme }) => theme.colors.uiPrimary};
 `;
 
 const ReviewContentContainer = styled.div`
@@ -67,9 +68,6 @@ export function ReviewCard({ author, content }) {
             (isExpandable && !isExpanded),
             truncationThreshold
         );
-        // return (isExpandable && !isExpanded) ?
-        //     truncateString(content, truncationThreshold) :
-        //     content;
     }, [ isExpandable, isExpanded, content ]);
 
     return (

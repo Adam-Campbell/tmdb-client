@@ -11,6 +11,7 @@ const StyledReviewPod = styled.div`
 
 const ReviewContainer = styled.div`
     box-shadow: ${({ theme }) => theme.boxShadow};
+    border: solid 1px ${({ theme }) => theme.colors.uiPrimary};
     padding: ${({ theme }) => theme.getSpacing(3)};
 `;
 
