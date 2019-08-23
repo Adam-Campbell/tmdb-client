@@ -1,3 +1,4 @@
+import appTheme from '../../theme';
 import { assign } from 'lodash';
 
 // Colors
@@ -8,11 +9,11 @@ import { assign } from 'lodash';
 // const teal700 = "#00796B";
 // const cyan900 = "#006064";
 
-const deepRed = '#dc1f3b';
-const orange = '#f58a0b';
-const limeGreen = '#6ee843';
-const lightBlue = '#43cbe8';
-const darkBlue = '#1a435d';
+const deepRed = appTheme.colors.warning;
+const orange = appTheme.colors.info;
+const limeGreen = appTheme.colors.success;
+const lightBlue = appTheme.colors.primary;
+const darkBlue = appTheme.colors.complimentary;
 const blueGrey = '#3a5b6f';
 const colors = [
   deepRed,
@@ -24,7 +25,9 @@ const colors = [
 ];
 
 const mediumGrey = '#444';
-const offBlack = '#222';
+const lightGrey = '#ddd';
+const extraLightGrey = appTheme.colors.uiPrimary;
+const offBlack = appTheme.colors.black;
 
 const blueGrey50 = "#ECEFF1";
 const blueGrey300 = "#90A4AE";
@@ -32,7 +35,7 @@ const blueGrey700 = "#455A64";
 const grey900 = "#212121";
 
 // Typography
-const sansSerif = "'Roboto', 'Helvetica Neue', Helvetica, sans-serif";
+const sansSerif = "'Fira Sans', 'Helvetica Neue', Helvetica, sans-serif";
 const letterSpacing = "normal";
 const fontSize = 14;
 
@@ -80,7 +83,7 @@ const theme = {
       style: {
         axis: {
           fill: "transparent",
-          stroke: blueGrey300,
+          stroke: lightGrey,
           strokeWidth: 2,
           strokeLinecap,
           strokeLinejoin
@@ -91,7 +94,7 @@ const theme = {
         }),
         grid: {
           fill: "none",
-          stroke: blueGrey50,
+          stroke: extraLightGrey,
           strokeDasharray,
           strokeLinecap,
           strokeLinejoin,
@@ -100,13 +103,13 @@ const theme = {
         ticks: {
           fill: "transparent",
           size: 5,
-          stroke: blueGrey300,
-          strokeWidth: 1,
+          stroke: lightGrey,
+          strokeWidth: 2,
           strokeLinecap,
           strokeLinejoin
         },
         tickLabels: assign({}, baseLabelStyles, {
-          fill: blueGrey700
+          fill: offBlack
         })
       }
     },
@@ -116,7 +119,7 @@ const theme = {
     {
       style: {
         data: {
-          fill: blueGrey700,
+          fill: lightBlue,
           padding,
           strokeWidth: 0
         },
@@ -208,7 +211,11 @@ const theme = {
         type: "circle"
       },
       labels: baseLabelStyles,
-      title: assign({}, baseLabelStyles, { padding: 5 })
+      title: assign({}, baseLabelStyles, { padding: 5 }),
+      border: {
+        stroke: lightGrey,
+        strokeWidth: 2
+      }
     }
   },
   line: assign(
@@ -217,7 +224,8 @@ const theme = {
         data: {
           fill: "transparent",
           opacity: 1,
-          stroke: blueGrey700,
+          //stroke: blueGrey700,
+          stroke: offBlack,
           strokeWidth: 2
         },
         labels: centeredLabelStyles
@@ -231,7 +239,8 @@ const theme = {
       style: {
         data: {
           padding,
-          stroke: blueGrey50,
+          //stroke: blueGrey50,
+          stroke: offBlack,
           strokeWidth: 1
         },
         labels: assign({}, baseLabelStyles, { padding: 20 })
