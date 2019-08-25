@@ -83,6 +83,7 @@ export function ReviewCard({ author, content }) {
                     <ToggleExpandedButton 
                         ref={anchorRef}
                         onClick={handleToggleClick}
+                        data-testid="review-card-toggle-button"
                     >
                         {isExpanded ? 'Read less' : 'Read more'}
                         <ToggleIcon isExpanded={isExpanded} />
