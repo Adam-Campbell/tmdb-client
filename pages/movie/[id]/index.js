@@ -19,6 +19,8 @@ import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import withErrorHandling from '../../../components/withErrorHandling';
 import MovieSidebar from '../../../components/MovieSidebar';
+import MediaSeo from '../../../components/MediaSeo';
+import MovieSeo from '../../../components/MovieSeo';
 
 export async function getInitialMovieProps({ query, req, store }) {
     try {
@@ -39,6 +41,10 @@ function Movie({
     reviews,
     recommendations,
     similar,
+    // only here for seo
+    overview, 
+    title,
+    imagePath
 }) {
 
     const movieSubNavData = useMemo(() => {
@@ -47,6 +53,7 @@ function Movie({
     
     return (
         <div>
+            <MovieSeo />
             <MediaHeader 
                 key={id}
                 mediaType="movie"
@@ -103,7 +110,11 @@ function mapState(state) {
         cast: m.credits.cast,
         reviews: m.reviews,
         recommendations: m.recommendations.results,
-        similar: m.similar.results
+        similar: m.similar.results,
+        // only here for seo
+        overview: m.overview,
+        title: m.title || m.name,
+        imagePath: m.poster_path
     };
 }
 
