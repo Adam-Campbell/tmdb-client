@@ -3,16 +3,25 @@ import styled from 'styled-components';
 import MinimalHeader from '../../../components/MinimalHeader';
 import SubNav from '../../../components/SubNav';
 import { getMovieSubNavData } from '../../../utils';
-import { TwoColLayoutContainer, TwoColLayoutRow, MainCol, SidebarCol } from '../../../components/Layout';
-import ReviewPod from '../../../components/ReviewPod';
-
-import { fetchMovie } from '../../../actions';
+import { 
+    TwoColLayoutContainer, 
+    TwoColLayoutRow, 
+    MainCol, 
+    SidebarCol 
+} from '../../../components/Layout';
 import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import { getInitialMovieProps } from './';
-import withErrorHandling from '../.../../components/withErrorHandling';
+import withErrorHandling from '../../../components/withErrorHandling';
+import { ReviewCard } from '../../../components/Cards';
+import MovieSidebar from '../../../components/MovieSidebar';
 
-function Reviews({ id, title, posterPath, reviews }) {
+const NoReviewsMessage = styled.p`
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    margin: 0;
+`;
+
+function Reviews({ id, title, posterPath, backdropPath, reviews }) {
     
     const movieSubNavData = useMemo(() => {
         return getMovieSubNavData(id);
@@ -22,6 +31,7 @@ function Reviews({ id, title, posterPath, reviews }) {
         <div>
             <MinimalHeader 
                 imagePath={posterPath}
+                backdropPath={backdropPath}
                 name={title}
                 backHref={`/movie/[id]`}
                 backAs={`/movie/${id}`}
@@ -30,19 +40,20 @@ function Reviews({ id, title, posterPath, reviews }) {
             <TwoColLayoutContainer>
                 <TwoColLayoutRow>
                     <MainCol>
-                        {reviews.map(review => (
-                            <ReviewPod 
-                                key={review.id}
+                        {reviews.length ? reviews.map(review => (
+                            <ReviewCard
+                                key={review.id} 
                                 author={review.author}
                                 content={review.content}
-                                id={review.id}
-                                allReviewsHref="/foo"
-                                allReviewsAs="/foo"
-                            />
-                        ))}
+                            />  
+                        )) : (
+                            <NoReviewsMessage>
+                                There are no user reviews for this movie
+                            </NoReviewsMessage>
+                        )}
                     </MainCol>
                     <SidebarCol>
-
+                        <MovieSidebar />
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>
@@ -56,6 +67,7 @@ function mapState(state) {
         id: m.id,
         title: m.title,
         posterPath: m.poster_path,
+        backdropPath: m.backdrop_path,
         reviews: m.reviews.results
     };
 }

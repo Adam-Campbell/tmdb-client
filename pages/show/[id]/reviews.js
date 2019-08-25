@@ -3,16 +3,25 @@ import styled from 'styled-components';
 import MinimalHeader from '../../../components/MinimalHeader';
 import SubNav from '../../../components/SubNav';
 import { getShowSubNavData } from '../../../utils';
-import { TwoColLayoutContainer, TwoColLayoutRow, MainCol, SidebarCol } from '../../../components/Layout';
-import ReviewPod from '../../../components/ReviewPod';
-
-import { fetchShow } from '../../../actions';
+import { 
+    TwoColLayoutContainer, 
+    TwoColLayoutRow, 
+    MainCol, 
+    SidebarCol 
+} from '../../../components/Layout';
 import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 import { getInitialShowProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
+import { ReviewCard } from '../../../components/Cards';
+import ShowSidebar from '../../../components/ShowSidebar';
 
-function Reviews({ id, title, posterPath, reviews }) {
+const NoReviewsMessage = styled.p`
+    ${({ theme }) => theme.fontStacks.bodyBold()}
+    margin: 0;
+`;
+
+function Reviews({ id, title, posterPath, backdropPath, reviews }) {
 
     const showSubNavData = useMemo(() => {
         return getShowSubNavData(id);
@@ -22,6 +31,7 @@ function Reviews({ id, title, posterPath, reviews }) {
         <div>
             <MinimalHeader 
                 imagePath={posterPath}
+                backdropPath={backdropPath}
                 name={title}
                 backHref="/show/[id]"
                 backAs={`/show/${id}`}
@@ -30,19 +40,20 @@ function Reviews({ id, title, posterPath, reviews }) {
             <TwoColLayoutContainer>
                 <TwoColLayoutRow>
                     <MainCol>
-                        {reviews.map(review => (
-                            <ReviewPod 
-                                key={review.id}
+                        {reviews.length ? reviews.map(review => (
+                            <ReviewCard
+                                key={review.id} 
                                 author={review.author}
                                 content={review.content}
-                                id={review.id}
-                                allReviewsHref="/foo"
-                                allReviewsAs="/foo"
-                            />
-                        ))}
+                            />  
+                        )) : (
+                            <NoReviewsMessage>
+                                There are no user reviews for this movie
+                            </NoReviewsMessage>
+                        )}
                     </MainCol>
                     <SidebarCol>
-
+                        <ShowSidebar />
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>
@@ -58,6 +69,7 @@ function mapState(state) {
         id: s.id,
         title: s.name,
         posterPath: s.poster_path,
+        backdropPath: s.backdrop_path,
         reviews: s.reviews.results
     };
 }

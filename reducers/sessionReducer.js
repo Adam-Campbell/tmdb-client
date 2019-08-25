@@ -1,6 +1,6 @@
 import * as actionTypes from '../actionTypes';
 
-const initialState = {
+export const initialState = {
     hasSession: false
 };
 
@@ -10,14 +10,12 @@ export default function reducer(state = initialState, action) {
         case actionTypes.LOGIN_USER_SUCCESS:
             return {
                 ...state,
-                //userSessionId: action.payload.userSessionId
                 hasSession: true
             };
 
         case actionTypes.LOGOUT_USER:
             return {
                 ...state,
-                //userSessionId: null
                 hasSession: false
             };
 

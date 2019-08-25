@@ -8,10 +8,7 @@ import {
 } from '../../../components/Layout';
 import { getShowSubNavData, getSSRHeaders } from '../../../utils';
 import MediaInlineCardRow from '../../../components/MediaInlineCardRow';
-import SidebarEntry from '../../../components/SidebarEntry';
-import SocialLinks from '../../../components/SocialLinks';
 import ReviewPod from '../../../components/ReviewPod';
-import TagList from '../../../components/TagList';
 import SubNav from '../../../components/SubNav';
 import { SeasonCard } from '../../../components/Cards';
 import InlineContentRow from '../../../components/InlineContentRow';
@@ -19,6 +16,7 @@ import { fetchShow } from '../../../actions';
 import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 import withErrorHandling from '../../../components/withErrorHandling';
+import ShowSidebar from '../../../components/ShowSidebar';
 
 export async function getInitialShowProps({ query, req, store }) {
     try {
@@ -39,15 +37,6 @@ function Show({
     reviews,
     recommendations,
     similar,
-    externalIds,
-    website,
-    status,
-    type,
-    numberOfSeasons,
-    numberOfEpisodes,
-    runtime,
-    genres,
-    keywords,
     currentSeason
 }) {
 
@@ -112,34 +101,7 @@ function Show({
                         />
                     </MainCol>
                     <SidebarCol>
-                        <SocialLinks 
-                            facebook={externalIds.facebook_id}
-                            twitter={externalIds.twitter_id}
-                            instagram={externalIds.instagram_id}
-                            website={website}
-                        />
-                        <SidebarEntry 
-                            title="Status"
-                            value={status}
-                        />
-                        <SidebarEntry 
-                            title="Type"
-                            value={type}
-                        />
-                        <SidebarEntry 
-                            title="Number of seasons"
-                            value={numberOfSeasons}
-                        />
-                        <SidebarEntry 
-                            title="Number of episodes"
-                            value={numberOfEpisodes}
-                        />
-                        <SidebarEntry 
-                            title="Runtime"
-                            value={runtime}
-                        />
-                        <TagList title="Genres" tagData={genres} />
-                        <TagList title="Keywords" tagData={keywords} />
+                        <ShowSidebar />
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>
@@ -155,15 +117,6 @@ function mapState(state) {
         reviews: s.reviews,
         recommendations: s.recommendations.results,
         similar: s.similar.results,
-        externalIds: s.external_ids,
-        website: s.homepage,
-        status: s.status,
-        type: s.type,
-        numberOfSeasons: s.number_of_seasons,
-        numberOfEpisodes: s.number_of_episodes,
-        runtime: s.episode_run_time[0],
-        genres: s.genres,
-        keywords: s.keywords.results,
         currentSeason: s.seasons[s.seasons.length-1]
     };
 }

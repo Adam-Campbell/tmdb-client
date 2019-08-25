@@ -8,24 +8,17 @@ import {
     TwoColLayoutRow
 } from '../../../components/Layout';
 import MediaInlineCardRow from '../../../components/MediaInlineCardRow';
-import TagList from '../../../components/TagList';
-import { 
-    text, 
-    formatDateString, 
-    formatMinutes, 
-    formatDollarFigure, 
+import {  
     getMovieSubNavData,
     getSSRHeaders 
 } from '../../../utils';
-import SidebarEntry from '../../../components/SidebarEntry';
-import SocialLinks from '../../../components/SocialLinks';
 import ReviewPod from '../../../components/ReviewPod';
 import SubNav from '../../../components/SubNav';
-
 import { fetchMovie } from '../../../actions';
 import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import withErrorHandling from '../../../components/withErrorHandling';
+import MovieSidebar from '../../../components/MovieSidebar';
 
 export async function getInitialMovieProps({ query, req, store }) {
     try {
@@ -46,15 +39,6 @@ function Movie({
     reviews,
     recommendations,
     similar,
-    externalIds,
-    website, 
-    releaseStatus,
-    releaseDate,
-    duration,
-    budget,
-    revenue,
-    genres,
-    keywords,
 }) {
 
     const movieSubNavData = useMemo(() => {
@@ -104,34 +88,7 @@ function Movie({
                         />
                     </MainCol>
                     <SidebarCol>
-                        <SocialLinks 
-                            facebook={externalIds.facebook_id}
-                            twitter={externalIds.twitter_id}
-                            instagram={externalIds.instagram_id}
-                            website={website}
-                        />
-                        <SidebarEntry 
-                            title="Release status"
-                            value={releaseStatus}
-                        />
-                        <SidebarEntry 
-                            title="Release date"
-                            value={releaseDate}
-                        />
-                        <SidebarEntry 
-                            title="Duration"
-                            value={duration}
-                        />
-                        <SidebarEntry 
-                            title="Budget"
-                            value={budget}
-                        />
-                        <SidebarEntry 
-                            title="Revenue"
-                            value={revenue}
-                        />
-                        <TagList title="Genres" tagData={genres} />
-                        <TagList title="Keywords" tagData={keywords} />
+                        <MovieSidebar />
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>
@@ -146,16 +103,7 @@ function mapState(state) {
         cast: m.credits.cast,
         reviews: m.reviews,
         recommendations: m.recommendations.results,
-        similar: m.similar.results,
-        externalIds: m.external_ids,
-        website: m.homepage,
-        releaseStatus: m.status,
-        releaseDate: formatDateString(m.release_date),
-        duration: formatMinutes(m.runtime),
-        budget: formatDollarFigure(m.budget),
-        revenue: formatDollarFigure(m.revenue),
-        genres: m.genres,
-        keywords: m.keywords.keywords,
+        similar: m.similar.results
     };
 }
 

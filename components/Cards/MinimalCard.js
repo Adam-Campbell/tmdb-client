@@ -9,6 +9,7 @@ import { ellipsis } from 'polished'
 const StyledMinimalCard = styled.div`
     margin-top: ${({ theme }) => theme.getSpacing(2)};
     box-shadow: ${({ theme }) => theme.boxShadow};
+    border: solid 1px ${({ theme }) => theme.colors.uiPrimary};
     ${({ isInline }) => isInline && `
         width: calc(50% - 5px);
         @media (min-width: 550px) {

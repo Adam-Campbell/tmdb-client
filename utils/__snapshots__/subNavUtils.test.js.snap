@@ -4,27 +4,27 @@ exports[`getMovieSubNavData it matches snapshot 1`] = `
 Array [
   Object {
     "as": "/movie/123/similar",
-    "href": "/movie/similar?id=123",
+    "href": "/movie/[id]/similar",
     "name": "Similar",
   },
   Object {
     "as": "/movie/123/recommended",
-    "href": "/movie/recommended?id=123",
+    "href": "/movie/[id]/recommended",
     "name": "Recommended",
   },
   Object {
     "as": "/movie/123/reviews",
-    "href": "/movie/reviews?id=123",
+    "href": "/movie/[id]/reviews",
     "name": "Reviews",
   },
   Object {
     "as": "/movie/123/cast-and-crew",
-    "href": "/movie/cast-and-crew?id=123",
+    "href": "/movie/[id]/cast-and-crew",
     "name": "Cast & Crew",
   },
   Object {
     "as": "/movie/123/images",
-    "href": "/movie/images?id=123",
+    "href": "/movie/[id]/images",
     "name": "Images",
   },
 ]
@@ -34,12 +34,12 @@ exports[`getPersonSubNavData it matches snapshot 1`] = `
 Array [
   Object {
     "as": "/person/foo/credits",
-    "href": "/person/credits?id=foo",
+    "href": "/person/[id]/credits",
     "name": "Credits",
   },
   Object {
     "as": "/person/foo/images",
-    "href": "/person/images?id=foo",
+    "href": "/person/[id]/images",
     "name": "Images",
   },
 ]
@@ -69,32 +69,32 @@ exports[`getShowSubNavData it matches snapshot 1`] = `
 Array [
   Object {
     "as": "/show/123/similar",
-    "href": "/show/similar?id=123",
+    "href": "/show/[id]/similar",
     "name": "Similar",
   },
   Object {
     "as": "/show/123/recommended",
-    "href": "/show/recommended?id=123",
+    "href": "/show/[id]/recommended",
     "name": "Recommended",
   },
   Object {
     "as": "/show/123/reviews",
-    "href": "/show/reviews?id=123",
+    "href": "/show/[id]/reviews",
     "name": "Reviews",
   },
   Object {
     "as": "/show/123/cast-and-crew",
-    "href": "/show/cast-and-crew?id=123",
+    "href": "/show/[id]/cast-and-crew",
     "name": "Cast & Crew",
   },
   Object {
     "as": "/show/123/images",
-    "href": "/show/images?id=123",
+    "href": "/show/[id]/images",
     "name": "Images",
   },
   Object {
     "as": "/show/123/seasons",
-    "href": "/show/seasons?id=123",
+    "href": "/show/[id]/seasons",
     "name": "Seasons",
   },
 ]

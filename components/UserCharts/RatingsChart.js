@@ -3,9 +3,13 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { getUsersRatings } from '../../reducers/user';
-import { VictoryBar, VictoryChart, VictoryAxis, VictoryTheme, VictoryStack, VictoryContainer } from 'victory';
-import { getNumericTicks } from './utils';
-import { text } from '../../utils';
+import { 
+    VictoryBar, 
+    VictoryChart, 
+    VictoryAxis,  
+    VictoryContainer 
+} from 'victory';
+import { getNumericTicks, convertToChartData } from './utils';
 import customTheme from './customTheme';
 import { hideVisually } from 'polished';
 
@@ -85,15 +89,6 @@ const filterData = [
     { name: 'TV', value: 'tv', id: 'media-type-tv' }
 ];
 
-function convertToChartData(ratingsData) {
-    const chartData = Array.from({ length: 10 })
-                           .map((el, index) => ({ rating: index + 1, frequency: 0 }));
-    for (let ratingObj of ratingsData) {
-        chartData[ratingObj.rating - 1].frequency++;
-    }
-    return chartData;
-}
-
 function RatingsChart({ ratings }) {
 
     const allRatingsData = useMemo(() => {
@@ -113,7 +108,6 @@ function RatingsChart({ ratings }) {
         return getNumericTicks(maxFreq, 4);
     }, [ allRatingsData ]);
 
-    //const [ currentData, setCurrentData ] = useState(allRatingsData);
     const [ currentlyShowing, setShowing ] = useState('all');
 
     let data;

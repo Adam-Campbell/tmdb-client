@@ -50,13 +50,13 @@ export const mediaTypeFilterData = [
     }
 ];
 
-
 const Container = styled.div`
     width: calc(100% - 40px);
     max-width: 1080px;
     margin-left: auto;
     margin-right: auto;
-    border: solid pink 1px;
+    margin-top: ${({ theme }) => theme.getSpacing(4)};
+    margin-bottom: ${({ theme }) => theme.getSpacing(4)};
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -66,7 +66,6 @@ const Container = styled.div`
         align-items: flex-start;
     }
 `;
-
 
 export async function getInitialMeProps({ req, query, store }) {
     try {
@@ -81,7 +80,6 @@ export async function getInitialMeProps({ req, query, store }) {
 }
 
 function Me(props) {
-
     return (
         <>
             <UserHeader />

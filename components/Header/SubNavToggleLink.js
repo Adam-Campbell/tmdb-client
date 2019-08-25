@@ -5,6 +5,7 @@ import useHover from '../useHover';
 import { useRouter } from 'next/router';
 import { StyledNavLink } from './commonElements';
 import Link from 'next/link';
+import NavIcon from './NavIcon';
 
 const SubNavToggleButton = styled(StyledNavLink)`
     border: none;
@@ -23,7 +24,7 @@ const StyledSubNavToggleLink = styled(StyledNavLink)`
     }
 `;
 
-export default function SubNavToggleLink({ route, name, handleTouch }) {
+export default function SubNavToggleLink({ route, name, handleTouch, icon }) {
     const { isHovered, containerProps } = useHover();
     const router = useRouter();
     return (
@@ -39,6 +40,7 @@ export default function SubNavToggleLink({ route, name, handleTouch }) {
                     handleTouch();
                 }}
             >
+                <NavIcon icon={icon} />
                 {name}
             </SubNavToggleButton>
             <Link as={route} href={route} passHref>
@@ -57,5 +59,12 @@ export default function SubNavToggleLink({ route, name, handleTouch }) {
 SubNavToggleLink.propTypes = {
     route: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    handleTouch: PropTypes.func.isRequired
+    handleTouch: PropTypes.func.isRequired,
+    icon: PropTypes.oneOf([
+        'home', 
+        'discover',
+        'movies', 
+        'tv', 
+        'people' 
+    ]).isRequired
 };

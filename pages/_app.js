@@ -3,7 +3,7 @@ import App, { Container } from 'next/app';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SearchBar from '../components/SearchBar';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 import { normalize } from 'styled-normalize';
 import ReactModal from 'react-modal';
 import makeStore from '../store';
@@ -67,6 +67,9 @@ const GlobalStyle = createGlobalStyle`
         padding: 10px;
         width: calc(100% - 40px);
         max-width: 600px;
+        @media (min-width: 400px) {
+            padding: 20px;
+        }
     }
     .add-to-list-modal__content-container {
         background: #fff;
@@ -74,6 +77,10 @@ const GlobalStyle = createGlobalStyle`
         padding: 10px;
         width: calc(100% - 40px);
         max-width: 320px;
+        @media (min-width: 400px) {
+            max-width: 360px;
+            padding: 20px;
+        }
     }
     .rating-modal__overlay {
         position: absolute;
@@ -138,6 +145,12 @@ const GlobalStyle = createGlobalStyle`
     }
 `;
 
+const PageWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh + 10px);
+`;
+
 class MyApp extends App {
     static async getInitialProps({ Component, ctx }) {
         //console.log(ctx.store.getState());
@@ -161,10 +174,12 @@ class MyApp extends App {
                     </NextHead>
                     <GlobalStyle />
                     <Provider store={store}>
-                        <Header />
-                        <SearchBar />
-                        <Component {...pageProps} />
-                        <Footer />
+                        <PageWrapper>
+                            <Header />
+                            <SearchBar />
+                            <Component {...pageProps} />
+                            <Footer />
+                        </PageWrapper>
                         <ToastContainer position="top-center" />
                     </Provider>
                 </>

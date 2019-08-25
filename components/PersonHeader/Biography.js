@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { text } from '../../utils';
+import { truncateAndFormatTextBody } from '../../utils';
 import useExpand from '../useExpand';
 import { Button } from '../Buttons';
 
@@ -9,18 +9,6 @@ const Paragraph = styled.p`
     ${({ theme }) => theme.fontStacks.body()}
     font-size: ${({ theme }) => theme.fontSizes.body.md};
 `;
-
-export function formatBio(bioString) {
-    return bioString.replace(/&amp;/g, '&')
-            .split('\n')
-            .filter(el => el !== '');
-}
-
-export function truncateBioIfNeeded(bioString, shouldTruncate, truncationThreshold) {
-    return shouldTruncate ? 
-        bioString.slice(0, truncationThreshold - 3) + '...' :
-        bioString;
-}
 
 export default function Biography({ biography }) {
 
@@ -34,12 +22,10 @@ export default function Biography({ biography }) {
     } = useExpand();
 
     const bioData = useMemo(() => {
-        return formatBio(
-            truncateBioIfNeeded(
-                biography,
-                (isExpandable && !isExpanded),
-                truncationThreshold 
-            )
+        return truncateAndFormatTextBody(
+            biography, 
+            (isExpandable && !isExpanded),
+            truncationThreshold
         );
     }, [ biography, isExpanded, isExpandable, truncationThreshold ]);
 

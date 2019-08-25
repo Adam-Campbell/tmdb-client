@@ -47,8 +47,8 @@ const Input = styled.input`
 
 const SelectedTag = styled.div`
     ${({ theme }) => theme.fontStacks.body()}
-    font-size: ${({ theme }) => theme.fontSizes.body.sm}
-    padding: 10px 5px;
+    font-size: ${({ theme }) => theme.fontSizes.body.sm};
+    padding: ${({ theme }) => theme.getSpacing(1)};
     display: inline-flex;
     align-items: center;
     background: ${({ theme }) => theme.colors.uiSecondary};

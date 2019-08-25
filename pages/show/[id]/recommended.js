@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { getInitialShowProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
 
-function Recommended({ id, title, posterPath, recommendations }) {
+function Recommended({ id, title, posterPath, backdropPath, recommendations }) {
 
     const showSubNavData = useMemo(() => {
         return getShowSubNavData(id);
@@ -21,6 +21,7 @@ function Recommended({ id, title, posterPath, recommendations }) {
         <div>
             <MinimalHeader 
                 imagePath={posterPath}
+                backdropPath={backdropPath}
                 name={title}
                 backHref="/show/[id]"
                 backAs={`/show/${id}`}
@@ -41,6 +42,7 @@ function mapState(state) {
         id: s.id,
         title: s.name,
         posterPath: s.poster_path,
+        backdropPath: s.backdrop_path,
         recommendations: s.recommendations.results
     };
 }

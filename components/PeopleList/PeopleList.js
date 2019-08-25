@@ -10,6 +10,7 @@ import { Button } from '../Buttons';
 const Title = styled.h3`
     ${({ theme }) => theme.fontStacks.heading()};
     font-size: ${({ theme }) => theme.fontSizes.heading.md};
+    margin: ${({ theme }) => theme.getSpacing(3, 0)};
 `;
 
 const StyledPeopleList = styled.ol`
@@ -26,6 +27,7 @@ const StyledPeopleList = styled.ol`
 const ToggleExpandedButton = styled(Button)`
     display: flex;
     align-items: center;
+    margin-bottom: ${({ theme }) => theme.getSpacing(4)};
 `;
 
 const ToggleIcon = styled(ChevronDown)`
@@ -49,7 +51,7 @@ export function PeopleList({
     } = useExpand();
 
     return (
-        <div>
+        <>
             <Title>{title}</Title>
             <StyledPeopleList>
                 {people.map((person, index) => (
@@ -72,7 +74,7 @@ export function PeopleList({
                     <ToggleIcon isExpanded={isExpanded}/>
                 </ToggleExpandedButton>
             )}
-        </div>
+        </>
     );
 }
 

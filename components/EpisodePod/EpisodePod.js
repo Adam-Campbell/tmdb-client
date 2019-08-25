@@ -17,6 +17,7 @@ const StyledEpisodePod = styled.div`
     width: 100%;
     margin: ${({ theme }) => theme.getSpacing(3, 0)};
     box-shadow: ${({ theme }) => theme.boxShadow};
+    border: solid 1px ${({ theme }) => theme.colors.uiPrimary};
     background: ${({ theme }) => theme.colors.white};
 `;
 

@@ -2,8 +2,11 @@ import * as actionTypes from '../actionTypes';
 import reducer from './sessionReducer';
 
 const initialState = {
-    userSessionId: null,
-    guestSessionId: null
+    hasSession: false
+};
+
+const withSessionState = {
+    hasSession: true
 };
 
 test('it returns the default state', () => {
@@ -13,23 +16,11 @@ test('it returns the default state', () => {
 test('it handles LOGIN_USER_SUCCESS', () => {
     expect(reducer(undefined, {
         type: actionTypes.LOGIN_USER_SUCCESS,
-        payload: {
-            userSessionId: '123456'
-        }
-    })).toEqual({
-        userSessionId: '123456',
-        guestSessionId: null
-    });
+    })).toEqual(withSessionState);
 });
 
 test('it handles LOGOUT_USER', () => {
-    expect(reducer({
-        userSessionId: '123456',
-        guestSessionId: null
-    }, {
+    expect(reducer(withSessionState, {
         type: actionTypes.LOGOUT_USER
-    })).toEqual({
-        userSessionId: null,
-        guestSessionId: null
-    });
+    })).toEqual(initialState);
 });

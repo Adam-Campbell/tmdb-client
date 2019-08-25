@@ -47,7 +47,7 @@ const StyledUserInteractionsRow = styled.div`
     display: flex;
     justify-content: space-between;
     flex-grow: 1;
-    max-width: 250px;
+    max-width: ${({ includesAllButtons }) => includesAllButtons ? '250px' : '188px'};
 `;
 
 function UserInteractionsRow({ 
@@ -86,15 +86,17 @@ function UserInteractionsRow({
     const score = rated ? Math.floor(rated.value / 2) : 0;
 
     return (
-        <StyledUserInteractionsRow>
-            <InteractionButton
-                isBeingUsed={false}
-                handleClick={() => setIsShowingAddToListModal(true)}
-                inUseColor="#fff"
-                tooltipText="Add to list"
-            >
-                {({ iconColor }) => <ListIcon iconColor={iconColor} />}
-            </InteractionButton>
+        <StyledUserInteractionsRow includesAllButtons={mediaType === 'movie'}>
+            {mediaType === 'movie' && (
+                <InteractionButton
+                    isBeingUsed={false}
+                    handleClick={() => setIsShowingAddToListModal(true)}
+                    inUseColor="#fff"
+                    tooltipText="Add to list"
+                >
+                    {({ iconColor }) => <ListIcon iconColor={iconColor} />}
+                </InteractionButton>
+            )}
             <InteractionButton
                 isBeingUsed={isFavourite}
                 handleClick={() => markFavourite(mediaType, id, !isFavourite)}

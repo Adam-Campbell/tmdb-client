@@ -1,5 +1,5 @@
 import { get } from '../../../axiosServer';
-import { apiMethodHandler } from '../.././utils';
+import { apiMethodHandler } from '../../../utils';
 
 async function handleGet(req, res) {
 

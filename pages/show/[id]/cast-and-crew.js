@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { getInitialShowProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
 
-function CastAndCrew({ id, title, posterPath, cast, crew }) {
+function CastAndCrew({ id, title, posterPath, backdropPath, cast, crew }) {
 
     const showSubNavData = useMemo(() => {
         return getShowSubNavData(id);
@@ -25,6 +25,7 @@ function CastAndCrew({ id, title, posterPath, cast, crew }) {
         <div>
             <MinimalHeader 
                 imagePath={posterPath}
+                backdropPath={backdropPath}
                 name={title}
                 backHref="/show/[id]"
                 backAs={`/show/${id}`}
@@ -50,6 +51,7 @@ function mapState(state) {
         id: s.id,
         title: s.name,
         posterPath: s.poster_path,
+        backdropPath: s.backdrop_path,
         cast: s.credits.cast,
         crew: s.credits.crew
     };

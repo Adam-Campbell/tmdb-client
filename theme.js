@@ -1,15 +1,20 @@
+import { lighten, desaturate } from 'polished';
+
 const nileBlue = '#1a435d';
+const tiber = '#062438';
 const pictonBlue = '#43cbe8';
 const alizarinCrimson = '#dc1f3b';
 const conifer = '#6ee843';
+const mountainMeadow = '#23bd4d';
 const tahitiGold = '#f58a0b';
+const westSide = '#fb8e0f';
 const mineShaft = '#222';
 const gallery = '#eee';
 const alto = '#ddd';
 const white = '#fff';
 const porcelain = '#eaedee';
 const transparentBlack = 'rgba(0,0,0,0.8)';
-const transparentGrey = 'rgba(17,17,17,04)';
+const transparentGrey = 'rgba(17,17,17,0.4)';
 
 const spaceBase = 5;
 
@@ -38,12 +43,12 @@ function getSpacing(...args) {
 const theme = {
     colors: {
         primary: pictonBlue,
-        complimentary: nileBlue,
+        complimentary: tiber,
         black: mineShaft,
         white,
-        success: conifer,
+        success: mountainMeadow,
         warning: alizarinCrimson,
-        info: tahitiGold,
+        info: westSide,
         uiPrimary: porcelain,
         uiSecondary: alto,
         overlayStrong: transparentBlack,
@@ -83,6 +88,9 @@ const theme = {
     },
     borderRadius: '3px',
     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+    gradients: {
+        primary: `linear-gradient(35deg, ${tiber} 35%, ${lighten(0.1, desaturate(0.1, mountainMeadow))})`
+    },
     getSpacing,
 };
 

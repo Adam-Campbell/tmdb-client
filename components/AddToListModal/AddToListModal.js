@@ -30,6 +30,10 @@ const Loader = styled.div`
 const TitleRow = styled.div`
     display: flex;
     align-items: center;
+    margin-bottom: ${({ theme }) => theme.getSpacing(2)};
+    @media (min-width: 400px) {
+        margin-bottom: ${({ theme }) => theme.getSpacing(3)};
+    }
 `;
 
 const ModalTitle = styled.h2`

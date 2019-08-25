@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 import { getInitialMovieProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
 
-function CastAndCrew({ id, title, posterPath, cast, crew }) {
+function CastAndCrew({ id, title, posterPath, backdropPath, cast, crew }) {
 
     const movieSubNavData = useMemo(() => {
         return getMovieSubNavData(id);
@@ -26,6 +26,7 @@ function CastAndCrew({ id, title, posterPath, cast, crew }) {
         <div>
             <MinimalHeader 
                 imagePath={posterPath}
+                backdropPath={backdropPath}
                 name={title}
                 backHref={`/movie/[id]`}
                 backAs={`/movie/${id}`}
@@ -53,6 +54,7 @@ function mapState(state) {
         id: m.id,
         title: m.title,
         posterPath: m.poster_path,
+        backdropPath: m.backdrop_path,
         cast: m.credits.cast,
         crew: m.credits.crew
     };
