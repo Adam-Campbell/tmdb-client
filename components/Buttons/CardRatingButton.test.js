@@ -14,5 +14,5 @@ test('it renders the rating passed into it', () => {
         rateShow={noop}
         removeShowRating={noop}
     />);
-    expect(getByText(9)).toBeInTheDocument();
+    expect(getByText('9')).toBeInTheDocument();
 });

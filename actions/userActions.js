@@ -31,11 +31,8 @@ const loginUserRequest = () => ({
     type: actionTypes.LOGIN_USER_REQUEST
 });
 
-const loginUserSuccess = (userSessionId) => ({
-    type: actionTypes.LOGIN_USER_SUCCESS,
-    payload: {
-        userSessionId
-    }
+const loginUserSuccess = () => ({
+    type: actionTypes.LOGIN_USER_SUCCESS
 });
 
 const loginUserFailed = (error) => ({
