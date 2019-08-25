@@ -3,6 +3,7 @@ import { NextSeo } from 'next-seo';
 import { getImageUrl } from '../../utils';
 import { connect } from 'react-redux';
 import { getMovieData } from '../../reducers/movieReducer';
+import { useRouter } from 'next/router';
 
 function getImageData(imagePath, width, alt) {
     if (!imagePath) return false;
@@ -52,6 +53,8 @@ function MovieSeo({
     keywords
 }) {
 
+    const { asPath } = useRouter();
+
     const openGraphImages = useMemo(() => {
         return getOpenGraphImages(posterPath, backdropPath, title);
     }, [ posterPath, backdropPath, title ]);
@@ -73,7 +76,7 @@ function MovieSeo({
             openGraph={{
                 title,
                 description: overview,
-                url: `http://localhost:3000/movie/${id}`,
+                url: `http://localhost:3000${asPath}`,
                 type: 'video.movie',
                 site_name: 'React Movie Database',
                 images: openGraphImages,
@@ -104,5 +107,16 @@ function mapState(state) {
         keywords: m.keywords.keywords
     }
 }
+
+/*
+
+What changes when we deal with shows?
+- title becomes name
+- duration becomes episode_run_time[0] * 60
+- release date becomes first_air_date
+- keywords becomes keywords.results
+
+
+*/
 
 export const ConnectedMovieSeo = connect(mapState)(MovieSeo);

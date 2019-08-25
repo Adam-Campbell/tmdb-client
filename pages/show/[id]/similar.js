@@ -10,6 +10,7 @@ import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 import { getInitialShowProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
+import MediaSeo from '../../../components/MediaSeo';
 
 function Similar({ id, title, posterPath, backdropPath, similar }) {
     
@@ -19,6 +20,7 @@ function Similar({ id, title, posterPath, backdropPath, similar }) {
 
     return (
         <div>
+            <MediaSeo />
             <MinimalHeader 
                 imagePath={posterPath}
                 backdropPath={backdropPath}

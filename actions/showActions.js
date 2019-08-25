@@ -32,7 +32,9 @@ export const fetchShow = (id, ssrHeaders = {}) => async (dispatch, getState) => 
         const response = await a.get(`api/show/${id}`, {
             headers: ssrHeaders
         });
-        dispatch(fetchShowSuccess(response.data, id));
+        const showData = response.data;
+        showData.credits.cast = showData.credits.cast.sort((a,b) => a.order - b.order);
+        dispatch(fetchShowSuccess(showData, id));
     } catch (error) {
         dispatch(fetchShowFailed(error));
         throw new Error(error.response.status);

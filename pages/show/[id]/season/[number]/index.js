@@ -15,6 +15,7 @@ import { getHasSession } from '../../../../../reducers/sessionReducer';
 import SeasonNavigation from '../../../../../components/SeasonNavigation';
 import SeasonRatingsChart from '../../../../../components/SeasonRatingsChart';
 import withErrorHandling from '../../../../../components/withErrorHandling';
+import MediaSeo from '../../../../../components/MediaSeo';
 
 function Season({
     accountStates,
@@ -36,13 +37,10 @@ function Season({
     const showSubNavData = useMemo(() => {
         return getShowSubNavData(showId);
     }, [ showId ]);
-    
-    const orderedCast = useMemo(() => {
-        return credits.cast.sort((a,b) => a.order - b.order);
-    }, [ credits.cast ]);
 
     return (
         <div>
+            <MediaSeo />
             <MinimalHeader 
                 imagePath={posterPath}
                 backdropPath={backdropPath}
@@ -60,7 +58,7 @@ function Season({
             <Row>
                 <PeopleList 
                     title="Cast"
-                    people={orderedCast}
+                    people={credits.cast}
                     shouldAllowExpansion={true}
                 />
                 <PeopleList 

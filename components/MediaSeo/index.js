@@ -1,3 +1,3 @@
-import { MediaSeo } from './MediaSeo';
+import { ConnectedMediaSeo as MediaSeo } from './MediaSeo';
 
 export default MediaSeo;

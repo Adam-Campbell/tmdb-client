@@ -9,6 +9,7 @@ import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import { getInitialMovieProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
+import MediaSeo from '../../../components/MediaSeo';
  
 function Similar({ id, title, posterPath, backdropPath, similar }) {
     
@@ -18,6 +19,7 @@ function Similar({ id, title, posterPath, backdropPath, similar }) {
 
     return (
         <div>
+            <MediaSeo isMovie={true} />
             <MinimalHeader 
                 imagePath={posterPath}
                 backdropPath={backdropPath}

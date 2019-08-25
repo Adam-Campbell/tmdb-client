@@ -15,6 +15,7 @@ import { getInitialMovieProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
 import { ReviewCard } from '../../../components/Cards';
 import MovieSidebar from '../../../components/MovieSidebar';
+import MediaSeo from '../../../components/MediaSeo';
 
 const NoReviewsMessage = styled.p`
     ${({ theme }) => theme.fontStacks.bodyBold()}
@@ -29,6 +30,7 @@ function Reviews({ id, title, posterPath, backdropPath, reviews }) {
 
     return (
         <div>
+            <MediaSeo isMovie={true} />
             <MinimalHeader 
                 imagePath={posterPath}
                 backdropPath={backdropPath}
