@@ -14,12 +14,13 @@ import { a } from '../axiosClient';
 import MediaGridLayout from '../components/MediaGridLayout';
 import axios from 'axios';
 import toast from '../toast';
+import { NextSeo } from 'next-seo';
 
 function Home({ onAirTV, nowPlayingMovies }) {
 
   return (
     <div>
-      <Head title="Home" />
+      <NextSeo title="Home" />
       <MediaGridLayout 
         gridOneTitle="On Air"
         gridOneData={onAirTV}
