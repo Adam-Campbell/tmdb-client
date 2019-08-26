@@ -14,6 +14,7 @@ import Switch from '../../components/Switch';
 import UserHeader from '../../components/UserHeader';
 import { getInitialMeProps } from './';
 import withErrorHandling from '../../components/withErrorHandling';
+import { NextSeo } from 'next-seo';
 
 function Favourites(props) {
 
@@ -22,6 +23,10 @@ function Favourites(props) {
 
     return (
         <>
+            <NextSeo 
+                title="Me - Favourites"
+                description="Your favourite movies and TV shows."
+            />
             <UserHeader />
             <SubNav navData={meRoutesSubNavData} alignLeft={true} />
             <ListViewHeader title="My Favourites">

@@ -13,7 +13,7 @@ import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 import { getInitialShowProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
-import MediaSeo from '../../../components/MediaSeo';
+import { MediaSeo } from '../../../components/Seo';
 
 const DropdownContainer = styled.div`
     width: 220px;

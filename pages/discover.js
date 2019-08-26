@@ -73,7 +73,10 @@ class Discover extends Component {
 
         return (
             <>
-                <NextSeo title="Discover" />
+                <NextSeo 
+                    title="Discover" 
+                    description="Discover movies and TV shows on React Movie Database, the user editable database for movies and TV shows."
+                />
                 <DiscoverView 
                     updateValue={this.updateValue}
                     scoreValues={scoreValues}

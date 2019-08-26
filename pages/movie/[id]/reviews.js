@@ -15,7 +15,7 @@ import { getInitialMovieProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
 import { ReviewCard } from '../../../components/Cards';
 import MovieSidebar from '../../../components/MovieSidebar';
-import MediaSeo from '../../../components/MediaSeo';
+import { MediaSeo } from '../../../components/Seo';
 
 const NoReviewsMessage = styled.p`
     ${({ theme }) => theme.fontStacks.bodyBold()}

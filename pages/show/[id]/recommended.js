@@ -10,7 +10,7 @@ import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 import { getInitialShowProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
-import MediaSeo from '../../../components/MediaSeo';
+import { MediaSeo } from '../../../components/Seo';
 
 function Recommended({ id, title, posterPath, backdropPath, recommendations }) {
 

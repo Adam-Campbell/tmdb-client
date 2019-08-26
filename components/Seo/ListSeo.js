@@ -3,35 +3,7 @@ import { NextSeo } from 'next-seo';
 import { connect } from 'react-redux';
 import { getListData } from '../../reducers/listReducer';
 import { useRouter } from 'next/router';
-import { getImageUrl, imageSizeConstants } from '../../utils';
-
-function getImageData(imagePath, name) {
-    const url = getImageUrl(imagePath, imageSizeConstants.w500);
-    return {
-        url,
-        width: 500,
-        alt: name
-    }
-}
-
-function getOpenGraphImages(items) {
-    let imageDataArray = [];
-    for (let item of items) {
-        if (imageDataArray.length > 2) {
-            break;
-        }
-        if (item.backdrop_path) {
-            imageDataArray.push(
-                getImageData(
-                    item.backdrop_path,
-                    item.name || item.title
-                )
-            );
-        }
-    }
-    return imageDataArray;
-}
-
+import { getListImages } from './utils';
 
 function ListSeo({ 
     name = '', 
@@ -42,7 +14,7 @@ function ListSeo({
     const { asPath } = useRouter();
 
     const openGraphImages = useMemo(() => {
-        return getOpenGraphImages(items);
+        return getListImages(items);
     }, [ items ]);
 
     return (

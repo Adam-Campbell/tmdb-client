@@ -6,9 +6,9 @@ import { getMovieData } from '../../reducers/movieReducer';
 import { getShowData } from '../../reducers/showReducer';
 import { useRouter } from 'next/router';
 import {
-    getOpenGraphImages,
-    getOpenGraphActors,
-    getOpenGraphDirectors,
+    getMediaImages,
+    getMediaActors,
+    getMediaDirectors,
     getPageTitle
 } from './utils';
 
@@ -35,15 +35,15 @@ function MediaSeo({
     }, [ title, uniqueTitleSegment ]);
 
     const openGraphImages = useMemo(() => {
-        return getOpenGraphImages(posterPath, backdropPath, title);
+        return getMediaImages(posterPath, backdropPath, title);
     }, [ posterPath, backdropPath, title ]);
 
     const openGraphActors = useMemo(() => {
-        return getOpenGraphActors(cast);
+        return getMediaActors(cast);
     }, [ cast ]);
 
     const openGraphDirectors = useMemo(() => {
-        return getOpenGraphDirectors(isMovie, crew, createdBy);
+        return getMediaDirectors(isMovie, crew, createdBy);
     }, [ isMovie, crew, createdBy ])
 
     const openGraphTags = useMemo(() => {

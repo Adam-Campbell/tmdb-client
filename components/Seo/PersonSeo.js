@@ -4,31 +4,11 @@ import { NextSeo } from 'next-seo';
 import { connect } from 'react-redux';
 import { getPersonData } from '../../reducers/personReducer';
 import { useRouter } from 'next/router';
-import { getImageUrl, imageSizeConstants } from '../../utils';
-
-function splitNameApart(name) {
-    const splitName = name.split(' ');
-    return {
-        firstName: splitName[0],
-        lastName: splitName[splitName.length - 1]
-    };
-}
-
-function getPersonOpenGraphImages(profilePath, name) {
-    if (!profilePath) return [];
-    const url = getImageUrl(profilePath, imageSizeConstants.w500);
-    const imageData = {
-        url, 
-        width: 500,
-        alt: name
-    };
-    return [ imageData ];
-}
-
-function getPageTitle(name, uniqueTitleSegment) {
-    if (!uniqueTitleSegment) return name;
-    return `${name} - ${uniqueTitleSegment}`;
-}
+import {
+   splitNameApart, 
+   getPersonImages,
+   getPageTitle
+} from './utils';
  
 function PersonSeo({
     uniqueTitleSegment,
@@ -50,7 +30,7 @@ function PersonSeo({
     }, [ name ]);
 
     const imageDataArray = useMemo(() => {
-        return getPersonOpenGraphImages(profilePath, name);
+        return getPersonImages(profilePath, name);
     }, [ profilePath, name ]);
 
     return (

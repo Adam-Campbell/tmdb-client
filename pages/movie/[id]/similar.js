@@ -9,7 +9,7 @@ import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import { getInitialMovieProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
-import MediaSeo from '../../../components/MediaSeo';
+import { MediaSeo } from '../../../components/Seo';
  
 function Similar({ id, title, posterPath, backdropPath, similar }) {
     

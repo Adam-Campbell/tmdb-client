@@ -15,7 +15,7 @@ import { getHasSession } from '../../../../../reducers/sessionReducer';
 import SeasonNavigation from '../../../../../components/SeasonNavigation';
 import SeasonRatingsChart from '../../../../../components/SeasonRatingsChart';
 import withErrorHandling from '../../../../../components/withErrorHandling';
-import MediaSeo from '../../../../../components/MediaSeo';
+import { MediaSeo } from '../../../../../components/Seo';
 
 function Season({
     accountStates,

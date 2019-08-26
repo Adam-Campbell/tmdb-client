@@ -17,7 +17,10 @@ const Main = styled(Row)`
 function People({ results }) {
     return (
         <div>
-            <NextSeo title="People" />
+            <NextSeo 
+                title="People" 
+                description="Browse popular people on React Movie Database, the user editable database for movies and TV shows."
+            />
             <ListViewHeader title="People" />
             <Main as="main">
                 {results.map(person => {

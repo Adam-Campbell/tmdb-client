@@ -19,7 +19,7 @@ import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import withErrorHandling from '../../../components/withErrorHandling';
 import MovieSidebar from '../../../components/MovieSidebar';
-import MediaSeo from '../../../components/MediaSeo';
+import { MediaSeo } from '../../../components/Seo';
 
 export async function getInitialMovieProps({ query, req, store }) {
     try {

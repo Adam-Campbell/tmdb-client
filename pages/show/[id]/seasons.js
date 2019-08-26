@@ -10,7 +10,7 @@ import { Row } from '../../../components/Layout';
 import { SeasonCard } from '../../../components/Cards';
 import { getInitialShowProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
-import MediaSeo from '../../../components/MediaSeo';
+import { MediaSeo } from '../../../components/Seo';
 
 function Seasons({ id, title, posterPath, backdropPath, seasons }) {
 

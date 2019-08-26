@@ -12,7 +12,7 @@ import { getPersonData } from '../../../reducers/personReducer';
 import { connect } from 'react-redux';
 import { getInitialPersonProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
-import PersonSeo from '../../../components/PersonSeo';
+import { PersonSeo } from '../../../components/Seo';
 
 const mediaTypeRadioButtonsData = [
     {

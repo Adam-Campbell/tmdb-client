@@ -8,6 +8,7 @@ import SubNav from '../../components/SubNav';
 import UserHeader from '../../components/UserHeader';
 import { getSSRHeaders } from '../../utils';
 import withErrorHandling from '../../components/withErrorHandling';
+import { NextSeo } from 'next-seo';
 
 export const meRoutesSubNavData = [
     {
@@ -82,6 +83,10 @@ export async function getInitialMeProps({ req, query, store }) {
 function Me(props) {
     return (
         <>
+            <NextSeo
+                title="Me"
+                description="Your main profile page."
+            />
             <UserHeader />
             <SubNav navData={meRoutesSubNavData} />
             <Container>

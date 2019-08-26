@@ -17,7 +17,7 @@ import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 import withErrorHandling from '../../../components/withErrorHandling';
 import ShowSidebar from '../../../components/ShowSidebar';
-import MediaSeo from '../../../components/MediaSeo';
+import { MediaSeo } from '../../../components/Seo';
 
 export async function getInitialShowProps({ query, req, store }) {
     try {

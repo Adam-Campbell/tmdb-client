@@ -13,6 +13,7 @@ import ListViewHeader from '../../components/ListViewHeader';
 import Switch from '../../components/Switch';
 import { getInitialMeProps } from './';
 import withErrorHandling from '../../components/withErrorHandling';
+import { NextSeo } from 'next-seo';
 
 function Ratings(props) {
 
@@ -21,6 +22,10 @@ function Ratings(props) {
 
     return (
         <>
+            <NextSeo 
+                title="Me - Ratings"
+                description="Movies and TV shows that you have rated."
+            />
             <UserHeader />
             <SubNav navData={meRoutesSubNavData} alignLeft={true} />
             <ListViewHeader title="My Ratings">
