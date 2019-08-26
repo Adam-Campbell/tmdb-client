@@ -30,7 +30,7 @@ function Reviews({ id, title, posterPath, backdropPath, reviews }) {
     
     return (
         <div>
-            <MediaSeo />
+            <MediaSeo uniqueTitleSegment="User Reviews" />
             <MinimalHeader 
                 imagePath={posterPath}
                 backdropPath={backdropPath}

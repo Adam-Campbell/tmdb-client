@@ -20,7 +20,7 @@ function Similar({ id, title, posterPath, backdropPath, similar }) {
 
     return (
         <div>
-            <MediaSeo />
+            <MediaSeo uniqueTitleSegment="Similar TV Shows" />
             <MinimalHeader 
                 imagePath={posterPath}
                 backdropPath={backdropPath}

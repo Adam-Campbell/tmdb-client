@@ -8,10 +8,13 @@ import { useRouter } from 'next/router';
 import {
     getOpenGraphImages,
     getOpenGraphActors,
-    getOpenGraphDirectors
+    getOpenGraphDirectors,
+    getPageTitle
 } from './utils';
 
 function MediaSeo({
+    uniqueTitleSegment,
+    isMovie,
     title,
     overview,
     posterPath,
@@ -23,10 +26,13 @@ function MediaSeo({
     duration, 
     releaseDate,
     keywords,
-    isMovie
 }) {
 
     const { asPath } = useRouter();
+
+    const pageTitle = useMemo(() => {
+        return getPageTitle(title, uniqueTitleSegment);
+    }, [ title, uniqueTitleSegment ]);
 
     const openGraphImages = useMemo(() => {
         return getOpenGraphImages(posterPath, backdropPath, title);
@@ -46,10 +52,10 @@ function MediaSeo({
 
     return (
         <NextSeo
-            title={title}
+            title={pageTitle}
             description={overview} 
             openGraph={{
-                title,
+                title: pageTitle,
                 description: overview,
                 url: `http://localhost:3000${asPath}`,
                 type: isMovie ? 'video.movie' : 'video.tv_show',
@@ -72,6 +78,7 @@ function MediaSeo({
 }
 
 MediaSeo.propTypes = {
+    uniqueTitleSegment: PropTypes.string,
     isMovie: PropTypes.bool
 }
 

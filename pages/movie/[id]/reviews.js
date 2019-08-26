@@ -30,7 +30,7 @@ function Reviews({ id, title, posterPath, backdropPath, reviews }) {
 
     return (
         <div>
-            <MediaSeo isMovie={true} />
+            <MediaSeo isMovie={true} uniqueTitleSegment="User Reviews" />
             <MinimalHeader 
                 imagePath={posterPath}
                 backdropPath={backdropPath}

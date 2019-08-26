@@ -32,10 +32,13 @@ export function getOpenGraphActors(actorsArray) {
 }
 
 export function getOpenGraphDirectors(isMovie, crewArray, createdByArray) {
-    // return crewArray.filter(crewMember => crewMember.job === 'Director')
-    //     .map(director => `http://localhost:3000/person/${director.id}`);
     const directorsArray = isMovie ?
         crewArray.filter(crewMember => crewMember.job === 'Director') :
         createdByArray;
     return directorsArray.map(director => `http://localhost:3000/person/${director.id}`)
+}
+
+export function getPageTitle(baseTitle, uniqueTitleSegment) {
+    if (!uniqueTitleSegment) return baseTitle;
+    return `${baseTitle} - ${uniqueTitleSegment}`;
 }

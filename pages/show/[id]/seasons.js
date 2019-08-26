@@ -20,7 +20,7 @@ function Seasons({ id, title, posterPath, backdropPath, seasons }) {
 
     return (
         <div>
-            <MediaSeo />
+            <MediaSeo uniqueTitleSegment="Seasons" />
             <MinimalHeader 
                 imagePath={posterPath}
                 backdropPath={backdropPath}

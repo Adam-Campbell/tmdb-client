@@ -40,7 +40,9 @@ function Season({
 
     return (
         <div>
-            <MediaSeo />
+            <MediaSeo 
+                uniqueTitleSegment={seasonNumber > 0 ? `Season ${seasonNumber}` : 'Specials'}
+            />
             <MinimalHeader 
                 imagePath={posterPath}
                 backdropPath={backdropPath}

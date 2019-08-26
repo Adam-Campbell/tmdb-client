@@ -78,7 +78,7 @@ function Images({ id, title, posterPath, backdropPath, posters, backdrops }) {
     }, [ id ]);
     return (
         <div>
-            <MediaSeo />
+            <MediaSeo uniqueTitleSegment="Images" />
             <MinimalHeader 
                 imagePath={posterPath}
                 backdropPath={backdropPath}

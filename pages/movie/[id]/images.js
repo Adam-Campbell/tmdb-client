@@ -81,7 +81,7 @@ function Images({ id, title, posterPath, backdropPath, posters, backdrops }) {
 
     return (
         <div>
-            <MediaSeo isMovie={true} />
+            <MediaSeo isMovie={true} uniqueTitleSegment="Images" />
             <MinimalHeader 
                 imagePath={posterPath}
                 backdropPath={backdropPath}
