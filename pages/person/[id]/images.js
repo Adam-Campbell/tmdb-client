@@ -12,7 +12,7 @@ import { getPersonData } from '../../../reducers/personReducer';
 import { connect } from 'react-redux';
 import { getInitialPersonProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
-
+import PersonSeo from '../../../components/PersonSeo';
 
 const ThumbsContainer = styled.div`
     display: flex; 
@@ -51,6 +51,7 @@ function Images({ id, name, profilePath, profileImages }) {
     
     return (
         <div>
+            <PersonSeo uniqueTitleSegment="Images" />
             <MinimalHeader 
                 imagePath={profilePath}
                 name={name}

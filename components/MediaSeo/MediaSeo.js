@@ -61,7 +61,11 @@ function MediaSeo({
                     duration,
                     releaseDate,
                     tags: openGraphTags
-                },
+                }
+            }}
+            twitter={{
+                cardType: 'summary',
+                site: '@reactmoviedb'
             }}
         />
     );

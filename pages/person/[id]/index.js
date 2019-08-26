@@ -17,6 +17,7 @@ import { fetchPerson } from '../../../actions';
 import { getPersonData } from '../../../reducers/personReducer';
 import { connect } from 'react-redux';
 import withErrorHandling from '../../../components/withErrorHandling';
+import PersonSeo from '../../../components/PersonSeo';
 
 export async function getInitialPersonProps({ query, req, store }) {
     try {
@@ -54,6 +55,7 @@ function Person({
 
     return (
         <div>
+            <PersonSeo />
             <PersonHeader 
                 key={id}
                 name={name}

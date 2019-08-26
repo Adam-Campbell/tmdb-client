@@ -12,6 +12,7 @@ import { getPersonData } from '../../../reducers/personReducer';
 import { connect } from 'react-redux';
 import { getInitialPersonProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
+import PersonSeo from '../../../components/PersonSeo';
 
 const mediaTypeRadioButtonsData = [
     {
@@ -95,6 +96,7 @@ function Credits({ id, name, profilePath, credits }) {
 
     return (
         <div>
+            <PersonSeo uniqueTitleSegment="Credits" />
             <MinimalHeader 
                 imagePath={profilePath}
                 name={name}
