@@ -19,6 +19,7 @@ import Router from 'next/router';
 import { CancelInteractionButton, Button } from '../../../components/Buttons';
 import ListHeader from '../../../components/ListHeader';
 import withErrorHandling from '../../../components/withErrorHandling';
+import ListSeo from '../../../components/ListSeo';
 
 const DeleteListButton = styled(Button)`
     margin-left: ${({ theme }) => theme.getSpacing(2)};
@@ -39,6 +40,7 @@ function List({
 }) {
     return (
         <div>
+            <ListSeo />
             <ListHeader 
                 name={name}
                 createdBy={createdBy}
