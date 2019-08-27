@@ -1,6 +1,6 @@
 import { getImageUrl, imageSizeConstants } from '../../utils';
 
-function getImageData(imagePath, alt, width = 500) {
+export function getImageData(imagePath, alt, width = 500) {
     if (!imagePath) return false;
     const url = getImageUrl(imagePath, `w${width}`);
     return {
@@ -16,7 +16,7 @@ export function getPageTitle(baseTitle, uniqueTitleSegment) {
 }
 
 export function getMediaImages(posterPath, backdropPath, title) {
-    const posterImageData = getImageData(posterPath, `A Poster for ${title}`, 500);
+    const posterImageData = getImageData(posterPath, `A poster for ${title}`, 500);
     const backdropImageData = getImageData(backdropPath, `A promotional still for ${title}`, 780);
     let imagesArr = [];
     if (posterImageData) imagesArr.push(posterImageData);
@@ -24,16 +24,12 @@ export function getMediaImages(posterPath, backdropPath, title) {
     return imagesArr;
 }
 
-function getActorData({ id, character }) {
-    return {
-        profile: `http://localhost:3000/person/${id}`,
-        role: character
-    };
-}
-
 export function getMediaActors(actorsArray) {
     return actorsArray.slice(0,4)
-        .map(actor => getActorData(actor));
+        .map(actor => ({
+            profile: `http://localhost:3000/person/${actor.id}`,
+            role: actor.character
+        }));
 }
 
 export function getMediaDirectors(isMovie, crewArray, createdByArray) {
@@ -44,30 +40,39 @@ export function getMediaDirectors(isMovie, crewArray, createdByArray) {
 }
 
 export function splitNameApart(name) {
-    const splitName = name.split(' ');
+    const trimmedName = name.trim();
+    const splitIndex = trimmedName.indexOf(' ');
+    if (splitIndex === -1) {
+  	    return { 
+    	    firstName: trimmedName 
+        };
+    }
+    const firstName = trimmedName.slice(0, splitIndex);
+    const lastName = trimmedName.slice(splitIndex + 1);
     return {
-        firstName: splitName[0],
-        lastName: splitName[splitName.length - 1]
+  	    firstName,
+        lastName
     };
 }
 
-export function getPersonImages(profilePath, name) {
+export function getPersonImage(profilePath, name) {
     if (!profilePath) return [];
     const imageData = getImageData(profilePath, name, 500);
     return [ imageData ];
 }
 
-export function getListImages(items) {
+export function getListImages(itemsArray) {
     let imageDataArray = [];
-    for (let item of items) {
-        if (imageDataArray.length > 2) {
+    for (let item of itemsArray) {
+        if (imageDataArray.length >= 2) {
             break;
         }
         if (item.backdrop_path) {
             imageDataArray.push(
                 getImageData(
                     item.backdrop_path,
-                    item.name || item.title
+                    item.name || item.title,
+                    780
                 )
             );
         }

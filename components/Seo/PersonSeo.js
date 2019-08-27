@@ -6,7 +6,7 @@ import { getPersonData } from '../../reducers/personReducer';
 import { useRouter } from 'next/router';
 import {
    splitNameApart, 
-   getPersonImages,
+   getPersonImage,
    getPageTitle
 } from './utils';
  
@@ -30,7 +30,7 @@ function PersonSeo({
     }, [ name ]);
 
     const imageDataArray = useMemo(() => {
-        return getPersonImages(profilePath, name);
+        return getPersonImage(profilePath, name);
     }, [ profilePath, name ]);
 
     return (
