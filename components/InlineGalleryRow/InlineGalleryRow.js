@@ -21,7 +21,7 @@ const InlineGalleryImage = styled(SmartImage)`
 `;
 
 export function InlineGalleryRow({ 
-    imagesData,
+    imagesData = [],
     title,
     linkText,
     linkDestinationHref,

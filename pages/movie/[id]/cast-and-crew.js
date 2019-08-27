@@ -11,19 +11,17 @@ import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import { getInitialMovieProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
+import { MediaSeo } from '../../../components/Seo';
 
 function CastAndCrew({ id, title, posterPath, backdropPath, cast, crew }) {
 
     const movieSubNavData = useMemo(() => {
         return getMovieSubNavData(id);
     }, [ id ]);
-
-    const orderedCast = useMemo(() => {
-        return cast.sort((a,b) => a.order - b.order);
-    }, [ cast ]);
     
     return (
         <div>
+            <MediaSeo isMovie={true} uniqueTitleSegment="Cast and Crew" />
             <MinimalHeader 
                 imagePath={posterPath}
                 backdropPath={backdropPath}

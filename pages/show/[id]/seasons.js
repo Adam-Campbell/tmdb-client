@@ -10,6 +10,7 @@ import { Row } from '../../../components/Layout';
 import { SeasonCard } from '../../../components/Cards';
 import { getInitialShowProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
+import { MediaSeo } from '../../../components/Seo';
 
 function Seasons({ id, title, posterPath, backdropPath, seasons }) {
 
@@ -19,6 +20,7 @@ function Seasons({ id, title, posterPath, backdropPath, seasons }) {
 
     return (
         <div>
+            <MediaSeo uniqueTitleSegment="Seasons" />
             <MinimalHeader 
                 imagePath={posterPath}
                 backdropPath={backdropPath}

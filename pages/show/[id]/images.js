@@ -13,6 +13,7 @@ import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 import { getInitialShowProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
+import { MediaSeo } from '../../../components/Seo';
 
 const DropdownContainer = styled.div`
     width: 220px;
@@ -77,6 +78,7 @@ function Images({ id, title, posterPath, backdropPath, posters, backdrops }) {
     }, [ id ]);
     return (
         <div>
+            <MediaSeo uniqueTitleSegment="Images" />
             <MinimalHeader 
                 imagePath={posterPath}
                 backdropPath={backdropPath}

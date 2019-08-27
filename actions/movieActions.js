@@ -32,7 +32,9 @@ export const fetchMovie = (id, ssrHeaders = {}) => async (dispatch, getState) =>
         const response = await a.get(`api/movie/${id}`, {
             headers: ssrHeaders
         });
-        dispatch(fetchMovieSuccess(response.data, id));
+        const movieData = response.data;
+        movieData.credits.cast = movieData.credits.cast.sort((a,b) => a.order - b.order);
+        dispatch(fetchMovieSuccess(movieData, id));
     } catch (error) {
         dispatch(fetchMovieFailed(error));
         throw new Error(error.response.status);

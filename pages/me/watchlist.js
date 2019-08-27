@@ -13,6 +13,7 @@ import Switch from '../../components/Switch';
 import UserHeader from '../../components/UserHeader';
 import { getInitialMeProps } from './';
 import withErrorHandling from '../../components/withErrorHandling';
+import { NextSeo } from 'next-seo';
 
 function Watchlist(props) {
 
@@ -21,6 +22,10 @@ function Watchlist(props) {
 
     return (
         <>
+            <NextSeo 
+                title="Me - Watchlist"
+                description="Movies and TV shows that you have added to your watchlist."
+            />
             <UserHeader />
             <SubNav navData={meRoutesSubNavData} alignLeft={true} />
             <ListViewHeader title="My Watchlists">

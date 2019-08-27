@@ -13,6 +13,7 @@ import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import { getInitialMovieProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
+import { MediaSeo } from '../../../components/Seo';
 
 const DropdownContainer = styled.div`
     width: 220px;
@@ -80,6 +81,7 @@ function Images({ id, title, posterPath, backdropPath, posters, backdrops }) {
 
     return (
         <div>
+            <MediaSeo isMovie={true} uniqueTitleSegment="Images" />
             <MinimalHeader 
                 imagePath={posterPath}
                 backdropPath={backdropPath}

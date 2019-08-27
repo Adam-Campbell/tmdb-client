@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { loginUser } from '../actions';
 import { connect } from 'react-redux';
-
+import { NextSeo } from 'next-seo';
 
 function Authenticate(props) {
 
@@ -10,14 +10,17 @@ function Authenticate(props) {
     }, [props.requestToken, props.loginUser]);
 
     return (
-        <div>
-            <h1>This is the authentication callback route</h1>
-            <button
-                onClick={() => {
-                    getSessionId(props.requestToken);
-                }}
-            >Click me</button>
-        </div>
+        <>
+            <NextSeo title="Authenticate" />
+            <div>
+                <h1>This is the authentication callback route</h1>
+                <button
+                    onClick={() => {
+                        getSessionId(props.requestToken);
+                    }}
+                >Click me</button>
+            </div>
+        </>
     );
 }
 

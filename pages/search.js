@@ -4,6 +4,7 @@ import { getSearchResults } from '../clientApi';
 import { MediaCard, MinimalCard } from '../components/Cards';
 import { Row } from '../components/Layout';
 import SearchNavigation from '../components/SearchNavigation';
+import { NextSeo } from 'next-seo';
 
 const CardsContainer = styled(Row)`
     display: flex;
@@ -68,6 +69,7 @@ function getResultCards(searchResults, searchCategory) {
 function Search({ searchQuery, searchCategory, searchResults }) {
     return (
         <div>
+            <NextSeo title="Search" />
             <SearchNavigation 
                 searchQuery={searchQuery}
             />
@@ -84,12 +86,10 @@ Search.getInitialProps = async ({ query, req }) => {
     const searchQuery = query.query;
     const searchCategory = query.category;
     const searchResults = await getSearchResults(searchQuery, searchCategory);
-    const serverInfo = req ? { isDevice: req.isDevice } : {};
     return { 
         searchResults,
         searchQuery,
-        searchCategory,
-        ...serverInfo 
+        searchCategory
     };
 }
 

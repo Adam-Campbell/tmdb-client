@@ -14,6 +14,7 @@ import CreateListModal from '../../components/CreateListModal';
 import { Button } from '../../components/Buttons';
 import { getInitialMeProps } from './';
 import withErrorHandling from '../../components/withErrorHandling';
+import { NextSeo } from 'next-seo';
 
 const ListCardsContainer = styled(Row)`
     display: flex;
@@ -27,6 +28,10 @@ function Lists({ lists }) {
 
     return (
         <div>
+            <NextSeo 
+                title="Me - Lists"
+                description="A page containing the lists that you have created."
+            />
             <UserHeader />
             <SubNav navData={meRoutesSubNavData} alignLeft={true} />
             <ListViewHeader title="My Lists">

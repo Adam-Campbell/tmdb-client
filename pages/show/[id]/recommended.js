@@ -10,6 +10,7 @@ import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 import { getInitialShowProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
+import { MediaSeo } from '../../../components/Seo';
 
 function Recommended({ id, title, posterPath, backdropPath, recommendations }) {
 
@@ -19,6 +20,7 @@ function Recommended({ id, title, posterPath, backdropPath, recommendations }) {
 
     return (
         <div>
+            <MediaSeo uniqueTitleSegment="Recommended TV Shows" />
             <MinimalHeader 
                 imagePath={posterPath}
                 backdropPath={backdropPath}

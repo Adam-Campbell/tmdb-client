@@ -9,6 +9,7 @@ import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import { getInitialMovieProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
+import { MediaSeo } from '../../../components/Seo';
 
 function Recommended({ id, title, posterPath, backdropPath, recommendations }) {
 
@@ -18,6 +19,7 @@ function Recommended({ id, title, posterPath, backdropPath, recommendations }) {
 
     return (
         <div>
+            <MediaSeo isMovie={true} uniqueTitleSegment="Recommended Movies" />
             <MinimalHeader 
                 imagePath={posterPath}
                 backdropPath={backdropPath}

@@ -10,6 +10,7 @@ import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 import { getInitialShowProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
+import { MediaSeo } from '../../../components/Seo';
 
 function CastAndCrew({ id, title, posterPath, backdropPath, cast, crew }) {
 
@@ -23,6 +24,7 @@ function CastAndCrew({ id, title, posterPath, backdropPath, cast, crew }) {
 
     return (
         <div>
+            <MediaSeo uniqueTitleSegment="Cast and Crew" />
             <MinimalHeader 
                 imagePath={posterPath}
                 backdropPath={backdropPath}

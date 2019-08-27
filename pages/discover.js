@@ -11,6 +11,7 @@ import {
     convertGenreObjectsToIds
 } from '../utils';
 import DiscoverView from '../components/DiscoverView';
+import { NextSeo } from 'next-seo';
 
 class Discover extends Component {
 
@@ -71,15 +72,21 @@ class Discover extends Component {
         const stableMediaType = mediaTypes.find(el => el.value === mediaType.value);
 
         return (
-            <DiscoverView 
-                updateValue={this.updateValue}
-                scoreValues={scoreValues}
-                releaseValues={releaseValues}
-                sortBy={stableSortBy}
-                mediaType={stableMediaType}
-                withGenres={withGenres}
-                results={results}
-            />
+            <>
+                <NextSeo 
+                    title="Discover" 
+                    description="Discover movies and TV shows on React Movie Database, the user editable database for movies and TV shows."
+                />
+                <DiscoverView 
+                    updateValue={this.updateValue}
+                    scoreValues={scoreValues}
+                    releaseValues={releaseValues}
+                    sortBy={stableSortBy}
+                    mediaType={stableMediaType}
+                    withGenres={withGenres}
+                    results={results}
+                />
+            </>
         );
     }
 }

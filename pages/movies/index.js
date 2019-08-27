@@ -1,7 +1,7 @@
 import React from 'react';
 import { getPopularMovies } from '../../clientApi';
 import ExploreMediaPage from '../../components/ExploreMediaPage';
-
+ 
 function MoviesWithoutSubcategory({ results, subcategory }) {
 
     return (
