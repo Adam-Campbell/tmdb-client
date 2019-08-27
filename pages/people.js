@@ -8,7 +8,7 @@ import { MinimalCard } from '../components/Cards';
 import { Row } from '../components/Layout';
 import { NextSeo } from 'next-seo';
 
-const Main = styled(Row)`
+const Wrapper = styled(Row)`
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -16,13 +16,13 @@ const Main = styled(Row)`
 
 function People({ results }) {
     return (
-        <div>
+        <section>
             <NextSeo 
                 title="People" 
                 description="Browse popular people on React Movie Database, the user editable database for movies and TV shows."
             />
             <ListViewHeader title="People" />
-            <Main as="main">
+            <Wrapper as="main">
                 {results.map(person => {
                     const knownFor = person.known_for.map(production => production.title || production.name)
                                                     .join(', ');
@@ -37,8 +37,8 @@ function People({ results }) {
                             isPersonImage={true}
                         />
                 })}
-            </Main>
-        </div>
+            </Wrapper>
+        </section>
     );
 }
 

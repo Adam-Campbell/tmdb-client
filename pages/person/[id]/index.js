@@ -54,7 +54,7 @@ function Person({
     }, [ id ]);
 
     return (
-        <div>
+        <>
             <PersonSeo />
             <PersonHeader 
                 key={id}
@@ -116,7 +116,7 @@ function Person({
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>
-        </div>
+        </>
     );
 }
 

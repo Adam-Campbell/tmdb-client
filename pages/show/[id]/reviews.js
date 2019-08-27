@@ -29,7 +29,7 @@ function Reviews({ id, title, posterPath, backdropPath, reviews }) {
     }, [ id ]);
     
     return (
-        <div>
+        <>
             <MediaSeo uniqueTitleSegment="User Reviews" />
             <MinimalHeader 
                 imagePath={posterPath}
@@ -59,7 +59,7 @@ function Reviews({ id, title, posterPath, backdropPath, reviews }) {
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>
-        </div>
+        </>
     );
 }
 

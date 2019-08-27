@@ -51,7 +51,7 @@ export const mediaTypeFilterData = [
     }
 ];
 
-const Container = styled.div`
+const Section = styled.section`
     width: calc(100% - 40px);
     max-width: 1080px;
     margin-left: auto;
@@ -89,10 +89,10 @@ function Me(props) {
             />
             <UserHeader />
             <SubNav navData={meRoutesSubNavData} />
-            <Container>
+            <Section>
                 <RatingsChart />
                 <GenresChart />
-            </Container>
+            </Section>
         </>
     );
 }

@@ -20,7 +20,7 @@ function CastAndCrew({ id, title, posterPath, backdropPath, cast, crew }) {
     }, [ id ]);
     
     return (
-        <div>
+        <>
             <MediaSeo isMovie={true} uniqueTitleSegment="Cast and Crew" />
             <MinimalHeader 
                 imagePath={posterPath}
@@ -40,7 +40,7 @@ function CastAndCrew({ id, title, posterPath, backdropPath, cast, crew }) {
                     people={crew}
                 />
             </Row>
-        </div>
+        </>
     );
 }
 

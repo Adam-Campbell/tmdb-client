@@ -80,7 +80,7 @@ function Images({ id, title, posterPath, backdropPath, posters, backdrops }) {
     }, [ id ]);
 
     return (
-        <div>
+        <>
             <MediaSeo isMovie={true} uniqueTitleSegment="Images" />
             <MinimalHeader 
                 imagePath={posterPath}
@@ -139,7 +139,7 @@ function Images({ id, title, posterPath, backdropPath, posters, backdrops }) {
                 setImageIndex={setImageIndex}
                 images={currentImageType.value === 'poster' ? posters : backdrops}
             />
-        </div>
+        </>
     );
 }
 

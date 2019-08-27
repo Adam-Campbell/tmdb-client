@@ -95,7 +95,7 @@ function Credits({ id, name, profilePath, credits }) {
 
 
     return (
-        <div>
+        <>
             <PersonSeo uniqueTitleSegment="Credits" />
             <MinimalHeader 
                 imagePath={profilePath}
@@ -133,7 +133,7 @@ function Credits({ id, name, profilePath, credits }) {
                     />
                 </MainCol>
             </ContentRow>
-        </div>
+        </>
     );
 }
 

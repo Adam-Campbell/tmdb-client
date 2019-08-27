@@ -39,7 +39,7 @@ function Season({
     }, [ showId ]);
 
     return (
-        <div>
+        <>
             <MediaSeo 
                 uniqueTitleSegment={seasonNumber > 0 ? `Season ${seasonNumber}` : 'Specials'}
             />
@@ -86,7 +86,7 @@ function Season({
                     />
                 ))}
             </Row>
-        </div>
+        </>
     );
 }
 

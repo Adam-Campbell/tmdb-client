@@ -2,7 +2,6 @@ import React from 'react';
 import App, { Container } from 'next/app';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import SearchBar from '../components/SearchBar';
 import styled, { createGlobalStyle } from 'styled-components';
 import { normalize } from 'styled-normalize';
 import ReactModal from 'react-modal';
@@ -17,7 +16,6 @@ import theme from '../theme';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { DefaultSeo } from 'next-seo';
-//import '../style.css';
 
 ReactModal.setAppElement('#__next');
 
@@ -193,8 +191,9 @@ class MyApp extends App {
                     <Provider store={store}>
                         <PageWrapper>
                             <Header />
-                            <SearchBar />
-                            <Component {...pageProps} />
+                            <main role="main">
+                                <Component {...pageProps} />
+                            </main>
                             <Footer />
                         </PageWrapper>
                         <ToastContainer position="top-center" />

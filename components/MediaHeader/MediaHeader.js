@@ -15,8 +15,7 @@ import UserInteractionsRow from './UserInteractionsRow';
 import SmartImage from '../SmartImage';
 import { cover } from 'polished';
 
-// is there a better semantic element to use here?
-const MediaHeaderContainer = styled.div`
+const MediaHeaderContainer = styled.section`
     position: relative;
 `;
 

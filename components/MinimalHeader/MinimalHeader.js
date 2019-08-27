@@ -8,7 +8,7 @@ import { LongArrowAltLeft } from 'styled-icons/fa-solid';
 import SmartImage from '../SmartImage';
 import { cover } from 'polished';
 
-const StyledMinimalHeader = styled.div`
+const StyledMinimalHeader = styled.section`
     position: relative;
 `;
 

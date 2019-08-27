@@ -19,7 +19,7 @@ import { NextSeo } from 'next-seo';
 function Home({ onAirTV, nowPlayingMovies }) {
 
   return (
-    <div>
+    <section>
       <NextSeo title="Home" />
       <MediaGridLayout 
         gridOneTitle="On Air"
@@ -27,7 +27,7 @@ function Home({ onAirTV, nowPlayingMovies }) {
         gridTwoTitle="In Theatres"
         gridTwoData={nowPlayingMovies}
       />
-    </div>
+    </section>
   );
 }
 

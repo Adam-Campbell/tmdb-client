@@ -18,7 +18,7 @@ function Similar({ id, title, posterPath, backdropPath, similar }) {
     }, [ id ]);
 
     return (
-        <div>
+        <>
             <MediaSeo isMovie={true} uniqueTitleSegment="Similar Movies" />
             <MinimalHeader 
                 imagePath={posterPath}
@@ -33,7 +33,7 @@ function Similar({ id, title, posterPath, backdropPath, similar }) {
                 items={similar}
                 urlSubpath="/movie"
             />
-        </div>
+        </>
     );
 }
 

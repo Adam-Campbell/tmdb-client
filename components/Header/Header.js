@@ -11,12 +11,16 @@ import { Menu } from 'styled-icons/material';
 import UserIcon from './UserIcon';
 import { Button } from '../Buttons';
 import { a } from '../../axiosClient';
+import SearchBar from '../SearchBar';
  
 const StyledHeader = styled.header`
-    background-color: ${({ theme }) => theme.colors.complimentary};
     position: sticky;
     top: 0;
     z-index: 3000;
+`;
+
+const NavRowWrapper = styled.div`
+    background-color: ${({ theme }) => theme.colors.complimentary};
     height: 50px;
     display: flex;
 `;
@@ -62,15 +66,18 @@ function Header({ isLoggedIn }) {
 
     return (
         <StyledHeader>
-                <NavRow>
-                    <Nav isOpen={isOpen} closeMenu={() => setIsOpen(false)} />
-                    <MenuToggle onClick={() => setIsOpen(true)} />
-                    {
-                        isLoggedIn ?
-                        <UserIcon /> :
-                        <LoginButton onClick={handleLoginClick}>Login</LoginButton>
-                    }
-                </NavRow>
+                <NavRowWrapper>
+                    <NavRow>
+                        <Nav isOpen={isOpen} closeMenu={() => setIsOpen(false)} />
+                        <MenuToggle onClick={() => setIsOpen(true)} />
+                        {
+                            isLoggedIn ?
+                            <UserIcon /> :
+                            <LoginButton onClick={handleLoginClick}>Login</LoginButton>
+                        }
+                    </NavRow>
+                </NavRowWrapper>
+                <SearchBar />
         </StyledHeader>
     );
 }

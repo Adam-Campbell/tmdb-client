@@ -47,7 +47,7 @@ function Movie({
     }, [ id ]);
     
     return (
-        <div>
+        <>
             <MediaSeo isMovie={true} />
             <MediaHeader 
                 key={id}
@@ -94,7 +94,7 @@ function Movie({
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>
-        </div>
+        </>
     );
 }
 

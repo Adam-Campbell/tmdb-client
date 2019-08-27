@@ -77,7 +77,7 @@ function Images({ id, title, posterPath, backdropPath, posters, backdrops }) {
         return getShowSubNavData(id);
     }, [ id ]);
     return (
-        <div>
+        <>
             <MediaSeo uniqueTitleSegment="Images" />
             <MinimalHeader 
                 imagePath={posterPath}
@@ -136,7 +136,7 @@ function Images({ id, title, posterPath, backdropPath, posters, backdrops }) {
                 setImageIndex={setImageIndex}
                 images={currentImageType.value === 'poster' ? posters : backdrops}
             />
-        </div>
+        </>
     );
 }
 

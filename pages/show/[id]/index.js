@@ -46,7 +46,7 @@ function Show({
     }, [ id ]);
     
     return (
-        <div>
+        <>
             <MediaSeo />
             <MediaHeader 
                 key={id}
@@ -107,7 +107,7 @@ function Show({
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>
-        </div>
+        </>
     );
 }
 

@@ -16,7 +16,7 @@ import ListBox from '../ListBox';
 import ComboBox from '../ComboBox';
 import ListViewHeader from '../ListViewHeader';
 
-const PageWrapper = styled.div`
+const PageWrapper = styled.section`
     overflow-x: hidden;
 `;
 

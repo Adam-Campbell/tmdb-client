@@ -19,7 +19,7 @@ function Recommended({ id, title, posterPath, backdropPath, recommendations }) {
     }, [ id ]);
 
     return (
-        <div>
+        <>
             <MediaSeo uniqueTitleSegment="Recommended TV Shows" />
             <MinimalHeader 
                 imagePath={posterPath}
@@ -34,7 +34,7 @@ function Recommended({ id, title, posterPath, backdropPath, recommendations }) {
                 items={recommendations}
                 urlSubpath="/show"
             />
-        </div>
+        </>
     );
 }
 

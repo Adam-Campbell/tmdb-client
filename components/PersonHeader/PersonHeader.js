@@ -6,7 +6,7 @@ import { text, getImageUrl, imageSizeConstants } from '../../utils';
 import SmartImage from '../SmartImage';
 import Biography from './Biography';
 
-const PersonHeaderContainer = styled.div`
+const PersonHeaderContainer = styled.section`
     background: ${({ theme }) => theme.colors.uiSecondary};
 `;
 
