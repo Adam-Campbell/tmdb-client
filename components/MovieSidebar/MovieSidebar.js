@@ -18,7 +18,7 @@ export function MovieSidebar({
     keywords
 }) {
     return (
-        <>
+        <section>
             <SocialLinks 
                 facebook={externalIds.facebook_id}
                 twitter={externalIds.twitter_id}
@@ -47,7 +47,7 @@ export function MovieSidebar({
             />
             <TagList title="Genres" tagData={genres} />
             <TagList title="Keywords" tagData={keywords} />
-        </>
+        </section>
     )
 }
 

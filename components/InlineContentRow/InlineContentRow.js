@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { text } from '../../utils';
 
-const StyledInlineContentRow = styled.div`
+const StyledInlineContentRow = styled.section`
     margin-bottom: ${({ theme }) => theme.getSpacing(4)};
 `;
 

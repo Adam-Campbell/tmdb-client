@@ -68,23 +68,25 @@ function Season({
                     people={credits.crew}
                     shouldAllowExpansion={true}
                 />
-                {episodes.map((episode, idx) => (
-                    <EpisodePod 
-                        key={episode.id}
-                        airDate={episode.air_date}
-                        episodeNumber={episode.episode_number}
-                        guestStars={episode.guest_stars}
-                        id={episode.id}
-                        name={episode.name || ''}
-                        overview={episode.overview || ''}
-                        seasonNumber={episode.season_number}
-                        showId={episode.show_id}
-                        stillPath={episode.still_path || ''}
-                        averageRating={episode.vote_average}
-                        userRating={accountStates ? accountStates.results[idx].rated : false}
-                        hasSession={hasSession}
-                    />
-                ))}
+                <section>
+                    {episodes.map((episode, idx) => (
+                        <EpisodePod 
+                            key={episode.id}
+                            airDate={episode.air_date}
+                            episodeNumber={episode.episode_number}
+                            guestStars={episode.guest_stars}
+                            id={episode.id}
+                            name={episode.name || ''}
+                            overview={episode.overview || ''}
+                            seasonNumber={episode.season_number}
+                            showId={episode.show_id}
+                            stillPath={episode.still_path || ''}
+                            averageRating={episode.vote_average}
+                            userRating={accountStates ? accountStates.results[idx].rated : false}
+                            hasSession={hasSession}
+                        />
+                    ))}
+                </section>
             </Row>
         </>
     );

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { text, truncateString } from '../../utils';
 import ReviewSwitch from './ReviewSwitch';
 
-const StyledReviewPod = styled.div`
+const StyledReviewPod = styled.section`
     margin-bottom: ${({ theme }) => theme.getSpacing(4)};
 `;
 

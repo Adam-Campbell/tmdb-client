@@ -51,7 +51,7 @@ export function PeopleList({
     } = useExpand();
 
     return (
-        <>
+        <section>
             <Title>{title}</Title>
             <StyledPeopleList>
                 {people.map((person, index) => (
@@ -74,7 +74,7 @@ export function PeopleList({
                     <ToggleIcon isExpanded={isExpanded}/>
                 </ToggleExpandedButton>
             )}
-        </>
+        </section>
     );
 }
 
