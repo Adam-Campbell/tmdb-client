@@ -8,13 +8,15 @@ import { text } from '../../utils';
 import UserMenu from './UserMenu';
 import { logoutUser } from '../../actions';
 
-const StyledUserIcon = styled.span`
+
+const StyledUserIcon = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
     width: 32px;
     height: 32px;
     border-radius: 50%;
+    border: solid 2px transparent;
     background: ${({ theme }) => theme.colors.primary};
     text-transform: uppercase;
     margin-left: auto;
@@ -22,6 +24,10 @@ const StyledUserIcon = styled.span`
     cursor: pointer;
     ${({ theme }) => theme.fontStacks.heading({ useLight: true })}
     font-size: ${({ theme }) => theme.fontSizes.heading.sm};
+    outline: 0;
+    &:focus {
+        border-color: ${({ theme }) => theme.colors.white};
+    }
 `;
 
 function UserIcon({ username, logoutUser }) {

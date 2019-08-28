@@ -16,6 +16,7 @@ import withErrorHandling from '../../../components/withErrorHandling';
 import { ReviewCard } from '../../../components/Cards';
 import ShowSidebar from '../../../components/ShowSidebar';
 import { MediaSeo } from '../../../components/Seo';
+import ListViewHeader from '../../../components/ListViewHeader';
 
 const NoReviewsMessage = styled.p`
     ${({ theme }) => theme.fontStacks.bodyBold()}
@@ -29,7 +30,7 @@ function Reviews({ id, title, posterPath, backdropPath, reviews }) {
     }, [ id ]);
     
     return (
-        <div>
+        <>
             <MediaSeo uniqueTitleSegment="User Reviews" />
             <MinimalHeader 
                 imagePath={posterPath}
@@ -38,10 +39,14 @@ function Reviews({ id, title, posterPath, backdropPath, reviews }) {
                 backHref="/show/[id]"
                 backAs={`/show/${id}`}
             />
-            <SubNav navData={showSubNavData} />
+            <SubNav 
+                navData={showSubNavData} 
+                navLabel="Navigation links for pages related to the current TV show"
+            />
             <TwoColLayoutContainer>
                 <TwoColLayoutRow>
                     <MainCol>
+                        <ListViewHeader title="Reviews" headingTag="h2" />
                         {reviews.length ? reviews.map(review => (
                             <ReviewCard
                                 key={review.id} 
@@ -59,7 +64,7 @@ function Reviews({ id, title, posterPath, backdropPath, reviews }) {
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>
-        </div>
+        </>
     );
 }
 

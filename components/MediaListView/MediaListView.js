@@ -15,10 +15,10 @@ const MediaCardContainer = styled(Row)`
     flex-wrap: wrap;
 `;
 
-export function MediaListView({ title, items, urlSubpath }) {
+export function MediaListView({ title, items, urlSubpath, headingTag = 'h2' }) {
     return (
         <>
-            <ListViewHeader title={title} />
+            <ListViewHeader title={title} headingTag={headingTag} />
             <MediaCardContainer>
                 <div>
                 {items.map(item => (
@@ -43,5 +43,13 @@ export function MediaListView({ title, items, urlSubpath }) {
 MediaListView.propTypes = {
     title: PropTypes.string.isRequired,
     items: PropTypes.arrayOf(PropTypes.object).isRequired,
-    urlSubpath: PropTypes.string.isRequired
+    urlSubpath: PropTypes.string.isRequired,
+    headingTag: PropTypes.oneOf([
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6'
+    ])
 };

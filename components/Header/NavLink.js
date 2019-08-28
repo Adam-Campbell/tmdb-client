@@ -6,7 +6,15 @@ import { useRouter } from 'next/router';
 import { StyledNavLink } from './commonElements';
 import NavIcon from './NavIcon';
 
-export default function NavLink({ route, name, icon }) {
+function noop() {}
+
+export default function NavLink({ 
+    route, 
+    name, 
+    icon, 
+    handleFocus = noop, 
+    handleBlur = noop 
+}) {
     const { isHovered, containerProps } = useHover();
     const router = useRouter();
     return (
@@ -14,6 +22,8 @@ export default function NavLink({ route, name, icon }) {
             <StyledNavLink
                 isActive={router.route === route}
                 isHovered={isHovered}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
                 {...containerProps}
             >
                 <NavIcon icon={icon} />
@@ -32,5 +42,7 @@ NavLink.propTypes = {
         'movies', 
         'tv', 
         'people' 
-    ]).isRequired
+    ]).isRequired,
+    handleFocus: PropTypes.func,
+    handleBlur: PropTypes.func
 };

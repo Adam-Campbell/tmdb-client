@@ -39,7 +39,7 @@ export function SearchNavigation({ searchQuery }) {
 
     return (
         <NavContainer>
-            <NavTitle>Search in</NavTitle>
+            <NavTitle>Search Results</NavTitle>
             <Nav>
                 <NavList>
                     {navData.map((data, idx) => (

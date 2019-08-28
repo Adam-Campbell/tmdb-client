@@ -20,7 +20,9 @@ const StyledSubNavLink = styled.a`
     }
 `;
 
-export default function SubNavLink({ as, href, name }) {
+function noop() {}
+
+export default function SubNavLink({ as, href, name, handleBlur = noop }) {
     const { isHovered, containerProps } = useHover();
     const router = useRouter();
     return (
@@ -28,6 +30,7 @@ export default function SubNavLink({ as, href, name }) {
             <StyledSubNavLink
                 isHovered={isHovered}
                 isActive={router.asPath === as}
+                onBlur={handleBlur}
                 {...containerProps}
             >
                 {name}
@@ -39,5 +42,6 @@ export default function SubNavLink({ as, href, name }) {
 SubNavLink.propTypes = {
     as: PropTypes.string.isRequired,
     href: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
+    handleBlur: PropTypes.func
 };

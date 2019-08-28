@@ -5,7 +5,7 @@ import ListViewHeader from '../ListViewHeader';
 import InfiniteVirtualMediaList from '../InfiniteVirtualMediaList';
 import { NextSeo } from 'next-seo';
 
-const Main = styled.main`
+const Section = styled.section`
     min-height: 100vh;
 `;
 
@@ -23,7 +23,7 @@ export function ExploreMediaPage({
     }, []);
 
     return (
-        <Main>
+        <Section>
             <NextSeo 
                 title={title}
                 description={`${title} on React Movie Database, the user editable database for movies and TV shows.`}
@@ -34,7 +34,7 @@ export function ExploreMediaPage({
                 getDataFn={getDataFn}
                 key={subcategory}
             />}
-        </Main>
+        </Section>
     )
 }
 

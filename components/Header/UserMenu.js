@@ -84,7 +84,8 @@ export default function UserMenu({
                     left: 0,
                     width: '100%',
                     height: '100%',
-                    background: 'none'
+                    background: 'none',
+                    zIndex: 3000
                   } 
             }}    
         >

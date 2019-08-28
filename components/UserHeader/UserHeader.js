@@ -8,7 +8,7 @@ import { text } from '../../utils';
 import { Row } from '../Layout';
 import { lighten, desaturate } from 'polished';
 
-const StyledUserHeader = styled.div`
+const StyledUserHeader = styled.section`
     background: ${({ theme }) => theme.gradients.primary};
     padding: ${({ theme }) => theme.getSpacing(4, 0)};
     overflow-x: hidden;
@@ -46,7 +46,7 @@ const UserIcon = styled.span`
     }
 `;
 
-const Username = styled.h2`
+const Username = styled.h1`
     ${({ theme }) => theme.fontStacks.heading({ useLight: true })}
     font-size: ${({ theme }) => theme.fontSizes.heading.md};
     margin: 0;

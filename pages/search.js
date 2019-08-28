@@ -68,7 +68,7 @@ function getResultCards(searchResults, searchCategory) {
 
 function Search({ searchQuery, searchCategory, searchResults }) {
     return (
-        <div>
+        <section>
             <NextSeo title="Search" />
             <SearchNavigation 
                 searchQuery={searchQuery}
@@ -76,7 +76,7 @@ function Search({ searchQuery, searchCategory, searchResults }) {
             <CardsContainer>
                 {getResultCards(searchResults, searchCategory)}
             </CardsContainer>
-        </div>
+        </section>
     );
 }
 

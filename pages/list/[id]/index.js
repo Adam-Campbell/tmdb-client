@@ -39,7 +39,7 @@ function List({
     removeMovieFromList
 }) {
     return (
-        <div>
+        <>
             <ListSeo />
             <ListHeader 
                 name={name}
@@ -47,47 +47,49 @@ function List({
                 description={description}
                 backdropPath={items.length ? items[0].backdrop_path : ''}
             />
-            <ListViewHeader title={name}>
-                {isOwner && (
-                    <>
-                        <Button
-                            onClick={() => clearList(id)}
-                            buttonType="info"
-                        >Clear List</Button>
-                        <DeleteListButton
-                            onClick={() => {
-                                deleteList(id);
-                                Router.push('/me/lists');
-                            }}
-                            buttonType="warning"
-                        >Delete List</DeleteListButton>
-                    </>
-                )}
-            </ListViewHeader>
-            <Row>
-                {items.map(item => (
-                    <MediaCard
-                        key={item.id}
-                        id={item.id}
-                        title={item.title || item.name}
-                        releaseDate={item.release_date || item.first_air_date}
-                        averageRating={item.vote_average}
-                        posterPath={item.poster_path}
-                        backdropPath={item.backdrop_path}
-                        overview={item.overview}
-                        urlSubpath={item.title ? '/movie' : '/show'}
-                        hasUserAction={Boolean(isOwner && item.title)}
-                    >
-                        {Boolean(isOwner && item.title) && <CancelInteractionButton 
-                            label="Remove from list"
-                            onClick={() => {
-                                removeMovieFromList(id, item.id);
-                            }}
-                        />}
-                    </MediaCard>
-                ))}
-            </Row>
-        </div>
+            <section>
+                <ListViewHeader title={name}>
+                    {isOwner && (
+                        <>
+                            <Button
+                                onClick={() => clearList(id)}
+                                buttonType="info"
+                            >Clear List</Button>
+                            <DeleteListButton
+                                onClick={() => {
+                                    deleteList(id);
+                                    Router.push('/me/lists');
+                                }}
+                                buttonType="warning"
+                            >Delete List</DeleteListButton>
+                        </>
+                    )}
+                </ListViewHeader>
+                <Row>
+                    {items.map(item => (
+                        <MediaCard
+                            key={item.id}
+                            id={item.id}
+                            title={item.title || item.name}
+                            releaseDate={item.release_date || item.first_air_date}
+                            averageRating={item.vote_average}
+                            posterPath={item.poster_path}
+                            backdropPath={item.backdrop_path}
+                            overview={item.overview}
+                            urlSubpath={item.title ? '/movie' : '/show'}
+                            hasUserAction={Boolean(isOwner && item.title)}
+                        >
+                            {Boolean(isOwner && item.title) && <CancelInteractionButton 
+                                label="Remove from list"
+                                onClick={() => {
+                                    removeMovieFromList(id, item.id);
+                                }}
+                            />}
+                        </MediaCard>
+                    ))}
+                </Row>
+            </section>
+        </>
     );
 }
 

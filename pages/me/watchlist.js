@@ -27,47 +27,52 @@ function Watchlist(props) {
                 description="Movies and TV shows that you have added to your watchlist."
             />
             <UserHeader />
-            <SubNav navData={meRoutesSubNavData} alignLeft={true} />
-            <ListViewHeader title="My Watchlists">
-                <Switch 
-                    groupLabel="Media Type"
-                    groupName="media-type"
-                    radioButtonsData={mediaTypeFilterData}
-                    currentValue={mediaType}
-                    handleChange={setMediaType}
-                    shouldHideLabel={true}
-                />
-            </ListViewHeader>
-            <Row>
-                {usersWatchlists.map(entity => {
-                    const isMovie = Boolean(entity.title);
-                    return (
-                        <MediaCard 
-                            key={entity.id}
-                            id={entity.id}
-                            title={entity.title || entity.name}
-                            releaseDate={entity.release_date || entity.first_air_date}
-                            averageRating={entity.vote_average}
-                            posterPath={entity.poster_path}
-                            backdropPath={entity.backdrop_path}
-                            overview={entity.overview}
-                            urlSubpath={isMovie ? '/movie' : '/show'}
-                            hasUserAction={true}
-                        >
-                            <CancelInteractionButton 
-                                label="Remove from watchlist"
-                                onClick={() => {
-                                    props.editWatchlist(
-                                        isMovie ? 'movie' : 'tv',
-                                        entity.id,
-                                        false
-                                    );
-                                }}
-                            />
-                        </MediaCard>
-                    );
-                })}
-            </Row>
+            <SubNav 
+                navData={meRoutesSubNavData} 
+                navLabel="Navigation links for pages related to your account"
+            />
+            <section>
+                <ListViewHeader title="My Watchlists">
+                    <Switch 
+                        groupLabel="Media Type"
+                        groupName="media-type"
+                        radioButtonsData={mediaTypeFilterData}
+                        currentValue={mediaType}
+                        handleChange={setMediaType}
+                        shouldHideLabel={true}
+                    />
+                </ListViewHeader>
+                <Row>
+                    {usersWatchlists.map(entity => {
+                        const isMovie = Boolean(entity.title);
+                        return (
+                            <MediaCard 
+                                key={entity.id}
+                                id={entity.id}
+                                title={entity.title || entity.name}
+                                releaseDate={entity.release_date || entity.first_air_date}
+                                averageRating={entity.vote_average}
+                                posterPath={entity.poster_path}
+                                backdropPath={entity.backdrop_path}
+                                overview={entity.overview}
+                                urlSubpath={isMovie ? '/movie' : '/show'}
+                                hasUserAction={true}
+                            >
+                                <CancelInteractionButton 
+                                    label="Remove from watchlist"
+                                    onClick={() => {
+                                        props.editWatchlist(
+                                            isMovie ? 'movie' : 'tv',
+                                            entity.id,
+                                            false
+                                        );
+                                    }}
+                                />
+                            </MediaCard>
+                        );
+                    })}
+                </Row>
+            </section>
         </>
     );
 }

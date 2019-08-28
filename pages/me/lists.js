@@ -27,39 +27,44 @@ function Lists({ lists }) {
     const [ modalIsOpen, setModalIsOpen ] = useState(false);
 
     return (
-        <div>
+        <>
             <NextSeo 
                 title="Me - Lists"
                 description="A page containing the lists that you have created."
             />
             <UserHeader />
-            <SubNav navData={meRoutesSubNavData} alignLeft={true} />
-            <ListViewHeader title="My Lists">
-                <Button 
-                    onClick={() => setModalIsOpen(true)}
-                    buttonType="success"
-                >
-                    Create list
-                </Button>
-            </ListViewHeader>
-            <ListCardsContainer>
-                {lists.map(list => (
-                    <ListCard 
-                        key={list.id}
-                        listId={list.id}
-                        imagePath={list.poster_path}
-                        name={list.name}
-                        itemCount={list.item_count}
-                    />
-                ))}
-            </ListCardsContainer>
+            <SubNav 
+                navData={meRoutesSubNavData} 
+                navLabel="Navigation links for pages related to your account" 
+            />
+            <section>
+                <ListViewHeader title="My Lists">
+                    <Button 
+                        onClick={() => setModalIsOpen(true)}
+                        buttonType="success"
+                    >
+                        Create list
+                    </Button>
+                </ListViewHeader>
+                <ListCardsContainer>
+                    {lists.map(list => (
+                        <ListCard 
+                            key={list.id}
+                            listId={list.id}
+                            imagePath={list.poster_path}
+                            name={list.name}
+                            itemCount={list.item_count}
+                        />
+                    ))}
+                </ListCardsContainer>
+            </section>
             {modalIsOpen && (
                 <CreateListModal 
                     isOpen={modalIsOpen}
                     handleClose={() => setModalIsOpen(false)}
                 />
             )}
-        </div>
+        </>
     );
 }
 

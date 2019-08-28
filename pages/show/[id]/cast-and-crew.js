@@ -23,7 +23,7 @@ function CastAndCrew({ id, title, posterPath, backdropPath, cast, crew }) {
     }, [ cast ]);
 
     return (
-        <div>
+        <>
             <MediaSeo uniqueTitleSegment="Cast and Crew" />
             <MinimalHeader 
                 imagePath={posterPath}
@@ -32,7 +32,10 @@ function CastAndCrew({ id, title, posterPath, backdropPath, cast, crew }) {
                 backHref="/show/[id]"
                 backAs={`/show/${id}`}
             />
-            <SubNav navData={showSubNavData} />
+            <SubNav 
+                navData={showSubNavData}
+                navLabel="Navigation links for pages related to the current TV show" 
+            />
             <Row>
                 <PeopleList 
                     title="Cast"
@@ -43,7 +46,7 @@ function CastAndCrew({ id, title, posterPath, backdropPath, cast, crew }) {
                     people={crew}
                 />
             </Row>
-        </div>
+        </>
     );
 }
 

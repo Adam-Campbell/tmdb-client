@@ -46,13 +46,16 @@ function Show({
     }, [ id ]);
     
     return (
-        <div>
+        <>
             <MediaSeo />
             <MediaHeader 
                 key={id}
                 mediaType="tv"
             />
-            <SubNav navData={showSubNavData} />
+            <SubNav 
+                navData={showSubNavData} 
+                navLabel="Navigation links for pages related to the current TV show"
+            />
             <TwoColLayoutContainer>
                 <TwoColLayoutRow>
                     <MainCol>
@@ -107,7 +110,7 @@ function Show({
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>
-        </div>
+        </>
     );
 }
 

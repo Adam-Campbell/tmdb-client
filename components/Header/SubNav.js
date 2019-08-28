@@ -38,16 +38,21 @@ export default function SubNav({ name, route, subNavData, icon }) {
             <SubNavToggleLink 
                 route={route}
                 name={name}
-                handleTouch={() => setIsOpen(prev => !prev)}
                 icon={icon}
+                setIsOpen={setIsOpen}
             />
             <SubNavList isOpen={isOpen}>
-                {subNavData.map((el, index) => (
-                   <SubNavItem key={index}>
+                {subNavData.map((el, idx) => (
+                   <SubNavItem key={idx}>
                         <SubNavLink 
                             as={el.as}
                             href={el.href}
                             name={el.name}
+                            handleBlur={
+                                idx === subNavData.length - 1 ? 
+                                () => setIsOpen(false) :
+                                undefined
+                            }
                         />
                    </SubNavItem> 
                 ))}

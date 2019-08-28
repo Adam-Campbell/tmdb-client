@@ -16,6 +16,7 @@ import withErrorHandling from '../../../components/withErrorHandling';
 import { ReviewCard } from '../../../components/Cards';
 import MovieSidebar from '../../../components/MovieSidebar';
 import { MediaSeo } from '../../../components/Seo';
+import ListViewHeader from '../../../components/ListViewHeader';
 
 const NoReviewsMessage = styled.p`
     ${({ theme }) => theme.fontStacks.bodyBold()}
@@ -29,7 +30,7 @@ function Reviews({ id, title, posterPath, backdropPath, reviews }) {
     }, [ id ]);
 
     return (
-        <div>
+        <>
             <MediaSeo isMovie={true} uniqueTitleSegment="User Reviews" />
             <MinimalHeader 
                 imagePath={posterPath}
@@ -38,10 +39,14 @@ function Reviews({ id, title, posterPath, backdropPath, reviews }) {
                 backHref={`/movie/[id]`}
                 backAs={`/movie/${id}`}
             />
-            <SubNav navData={movieSubNavData} />
+            <SubNav 
+                navData={movieSubNavData} 
+                navLabel="Navigation links for pages related to the current movie"
+            />
             <TwoColLayoutContainer>
                 <TwoColLayoutRow>
                     <MainCol>
+                        <ListViewHeader title="Reviews" headingTag="h2" />
                         {reviews.length ? reviews.map(review => (
                             <ReviewCard
                                 key={review.id} 
@@ -59,7 +64,7 @@ function Reviews({ id, title, posterPath, backdropPath, reviews }) {
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>
-        </div>
+        </>
     );
 }
 

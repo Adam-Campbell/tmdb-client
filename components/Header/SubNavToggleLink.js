@@ -8,12 +8,13 @@ import Link from 'next/link';
 import NavIcon from './NavIcon';
 
 const SubNavToggleButton = styled(StyledNavLink)`
-    border: none;
+    border: solid 2px transparent;
     @media (min-width: 768px) {
         display: none;
     }
     &:focus {
         outline: none;
+        border-color: ${({ theme }) => theme.colors.complimentary}
     }
 `;
 
@@ -24,7 +25,7 @@ const StyledSubNavToggleLink = styled(StyledNavLink)`
     }
 `;
 
-export default function SubNavToggleLink({ route, name, handleTouch, icon }) {
+export default function SubNavToggleLink({ route, name, icon, setIsOpen }) {
     const { isHovered, containerProps } = useHover();
     const router = useRouter();
     return (
@@ -34,10 +35,8 @@ export default function SubNavToggleLink({ route, name, handleTouch, icon }) {
                 isActive={route === router.route}
                 isHovered={isHovered}
                 {...containerProps}
-                onTouchStart={e => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleTouch();
+                onClick={e => {
+                    setIsOpen(prev => !prev);
                 }}
             >
                 <NavIcon icon={icon} />
@@ -47,6 +46,7 @@ export default function SubNavToggleLink({ route, name, handleTouch, icon }) {
                 <StyledSubNavToggleLink
                     isActive={route === router.route}
                     isHovered={isHovered}
+                    onFocus={() => setIsOpen(true)}
                     {...containerProps}
                 >
                     {name}
@@ -59,12 +59,12 @@ export default function SubNavToggleLink({ route, name, handleTouch, icon }) {
 SubNavToggleLink.propTypes = {
     route: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    handleTouch: PropTypes.func.isRequired,
     icon: PropTypes.oneOf([
         'home', 
         'discover',
         'movies', 
         'tv', 
         'people' 
-    ]).isRequired
+    ]).isRequired,
+    setIsOpen: PropTypes.func
 };

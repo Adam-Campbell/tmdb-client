@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row } from '../Layout';
 import Link from 'next/link';
-import { text } from '../../utils';
 import SubNavLink from './SubNavLink';
+import { hideVisually } from 'polished';
 
 const SubNavContainer = styled.div`
     background: ${({ theme }) => theme.colors.primary};
@@ -35,11 +35,16 @@ const SubNavItem = styled.li`
     }
 `;
 
-export function SubNav({ navData, alignCenter }) {
+const HiddenLabel = styled.label`
+    ${hideVisually()}
+`;
+
+export function SubNav({ navData, navLabel, alignCenter }) {
 
     return (
         <SubNavContainer>
-            <StyledSubNav as="nav" alignCenter={alignCenter}>
+            <StyledSubNav as="nav" alignCenter={alignCenter} aria-labelledby="sub-navigation">
+                <HiddenLabel id="sub-navigation">{navLabel}</HiddenLabel>
                 <SubNavList alignCenter={alignCenter}>
                     {navData.map(item => (
                         <SubNavItem key={item.name}>
@@ -62,5 +67,6 @@ SubNav.propTypes = {
         href: PropTypes.string.isRequired,
         as: PropTypes.string.isRequired
     })).isRequired,
-    alignCenter: PropTypes.bool
+    navLabel: PropTypes.string.isRequired,
+    alignCenter: PropTypes.bool,
 };

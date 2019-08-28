@@ -51,7 +51,7 @@ export const mediaTypeFilterData = [
     }
 ];
 
-const Container = styled.div`
+const Section = styled.section`
     width: calc(100% - 40px);
     max-width: 1080px;
     margin-left: auto;
@@ -88,11 +88,14 @@ function Me(props) {
                 description="Your main profile page."
             />
             <UserHeader />
-            <SubNav navData={meRoutesSubNavData} />
-            <Container>
+            <SubNav 
+                navData={meRoutesSubNavData} 
+                navLabel="Navigation links for pages related to your account"
+            />
+            <Section>
                 <RatingsChart />
                 <GenresChart />
-            </Container>
+            </Section>
         </>
     );
 }

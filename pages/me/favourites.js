@@ -28,47 +28,52 @@ function Favourites(props) {
                 description="Your favourite movies and TV shows."
             />
             <UserHeader />
-            <SubNav navData={meRoutesSubNavData} alignLeft={true} />
-            <ListViewHeader title="My Favourites">
-                <Switch 
-                    groupLabel="Media Type"
-                    groupName="media-type"
-                    radioButtonsData={mediaTypeFilterData}
-                    currentValue={mediaType}
-                    handleChange={setMediaType}
-                    shouldHideLabel={true}
-                />
-            </ListViewHeader>
-            <Row>
-                {usersFavourites.map((entity) => {
-                    const isMovie = Boolean(entity.title);
-                    return (
-                        <MediaCard 
-                            key={entity.id}
-                            id={entity.id}
-                            title={entity.title || entity.name}
-                            releaseDate={entity.release_date || entity.first_air_date}
-                            averageRating={entity.vote_average}
-                            posterPath={entity.poster_path}
-                            backdropPath={entity.backdrop_path}
-                            overview={entity.overview}
-                            urlSubpath={isMovie ? '/movie' : '/show'}
-                            hasUserAction={true}
-                        >
-                            <CancelInteractionButton 
-                                label="Unfavourite"
-                                onClick={() => {
-                                    props.markFavourite(
-                                        isMovie ? 'movie' : 'tv',
-                                        entity.id,
-                                        false
-                                    );
-                                }}
-                            />
-                        </MediaCard>
-                    );
-                })}
-            </Row>
+            <SubNav 
+                navData={meRoutesSubNavData} 
+                navLabel="Navigation links for pages related to your account"
+            />
+            <section>
+                <ListViewHeader title="My Favourites">
+                    <Switch 
+                        groupLabel="Media Type"
+                        groupName="media-type"
+                        radioButtonsData={mediaTypeFilterData}
+                        currentValue={mediaType}
+                        handleChange={setMediaType}
+                        shouldHideLabel={true}
+                    />
+                </ListViewHeader>
+                <Row>
+                    {usersFavourites.map((entity) => {
+                        const isMovie = Boolean(entity.title);
+                        return (
+                            <MediaCard 
+                                key={entity.id}
+                                id={entity.id}
+                                title={entity.title || entity.name}
+                                releaseDate={entity.release_date || entity.first_air_date}
+                                averageRating={entity.vote_average}
+                                posterPath={entity.poster_path}
+                                backdropPath={entity.backdrop_path}
+                                overview={entity.overview}
+                                urlSubpath={isMovie ? '/movie' : '/show'}
+                                hasUserAction={true}
+                            >
+                                <CancelInteractionButton 
+                                    label="Unfavourite"
+                                    onClick={() => {
+                                        props.markFavourite(
+                                            isMovie ? 'movie' : 'tv',
+                                            entity.id,
+                                            false
+                                        );
+                                    }}
+                                />
+                            </MediaCard>
+                        );
+                    })}
+                </Row>
+            </section>
         </>
     );
 }

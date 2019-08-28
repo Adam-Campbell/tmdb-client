@@ -18,7 +18,7 @@ function Recommended({ id, title, posterPath, backdropPath, recommendations }) {
     }, [ id ]);
 
     return (
-        <div>
+        <>
             <MediaSeo isMovie={true} uniqueTitleSegment="Recommended Movies" />
             <MinimalHeader 
                 imagePath={posterPath}
@@ -27,13 +27,16 @@ function Recommended({ id, title, posterPath, backdropPath, recommendations }) {
                 backHref={`/movie/[id]`}
                 backAs={`/movie/${id}`}
             />
-            <SubNav navData={movieSubNavData} />
+            <SubNav 
+                navData={movieSubNavData}
+                navLabel="Navigation links for pages related to the current movie" 
+            />
             <MediaListView 
                 title="Recommended Movies"
                 items={recommendations}
                 urlSubpath="/movie"
             />
-        </div>
+        </>
     );
 }
 

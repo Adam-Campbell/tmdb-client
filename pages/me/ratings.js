@@ -27,42 +27,47 @@ function Ratings(props) {
                 description="Movies and TV shows that you have rated."
             />
             <UserHeader />
-            <SubNav navData={meRoutesSubNavData} alignLeft={true} />
-            <ListViewHeader title="My Ratings">
-                <Switch 
-                    groupLabel="Media Type"
-                    groupName="media-type"
-                    radioButtonsData={mediaTypeFilterData}
-                    currentValue={mediaType}
-                    handleChange={setMediaType}
-                    shouldHideLabel={true}
-                />
-            </ListViewHeader>
-            <Row>
-                {usersRatings.map(entity => {
-                    const isMovie = Boolean(entity.title);
-                    return (
-                        <MediaCard 
-                            key={entity.id}
-                            id={entity.id}
-                            title={entity.title || entity.name}
-                            releaseDate={entity.release_date || entity.first_air_date}
-                            averageRating={entity.vote_average}
-                            posterPath={entity.poster_path}
-                            backdropPath={entity.backdrop_path}
-                            overview={entity.overview}
-                            urlSubpath={isMovie ? '/movie' : '/show'}
-                            hasUserAction={true}
-                        >
-                            <CardRatingButton 
-                                userRating={entity.rating}
-                                mediaType={isMovie ? 'movie' : 'tv'}
+            <SubNav 
+                navData={meRoutesSubNavData} 
+                navLabel="Navigation links for pages related to your account"
+            />
+            <section>
+                <ListViewHeader title="My Ratings">
+                    <Switch 
+                        groupLabel="Media Type"
+                        groupName="media-type"
+                        radioButtonsData={mediaTypeFilterData}
+                        currentValue={mediaType}
+                        handleChange={setMediaType}
+                        shouldHideLabel={true}
+                    />
+                </ListViewHeader>
+                <Row>
+                    {usersRatings.map(entity => {
+                        const isMovie = Boolean(entity.title);
+                        return (
+                            <MediaCard 
+                                key={entity.id}
                                 id={entity.id}
-                            />
-                        </MediaCard>
-                    );
-                })}
-            </Row>
+                                title={entity.title || entity.name}
+                                releaseDate={entity.release_date || entity.first_air_date}
+                                averageRating={entity.vote_average}
+                                posterPath={entity.poster_path}
+                                backdropPath={entity.backdrop_path}
+                                overview={entity.overview}
+                                urlSubpath={isMovie ? '/movie' : '/show'}
+                                hasUserAction={true}
+                            >
+                                <CardRatingButton 
+                                    userRating={entity.rating}
+                                    mediaType={isMovie ? 'movie' : 'tv'}
+                                    id={entity.id}
+                                />
+                            </MediaCard>
+                        );
+                    })}
+                </Row>
+            </section>
         </>
     );
 }

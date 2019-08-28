@@ -95,7 +95,7 @@ function Credits({ id, name, profilePath, credits }) {
 
 
     return (
-        <div>
+        <>
             <PersonSeo uniqueTitleSegment="Credits" />
             <MinimalHeader 
                 imagePath={profilePath}
@@ -104,8 +104,12 @@ function Credits({ id, name, profilePath, credits }) {
                 backAs={`/person/${id}`}
                 isPersonImage={true}
             />
-            <SubNav navData={personSubNavDetails} alignCenter={true} />
-            <ListViewHeader title="Credits" />
+            <SubNav 
+                navData={personSubNavDetails} 
+                alignCenter={true}
+                navLabel="Navigation links for pages related to the current person" 
+            />
+            <ListViewHeader title="Credits" headingTag="h2" />
             <ContentRow>
                 <ControlsCol>
                     <SwitchContainer>
@@ -133,7 +137,7 @@ function Credits({ id, name, profilePath, credits }) {
                     />
                 </MainCol>
             </ContentRow>
-        </div>
+        </>
     );
 }
 

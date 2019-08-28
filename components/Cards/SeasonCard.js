@@ -59,7 +59,7 @@ const TitleLink = styled.a`
     }
 `;
 
-const Title = styled.h2`
+const Title = styled.h3`
     ${({ theme }) => theme.fontStacks.heading()}
     font-size: ${({ theme }) => theme.fontSizes.heading.sm};
     margin: 0;

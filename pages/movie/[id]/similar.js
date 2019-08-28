@@ -18,7 +18,7 @@ function Similar({ id, title, posterPath, backdropPath, similar }) {
     }, [ id ]);
 
     return (
-        <div>
+        <>
             <MediaSeo isMovie={true} uniqueTitleSegment="Similar Movies" />
             <MinimalHeader 
                 imagePath={posterPath}
@@ -27,13 +27,16 @@ function Similar({ id, title, posterPath, backdropPath, similar }) {
                 backHref={`/movie/[id]`}
                 backAs={`/movie/${id}`}
             />
-            <SubNav navData={movieSubNavData} />
+            <SubNav 
+                navData={movieSubNavData} 
+                navLabel="Navigation links for pages related to the current movie"
+            />
             <MediaListView 
                 title="Similar Movies"
                 items={similar}
                 urlSubpath="/movie"
             />
-        </div>
+        </>
     );
 }
 

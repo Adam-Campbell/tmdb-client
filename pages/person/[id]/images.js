@@ -50,7 +50,7 @@ function Images({ id, name, profilePath, profileImages }) {
     }, [ id ]);
     
     return (
-        <div>
+        <>
             <PersonSeo uniqueTitleSegment="Images" />
             <MinimalHeader 
                 imagePath={profilePath}
@@ -59,8 +59,12 @@ function Images({ id, name, profilePath, profileImages }) {
                 backAs={`/person/${id}`}
                 isPersonImage={true}
             />
-            <SubNav navData={personSubNavData} alignCenter={true} />
-            <ListViewHeader title="Profile Images" />
+            <SubNav 
+                navData={personSubNavData} 
+                alignCenter={true}
+                navLabel="Navigation links for pages related to the current person" 
+            />
+            <ListViewHeader title="Profile Images" headingTag="h2" />
             <Row>
                 <ThumbsContainer>
                     {profileImages.map((image, index) => (
@@ -86,7 +90,7 @@ function Images({ id, name, profilePath, profileImages }) {
                 currentImageIndex={currentImageIndex}
                 setImageIndex={setImageIndex}
             />
-        </div>
+        </>
     );
 }
 

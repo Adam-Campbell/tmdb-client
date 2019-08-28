@@ -80,7 +80,7 @@ function Images({ id, title, posterPath, backdropPath, posters, backdrops }) {
     }, [ id ]);
 
     return (
-        <div>
+        <>
             <MediaSeo isMovie={true} uniqueTitleSegment="Images" />
             <MinimalHeader 
                 imagePath={posterPath}
@@ -89,8 +89,11 @@ function Images({ id, title, posterPath, backdropPath, posters, backdrops }) {
                 backHref={`/movie/[id]`}
                 backAs={`/movie/${id}`}
             />
-            <SubNav navData={movieSubNavData} />
-            <ListViewHeader title="Images">
+            <SubNav 
+                navData={movieSubNavData} 
+                navLabel="Navigation links for pages related to the current movie"
+            />
+            <ListViewHeader title="Images" headingTag="h2">
                 <DropdownContainer>
                     <ListBox 
                         items={imageTypes}
@@ -139,7 +142,7 @@ function Images({ id, title, posterPath, backdropPath, posters, backdrops }) {
                 setImageIndex={setImageIndex}
                 images={currentImageType.value === 'poster' ? posters : backdrops}
             />
-        </div>
+        </>
     );
 }
 

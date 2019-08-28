@@ -77,7 +77,7 @@ function Images({ id, title, posterPath, backdropPath, posters, backdrops }) {
         return getShowSubNavData(id);
     }, [ id ]);
     return (
-        <div>
+        <>
             <MediaSeo uniqueTitleSegment="Images" />
             <MinimalHeader 
                 imagePath={posterPath}
@@ -86,8 +86,11 @@ function Images({ id, title, posterPath, backdropPath, posters, backdrops }) {
                 backHref="/show/[id]"
                 backAs={`/show/${id}`}
             />
-            <SubNav navData={showSubNavData} />
-            <ListViewHeader title="Images">
+            <SubNav 
+                navData={showSubNavData} 
+                navLabel="Navigation links for pages related to the current TV show"
+            />
+            <ListViewHeader title="Images" headingTag="h2">
                 <DropdownContainer>
                     <ListBox 
                         items={imageTypes}
@@ -136,7 +139,7 @@ function Images({ id, title, posterPath, backdropPath, posters, backdrops }) {
                 setImageIndex={setImageIndex}
                 images={currentImageType.value === 'poster' ? posters : backdrops}
             />
-        </div>
+        </>
     );
 }
 

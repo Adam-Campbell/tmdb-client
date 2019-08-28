@@ -10,9 +10,6 @@ import Router from 'next/router';
 import { a } from '../../axiosClient';
 
 const SearchBarContainer = styled.div`
-    position: sticky;
-    left: 0;
-    top: 50px;
     width: 100%;
     border-top: solid 1px ${({ theme }) => theme.colors.uiPrimary};
     border-bottom: solid 1px ${({ theme }) => theme.colors.uiPrimary};
