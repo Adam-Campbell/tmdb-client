@@ -41,13 +41,24 @@ const LoginButton = styled(Button)`
     margin-left: auto;
 `;
 
-const MenuToggle = styled(Menu)`
+const MenuToggleButton = styled.button`
     color: ${({ theme }) => theme.colors.white};
-    width: 32px;
+    background: none;
+    outline: 0;
+    border: none;
     cursor: pointer;
+    padding: 0;
+    &:focus {
+        color: ${({ theme }) => theme.colors.primary};
+    }
     @media (min-width: 768px) {
         display: none;
     }
+`;
+
+const MenuToggleIcon = styled(Menu)`
+    width: 32px;
+    cursor: pointer;
 `;
 
 async function handleLoginClick() {
@@ -68,8 +79,15 @@ function Header({ isLoggedIn }) {
         <StyledHeader>
                 <NavRowWrapper>
                     <NavRow>
-                        <Nav isOpen={isOpen} closeMenu={() => setIsOpen(false)} />
-                        <MenuToggle onClick={() => setIsOpen(true)} />
+                        <MenuToggleButton
+                            onClick={() => setIsOpen(true)} 
+                        >
+                            <MenuToggleIcon />
+                        </MenuToggleButton>
+                        <Nav 
+                            isOpen={isOpen}
+                            setIsOpen={setIsOpen}
+                        />
                         {
                             isLoggedIn ?
                             <UserIcon /> :

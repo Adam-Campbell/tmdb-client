@@ -22,7 +22,7 @@ ReactModal.setAppElement('#__next');
 const GlobalStyle = createGlobalStyle`
     ${normalize}
     * {
-    box-sizing: border-box;
+        box-sizing: border-box;
     }
     body {
         margin: 0;
