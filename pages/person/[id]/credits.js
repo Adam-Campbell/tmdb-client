@@ -109,7 +109,7 @@ function Credits({ id, name, profilePath, credits }) {
                 alignCenter={true}
                 navLabel="Navigation links for pages related to the current person" 
             />
-            <ListViewHeader title="Credits" />
+            <ListViewHeader title="Credits" headingTag="h2" />
             <ContentRow>
                 <ControlsCol>
                     <SwitchContainer>

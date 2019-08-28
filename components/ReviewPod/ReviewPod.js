@@ -15,7 +15,7 @@ const ReviewContainer = styled.div`
     padding: ${({ theme }) => theme.getSpacing(3)};
 `;
 
-const ReviewAttribution = styled.p`
+const ReviewAttribution = styled.h3`
     ${({ theme }) => theme.fontStacks.heading()}
     font-size: ${({ theme }) => theme.fontSizes.heading.sm};
 `;

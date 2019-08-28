@@ -10,17 +10,27 @@ const StyledListViewHeader = styled(Row)`
 
 const HeaderTitle = styled.h1`
     ${({ theme }) => theme.fontStacks.heading()}
-    ${({ theme }) => theme.fontSizes.heading.sm};
+    font-size: ${({ theme }) => theme.fontSizes.heading.md};
     margin-right: auto;
+    margin-top: ${({ theme }) => theme.getSpacing(3)};
+    margin-bottom: ${({ theme }) => theme.getSpacing(0)};
 `;
 
-export const ListViewHeader = ({ title, children }) => (
+export const ListViewHeader = ({ title, headingTag = 'h1', children }) => (
     <StyledListViewHeader>
-        <HeaderTitle>{title}</HeaderTitle>
+        <HeaderTitle as={headingTag}>{title}</HeaderTitle>
         {children}
     </StyledListViewHeader>
 );
 
 ListViewHeader.propTypes = {
-    title: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
+    headingTag: PropTypes.oneOf([
+        'h1',
+        'h2',
+        'h3',
+        'h4',
+        'h5',
+        'h6'
+    ])
 };

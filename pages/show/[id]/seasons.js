@@ -11,6 +11,13 @@ import { SeasonCard } from '../../../components/Cards';
 import { getInitialShowProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
 import { MediaSeo } from '../../../components/Seo';
+import ListViewHeader from '../../../components/ListViewHeader';
+
+const MainContentHeading = styled.h2`
+    ${({ theme }) => theme.fontStacks.heading()}
+    font-size: ${({ theme }) => theme.fontSizes.heading.md};
+    margin: ${({ theme }) => theme.getSpacing(3, 0)};
+`;
 
 function Seasons({ id, title, posterPath, backdropPath, seasons }) {
 
@@ -33,6 +40,7 @@ function Seasons({ id, title, posterPath, backdropPath, seasons }) {
                 navLabel="Navigation links for pages related to the current TV show"
             />
             <Row>
+                <MainContentHeading>All Seasons</MainContentHeading>
                 {seasons.map((season) => (
                     <SeasonCard 
                         key={season.id}

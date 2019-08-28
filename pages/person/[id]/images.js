@@ -64,7 +64,7 @@ function Images({ id, name, profilePath, profileImages }) {
                 alignCenter={true}
                 navLabel="Navigation links for pages related to the current person" 
             />
-            <ListViewHeader title="Profile Images" />
+            <ListViewHeader title="Profile Images" headingTag="h2" />
             <Row>
                 <ThumbsContainer>
                     {profileImages.map((image, index) => (

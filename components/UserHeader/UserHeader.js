@@ -46,7 +46,7 @@ const UserIcon = styled.span`
     }
 `;
 
-const Username = styled.h2`
+const Username = styled.h1`
     ${({ theme }) => theme.fontStacks.heading({ useLight: true })}
     font-size: ${({ theme }) => theme.fontSizes.heading.md};
     margin: 0;

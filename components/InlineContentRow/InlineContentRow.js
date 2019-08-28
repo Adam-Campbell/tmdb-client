@@ -8,7 +8,7 @@ const StyledInlineContentRow = styled.section`
     margin-bottom: ${({ theme }) => theme.getSpacing(4)};
 `;
 
-const RowTitle = styled.h2`
+const RowTitle = styled.h3`
     ${({ theme }) => theme.fontStacks.heading()}
     font-size: ${({ theme }) => theme.fontSizes.heading.md}
     margin: 0;

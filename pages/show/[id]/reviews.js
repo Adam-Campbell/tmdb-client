@@ -16,6 +16,7 @@ import withErrorHandling from '../../../components/withErrorHandling';
 import { ReviewCard } from '../../../components/Cards';
 import ShowSidebar from '../../../components/ShowSidebar';
 import { MediaSeo } from '../../../components/Seo';
+import ListViewHeader from '../../../components/ListViewHeader';
 
 const NoReviewsMessage = styled.p`
     ${({ theme }) => theme.fontStacks.bodyBold()}
@@ -45,6 +46,7 @@ function Reviews({ id, title, posterPath, backdropPath, reviews }) {
             <TwoColLayoutContainer>
                 <TwoColLayoutRow>
                     <MainCol>
+                        <ListViewHeader title="Reviews" headingTag="h2" />
                         {reviews.length ? reviews.map(review => (
                             <ReviewCard
                                 key={review.id} 

@@ -90,7 +90,7 @@ function Images({ id, title, posterPath, backdropPath, posters, backdrops }) {
                 navData={showSubNavData} 
                 navLabel="Navigation links for pages related to the current TV show"
             />
-            <ListViewHeader title="Images">
+            <ListViewHeader title="Images" headingTag="h2">
                 <DropdownContainer>
                     <ListBox 
                         items={imageTypes}

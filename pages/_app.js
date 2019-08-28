@@ -129,14 +129,14 @@ const GlobalStyle = createGlobalStyle`
         border-radius: 3px;
     }
     .toast-success {
-        background-color: #6ee843;
+        background-color: #23bd4d;
         font-family: 'Fira Sans', sans-serif;
         font-weight: 600;
         color: #fff;
         border-radius: 3px;
     }
     .toast-info {
-        background-color: #43cbe8;
+        background-color: #fb8e0f;
         font-family: 'Fira Sans', sans-serif;
         font-weight: 600;
         color: #fff;
