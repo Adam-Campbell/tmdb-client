@@ -33,7 +33,10 @@ function Lists({ lists }) {
                 description="A page containing the lists that you have created."
             />
             <UserHeader />
-            <SubNav navData={meRoutesSubNavData} alignLeft={true} />
+            <SubNav 
+                navData={meRoutesSubNavData} 
+                navLabel="Navigation links for pages related to your account" 
+            />
             <section>
                 <ListViewHeader title="My Lists">
                     <Button 

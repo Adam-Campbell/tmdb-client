@@ -104,7 +104,11 @@ function Credits({ id, name, profilePath, credits }) {
                 backAs={`/person/${id}`}
                 isPersonImage={true}
             />
-            <SubNav navData={personSubNavDetails} alignCenter={true} />
+            <SubNav 
+                navData={personSubNavDetails} 
+                alignCenter={true}
+                navLabel="Navigation links for pages related to the current person" 
+            />
             <ListViewHeader title="Credits" />
             <ContentRow>
                 <ControlsCol>

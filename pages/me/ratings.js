@@ -27,7 +27,10 @@ function Ratings(props) {
                 description="Movies and TV shows that you have rated."
             />
             <UserHeader />
-            <SubNav navData={meRoutesSubNavData} alignLeft={true} />
+            <SubNav 
+                navData={meRoutesSubNavData} 
+                navLabel="Navigation links for pages related to your account"
+            />
             <section>
                 <ListViewHeader title="My Ratings">
                     <Switch 

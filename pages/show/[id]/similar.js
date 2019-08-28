@@ -28,7 +28,10 @@ function Similar({ id, title, posterPath, backdropPath, similar }) {
                 backHref={`/show/[id]`}
                 backAs={`/show/${id}`}
             />
-            <SubNav navData={showSubNavData} />
+            <SubNav 
+                navData={showSubNavData} 
+                navLabel="Navigation links for pages related to the current TV show"
+            />
             <MediaListView 
                 title="Similar Shows"
                 items={similar}

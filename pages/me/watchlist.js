@@ -27,7 +27,10 @@ function Watchlist(props) {
                 description="Movies and TV shows that you have added to your watchlist."
             />
             <UserHeader />
-            <SubNav navData={meRoutesSubNavData} alignLeft={true} />
+            <SubNav 
+                navData={meRoutesSubNavData} 
+                navLabel="Navigation links for pages related to your account"
+            />
             <section>
                 <ListViewHeader title="My Watchlists">
                     <Switch 

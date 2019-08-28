@@ -6,6 +6,7 @@ import { Close } from 'styled-icons/material';
 import { NavItem } from './commonElements';
 import SubNav from './SubNav';
 import NavLink from './NavLink';
+import { hideVisually } from 'polished';
 
 const moviesSubNavData = [
     {
@@ -116,6 +117,10 @@ const CloseNavIcon = styled(Close)`
     cursor: pointer;
 `;
 
+const HiddenLabel = styled.label`
+    ${hideVisually()}
+`;
+
 export default function Nav({ isOpen, setIsOpen }) {
 
     const navEl = useRef(null);
@@ -141,7 +146,8 @@ export default function Nav({ isOpen, setIsOpen }) {
 
     return (
         <NavContainer isOpen={isOpen}>
-            <StyledNav isOpen={isOpen} ref={navEl}>
+            <StyledNav isOpen={isOpen} ref={navEl} aria-labelledby="main-site-navigation">
+                <HiddenLabel id="main-site-navigation">Main site navigation</HiddenLabel>
                 <CloseNavButton
                     ref={closeButtonEl} 
                     onClick={() => setIsOpen(false)}

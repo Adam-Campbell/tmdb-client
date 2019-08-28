@@ -55,6 +55,7 @@ function Movie({
             />
             <SubNav 
                 navData={movieSubNavData}
+                navLabel="Navigation links for pages related to the current movie"
             />
             <TwoColLayoutContainer>
                 <TwoColLayoutRow>

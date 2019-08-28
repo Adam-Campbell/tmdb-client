@@ -51,7 +51,10 @@ function Season({
                 backAs={`/show/${showId}/seasons`}
                 backText="Back to season list"
             />
-            <SubNav navData={showSubNavData} alignLeft={true} />
+            <SubNav 
+                navData={showSubNavData} 
+                navLabel="Navigation links for pages related to the current TV show"
+            />
             <SeasonNavigation 
                 currentSeasonNumber={seasonNumber}
                 allSeasons={allSeasons}

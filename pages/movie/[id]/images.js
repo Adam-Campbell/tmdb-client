@@ -89,7 +89,10 @@ function Images({ id, title, posterPath, backdropPath, posters, backdrops }) {
                 backHref={`/movie/[id]`}
                 backAs={`/movie/${id}`}
             />
-            <SubNav navData={movieSubNavData} />
+            <SubNav 
+                navData={movieSubNavData} 
+                navLabel="Navigation links for pages related to the current movie"
+            />
             <ListViewHeader title="Images">
                 <DropdownContainer>
                     <ListBox 

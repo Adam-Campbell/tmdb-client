@@ -59,7 +59,11 @@ function Images({ id, name, profilePath, profileImages }) {
                 backAs={`/person/${id}`}
                 isPersonImage={true}
             />
-            <SubNav navData={personSubNavData} alignCenter={true} />
+            <SubNav 
+                navData={personSubNavData} 
+                alignCenter={true}
+                navLabel="Navigation links for pages related to the current person" 
+            />
             <ListViewHeader title="Profile Images" />
             <Row>
                 <ThumbsContainer>

@@ -62,7 +62,11 @@ function Person({
                 imagePath={profilePath}
                 biography={biography}
             />
-            <SubNav navData={personSubNavData} alignCenter={true} />
+            <SubNav 
+                navData={personSubNavData} 
+                alignCenter={true}
+                navLabel="Navigation links for pages related to the current person" 
+            />
             <TwoColLayoutContainer>
                 <TwoColLayoutRow>
                     <MainCol>
@@ -83,36 +87,38 @@ function Person({
                         />
                     </MainCol>
                     <SidebarCol>
-                        <SocialLinks 
-                            facebook={externalIds.facebook_id}
-                            twitter={externalIds.twitter_id}
-                            instagram={externalIds.instagram_id}
-                            website={website}
-                        />
-                        <SidebarEntry 
-                            title="Known for"
-                            value={knownFor}
-                        />
-                        <SidebarEntry 
-                            title="Gender"
-                            value={gender}
-                        />
-                        <SidebarEntry 
-                            title="Known credits"
-                            value={knownCredits}
-                        />
-                        <SidebarEntry 
-                            title="Date of birth"
-                            value={birthday}
-                        />
-                        <SidebarEntry 
-                            title="Date of death"
-                            value={deathday}
-                        />
-                        <SidebarEntry 
-                            title="Place of birth"
-                            value={placeOfBirth}
-                        />
+                        <section>
+                            <SocialLinks 
+                                facebook={externalIds.facebook_id}
+                                twitter={externalIds.twitter_id}
+                                instagram={externalIds.instagram_id}
+                                website={website}
+                            />
+                            <SidebarEntry 
+                                title="Known for"
+                                value={knownFor}
+                            />
+                            <SidebarEntry 
+                                title="Gender"
+                                value={gender}
+                            />
+                            <SidebarEntry 
+                                title="Known credits"
+                                value={knownCredits}
+                            />
+                            <SidebarEntry 
+                                title="Date of birth"
+                                value={birthday}
+                            />
+                            <SidebarEntry 
+                                title="Date of death"
+                                value={deathday}
+                            />
+                            <SidebarEntry 
+                                title="Place of birth"
+                                value={placeOfBirth}
+                            />
+                        </section>
                     </SidebarCol>
                 </TwoColLayoutRow>
             </TwoColLayoutContainer>

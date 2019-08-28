@@ -28,7 +28,10 @@ function Favourites(props) {
                 description="Your favourite movies and TV shows."
             />
             <UserHeader />
-            <SubNav navData={meRoutesSubNavData} alignLeft={true} />
+            <SubNav 
+                navData={meRoutesSubNavData} 
+                navLabel="Navigation links for pages related to your account"
+            />
             <section>
                 <ListViewHeader title="My Favourites">
                     <Switch 

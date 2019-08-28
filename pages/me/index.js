@@ -88,7 +88,10 @@ function Me(props) {
                 description="Your main profile page."
             />
             <UserHeader />
-            <SubNav navData={meRoutesSubNavData} />
+            <SubNav 
+                navData={meRoutesSubNavData} 
+                navLabel="Navigation links for pages related to your account"
+            />
             <Section>
                 <RatingsChart />
                 <GenresChart />

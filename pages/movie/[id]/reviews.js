@@ -38,7 +38,10 @@ function Reviews({ id, title, posterPath, backdropPath, reviews }) {
                 backHref={`/movie/[id]`}
                 backAs={`/movie/${id}`}
             />
-            <SubNav navData={movieSubNavData} />
+            <SubNav 
+                navData={movieSubNavData} 
+                navLabel="Navigation links for pages related to the current movie"
+            />
             <TwoColLayoutContainer>
                 <TwoColLayoutRow>
                     <MainCol>

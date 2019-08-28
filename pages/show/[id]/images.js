@@ -86,7 +86,10 @@ function Images({ id, title, posterPath, backdropPath, posters, backdrops }) {
                 backHref="/show/[id]"
                 backAs={`/show/${id}`}
             />
-            <SubNav navData={showSubNavData} />
+            <SubNav 
+                navData={showSubNavData} 
+                navLabel="Navigation links for pages related to the current TV show"
+            />
             <ListViewHeader title="Images">
                 <DropdownContainer>
                     <ListBox 

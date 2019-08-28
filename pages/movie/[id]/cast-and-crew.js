@@ -29,7 +29,10 @@ function CastAndCrew({ id, title, posterPath, backdropPath, cast, crew }) {
                 backHref={`/movie/[id]`}
                 backAs={`/movie/${id}`}
             />
-            <SubNav navData={movieSubNavData} />
+            <SubNav 
+                navData={movieSubNavData} 
+                navLabel="Navigation links for pages related to the current movie"
+            />
             <Row>
                 <PeopleList 
                     title="Cast"

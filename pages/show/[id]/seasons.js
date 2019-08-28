@@ -28,7 +28,10 @@ function Seasons({ id, title, posterPath, backdropPath, seasons }) {
                 backHref="/show/[id]"
                 backAs={`/show/${id}`}
             />
-            <SubNav navData={showSubNavData} />
+            <SubNav 
+                navData={showSubNavData} 
+                navLabel="Navigation links for pages related to the current TV show"
+            />
             <Row>
                 {seasons.map((season) => (
                     <SeasonCard 
