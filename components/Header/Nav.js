@@ -125,18 +125,7 @@ export default function Nav({ isOpen, setIsOpen }) {
 
     const navEl = useRef(null);
     const closeButtonEl = useRef(null);
-
-    useEffect(() => {
-        function closeOnOuterClick(e) {
-            if (navEl.current && isOpen && !e.path.includes(navEl.current)) {
-                setIsOpen(false);
-            }
-        }
-        document.body.addEventListener('click', closeOnOuterClick);
-        return function cleanup() {
-            document.body.removeEventListener('click', closeOnOuterClick);
-        }
-    }, [ isOpen, setIsOpen ]);
+    const containerEl = useRef(null);
 
     useEffect(() => {
         if (isOpen && closeButtonEl.current) {
@@ -144,9 +133,24 @@ export default function Nav({ isOpen, setIsOpen }) {
         }
     }, [ isOpen ])
 
+    function closeOnOuterClick(e) {
+        const { target } = e;
+        if (containerEl.current && containerEl.current === target) {
+            setIsOpen(false);
+        }
+    }
+
     return (
-        <NavContainer isOpen={isOpen}>
-            <StyledNav isOpen={isOpen} ref={navEl} aria-labelledby="main-site-navigation">
+        <NavContainer 
+            isOpen={isOpen}
+            ref={containerEl}
+            onClick={closeOnOuterClick}
+        >
+            <StyledNav 
+                isOpen={isOpen} 
+                ref={navEl} 
+                aria-labelledby="main-site-navigation"
+            >
                 <HiddenLabel id="main-site-navigation">Main site navigation</HiddenLabel>
                 <CloseNavButton
                     ref={closeButtonEl} 
