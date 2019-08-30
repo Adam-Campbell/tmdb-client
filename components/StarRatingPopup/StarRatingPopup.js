@@ -24,6 +24,7 @@ const Label = styled.label`
 const StarIcon = styled(Star)`
     color: ${({ theme, isSelected }) => isSelected ? theme.colors.info : theme.colors.uiSecondary};
     width: 30px;
+    max-height: 30px;
     margin: ${({ theme }) => theme.getSpacing(0, 1)};
 `;
 
@@ -39,6 +40,7 @@ const ContentContainer = styled.div`
 
 const ClearRatingIcon = styled(NoEntry)`
     width: 20px;
+    max-height: 30px;
     color: ${({ theme }) => theme.colors.warning};
     margin-right: auto;
 `;

@@ -11,7 +11,7 @@ import { lighten, desaturate } from 'polished';
 const StyledUserHeader = styled.section`
     background: ${({ theme }) => theme.gradients.primary};
     padding: ${({ theme }) => theme.getSpacing(4, 0)};
-    overflow-x: hidden;
+    overflow: hidden;
 `;
 
 const HeaderRow = styled(Row)`
