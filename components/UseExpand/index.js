@@ -42,15 +42,14 @@ export default function useExpand() {
             // viewport BEFORE state was updated and the list was collapsed. By comparing this with
             // the new position of anchorRef after the collapse we can calculate the correct window 
             // scroll value to ensure anchorRef stays in the same position relative to the viewport.
-            const { top } = anchorRef.current.getBoundingClientRect();
-            const absoluteTop = top + window.scrollY;
-            const newScrollY = absoluteTop - buttonDelta;
+            const diff = buttonDelta - anchorRef.current.offsetTop;
+            const newScrollY = window.pageYOffset - diff;
             window.scrollTo(0, newScrollY);
         }
     }, [ isExpanded, buttonDelta ]);
 
     function handleToggleClick() {
-        const { top } = anchorRef.current.getBoundingClientRect();
+        const top = anchorRef.current.offsetTop;
         setButtonDelta(top);
         setExpanded(prev => !prev);
     }

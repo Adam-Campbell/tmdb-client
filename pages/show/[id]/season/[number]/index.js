@@ -60,17 +60,17 @@ function Season({
                 allSeasons={allSeasons}
                 showId={showId}
             />
-            <PeopleList 
-                title="Cast"
-                people={credits.cast}
-                shouldAllowExpansion={true}
-            />
-            <PeopleList 
-                title="Crew"
-                people={credits.crew}
-                shouldAllowExpansion={true}
-            />
             <Row>
+                <PeopleList 
+                    title="Cast"
+                    people={credits.cast}
+                    shouldAllowExpansion={true}
+                />
+                <PeopleList 
+                    title="Crew"
+                    people={credits.crew}
+                    shouldAllowExpansion={true}
+                />
                 <section>
                     {episodes.map((episode, idx) => (
                         <EpisodePod 

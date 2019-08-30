@@ -68,7 +68,7 @@ const EpisodeRatingContainer = styled.div`
 const EpisodeTitle = styled.h3`
     ${({ theme }) => theme.fontStacks.bodyBold()}
     font-size: ${({ theme }) => theme.fontSizes.body.sm};
-    margin: ${({ theme }) => theme.getSpacing(0, 0, 1, 0)}
+    margin: ${({ theme }) => theme.getSpacing(0, 0, 1, 0)};
     @media(min-width: 550px) {
         font-size: ${({ theme }) => theme.fontSizes.body.md};
     }
@@ -77,7 +77,7 @@ const EpisodeTitle = styled.h3`
 const AirDate = styled.p`
     ${({ theme }) => theme.fontStacks.body()}
     font-size: ${({ theme }) => theme.fontSizes.body.xs};
-    margin: ${({ theme }) => theme.getSpacing(1, 0, 0, 0)}
+    margin: ${({ theme }) => theme.getSpacing(1, 0, 0, 0)};
     @media(min-width: 550px) {
         font-size: ${({ theme }) => theme.fontSizes.body.sm};
     } 
