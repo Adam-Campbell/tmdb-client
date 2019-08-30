@@ -5,6 +5,7 @@ import { Movie, Tv, Person, Home, ViewList } from 'styled-icons/material';
 
 const HomeIcon = styled(Home)`
     width: 20px;
+    max-height: 30px;
     margin-right: ${({ theme }) => theme.getSpacing(3)};
     @media (min-width: 768px) {
         display: none;
@@ -13,6 +14,7 @@ const HomeIcon = styled(Home)`
 
 const MovieIcon = styled(Movie)`
     width: 20px;
+    max-height: 30px;
     margin-right: ${({ theme }) => theme.getSpacing(3)};
     @media (min-width: 768px) {
         display: none;
@@ -21,6 +23,7 @@ const MovieIcon = styled(Movie)`
 
 const TVIcon = styled(Tv)`
     width: 20px;
+    max-height: 30px;
     margin-right: ${({ theme }) => theme.getSpacing(3)};
     @media (min-width: 768px) {
         display: none;
@@ -29,6 +32,7 @@ const TVIcon = styled(Tv)`
 
 const PersonIcon = styled(Person)`
     width: 20px;
+    max-height: 30px;
     margin-right: ${({ theme }) => theme.getSpacing(3)};
     @media (min-width: 768px) {
         display: none;
@@ -37,6 +41,7 @@ const PersonIcon = styled(Person)`
 
 const DiscoverIcon = styled(ViewList)`
     width: 20px;
+    max-height: 30px;
     margin-right: ${({ theme }) => theme.getSpacing(3)};
     @media (min-width: 768px) {
         display: none;

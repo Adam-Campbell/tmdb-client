@@ -70,7 +70,7 @@ const NavContainer = styled.div`
     position: fixed;
     top: 0;
     left: ${({ isOpen }) => isOpen ? 0 : '-100vw'};
-    z-index: 1000;
+    z-index: 4000;
     height: 100vh;
     width: 100vw;
     @media (min-width: 768px) {
@@ -114,6 +114,7 @@ const CloseNavButton = styled.button`
 
 const CloseNavIcon = styled(Close)`
     width: 32px;
+    max-height: 32px;
     cursor: pointer;
 `;
 

@@ -60,6 +60,7 @@ const BackLink = styled.a`
 
 const BackIcon = styled(LongArrowAltLeft)`
     width: 25px;
+    max-height: 25px;
     margin-right: ${({ theme }) => theme.getSpacing(2)};
 `;
 

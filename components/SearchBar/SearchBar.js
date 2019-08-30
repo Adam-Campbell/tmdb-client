@@ -27,6 +27,7 @@ const InputRow = styled(Row)`
 const InputIcon = styled(Search)`
     color: ${({ theme }) => theme.colors.black};
     width: 30px;
+    max-height: 30px;
     margin-right: ${({ theme }) => theme.getSpacing(2)};
 `;
 

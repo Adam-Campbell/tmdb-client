@@ -33,6 +33,7 @@ const ToggleExpandedButton = styled(Button)`
 const ToggleIcon = styled(ChevronDown)`
     color: ${({ theme }) => theme.colors.white};
     width: 14px;
+    max-height: 18px;
     margin-left: ${({ theme }) => theme.getSpacing(2)};
     transform: ${({ isExpanded }) => isExpanded ? 'rotate(180deg)' : 'rotate(0)'};
 `;

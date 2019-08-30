@@ -38,6 +38,7 @@ const CardName = styled.p`
     text-shadow: 1px 1px 0 #000;
     margin-bottom: 0;
     margin-top: auto;
+    align-self: flex-end;
 `;
 
 const PosterImage = styled(SmartImage)`

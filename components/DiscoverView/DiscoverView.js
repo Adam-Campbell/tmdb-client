@@ -57,11 +57,13 @@ const ComboBoxContainer = styled.div`
 
 const FiltersIcon = styled(SlidersH)`
     width: 16px;
+    max-height: 18px;
     margin-left: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 const CloseIcon = styled(Times)`
     width: 11px;
+    max-height: 18px;
     margin-left: ${({ theme }) => theme.getSpacing(2)};
 `;
 

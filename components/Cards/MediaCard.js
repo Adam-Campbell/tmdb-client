@@ -114,6 +114,7 @@ const TextColumn = styled.div`
     display: flex;
     flex-direction: column;
     align-self: stretch;
+    width: 100%;
 `;
 
 const OverviewText = styled.p`

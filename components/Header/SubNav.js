@@ -14,6 +14,7 @@ const SubNavList = styled.ul`
     background: ${({ theme }) => theme.colors.complimentary};
     display: ${({ isOpen }) => isOpen ? 'flex' : 'none'};
     flex-direction: column;
+    z-index: 4000;
     @media (min-width: 768px) {
         position: absolute;
         top: 50px;

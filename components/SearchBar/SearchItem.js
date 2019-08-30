@@ -8,24 +8,28 @@ import { Row } from '../Layout';
 const SearchIcon = styled(Search)`
     color: ${({ theme }) => theme.colors.black};
     width: 20px;
+    max-height: 20px;
     margin-right: ${({ theme }) => theme.getSpacing(2)};
     flex-shrink: 0;
 `;
 
 const MovieIcon = styled(Movie)`
     width: 20px;
+    max-height: 20px;
     margin-right: ${({ theme }) => theme.getSpacing(2)};
     flex-shrink: 0;
 `;
 
 const TVIcon = styled(Tv)`
     width: 20px;
+    max-height: 20px;
     margin-right: ${({ theme }) => theme.getSpacing(2)};
     flex-shrink: 0;
 `;
 
 const PersonIcon = styled(Person)`
     width: 20px;
+    max-height: 20px;
     margin-right: ${({ theme }) => theme.getSpacing(2)};
     flex-shrink: 0;
 `;
