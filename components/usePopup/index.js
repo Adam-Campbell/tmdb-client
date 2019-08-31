@@ -91,7 +91,7 @@ export default function usePopup({ popupWidth, popupHeight, popupAlignment }) {
             type: OPEN_POPUP,
             payload: {
                 isShowingPopup: true,
-                windowTopOffset: window.scrollY,
+                windowTopOffset: window.pageYOffset,
                 popupX,
                 popupY
             }

@@ -117,7 +117,7 @@ export function InfiniteVirtualMediaList({ initialData, getDataFn }) {
         else if (state.currentPage > prevState.currentPage && 
                 state.currentPage < state.furthestPage
         ) {
-            const windowTwoHeight = calculateWindowHeight(windowTwoTop, windowTwoBottom);
+            const windowTwoHeight = calculateWindowHeight(windowTwoStart, windowTwoEnd);
             const c = containerRef.current;
             const oldBottomPadding = getPaddingNum(c.style.paddingBottom);
             const oldTopPadding = getPaddingNum(c.style.paddingTop);

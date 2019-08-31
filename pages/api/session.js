@@ -27,7 +27,8 @@ async function handlePost(req, res) {
         const sessionId = response.data.session_id;
         const cookie = serialize('userSessionId', String(sessionId), {
             maxAge: 60 * 60 * 24 * 30, // 1 month
-            domain: 'localhost',
+            expires: new Date(Date.now() + (1000 * 60 * 60 * 24 * 30)), // 1 month
+            //domain: 'localhost',
             httpOnly: true,
             secure: false,
             path: '/'
@@ -59,7 +60,7 @@ async function handleDelete(req, res) {
         });
         const cookie = serialize('userSessionId', '', {
             maxAge: 0,
-            domain: 'localhost',
+            //domain: 'localhost',
             httpOnly: true,
             secure: false,
             path: '/'

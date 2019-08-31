@@ -20,7 +20,6 @@ export function MediaListView({ title, items, urlSubpath, headingTag = 'h2' }) {
         <>
             <ListViewHeader title={title} headingTag={headingTag} />
             <MediaCardContainer>
-                <div>
                 {items.map(item => (
                     <MediaCard 
                         key={item.id}
@@ -34,7 +33,6 @@ export function MediaListView({ title, items, urlSubpath, headingTag = 'h2' }) {
                         urlSubpath={urlSubpath}
                     />  
                 ))}
-                </div>
             </MediaCardContainer>
         </>
     );

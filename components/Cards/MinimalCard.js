@@ -62,6 +62,7 @@ const NameLink = styled.a`
     text-decoration: none;
     margin-bottom: ${({ theme }) => theme.getSpacing(1)};
     display: inline-block;
+    max-width: 100%;
     &:hover {
         text-decoration: underline;
     }

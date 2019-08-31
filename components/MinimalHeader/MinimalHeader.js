@@ -37,6 +37,7 @@ const Image = styled(SmartImage)`
     width: 85px;
     height: 127.5px;
     margin-right: ${({ theme }) => theme.getSpacing(3)};
+    flex-shrink: 0;
 `;
 
 
@@ -60,6 +61,7 @@ const BackLink = styled.a`
 
 const BackIcon = styled(LongArrowAltLeft)`
     width: 25px;
+    max-height: 25px;
     margin-right: ${({ theme }) => theme.getSpacing(2)};
 `;
 

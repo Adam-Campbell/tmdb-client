@@ -28,30 +28,34 @@ export default function useExpand() {
     // Prevent effect from firing on mount
     const isInitialMount = useRef(true);
     const anchorRef = useRef(null);
-    // The distance between the button element and the top of the viewport
-    const [ buttonDelta, setButtonDelta ] = useState(0);
+    // The distance between the anchor element and the top of the document
+    const [ cachedAnchorOffset, setCachedAnchorOffset ] = useState(0);
     const [ isExpanded, setExpanded ] = useState(false);
 
     useLayoutEffect(() => {
-        // The full logic won't be performed on the first render - only on subsequent ones.
+        // No logic needs to be performed as part of the first render cycle, or any subsequent render
+        // where isExpanded is true.
         if (isInitialMount.current) {
             isInitialMount.current = false;
         } else {
             if (isExpanded) return;
-            // in this block buttonDelta is the distance that anchorRef was from the top of the
-            // viewport BEFORE state was updated and the list was collapsed. By comparing this with
-            // the new position of anchorRef after the collapse we can calculate the correct window 
-            // scroll value to ensure anchorRef stays in the same position relative to the viewport.
-            const { top } = anchorRef.current.getBoundingClientRect();
-            const absoluteTop = top + window.scrollY;
-            const newScrollY = absoluteTop - buttonDelta;
-            window.scrollTo(0, newScrollY);
+            // calculate the distance between the top of the viewport and the anchor element before
+            // isExpanded became false.
+            const prevPageY = window.pageYOffset;
+            const prevAnchorOffsetRelativeToView = cachedAnchorOffset - prevPageY;
+            // grab the new distance between the anchor element and the top of the entire document
+            // and calculate the new scroll value for the window required to ensure that the distane
+            // between the anchor element and the top of the viewport remains the same as it was when
+            // isExpanded was true. 
+            const nextAnchorAbsoluteOffset = anchorRef.current.offsetTop;
+            const nextPageY = nextAnchorAbsoluteOffset - prevAnchorOffsetRelativeToView;
+            window.scrollTo(0, nextPageY);
         }
-    }, [ isExpanded, buttonDelta ]);
+    }, [ isExpanded, cachedAnchorOffset ]);
 
     function handleToggleClick() {
-        const { top } = anchorRef.current.getBoundingClientRect();
-        setButtonDelta(top);
+        const offset = anchorRef.current.offsetTop;
+        setCachedAnchorOffset(offset);
         setExpanded(prev => !prev);
     }
 

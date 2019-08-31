@@ -59,6 +59,7 @@ const ListTitle = styled.h2`
     margin-top: 0;
     margin-bottom: ${({ theme }) => theme.getSpacing(2)};
     text-align: center;
+    max-width: 100%;
 `;
 
 const ItemCount = styled.p`

@@ -35,6 +35,7 @@ const TextColumn = styled.div`
     display: flex;
     flex-direction: column;
     align-self: stretch;
+    width: 100%;
 `;
 
 const TitleRow = styled.div`
@@ -47,9 +48,6 @@ const TitleRow = styled.div`
         align-items: center;
     }
 `;
-
-//    margin-right: ${({ theme }) => theme.getSpacing(2)};
-//   margin-bottom: ${({ theme }) => theme.getSpacing(2)};
 
 const TitleLink = styled.a`
     margin: ${({ theme }) => theme.getSpacing(0, 2, 2, 0)};

@@ -21,6 +21,7 @@ const ListItem = styled.li`
 const StyledFacebook = styled(FacebookSquare)`
     color: ${({ theme }) => theme.colors.black};
     width: 25px;
+    max-height: 30px;
     &:hover {
         color: ${({ theme }) => theme.colors.primary};
     }
@@ -29,6 +30,7 @@ const StyledFacebook = styled(FacebookSquare)`
 const StyledTwitter = styled(TwitterSquare)`
     color: ${({ theme }) => theme.colors.black};
     width: 25px;
+    max-height: 30px;
     &:hover {
         color: ${({ theme }) => theme.colors.primary};
     }
@@ -37,6 +39,7 @@ const StyledTwitter = styled(TwitterSquare)`
 const StyledInstagram = styled(Instagram)`
     color: ${({ theme }) => theme.colors.black};
     width: 25px;
+    max-height: 30px;
     &:hover {
         color: ${({ theme }) => theme.colors.primary};
     }
@@ -45,6 +48,7 @@ const StyledInstagram = styled(Instagram)`
 const StyledExternal = styled(Link)`
     color: ${({ theme }) => theme.colors.black};
     width: 25px;
+    max-height: 30px;
     &:hover {
         color: ${({ theme }) => theme.colors.primary};
     }

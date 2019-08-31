@@ -33,12 +33,14 @@ const SeasonNavigationLink = styled.a`
 const BackArrow = styled(ArrowAltCircleLeft)`
     color: ${({ theme }) => theme.colors.black};
     width: 20px;
+    max-height: 25px;
     margin-right: ${({ theme }) => theme.getSpacing(2)};
 `;
 
 const ForwardArrow = styled(ArrowAltCircleRight)`
     color: ${({ theme }) => theme.colors.black};
     width: 20px;
+    max-height: 25px;
     margin-left: ${({ theme }) => theme.getSpacing(2)};
 `;
 

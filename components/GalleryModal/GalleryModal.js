@@ -29,16 +29,31 @@ const ControlsContainer = styled.div`
     padding-top: ${({ theme }) => theme.getSpacing(2)};
 `;
 
-const BackArrow = styled(ArrowAltCircleLeft)`
+const ArrowButton = styled.button`
     color: ${({ theme }) => theme.colors.black};
-    width: 25px;
     margin: ${({ theme }) => theme.getSpacing(0, 3)};
+    border: solid 2px transparent;
+    background: none;
+    padding: 3px;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &:focus {
+        outline: 0;
+        border-color: ${({ theme }) => theme.colors.primary};
+    }
+`;
+
+const BackArrow = styled(ArrowAltCircleLeft)`
+    width: 25px;
+    max-height: 25px;
 `;
 
 const ForwardArrow = styled(ArrowAltCircleRight)`
-    color: ${({ theme }) => theme.colors.black};
     width: 25px;
-    margin: ${({ theme }) => theme.getSpacing(0, 3)};
+    max-height: 25px;
 `;
 
 
@@ -71,16 +86,20 @@ export function GalleryModal({ isOpen, handleClose, images, currentImageIndex, s
                     />
                 </a>
                 <ControlsContainer>
-                    <BackArrow 
+                    <ArrowButton
                         onClick={() => setImageIndex(prev => {
                             return prev > 0 ? prev - 1 : images.length - 1;
                         })}
-                    />
-                    <ForwardArrow 
+                    >
+                        <BackArrow />
+                    </ArrowButton>
+                    <ArrowButton
                         onClick={() => setImageIndex(prev => {
                             return prev < images.length - 1 ? prev + 1 : 0;
                         })}
-                    />
+                    >
+                        <ForwardArrow />
+                    </ArrowButton>
                 </ControlsContainer>
             </ModalInner>
         </ReactModal>

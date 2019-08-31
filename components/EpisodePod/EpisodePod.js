@@ -68,7 +68,7 @@ const EpisodeRatingContainer = styled.div`
 const EpisodeTitle = styled.h3`
     ${({ theme }) => theme.fontStacks.bodyBold()}
     font-size: ${({ theme }) => theme.fontSizes.body.sm};
-    margin: ${({ theme }) => theme.getSpacing(0, 0, 1, 0)}
+    margin: ${({ theme }) => theme.getSpacing(0, 0, 1, 0)};
     @media(min-width: 550px) {
         font-size: ${({ theme }) => theme.fontSizes.body.md};
     }
@@ -77,7 +77,7 @@ const EpisodeTitle = styled.h3`
 const AirDate = styled.p`
     ${({ theme }) => theme.fontStacks.body()}
     font-size: ${({ theme }) => theme.fontSizes.body.xs};
-    margin: ${({ theme }) => theme.getSpacing(1, 0, 0, 0)}
+    margin: ${({ theme }) => theme.getSpacing(1, 0, 0, 0)};
     @media(min-width: 550px) {
         font-size: ${({ theme }) => theme.fontSizes.body.sm};
     } 
@@ -111,10 +111,16 @@ const ToggleExpandedButton = styled.button`
     ${({ theme }) => theme.fontStacks.bodyBold()}
 `;
 
+const ToggleText = styled.span`
+    margin-left: auto;
+`;
+
 const ToggleIcon = styled(ChevronDown)`
     color: ${({ theme }) => theme.colors.black};
     width: 14px;
+    max-height: 18px;
     margin-left: ${({ theme }) => theme.getSpacing(2)};
+    margin-right: auto;
     transform: ${({ isExpanded }) => isExpanded ? 'rotate(180deg)' : 'rotate(0)'};
 `;
 
@@ -187,7 +193,7 @@ export function EpisodePod({
                 <ToggleExpandedButton
                     onClick={handleToggleClick}
                 >
-                    {isExpanded ? 'Show less' : 'Show more'}
+                    <ToggleText>{isExpanded ? 'Show less' : 'Show more'}</ToggleText>
                     <ToggleIcon isExpanded={isExpanded}/>
                 </ToggleExpandedButton>
             </ToggleExpandedRow>
