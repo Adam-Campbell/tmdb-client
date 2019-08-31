@@ -37,6 +37,7 @@ const Image = styled(SmartImage)`
     width: 85px;
     height: 127.5px;
     margin-right: ${({ theme }) => theme.getSpacing(3)};
+    flex-shrink: 0;
 `;
 
 

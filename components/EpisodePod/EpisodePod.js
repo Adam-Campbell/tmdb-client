@@ -111,11 +111,16 @@ const ToggleExpandedButton = styled.button`
     ${({ theme }) => theme.fontStacks.bodyBold()}
 `;
 
+const ToggleText = styled.span`
+    margin-left: auto;
+`;
+
 const ToggleIcon = styled(ChevronDown)`
     color: ${({ theme }) => theme.colors.black};
     width: 14px;
     max-height: 18px;
     margin-left: ${({ theme }) => theme.getSpacing(2)};
+    margin-right: auto;
     transform: ${({ isExpanded }) => isExpanded ? 'rotate(180deg)' : 'rotate(0)'};
 `;
 
@@ -188,7 +193,7 @@ export function EpisodePod({
                 <ToggleExpandedButton
                     onClick={handleToggleClick}
                 >
-                    {isExpanded ? 'Show less' : 'Show more'}
+                    <ToggleText>{isExpanded ? 'Show less' : 'Show more'}</ToggleText>
                     <ToggleIcon isExpanded={isExpanded}/>
                 </ToggleExpandedButton>
             </ToggleExpandedRow>

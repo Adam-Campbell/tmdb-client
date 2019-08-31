@@ -43,9 +43,14 @@ const ToggleExpandedButton = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     padding: ${({ theme }) => theme.getSpacing(2)};
     width: 100%;
     ${({ theme }) => theme.fontStacks.bodyBold()}
+`;
+
+const ToggleText = styled.span`
+    margin-left: auto;
 `;
 
 const ToggleIcon = styled(ChevronDown)`
@@ -53,6 +58,7 @@ const ToggleIcon = styled(ChevronDown)`
     width: 14px;
     max-height: 18px;
     margin-left: ${({ theme }) => theme.getSpacing(2)};
+    margin-right: auto;
     transform: ${({ isExpanded }) => isExpanded ? 'rotate(180deg)' : 'rotate(0)'};
 `;
 
@@ -86,7 +92,7 @@ export function ReviewCard({ author, content }) {
                         onClick={handleToggleClick}
                         data-testid="review-card-toggle-button"
                     >
-                        {isExpanded ? 'Read less' : 'Read more'}
+                        <ToggleText>{isExpanded ? 'Read less' : 'Read more'}</ToggleText>
                         <ToggleIcon isExpanded={isExpanded} />
                     </ToggleExpandedButton>
                 </ToggleExpandedRow>

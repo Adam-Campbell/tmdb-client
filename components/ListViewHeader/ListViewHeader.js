@@ -6,14 +6,15 @@ import { Row } from '../Layout';
 const StyledListViewHeader = styled(Row)`
     display: flex;
     align-items: center;
+    margin-top: ${({ theme }) => theme.getSpacing(3)};
 `;
 
 const HeaderTitle = styled.h1`
     ${({ theme }) => theme.fontStacks.heading()}
     font-size: ${({ theme }) => theme.fontSizes.heading.md};
     margin-right: auto;
-    margin-top: ${({ theme }) => theme.getSpacing(3)};
-    margin-bottom: ${({ theme }) => theme.getSpacing(0)};
+    margin-top: 0;
+    margin-bottom: 0;
 `;
 
 export const ListViewHeader = ({ title, headingTag = 'h1', children }) => (
