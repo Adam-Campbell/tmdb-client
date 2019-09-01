@@ -29,7 +29,7 @@ export function ExploreMediaPage({
             <Row>
                 {mediaData.map((card, idx) => (
                     <MediaCard 
-                        key={idx}
+                        key={card.id}
                         id={card.id}
                         title={card.title || card.name}
                         releaseDate={card.release_date || card.first_air_date}

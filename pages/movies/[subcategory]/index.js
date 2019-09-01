@@ -8,48 +8,53 @@ import {
 import ExploreMediaPage from '../../../components/ExploreMediaPage';
 import { a } from '../../../axiosClient';
 
-export function getFetchingFn(subcategory) {
+function getSubcategoryProps(subcategory) {
+    let props;
     switch (subcategory) {
         case 'popular':
-            return getPopularMovies;
+            props = {
+                dataFetchingFn: getPopularMovies,
+                title: 'Popular Movies' 
+            };
+            break;
         case 'top-rated':
-            return getTopRatedMovies;
+            props = {
+                dataFetchingFn: getTopRatedMovies,
+                title: 'Top Rated Movies'
+            };
+            break;
         case 'now-playing':
-            return getNowPlayingMovies;
+            props = {
+                dataFetchingFn: getNowPlayingMovies,
+                title: 'Now Playing Movies'
+            };
+            break;
         case 'upcoming':
-            return getUpcomingMovies;
+            props = {
+                dataFetchingFn: getUpcomingMovies,
+                title: 'Upcoming Movies'
+            };
+            break;
         default:
-            return getPopularMovies;
+            props = {
+                dataFetchingFn: getPopularMovies,
+                title: 'Popular Movies' 
+            };
     }
-}
-
-export function getTitle(subcategory) {
-    switch (subcategory) {
-        case 'popular':
-            return 'Popular Movies';
-        case 'top-rated':
-            return 'Top Rated Movies';
-        case 'now-playing':
-            return 'Now Playing Movies';
-        case 'upcoming':
-            return 'Upcoming Movies';
-        default:
-            return 'Popular Movies';
-    }
-}
-
-export function getPageLinks(subcategory) {
     return {
+        ...props, 
         pageLinkAs: `/movies/${subcategory}`,
         pageLinkHref: `/movies/[subcategory]`,
     };
 }
 
-function MoviesWithSubcategory({ results, currentPage, subcategory }) {
-
-    //const fetchingFn = getFetchingFn(subcategory);
-    const title = getTitle(subcategory);
-    const { pageLinkAs, pageLinkHref } = getPageLinks(subcategory);
+function MoviesWithSubcategory({ 
+    results, 
+    title,
+    pageLinkAs,
+    pageLinkHref,
+    currentPage 
+}) {
 
     return (
         <ExploreMediaPage 
@@ -65,12 +70,19 @@ function MoviesWithSubcategory({ results, currentPage, subcategory }) {
 MoviesWithSubcategory.getInitialProps = async ({ query }) => {
     const { subcategory } = query;
     const currentPage = parseInt(query.page || 1);
-    const fetchingFn = getFetchingFn(subcategory);
-    const results = await fetchingFn(currentPage);
+    const {
+        dataFetchingFn,
+        title, 
+        pageLinkAs,
+        pageLinkHref
+    } = getSubcategoryProps(subcategory);
+    const results = await dataFetchingFn(currentPage);
     return {
         results,
-        currentPage,
-        subcategory
+        title,
+        pageLinkAs,
+        pageLinkHref,
+        currentPage
     };
 };
 
