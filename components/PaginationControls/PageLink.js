@@ -31,6 +31,7 @@ export default function PageLink({ href, as, pageNumber, isActive }) {
             passHref
         >
             <StyledPageLink
+                data-testid="page-link"
                 isHovered={isHovered}
                 isActive={isActive}
                 {...containerProps}

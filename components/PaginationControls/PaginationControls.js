@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import PageLink from './PageLink';
 import { Row } from '../Layout';
-import { dataTypes, createDataArray } from './utils';
+import { dataTypes, createPageLinksDataArray } from './utils';
 
 const StyledPaginationControls = styled.div`
     width: 100%;
@@ -29,7 +29,7 @@ export function PaginationControls({
 }) {
 
     const dataArray = useMemo(() => {
-        return createDataArray(currentPage, totalPages, windowSize); 
+        return createPageLinksDataArray(currentPage, totalPages, windowSize); 
     }, [ currentPage, totalPages, windowSize ]);
 
     return (
@@ -43,7 +43,7 @@ export function PaginationControls({
                     isActive={el.pageNumber === currentPage}
                 />
             ) : (
-                <Ellipses key={idx}>...</Ellipses>
+                <Ellipses key={idx} data-testid="ellipses">...</Ellipses>
             ))}
         </StyledPaginationControls>
     );
