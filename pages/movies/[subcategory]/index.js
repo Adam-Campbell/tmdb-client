@@ -38,30 +38,38 @@ export function getTitle(subcategory) {
     }
 }
 
-function MoviesWithSubcategory({ results, subcategory }) {
+export function getPageLinks(subcategory) {
+    return {
+        pageLinkAs: `/movies/${subcategory}`,
+        pageLinkHref: `/movies/[subcategory]`,
+    };
+}
 
-    const fetchingFn = getFetchingFn(subcategory);
+function MoviesWithSubcategory({ results, currentPage, subcategory }) {
+
+    //const fetchingFn = getFetchingFn(subcategory);
     const title = getTitle(subcategory);
+    const { pageLinkAs, pageLinkHref } = getPageLinks(subcategory);
 
     return (
         <ExploreMediaPage 
             title={title}
-            initialData={results}
-            getDataFn={fetchingFn}
-            subcategory={subcategory}
+            mediaData={results}
+            currentPage={currentPage}
+            pageLinkAs={pageLinkAs}
+            pageLinkHref={pageLinkHref}
         />
     );
 }
 
 MoviesWithSubcategory.getInitialProps = async ({ query }) => {
     const { subcategory } = query;
+    const currentPage = parseInt(query.page || 1);
     const fetchingFn = getFetchingFn(subcategory);
-    const [ page1, page2 ] = await Promise.all([
-        fetchingFn(),
-        fetchingFn(2),
-    ]);
+    const results = await fetchingFn(currentPage);
     return {
-        results: [ ...page1, ...page2 ],
+        results,
+        currentPage,
         subcategory
     };
 };
