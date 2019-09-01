@@ -6,6 +6,7 @@ import { Row } from '../Layout';
 import { dataTypes, createDataArray } from './utils';
 
 const StyledPaginationControls = styled.div`
+    width: 100%;
     margin: ${({ theme }) => theme.getSpacing(3, 0)};
     display: flex;
     flex-wrap: wrap;

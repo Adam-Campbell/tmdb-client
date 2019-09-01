@@ -7,6 +7,7 @@ import ListViewHeader from '../components/ListViewHeader';
 import { MinimalCard } from '../components/Cards';
 import { Row } from '../components/Layout';
 import { NextSeo } from 'next-seo';
+import PaginationControls from '../components/PaginationControls';
 
 const Wrapper = styled(Row)`
     display: flex;
@@ -14,7 +15,7 @@ const Wrapper = styled(Row)`
     justify-content: flex-start;
 `;
 
-function People({ results }) {
+function People({ results, currentPage }) {
     return (
         <section>
             <NextSeo 
@@ -37,15 +38,22 @@ function People({ results }) {
                             isPersonImage={true}
                         />
                 })}
+                <PaginationControls 
+                    currentPage={currentPage}
+                    pageLinkHref="/people"
+                    pageLinkAs="/people"
+                />
             </Wrapper>
         </section>
     );
 }
 
-People.getInitialProps = async ({ req }) => {
-    const results = await getPopularPeople();
+People.getInitialProps = async ({ req, query }) => {
+    const currentPage = parseInt(query.page) || 1;
+    const results = await getPopularPeople(currentPage);
     return {
-        results
+        results,
+        currentPage
     };
 };
 
