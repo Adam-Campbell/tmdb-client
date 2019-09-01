@@ -7,62 +7,81 @@ import {
 } from '../../../clientApi';
 import ExploreMediaPage from '../../../components/ExploreMediaPage';
 
-
-function getFetchingFn(subcategory) {
+function getSubcategoryProps(subcategory) {
+    let props;
     switch (subcategory) {
         case 'popular':
-            return getPopularTV;
+            props = {
+                dataFetchingFn: getPopularTV,
+                title: 'Popular TV Shows' 
+            };
+            break;
         case 'top-rated':
-            return getTopRatedTV;
+            props = {
+                dataFetchingFn: getTopRatedTV,
+                title: 'Top Rated TV Shows'
+            };
+            break;
         case 'on-tv':
-            return getOnAirTV;
+            props = {
+                dataFetchingFn: getOnAirTV,
+                title: 'TV Shows On Air'
+            };
+            break;
         case 'airing-today':
-            return getAiringTodayTV;
+            props = {
+                dataFetchingFn: getAiringTodayTV,
+                title: 'TV Shows Airing Today'
+            };
+            break;
         default:
-            return getPopularTV;
+            props = {
+                dataFetchingFn: getPopularTV,
+                title: 'Popular TV Shows' 
+            };
     }
+    return {
+        ...props, 
+        pageLinkAs: `/tv/${subcategory}`,
+        pageLinkHref: `/tv/[subcategory]`,
+    };
 }
 
-export function getTitle(subcategory) {
-    switch (subcategory) {
-        case 'popular':
-            return 'Popular TV Shows';
-        case 'top-rated':
-            return 'Top Rated TV Shows';
-        case 'on-tv':
-            return 'TV Shows On Air';
-        case 'airing-today':
-            return 'TV Shows Airing Today';
-        default:
-            return 'Popular TV Shows';
-    }
-}
-
-function TVWithSubcategory({ results, subcategory }) {
-
-    const fetchingFn = getFetchingFn(subcategory);
-    const title = getTitle(subcategory);
+function TVWithSubcategory({ 
+    results, 
+    title,
+    pageLinkAs,
+    pageLinkHref,
+    currentPage 
+}) {
 
     return (
         <ExploreMediaPage 
             title={title}
-            initialData={results}
-            getDataFn={fetchingFn}
-            subcategory={subcategory}
+            mediaData={results}
+            currentPage={currentPage}
+            pageLinkAs={pageLinkAs}
+            pageLinkHref={pageLinkHref}
         />
     );
 }
 
 TVWithSubcategory.getInitialProps = async ({ query }) => {
     const { subcategory } = query;
-    const fetchingFn = getFetchingFn(subcategory);
-    const [ page1, page2 ] = await Promise.all([
-        fetchingFn(),
-        fetchingFn(2),
-    ]);
+    const currentPage = parseInt(query.page || 1);
+    const {
+        dataFetchingFn,
+        title, 
+        pageLinkAs,
+        pageLinkHref
+    } = getSubcategoryProps(subcategory);
+    const results = await dataFetchingFn(currentPage);
     return {
-        results: [ ...page1, ...page2 ],
-        subcategory
+        results,
+        title,
+        pageLinkAs,
+        pageLinkHref,
+        currentPage
     };
 };
 

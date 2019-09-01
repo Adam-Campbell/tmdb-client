@@ -17,7 +17,7 @@ function MoviesWithoutSubcategory({ results, currentPage }) {
 
 MoviesWithoutSubcategory.getInitialProps = async ({ query }) => {
     const subcategory = 'popular';
-    const currentPage = parseInt(query.page || 1);
+    const currentPage = parseInt(query.page) || 1;
     const results = await getPopularMovies(currentPage);
     return {
         results,

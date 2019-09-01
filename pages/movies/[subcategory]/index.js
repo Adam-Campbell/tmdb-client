@@ -69,7 +69,7 @@ function MoviesWithSubcategory({
 
 MoviesWithSubcategory.getInitialProps = async ({ query }) => {
     const { subcategory } = query;
-    const currentPage = parseInt(query.page || 1);
+    const currentPage = parseInt(query.page) || 1;
     const {
         dataFetchingFn,
         title, 
