@@ -2,27 +2,26 @@ import React from 'react';
 import ExploreMediaPage from '../../components/ExploreMediaPage';
 import { getPopularTV } from '../../clientApi';
 
-function TVWithoutSubcategory({ results, subcategory }) {
+function TVWithoutSubcategory({ results, currentPage }) {
 
     return (
         <ExploreMediaPage 
             title="Popular TV Shows"
-            initialData={results}
-            getDataFn={getPopularTV}
-            subcategory={subcategory}
+            mediaData={results}
+            currentPage={currentPage}
+            pageLinkAs="/tv"
+            pageLinkHref="/tv"
         />
     );
 }
 
 TVWithoutSubcategory.getInitialProps = async ({ query }) => {
     const subcategory = 'popular';
-    const [ page1, page2 ] = await Promise.all([
-        getPopularTV(),
-        getPopularTV(2),
-    ]);
+    const currentPage = parseInt(query.page) || 1;
+    const results = await getPopularTV(currentPage);
     return {
-        results: [ ...page1, ...page2 ],
-        subcategory
+        results,
+        currentPage
     };
 };
 

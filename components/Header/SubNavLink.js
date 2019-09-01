@@ -29,7 +29,7 @@ export default function SubNavLink({ as, href, name, handleBlur = noop }) {
         <Link as={as} href={href} passHref>
             <StyledSubNavLink
                 isHovered={isHovered}
-                isActive={router.asPath === as}
+                isActive={router.asPath.startsWith(as)}
                 onBlur={handleBlur}
                 {...containerProps}
             >

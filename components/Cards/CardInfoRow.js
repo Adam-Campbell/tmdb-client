@@ -69,7 +69,7 @@ const CardInfoRow = ({ rating, title, releaseDate, id, urlSubpath, isInline }) =
 CardInfoRow.propTypes = {
     rating: PropTypes.number,
     title: PropTypes.string.isRequired,
-    releaseDate: PropTypes.string.isRequired,
+    releaseDate: PropTypes.string,
     id: PropTypes.number.isRequired,
     urlSubpath: PropTypes.string.isRequired,
     isInline: PropTypes.bool

@@ -272,7 +272,7 @@ export function MediaCard({
 MediaCard.propTypes = {
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
-    releaseDate: PropTypes.string.isRequired,
+    releaseDate: PropTypes.string,
     averageRating: PropTypes.number,
     posterPath: PropTypes.string,
     backdropPath: PropTypes.string,
