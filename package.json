@@ -1,7 +1,8 @@
 {
   "name": "create-next-example-app",
   "engines": {
-    "node": "8.10.0"
+    "node": "8.10.0",
+    "npm": "5.6.0"
   },
   "scripts": {
     "dev": "next dev",
