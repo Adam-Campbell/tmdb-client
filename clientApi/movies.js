@@ -1,4 +1,4 @@
-import { get } from './helpers';
+import { get } from '../axiosClient';
 
 export const getPopularMovies = async (page = 1) => {
     const response = await get('api/movies/popular', { page });

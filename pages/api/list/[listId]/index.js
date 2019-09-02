@@ -1,5 +1,4 @@
 import { a, get } from '../../../../axiosServer';
-import api_key from '../../../../apiKey';
 import { apiMethodHandler } from '../../../../utils';
 
 async function handleGet(req, res) {
@@ -22,7 +21,7 @@ async function handleDelete(req, res) {
     try {
         const response = await a.request(`list/${listId}`, {
             params: {
-                api_key,
+                api_key: process.env.API_KEY,
                 session_id: userSessionId
             },
             method: 'DELETE'

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import api_key from './apiKey';
 
 export const a = axios.create({
     baseURL: 'https://api.themoviedb.org/3/'
@@ -7,7 +6,7 @@ export const a = axios.create({
 
 export const get = (url, params = {}) => a.get(url, {
     params: {
-        api_key,
+        api_key: process.env.API_KEY,
         ...params
     }
 });

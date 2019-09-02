@@ -1,5 +1,4 @@
 import { a } from '../../../../axiosServer';
-import api_key from '../../../../apiKey';
 import { apiMethodHandler } from '../../../../utils';
 
 async function handlePost(req, res) {
@@ -16,7 +15,7 @@ async function handlePost(req, res) {
     try {
         const response = await a.request(`tv/${showId}/rating`, {
             params: {
-                api_key,
+                api_key: process.env.API_KEY,
                 session_id: userSessionId
             },
             headers: {
@@ -44,7 +43,7 @@ async function handleDelete(req, res) {
     try {
         const response = await a.request(`tv/${showId}/rating`, {
             params: {
-                api_key,
+                api_key: process.env.API_KEY,
                 session_id: userSessionId
             },
             headers: {

@@ -1,6 +1,5 @@
 import * as actionTypes from '../actionTypes';
 import { getSessionType } from '../reducers/sessionReducer';
-import axios from 'axios';
 import { fetchFullProfile } from './userActions';
 import { a } from '../axiosClient';
 import toast from '../toast';

@@ -1,19 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react'
-import styled from 'styled-components';
-import Link from 'next/link'
-import Head from '../components/head'
+import React from 'react'
 import {
   getOnAirTV,
   getNowPlayingMovies
 } from '../clientApi';
-import { connect } from 'react-redux';
-import { Row } from '../components/Layout';
-import usePrevious from '../components/usePrevious';
-import { useInView } from 'react-intersection-observer';
-import { a } from '../axiosClient';
 import MediaGridLayout from '../components/MediaGridLayout';
-import axios from 'axios';
-import toast from '../toast';
 import { NextSeo } from 'next-seo';
 
 function Home({ onAirTV, nowPlayingMovies }) {
