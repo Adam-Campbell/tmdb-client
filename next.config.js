@@ -1,4 +1,5 @@
-const withCSS = require('@zeit/next-css')
+require('dotenv').config();
+const withCSS = require('@zeit/next-css');
 module.exports = withCSS({
   webpack: config => {
     // Fixes npm packages that depend on `fs` module
@@ -21,5 +22,9 @@ module.exports = withCSS({
     }
 
     return config
+  },
+  env: {
+    ROOT_URL: process.env.ROOT_URL,
+    API_KEY: process.env.API_KEY
   }
 })

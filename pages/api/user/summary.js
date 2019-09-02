@@ -1,5 +1,4 @@
 import { a, get } from '../../../axiosServer';
-import api_key from '../../../apiKey';
 import { apiMethodHandler } from '../../../utils';
 
 async function handleGet(req, res) {

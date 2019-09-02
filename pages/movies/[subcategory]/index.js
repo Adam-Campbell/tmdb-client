@@ -6,7 +6,6 @@ import {
     getNowPlayingMovies
 } from '../../../clientApi';
 import ExploreMediaPage from '../../../components/ExploreMediaPage';
-import { a } from '../../../axiosClient';
 
 function getSubcategoryProps(subcategory) {
     let props;

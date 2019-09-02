@@ -1,6 +1,5 @@
 import { serialize } from 'cookie';
 import { a } from '../../axiosServer';
-import api_key from '../../apiKey';
 import { apiMethodHandler } from '../../utils';
 
 // A POST request to this endpoint will create a new user session using a pre-authenticated
@@ -18,7 +17,7 @@ async function handlePost(req, res) {
             },
             method: 'POST',
             params: {
-                api_key
+                api_key: process.env.API_KEY
             },
             data: {
                 request_token
@@ -52,7 +51,7 @@ async function handleDelete(req, res) {
             },
             method: 'DELETE',
             params: {
-                api_key
+                api_key: process.env.API_KEY
             },
             data: {
                 session_id: userSessionId

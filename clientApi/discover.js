@@ -1,4 +1,4 @@
-import { get } from './helpers';
+import { get } from '../axiosClient';
 
 export async function getDiscoverResults(options) {
     try {
