@@ -1,5 +1,5 @@
 {
-  "name": "create-next-example-app",
+  "name": "react-movies-database",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
