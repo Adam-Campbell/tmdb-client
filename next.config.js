@@ -27,4 +27,4 @@ module.exports = withCSS({
     ROOT_URL: process.env.ROOT_URL,
     API_KEY: process.env.API_KEY
   }
-})
+});
