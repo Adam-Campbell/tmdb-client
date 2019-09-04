@@ -65,7 +65,8 @@ async function handleLoginClick() {
     try { 
         const response = await a.get('api/token');
         const requestToken = response.data.request_token;
-        window.location = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=http://localhost:3000/authenticate`;
+        //window.location = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=http://localhost:3000/authenticate`;
+        window.location = `https://www.themoviedb.org/authenticate/${requestToken}?redirect_to=${process.env.ROOT_URL}authenticate`;
     } catch (error) {
         console.log(error);
     }
