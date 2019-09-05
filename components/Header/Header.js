@@ -12,6 +12,7 @@ import UserIcon from './UserIcon';
 import { Button } from '../Buttons';
 import { a } from '../../axiosClient';
 import SearchBar from '../SearchBar';
+import LoadingBar from '../LoadingBar';
  
 const StyledHeader = styled.header`
     position: sticky;
@@ -34,7 +35,7 @@ const NavContainer = styled.div`
     max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
-    
+    margin-top: -4px;
 `;
 
 const LoginButton = styled(Button)`
@@ -59,6 +60,7 @@ const MenuToggleButton = styled.button`
 const MenuToggleIcon = styled(Menu)`
     width: 32px;
     cursor: pointer;
+    margin-top: -4px;
 `;
 
 async function handleLoginClick() {
@@ -78,6 +80,7 @@ function Header({ isLoggedIn }) {
 
     return (
         <StyledHeader>
+                <LoadingBar />
                 <NavRowWrapper>
                     <NavRow>
                         <MenuToggleButton

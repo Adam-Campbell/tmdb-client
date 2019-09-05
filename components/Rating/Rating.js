@@ -57,8 +57,8 @@ export function Rating({ rating }) {
                 labels={() => null}
                 style={{
                     data: { fill: (d) => {
-                            //return d.x === 1 ? chartColor : "transparent";
-                            return d.datum.x === 1 ? chartColor : "transparent";
+                            return d.x === 1 ? chartColor : "transparent";
+                            //return d.datum.x === 1 ? chartColor : "transparent";
                         }
                     }
                 }}
