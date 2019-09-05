@@ -1,7 +1,8 @@
 import * as actionTypes from '../actionTypes';
 
 export const initialState = {
-    hasSession: false
+    hasSession: false,
+    hasSessionCreationError: false
 };
 
 export default function reducer(state = initialState, action) {
@@ -13,10 +14,18 @@ export default function reducer(state = initialState, action) {
                 hasSession: true
             };
 
+        case actionTypes.LOGIN_USER_FAILED:
+            return {
+                ...state,
+                hasSession: false,
+                hasSessionCreationError: true
+            };
+
         case actionTypes.LOGOUT_USER:
             return {
                 ...state,
-                hasSession: false
+                hasSession: false,
+                hasSessionCreationError: false
             };
 
         default:
@@ -24,20 +33,10 @@ export default function reducer(state = initialState, action) {
     }
 }
 
-export function getSessionType(state) {
-    if (state.session.userSessionId !== null) {
-        return 'USER';
-    } else if (state.session.guestSessionId !== null) {
-        return 'GUEST';
-    } else {
-        return null;
-    }
-}
-
 export function getHasSession(state) {
     return state.session.hasSession;
 }
 
-export function getUserSessionId(state) {
-    return state.session.userSessionId
+export function getHasSessionCreationError(state) {
+    return state.session.hasSessionCreationError;
 }

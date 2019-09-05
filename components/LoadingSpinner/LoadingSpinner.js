@@ -192,10 +192,12 @@ const TickEight = styled(Tick)`
 
 export function LoadingSpinner({
     shouldHaveBackground,
-    scale = 1
+    scale = 1,
+    className
 }) {
     return (
         <Container
+            className={className}
             shouldHaveBackground={shouldHaveBackground}
             scale={scale}
         >
@@ -213,5 +215,6 @@ export function LoadingSpinner({
 
 LoadingSpinner.propTypes = {
     shouldHaveBackground: PropTypes.bool,
-    scale: PropTypes.number
+    scale: PropTypes.number,
+    className: PropTypes.string
 }
