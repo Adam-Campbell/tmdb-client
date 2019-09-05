@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
@@ -11,21 +11,19 @@ import { Times } from 'styled-icons/fa-solid';
 import ModalListItem from './ModalListItem';
 import ListBox from '../ListBox';
 import { a } from '../../axiosClient';
+import LoadingSpinner from '../LoadingSpinner';
 
 const LoaderContainer = styled.div`
     width: 100%;
-    height: 200px;
+    height: 140px;
     display: flex;
     justify-content: center;
     align-items: center;
+    @media (min-width: 400px) {
+        height: 120px;
+    }
 `;
 
-const Loader = styled.div`
-    width: 32px;
-    height: 32px;
-    border-radius: 16px;
-    background: #ddd;
-`;
 
 const TitleRow = styled.div`
     display: flex;
@@ -89,21 +87,23 @@ function AddToListModal({
 
     const [ usersLists, setUsersLists ] = useState([]);
     const [ isLoading, setIsLoading ] = useState(false);
-
-    
+    const isMounted = useRef(true);
 
     useEffect(() => {
         async function fetchCreatedLists() {
             setIsLoading(true);
             const response = await a.get(`api/user/${accountId}/lists`);
-            setIsLoading(false);
-            setUsersLists(formatListsData(response.data));
+            if (isMounted.current) {
+                setIsLoading(false);
+                setUsersLists(formatListsData(response.data));
+            }
         }
         fetchCreatedLists();
     }, [ accountId ]);
 
     function handleListSelect(listObject) {
         addMovieToList(listObject.id, movieId);
+        isMounted.current = false;
         handleClose();
     }
 
@@ -113,11 +113,16 @@ function AddToListModal({
             overlayClassName="centered-modal__overlay"
             className="add-to-list-modal__content-container"
             shouldCloseOnEscape={true}
-            onRequestClose={handleClose}
+            onRequestClose={() => {
+                isMounted.current = false;
+                handleClose();
+            }}
         >
             {isLoading ? (
                 <LoaderContainer>
-                    <Loader />
+                    <LoadingSpinner 
+                        shouldHaveBackground={true}
+                    />
                 </LoaderContainer>
             ) : (
                 <>

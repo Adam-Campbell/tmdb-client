@@ -76,6 +76,7 @@ const GlobalStyle = createGlobalStyle`
         padding: 10px;
         width: calc(100% - 40px);
         max-width: 320px;
+        min-height: 160px;
         @media (min-width: 400px) {
             max-width: 360px;
             padding: 20px;
