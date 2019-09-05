@@ -43,13 +43,13 @@ export default function reducer(state = initialState, action) {
                 isInvalidated: true
             };
 
-        case actionTypes.RATE_SHOW_SUCCESS:
+        case actionTypes.RATE_SHOW_OPTIMISTIC_SUCCESS:
             return {
                 ...state,
                 isInvalidated: true
             };
 
-        case actionTypes.REMOVE_SHOW_RATING_SUCCESS:
+        case actionTypes.REMOVE_SHOW_RATING_OPTIMISTIC_SUCCESS:
             return {
                 ...state,
                 isInvalidated: true

@@ -1,6 +1,6 @@
 import * as actionTypes from '../actionTypes';
 import { getHasSession } from '../reducers/sessionReducer';
-import { getShowId } from '../reducers/showReducer';
+import { getShowId, getShowData } from '../reducers/showReducer';
 import { a } from '../axiosClient';
 import toast from '../toast';
 
@@ -41,18 +41,20 @@ export const fetchShow = (id, ssrHeaders = {}) => async (dispatch, getState) => 
     }
 }
 
-const rateShowSuccess = (rating, id) => ({
-    type: actionTypes.RATE_SHOW_SUCCESS,
+const rateShowOptimisticSuccess = (rating, id) => ({
+    type: actionTypes.RATE_SHOW_OPTIMISTIC_SUCCESS,
     payload: {
         rating,
         id
     }
 });
 
-const rateShowFailed = (error) => ({
+const rateShowFailed = (error, id, prevRating) => ({
     type: actionTypes.RATE_SHOW_FAILED,
     payload: {
-        error
+        error,
+        id, 
+        prevRating
     }
 });
 
@@ -64,30 +66,36 @@ export const rateShow = (rating, showId) => async (dispatch, getState) => {
         toast.error('Login required to perform this action');
         return;
     }
+    // Here we will capture the previous rating, which will either be a numeric value
+    // if there was a previous rating, or null if there was no rating. 
+    const showData = getShowData(state);
+    const prevRating = showData.account_states.rated;
     try {
+        dispatch(rateShowOptimisticSuccess(rating, showId));
         const response = await a.request(`api/show/${showId}/rating`, {
             params: { rating },
             method: 'POST'
         });
-        dispatch(rateShowSuccess(rating, showId));
         toast.success('TV show successfully rated');
     } catch (error) {
-        dispatch(rateShowFailed(error));
+        dispatch(rateShowFailed(error, showId, prevRating));
         toast.error(error.response.data);
     }
 }
 
-const removeShowRatingSuccess = (id) => ({
-    type: actionTypes.REMOVE_SHOW_RATING_SUCCESS,
+const removeShowRatingOptimisticSuccess = (id) => ({
+    type: actionTypes.REMOVE_SHOW_RATING_OPTIMISTIC_SUCCESS,
     payload: {
         id
     }
 });
 
-const removeShowRatingFailed = (error) => ({
+const removeShowRatingFailed = (error, id, prevRating) => ({
     type: actionTypes.REMOVE_SHOW_RATING_FAILED,
     payload: {
-        error
+        error,
+        id,
+        prevRating
     }
 });
 
@@ -98,14 +106,17 @@ export const removeShowRating = (showId) => async (dispatch, getState) => {
         toast.error('Login required to perform this action');
         return;
     }
+    const showData = getShowData(state);
+    const prevRating = showData.account_states.rated;
     try {
+        dispatch(removeShowRatingOptimisticSuccess(showId));
         const response = await a.request(`api/show/${showId}/rating`, {
             method: 'DELETE'
         });
-        dispatch(removeShowRatingSuccess(showId));
         toast.success('TV show rating successfully removed');
     } catch (error) {
-        dispatch(removeShowRatingFailed(error));
+        console.log(error);
+        dispatch(removeShowRatingFailed(error, showId, prevRating));
         toast.error(error.response.data);
     }
 }
