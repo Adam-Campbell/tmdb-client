@@ -3,11 +3,15 @@ import { loginUser } from '../actions';
 import { connect } from 'react-redux';
 import { NextSeo } from 'next-seo';
 
-function Authenticate(props) {
+function Authenticate({ 
+    requestToken,
+    didSuccessfullyAuthenticate,
+    loginUser  
+}) {
 
     useEffect(() => {
-        props.loginUser(props.requestToken);
-    }, [props.requestToken, props.loginUser]);
+        loginUser(props.requestToken);
+    }, [ requestToken, loginUser ]);
 
     return (
         <>
@@ -28,7 +32,7 @@ Authenticate.getInitialProps = async ({ query, req }) => {
     const { request_token, approved } = query;
     return {
         requestToken: request_token,
-        success: Boolean(approved)
+        didSuccessfullyAuthenticate: Boolean(approved)
     };
 }
 
