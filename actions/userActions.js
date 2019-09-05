@@ -4,6 +4,7 @@ import { hasGotUserSummary, getUserId } from '../reducers/user';
 import { getUserDataStatus } from '../reducers/user/dataStatusReducer';
 import { a } from '../axiosClient';
 import toast from '../toast';
+import Router from 'next/router';
 
 const storeUserSummary = (userSummary) => ({
     type: actionTypes.STORE_USER_SUMMARY,
@@ -54,9 +55,9 @@ export const loginUser = (request_token) => async (dispatch, getState) => {
                 request_token
             }
         });
-        console.log(response);
         dispatch(loginUserSuccess());
         dispatch(getUserSummary());
+        Router.push({ pathname: '/' });
     } catch (err) {
         dispatch(loginUserFailed(err));
     }
