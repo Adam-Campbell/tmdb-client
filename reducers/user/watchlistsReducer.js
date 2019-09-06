@@ -14,7 +14,7 @@ export default function reducer(state = initialState, action) {
         case actionTypes.LOGOUT_USER:
             return initialState;
 
-        case actionTypes.EDIT_WATCHLIST_SUCCESS:
+        case actionTypes.EDIT_WATCHLIST_OPTIMISTIC_REQUEST:
             {
                 const key = action.payload.mediaType === 'movie' ? 'movies' : 'shows';
                 return action.payload.isAdding ? state : {

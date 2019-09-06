@@ -5,6 +5,7 @@ import { getUserDataStatus } from '../reducers/user/dataStatusReducer';
 import { a } from '../axiosClient';
 import toast from '../toast';
 import Router from 'next/router';
+import { BEGIN, COMMIT, REVERT } from 'redux-optimist';
 
 const storeUserSummary = (userSummary) => ({
     type: actionTypes.STORE_USER_SUMMARY,
@@ -76,19 +77,32 @@ export const logoutUser = () => async (dispatch, getState) => {
 }
 
 
-const markFavouriteSuccess = (id, mediaType, isMarking) => ({
-    type: actionTypes.MARK_FAVOURITE_SUCCESS,
+const markFavouriteOptimisticRequest = (id, mediaType, isMarking, transactionId) => ({
+    type: actionTypes.MARK_FAVOURITE_OPTIMISTIC_REQUEST,
     payload: {
         id,
         mediaType,
         isMarking
+    },
+    optimist: {
+        type: BEGIN,
+        id: transactionId
     }
 });
 
-const markFavouriteFailed = (error) => ({
+const markFavouriteSuccess = (transactionId) => ({
+    type: actionTypes.MARK_FAVOURITE_SUCCESS,
+    optimist: {
+        type: COMMIT,
+        id: transactionId
+    }
+});
+
+const markFavouriteFailed = (transactionId) => ({
     type: actionTypes.MARK_FAVOURITE_FAILED,
-    payload: {
-        error
+    optimist: {
+        type: REVERT,
+        id: transactionId
     }
 });
 
@@ -100,8 +114,9 @@ export const markFavourite = (mediaType, mediaId, isFavouriting) => async (dispa
         toast.error('Login required to perform this action');
         return;
     }
-
+    const transactionId = Date.now();
     try {
+        dispatch(markFavouriteOptimisticRequest(mediaId, mediaType, isFavouriting, transactionId));
         const response = await a.request(`api/user/${accountId}/favorite`, {
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -113,30 +128,42 @@ export const markFavourite = (mediaType, mediaId, isFavouriting) => async (dispa
                 isFavouriting
             }
         });
-        dispatch(markFavouriteSuccess(mediaId, mediaType, isFavouriting));
+        dispatch(markFavouriteSuccess(transactionId));
         const mediaTypeDescription = mediaType === 'movie' ? 'Movie' : 'TV show';
         const actionDescription = isFavouriting ? 'added to' : 'removed from';
         toast.success(`${mediaTypeDescription} successfully ${actionDescription} favourites`);
     } catch (error) {
-        dispatch(markFavouriteFailed(error));
+        dispatch(markFavouriteFailed(transactionId));
         toast.error(error.response.data);
     }
 }
 
-
-const editWatchlistSuccess = (id, mediaType, isAdding) => ({
-    type: actionTypes.EDIT_WATCHLIST_SUCCESS,
+const editWatchlistOptimisticRequest = (id, mediaType, isAdding, transactionId) => ({
+    type: actionTypes.EDIT_WATCHLIST_OPTIMISTIC_REQUEST,
     payload: {
         id,
         mediaType,
         isAdding
+    },
+    optimist: {
+        type: BEGIN,
+        id: transactionId
     }
 });
 
-const editWatchlistFailed = (error) => ({
+const editWatchlistSuccess = (transactionId) => ({
+    type: actionTypes.EDIT_WATCHLIST_SUCCESS,
+    optimist: {
+        type: COMMIT,
+        id: transactionId
+    }
+});
+
+const editWatchlistFailed = (transactionId) => ({
     type: actionTypes.EDIT_WATCHLIST_FAILED,
-    payload: {
-        error
+    optimist: {
+        type: REVERT,
+        id: transactionId
     }
 });
 
@@ -149,7 +176,9 @@ export const editWatchlist = (mediaType, mediaId, isAdding) => async (dispatch, 
         toast.error('Login required to perform this action');
         return;
     }
+    const transactionId = Date.now();
     try {
+        dispatch(editWatchlistOptimisticRequest(mediaId, mediaType, isAdding, transactionId));
         const response = await a.request(`api/user/${accountId}/watchlist`, {
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
@@ -161,12 +190,12 @@ export const editWatchlist = (mediaType, mediaId, isAdding) => async (dispatch, 
                 isAdding
             }
         });
-        dispatch(editWatchlistSuccess(mediaId, mediaType, isAdding));
+        dispatch(editWatchlistSuccess(transactionId));
         const mediaTypeDescription = mediaType === 'movie' ? 'Movie' : 'TV show';
         const actionDescription = isAdding ? 'added to' : 'removed from';
         toast.success(`${mediaTypeDescription} successfully ${actionDescription} watchlist`);
     } catch (error) {
-        dispatch(editWatchlistFailed(error));
+        dispatch(editWatchlistFailed(transactionId));
         toast.error(error.response.data);
     }
 }

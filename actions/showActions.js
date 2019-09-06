@@ -3,6 +3,7 @@ import { getHasSession } from '../reducers/sessionReducer';
 import { getShowId, getShowData } from '../reducers/showReducer';
 import { a } from '../axiosClient';
 import toast from '../toast';
+import { BEGIN, COMMIT, REVERT } from 'redux-optimist';
 
 const fetchShowRequest = () => ({
     type: actionTypes.FETCH_SHOW_REQUEST
@@ -41,23 +42,33 @@ export const fetchShow = (id, ssrHeaders = {}) => async (dispatch, getState) => 
     }
 }
 
-const rateShowOptimisticSuccess = (rating, id) => ({
-    type: actionTypes.RATE_SHOW_OPTIMISTIC_SUCCESS,
+const rateShowOptimisticRequest = (rating, id, transactionId) => ({
+    type: actionTypes.RATE_SHOW_OPTIMISTIC_REQUEST,
     payload: {
         rating,
         id
+    },
+    optimist: {
+        type: BEGIN,
+        id: transactionId
     }
 });
 
-const rateShowFailed = (error, id, prevRating) => ({
+const rateShowSuccess = (transactionId) => ({
+    type: actionTypes.RATE_SHOW_SUCCESS,
+    optimist: {
+        type: COMMIT,
+        id: transactionId
+    }
+});
+
+const rateShowFailed = (transactionId) => ({
     type: actionTypes.RATE_SHOW_FAILED,
-    payload: {
-        error,
-        id, 
-        prevRating
+    optimist: {
+        type: REVERT,
+        id: transactionId
     }
 });
-
 
 export const rateShow = (rating, showId) => async (dispatch, getState) => {
     const state = getState();
@@ -66,36 +77,45 @@ export const rateShow = (rating, showId) => async (dispatch, getState) => {
         toast.error('Login required to perform this action');
         return;
     }
-    // Here we will capture the previous rating, which will either be a numeric value
-    // if there was a previous rating, or null if there was no rating. 
-    const showData = getShowData(state);
-    const prevRating = showData.account_states.rated;
+    const transactionId = Date.now();
     try {
-        dispatch(rateShowOptimisticSuccess(rating, showId));
+        dispatch(rateShowOptimisticRequest(rating, showId, transactionId));
         const response = await a.request(`api/show/${showId}/rating`, {
             params: { rating },
             method: 'POST'
         });
+        dispatch(rateShowSuccess(transactionId));
         toast.success('TV show successfully rated');
     } catch (error) {
-        dispatch(rateShowFailed(error, showId, prevRating));
+        dispatch(rateShowFailed(transactionId));
         toast.error(error.response.data);
     }
 }
 
-const removeShowRatingOptimisticSuccess = (id) => ({
-    type: actionTypes.REMOVE_SHOW_RATING_OPTIMISTIC_SUCCESS,
+const removeShowRatingOptimisticRequest = (id, transactionId) => ({
+    type: actionTypes.REMOVE_SHOW_RATING_OPTIMISTIC_REQUEST,
     payload: {
         id
+    },
+    optimist: {
+        type: BEGIN,
+        id: transactionId
     }
 });
 
-const removeShowRatingFailed = (error, id, prevRating) => ({
+const removeShowRatingSuccess = (transactionId) => ({
+    type: actionTypes.REMOVE_SHOW_RATING_SUCCESS,
+    optimist: {
+        type: COMMIT,
+        id: transactionId
+    }
+});
+
+const removeShowRatingFailed = (transactionId) => ({
     type: actionTypes.REMOVE_SHOW_RATING_FAILED,
-    payload: {
-        error,
-        id,
-        prevRating
+    optimist: {
+        type: REVERT,
+        id: transactionId
     }
 });
 
@@ -106,17 +126,16 @@ export const removeShowRating = (showId) => async (dispatch, getState) => {
         toast.error('Login required to perform this action');
         return;
     }
-    const showData = getShowData(state);
-    const prevRating = showData.account_states.rated;
+    const transactionId = Date.now();
     try {
-        dispatch(removeShowRatingOptimisticSuccess(showId));
+        dispatch(removeShowRatingOptimisticRequest(showId, transactionId));
         const response = await a.request(`api/show/${showId}/rating`, {
             method: 'DELETE'
         });
+        dispatch(removeShowRatingSuccess(transactionId));
         toast.success('TV show rating successfully removed');
     } catch (error) {
-        console.log(error);
-        dispatch(removeShowRatingFailed(error, showId, prevRating));
+        dispatch(removeShowRatingFailed(transactionId));
         toast.error(error.response.data);
     }
 }

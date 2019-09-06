@@ -1,8 +1,9 @@
 import * as actionTypes from '../actionTypes';
-import { getSeasonIdentifiers } from '../reducers/seasonReducer';
+import { getSeasonIdentifiers, getSeasonData } from '../reducers/seasonReducer';
 import { getHasSession } from '../reducers/sessionReducer';
 import { a } from '../axiosClient';
 import toast from '../toast';
+import { BEGIN, COMMIT, REVERT } from 'redux-optimist';
 
 const fetchSeasonRequest = () => ({
     type: actionTypes.FETCH_SEASON_REQUEST
@@ -41,20 +42,33 @@ export const fetchSeason = (showId, seasonNumber, ssrHeaders = {}) => async (dis
 }
 
 
-const rateEpisodeSuccess = (rating, showId, seasonNumber, episodeNumber) => ({
-    type: actionTypes.RATE_EPISODE_SUCCESS,
+const rateEpisodeOptimisticRequest = (rating, showId, seasonNumber, episodeNumber, transactionId) => ({
+    type: actionTypes.RATE_EPISODE_OPTIMISTIC_REQUEST,
     payload: {
         rating,
         showId,
         seasonNumber, 
         episodeNumber
+    },
+    optimist: {
+        type: BEGIN,
+        id: transactionId
     }
 });
 
-const rateEpisodeFailed = (error) => ({
+const rateEpisodeSuccess = (transactionId) => ({
+    type: actionTypes.RATE_EPISODE_SUCCESS,
+    optimist: {
+        type: COMMIT,
+        id: transactionId
+    }
+});
+
+const rateEpisodeFailed = (transactionId) => ({
     type: actionTypes.RATE_EPISODE_FAILED,
-    payload: {
-        error
+    optimist: {
+        type: REVERT,
+        id: transactionId
     }
 });
 
@@ -65,7 +79,15 @@ export const rateEpisode = (showId, seasonNumber, episodeNumber, rating) => asyn
         toast.error('Login required to perform this action');
         return;
     }
+    const transactionId = Date.now();
     try {
+        dispatch(rateEpisodeOptimisticRequest(
+            rating, 
+            showId, 
+            seasonNumber, 
+            episodeNumber,
+            transactionId
+        ));
         const response = await a.request(`api/show/${showId}/season/${seasonNumber}/rating`, {
             params: {
                 episodeNumber,
@@ -73,27 +95,40 @@ export const rateEpisode = (showId, seasonNumber, episodeNumber, rating) => asyn
             },
             method: 'POST'
         });
-        dispatch(rateEpisodeSuccess(rating, showId, seasonNumber, episodeNumber));
+        dispatch(rateEpisodeSuccess(transactionId));
         toast.success('Episode successfully rated');
     } catch (error) {
-        dispatch(rateEpisodeFailed(error));
+        dispatch(rateEpisodeFailed(transactionId));
         toast.error(error.response.data);
     }
 }
 
-const removeEpisodeRatingSuccess = (showId, seasonNumber, episodeNumber) => ({
-    type: actionTypes.REMOVE_EPISODE_RATING_SUCCESS,
+const removeEpisodeRatingOptimisticRequest = (showId, seasonNumber, episodeNumber, transactionId) => ({
+    type: actionTypes.REMOVE_EPISODE_RATING_OPTIMISTIC_REQUEST,
     payload: {
         showId,
         seasonNumber,
         episodeNumber
+    },
+    optimist: {
+        type: BEGIN,
+        id: transactionId
     }
 });
 
-const removeEpisodeRatingFailed = (error) => ({
+const removeEpisodeRatingSuccess = (transactionId) => ({
+    type: actionTypes.REMOVE_EPISODE_RATING_SUCCESS,
+    optimist: {
+        type: COMMIT,
+        id: transactionId
+    }
+});
+
+const removeEpisodeRatingFailed = (transactionId) => ({
     type: actionTypes.REMOVE_EPISODE_RATING_FAILED,
-    payload: {
-        error
+    optimist: {
+        type: REVERT,
+        id: transactionId
     }
 });
 
@@ -104,12 +139,14 @@ export const removeEpisodeRating = (showId, seasonNumber, episodeNumber) => asyn
         toast.error('Login required to perform this action');
         return;
     }
+    const transactionId = Date.now();
     try {
+        dispatch(removeEpisodeRatingOptimisticRequest(showId, seasonNumber, episodeNumber, transactionId));
         const response = await a.request(`api/show/${showId}/season/${seasonNumber}/rating`, {
             params: { episodeNumber },
             method: 'DELETE'
         });
-        dispatch(removeEpisodeRatingSuccess(showId, seasonNumber, episodeNumber));
+        dispatch(removeEpisodeRatingSuccess(transactionId));
         toast.success('Episode rating successfully removed');
     } catch (error) {
         dispatch(removeEpisodeRatingFailed(error));

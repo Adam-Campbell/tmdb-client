@@ -14,7 +14,7 @@ export default function reducer(state = initialState, action) {
                 data: action.payload.data
             };
 
-        case actionTypes.MARK_FAVOURITE_SUCCESS:
+        case actionTypes.MARK_FAVOURITE_OPTIMISTIC_REQUEST:
             return action.payload.id !== state.id ?
                 state :
                 {
@@ -28,7 +28,7 @@ export default function reducer(state = initialState, action) {
                     }
                 };
 
-        case actionTypes.EDIT_WATCHLIST_SUCCESS:
+        case actionTypes.EDIT_WATCHLIST_OPTIMISTIC_REQUEST:
             return action.payload.id !== state.id ?
                 state :
                 {
@@ -42,7 +42,7 @@ export default function reducer(state = initialState, action) {
                     }
                 };
 
-        case actionTypes.RATE_SHOW_OPTIMISTIC_SUCCESS:
+        case actionTypes.RATE_SHOW_OPTIMISTIC_REQUEST:
             return action.payload.id !== state.id ?
                 state :
                 {
@@ -57,22 +57,8 @@ export default function reducer(state = initialState, action) {
                         }
                     }
                 };
-        
-        case actionTypes.RATE_SHOW_FAILED:
-            return action.payload.id !== state.id ?
-                state :
-                {
-                    ...state,
-                    data: {
-                        ...state.data,
-                        account_states: {
-                            ...state.data.account_states,
-                            rated: action.payload.prevRating
-                        }
-                    }
-                };
     
-        case actionTypes.REMOVE_SHOW_RATING_OPTIMISTIC_SUCCESS:
+        case actionTypes.REMOVE_SHOW_RATING_OPTIMISTIC_REQUEST:
             return action.payload.id !== state.id ?
                 state :
                 {
@@ -82,20 +68,6 @@ export default function reducer(state = initialState, action) {
                         account_states: {
                             ...state.data.account_states,
                             rated: false
-                        }
-                    }
-                };
-
-        case actionTypes.REMOVE_SHOW_RATING_FAILED:
-            return action.payload.id !== state.id ?
-                state :
-                {
-                    ...state,
-                    data: {
-                        ...state.data,
-                        account_states: {
-                            ...state.data.account_states,
-                            rated: action.payload.prevRating
                         }
                     }
                 };

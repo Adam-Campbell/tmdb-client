@@ -7,8 +7,9 @@ import person from './personReducer';
 import user from './user';
 import season from './seasonReducer';
 import list from './listReducer';
+import optimist from 'redux-optimist';
 
-export default combineReducers({
+export default optimist(combineReducers({
     session,
     localisation,
     movie,
@@ -17,4 +18,4 @@ export default combineReducers({
     user,
     season,
     list
-});
+}));
