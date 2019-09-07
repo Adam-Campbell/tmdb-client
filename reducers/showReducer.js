@@ -14,63 +14,63 @@ export default function reducer(state = initialState, action) {
                 data: action.payload.data
             };
 
-        case actionTypes.MARK_FAVOURITE_SUCCESS:
+        case actionTypes.MARK_FAVOURITE_OPTIMISTIC_REQUEST:
             return action.payload.id !== state.id ?
-                    state :
-                    {
-                        ...state,
-                        data: {
-                            ...state.data,
-                            account_states: {
-                                ...state.data.account_states,
-                                favorite: action.payload.isMarking
-                            }
+                state :
+                {
+                    ...state,
+                    data: {
+                        ...state.data,
+                        account_states: {
+                            ...state.data.account_states,
+                            favorite: action.payload.isMarking
                         }
-                    };
+                    }
+                };
 
-        case actionTypes.EDIT_WATCHLIST_SUCCESS:
+        case actionTypes.EDIT_WATCHLIST_OPTIMISTIC_REQUEST:
             return action.payload.id !== state.id ?
-                    state :
-                    {
-                        ...state,
-                        data: {
-                            ...state.data,
-                            account_states: {
-                                ...state.data.account_states,
-                                watchlist: action.payload.isAdding
-                            }
+                state :
+                {
+                    ...state,
+                    data: {
+                        ...state.data,
+                        account_states: {
+                            ...state.data.account_states,
+                            watchlist: action.payload.isAdding
                         }
-                    };
+                    }
+                };
 
-        case actionTypes.RATE_SHOW_SUCCESS:
+        case actionTypes.RATE_SHOW_OPTIMISTIC_REQUEST:
             return action.payload.id !== state.id ?
-                    state :
-                    {
-                        ...state,
-                        data: {
-                            ...state.data,
-                            account_states: {
-                                ...state.data.account_states,
-                                rated: {
-                                    value: action.payload.rating
-                                }
+                state :
+                {
+                    ...state,
+                    data: {
+                        ...state.data,
+                        account_states: {
+                            ...state.data.account_states,
+                            rated: {
+                                value: action.payload.rating
                             }
                         }
-                    };
+                    }
+                };
     
-        case actionTypes.REMOVE_SHOW_RATING_SUCCESS:
+        case actionTypes.REMOVE_SHOW_RATING_OPTIMISTIC_REQUEST:
             return action.payload.id !== state.id ?
-                    state :
-                    {
-                        ...state,
-                        data: {
-                            ...state.data,
-                            account_states: {
-                                ...state.data.account_states,
-                                rated: false
-                            }
+                state :
+                {
+                    ...state,
+                    data: {
+                        ...state.data,
+                        account_states: {
+                            ...state.data.account_states,
+                            rated: false
                         }
-                    };
+                    }
+                };
 
         default: 
             return state;

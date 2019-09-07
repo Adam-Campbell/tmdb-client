@@ -14,7 +14,7 @@ export default function reducer(state = initialState, action) {
         case actionTypes.LOGOUT_USER:
             return initialState;
 
-        case actionTypes.MARK_FAVOURITE_SUCCESS:
+        case actionTypes.MARK_FAVOURITE_OPTIMISTIC_REQUEST:
             {
                 const key = action.payload.mediaType === 'movie' ? 'movies' : 'shows';
                 return action.payload.isMarking ? state : {

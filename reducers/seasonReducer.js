@@ -6,6 +6,37 @@ const initialState = {
     data: {}
 };
 
+function isCorrectSeason(state, action) {
+    return state.showId === action.payload.showId && state.seasonNumber === action.payload.seasonNumber;
+}
+
+function updateAccountStatesArray(accountStatesArray, episodeNumber, newRatingValue) {
+    return accountStatesArray.map(episode => {
+        return episode.episode_number === episodeNumber
+        ? { 
+            ...episode, 
+            rated: newRatingValue 
+        }
+        : episode
+    });
+}
+
+function updateEpisodeRating(state, episodeNumber, rating) {
+    return {
+        ...state,
+        data: {
+            ...state.data,
+            account_states: {
+                results: updateAccountStatesArray(
+                    state.data.account_states.results,
+                    episodeNumber,
+                    rating
+                )
+            }
+        }
+    };
+}
+
 export default function reducer(state = initialState, action) {
     switch (action.type) {
 
@@ -16,51 +47,19 @@ export default function reducer(state = initialState, action) {
                 data: action.payload.data
             };
 
-        case actionTypes.RATE_EPISODE_SUCCESS:
-            // todo
-            if (state.showId !== action.payload.showId || state.seasonNumber !== action.payload.seasonNumber) {
-                return state;
-            } else {
-                return {
-                    ...state,
-                    data: {
-                        ...state.data,
-                        account_states: {
-                            results: state.data.account_states.results.map(episode => {
-                                return episode.episode_number === action.payload.episodeNumber 
-                                ? {
-                                    ...episode,
-                                    rated: { value: action.payload.rating }
-                                } 
-                                : episode;
-                            })
-                        }
-                    }
-                };
-            }
+        case actionTypes.RATE_EPISODE_OPTIMISTIC_REQUEST:
+            return isCorrectSeason(state, action) ? 
+                    updateEpisodeRating(
+                        state, 
+                        action.payload.episodeNumber, 
+                        { value: action.payload.rating }
+                    ) :
+                    state;
 
-        case actionTypes.REMOVE_EPISODE_RATING_SUCCESS:
-            // todo
-            if (state.showId !== action.payload.showId || state.seasonNumber !== action.payload.seasonNumber) {
-                return state;
-            } else {
-                return {
-                    ...state,
-                    data: {
-                        ...state.data,
-                        account_states: {
-                            results: state.data.account_states.results.map(episode => {
-                                return episode.episode_number === action.payload.episodeNumber 
-                                ? {
-                                    ...episode,
-                                    rated: false
-                                } 
-                                : episode;
-                            })
-                        }
-                    }
-                };
-            }
+        case actionTypes.REMOVE_EPISODE_RATING_OPTIMISTIC_REQUEST:
+            return isCorrectSeason(state, action) ?
+                    updateEpisodeRating(state, action.payload.episodeNumber, false) :
+                    state;
 
         default:
             return state;
