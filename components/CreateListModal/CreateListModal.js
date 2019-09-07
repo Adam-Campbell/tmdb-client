@@ -80,14 +80,13 @@ function CreateListModal({ isOpen, handleClose, createList }) {
     const [ listNameHasError, setListNameHasError ] = useState(false);
     const [ listDescription, setListDescription ] = useState('');
 
-    async function handleSubmit(e) {
+    function handleSubmit(e) {
         e.preventDefault();
         if (!listName) {
             setListNameHasError(true);
             return;
         }
-
-        await createList(listName, listDescription);
+        createList(listName, listDescription);
         handleClose();
     }
 

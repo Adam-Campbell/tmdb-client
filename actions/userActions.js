@@ -168,7 +168,6 @@ const editWatchlistFailed = (transactionId) => ({
 });
 
 export const editWatchlist = (mediaType, mediaId, isAdding) => async (dispatch, getState) => {
-    console.log('editWatchlist was called!');
     const state = getState();
     const accountId = getUserId(state);
     if (!getHasSession(state)) {
