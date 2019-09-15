@@ -7,12 +7,12 @@ import { getHasSession } from '../../reducers/sessionReducer';
 import { logoutUser } from '../../actions';
 import { text } from '../../utils';
 import Nav from './Nav';
-import { Menu } from 'styled-icons/material';
 import UserIcon from './UserIcon';
 import { Button } from '../Buttons';
 import { a } from '../../axiosClient';
 import SearchBar from '../SearchBar';
 import LoadingBar from '../LoadingBar';
+import NavToggleButton from './NavToggleButton';
  
 const StyledHeader = styled.header`
     position: sticky;
@@ -42,27 +42,6 @@ const LoginButton = styled(Button)`
     margin-left: auto;
 `;
 
-const MenuToggleButton = styled.button`
-    color: ${({ theme }) => theme.colors.white};
-    background: none;
-    outline: 0;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    &:focus {
-        color: ${({ theme }) => theme.colors.primary};
-    }
-    @media (min-width: 768px) {
-        display: none;
-    }
-`;
-
-const MenuToggleIcon = styled(Menu)`
-    width: 32px;
-    cursor: pointer;
-    margin-top: -4px;
-`;
-
 async function handleLoginClick() {
     try { 
         const response = await a.get('api/token');
@@ -82,11 +61,10 @@ function Header({ isLoggedIn }) {
                 <LoadingBar />
                 <NavRowWrapper>
                     <NavRow>
-                        <MenuToggleButton
-                            onClick={() => setIsOpen(true)} 
-                        >
-                            <MenuToggleIcon />
-                        </MenuToggleButton>
+                        <NavToggleButton
+                            isOpen={isOpen}
+                            handleClick={() => setIsOpen(prev => !prev)} 
+                        />
                         <Nav 
                             isOpen={isOpen}
                             setIsOpen={setIsOpen}

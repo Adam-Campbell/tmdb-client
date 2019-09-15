@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { Close } from 'styled-icons/material';
 import { NavItem } from './commonElements';
 import SubNav from './SubNav';
 import NavLink from './NavLink';
@@ -58,18 +57,26 @@ const StyledNav = styled.nav`
     background: ${({ theme }) => theme.colors.primary};
     width: 300px;
     height: 100vh;
+    transform: ${({ isOpen }) => isOpen ? 'translateX(0)' : 'translateX(-300px)'};
+    transition: transform ease-out 0.3s;
+    padding-top: 50px;
     @media (min-width: 768px) {
         width: auto;
         height: auto;
         background: none;
+        transform: translateX(0);
+        transition: none;
+        padding-top: 0;
     }
 `;
 
 const NavContainer = styled.div`
-    background: ${({ theme }) => theme.colors.overlayStrong};
+    background: ${({ theme, isOpen }) => isOpen ? theme.colors.overlayStrong : 'transparent'};
     position: fixed;
     top: 0;
-    left: ${({ isOpen }) => isOpen ? 0 : '-100vw'};
+    left: 0;
+    transform: ${({ isOpen }) => isOpen ? 'translateX(0)' : 'translateX(-100vw)'};
+    transition: ${({ isOpen }) => isOpen ? 'background 0.3s ease-out' : 'transform 0.01s ease-out 0.3s, background 0.3s ease-out'};
     z-index: 4000;
     height: 100vh;
     width: 100vw;
@@ -78,6 +85,8 @@ const NavContainer = styled.div`
         height: auto;
         width: auto;
         background: none;
+        transform: translateX(0);
+        transition: none;
     }
 `;
 
@@ -97,42 +106,13 @@ const NavList = styled.ul`
     }
 `;
 
-const CloseNavButton = styled.button`
-    color: ${({ theme }) => theme.colors.white};
-    background: none;
-    outline: 0;
-    border: none;
-    margin: ${({ theme }) => theme.getSpacing(2, 0, 0, 3)};
-    cursor: pointer;
-    &:focus {
-        color: ${({ theme }) => theme.colors.complimentary};
-    }
-    @media (min-width: 768px) {
-        display: none;
-    }
-`;
-
-const CloseNavIcon = styled(Close)`
-    width: 32px;
-    max-height: 32px;
-    cursor: pointer;
-`;
-
 const HiddenLabel = styled.label`
     ${hideVisually()}
 `;
 
 export default function Nav({ isOpen, setIsOpen }) {
 
-    const navEl = useRef(null);
-    const closeButtonEl = useRef(null);
     const containerEl = useRef(null);
-
-    useEffect(() => {
-        if (isOpen && closeButtonEl.current) {
-            closeButtonEl.current.focus();
-        }
-    }, [ isOpen ])
 
     function closeOnOuterClick(e) {
         const { target } = e;
@@ -149,17 +129,9 @@ export default function Nav({ isOpen, setIsOpen }) {
         >
             <StyledNav 
                 isOpen={isOpen} 
-                ref={navEl} 
                 aria-labelledby="main-site-navigation"
             >
                 <HiddenLabel id="main-site-navigation">Main site navigation</HiddenLabel>
-                <CloseNavButton
-                    ref={closeButtonEl} 
-                    onClick={() => setIsOpen(false)}
-                    onFocus={() => setIsOpen(true)}
-                >
-                    <CloseNavIcon />
-                </CloseNavButton>
                 <NavList>
                     <NavItem>
                         <NavLink 
