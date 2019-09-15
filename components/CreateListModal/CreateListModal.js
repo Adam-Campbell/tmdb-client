@@ -93,8 +93,17 @@ function CreateListModal({ isOpen, handleClose, createList }) {
     return (
         <ReactModal
             isOpen={isOpen}
-            overlayClassName="centered-modal__overlay"
-            className="create-list-modal__content-container"
+            overlayClassName={{
+                base: 'centered-modal__overlay',
+                afterOpen: 'centered-modal__overlay--after-open',
+                beforeClose: 'centered-modal__overlay--before-close'
+            }}
+            className={{
+                base: 'create-list-modal__content-container',
+                afterOpen: 'create-list-modal__content-container--after-open',
+                beforeClose: 'create-list-modal__content-container--before-close'
+            }}
+            closeTimeoutMS={200}
             shouldCloseOnEscape={true}
             onRequestClose={handleClose}
         >
