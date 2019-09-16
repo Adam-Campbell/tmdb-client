@@ -73,7 +73,12 @@ export default function UserMenu({
         <ReactModal
             isOpen={isShowingModal}
             overlayClassName="rating-modal__overlay"
-            className="user-menu-modal__content-container"
+            className={{
+                base: 'user-menu-modal__content-container',
+                afterOpen: 'user-menu-modal__content-container--after-open',
+                beforeClose: 'user-menu-modal__content-container--before-close'
+            }}
+            closeTimeoutMS={200}
             shouldCloseOnEscape={true}
             onRequestClose={closeModal}
             style={{ 
@@ -86,7 +91,7 @@ export default function UserMenu({
                     height: '100%',
                     background: 'none',
                     zIndex: 3000
-                  } 
+                } 
             }}    
         >
             <Username>{username}</Username>

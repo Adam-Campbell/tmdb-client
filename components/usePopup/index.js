@@ -21,7 +21,10 @@ function reducer(state, action) {
             };
 
         case CLOSE_POPUP:
-            return initialState;
+            return {
+                ...state,
+                isShowingPopup: false
+            };
 
         default:
             return state;

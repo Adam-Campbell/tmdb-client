@@ -90,7 +90,7 @@ export function CardRatingButton({
                 <CurrentRating  bgColour={bgColour}>{userRating}</CurrentRating>
                 Your Rating
             </StyledCardRatingButton>
-            {isShowingPopup && <StarRatingPopup 
+            <StarRatingPopup 
                 isShowingModal={isShowingPopup}
                 closeModal={closePopup}
                 score={score}
@@ -99,7 +99,7 @@ export function CardRatingButton({
                 topOffset={windowTopOffset}
                 handleChange={handlePopupChange}
                 handleRemove={() => removeRatingFn(id)}
-            />}
+            />
         </>
     );
 }

@@ -58,12 +58,10 @@ function Lists({ lists }) {
                     ))}
                 </ListCardsContainer>
             </section>
-            {modalIsOpen && (
-                <CreateListModal 
-                    isOpen={modalIsOpen}
-                    handleClose={() => setModalIsOpen(false)}
-                />
-            )}
+            <CreateListModal 
+                isOpen={modalIsOpen}
+                handleClose={() => setModalIsOpen(false)}
+            />
         </>
     );
 }

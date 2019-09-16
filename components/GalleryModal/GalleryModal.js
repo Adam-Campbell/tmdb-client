@@ -56,23 +56,33 @@ const ForwardArrow = styled(ArrowAltCircleRight)`
     max-height: 25px;
 `;
 
+function calculateImageWidth(img) {
+    const isLandscape = img.aspect_ratio > 1;
+    if (isLandscape) {
+        return img.width <= 1280 ? 'original' : imageSizeConstants.w1280;
+    } else {
+        return imageSizeConstants.width  <= 780 ? 'original' : imageSizeConstants.w780;
+    }
+}
 
 export function GalleryModal({ isOpen, handleClose, images, currentImageIndex, setImageIndex }) {
     const currentImage = images[currentImageIndex];
-    const isLandscape = currentImage.aspect_ratio > 1;
-    const imageWidth = isLandscape 
-                ? currentImage.width <= 1280 
-                    ? 'original' 
-                    : imageSizeConstants.w1280
-                : currentImage.width <= 780 
-                    ? 'original' 
-                    : imageSizeConstants.w780;
+    const imageWidth = calculateImageWidth(currentImage);
 
     return (
         <ReactModal
             isOpen={isOpen}
-            overlayClassName="gallery-modal__overlay"
-            className="gallery-modal__content-container"
+            overlayClassName={{
+                base: 'centered-modal__overlay',
+                afterOpen: 'centered-modal__overlay--after-open',
+                beforeClose: 'centered-modal__overlay--before-close'
+            }}
+            className={{
+                base: 'gallery-modal__content-container',
+                afterOpen: 'gallery-modal__content-container--after-open',
+                beforeClose: 'gallery-modal__content-container--before-close'
+            }}
+            closeTimeoutMS={200}
             shouldCloseOnEscape={true}
             onRequestClose={handleClose}
         >

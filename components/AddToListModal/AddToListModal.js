@@ -110,8 +110,17 @@ function AddToListModal({
     return (
         <ReactModal
             isOpen={isOpen}
-            overlayClassName="centered-modal__overlay"
-            className="add-to-list-modal__content-container"
+            overlayClassName={{
+                base: 'centered-modal__overlay',
+                afterOpen: 'centered-modal__overlay--after-open',
+                beforeClose: 'centered-modal__overlay--before-close'
+            }}
+            className={{
+                base: 'add-to-list-modal__content-container',
+                afterOpen: 'add-to-list-modal__content-container--after-open',
+                beforeClose: 'add-to-list-modal__content-container--before-close'
+            }}
+            closeTimeoutMS={200}
             shouldCloseOnEscape={true}
             onRequestClose={() => {
                 isMounted.current = false;

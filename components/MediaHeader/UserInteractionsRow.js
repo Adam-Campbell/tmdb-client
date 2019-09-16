@@ -128,7 +128,7 @@ function UserInteractionsRow({
                 effect="solid"
                 className="custom-tooltip"
             />
-            {isShowingPopup && <StarRatingPopup 
+            <StarRatingPopup 
                 isShowingModal={isShowingPopup}
                 closeModal={closePopup}
                 score={score} 
@@ -137,12 +137,12 @@ function UserInteractionsRow({
                 topOffset={windowTopOffset}
                 handleChange={handleRatingModalChange}
                 handleRemove={() => removeRatingFn(id)}
-            />}
-            {isShowingAddToListModal && <AddToListModal 
+            />
+            <AddToListModal 
                 isOpen={isShowingAddToListModal}
                 handleClose={() => setIsShowingAddToListModal(false)}
                 movieId={id}
-            />}
+            />
         </StyledUserInteractionsRow>
     );
 }
