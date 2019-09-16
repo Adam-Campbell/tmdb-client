@@ -12,24 +12,6 @@ const GlobalStyles = createGlobalStyle`
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
     }
-    .gallery-modal__overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        padding: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba(17,17,17,0.8);
-        z-index: 3000;
-    }
-    .gallery-modal__content-container {
-        background: #fff;
-        border-radius: 3px;
-        padding: 10px;
-    }
     .centered-modal__overlay {
         position: fixed;
         top: 0;
@@ -39,6 +21,7 @@ const GlobalStyles = createGlobalStyle`
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: 20px;
         background-color: transparent;
         z-index: 3000;
         transition: background-color 0.2s ease-out;
@@ -49,6 +32,20 @@ const GlobalStyles = createGlobalStyle`
             background-color: transparent;
         }
     }
+    .gallery-modal__content-container {
+        background: #fff;
+        border-radius: 3px;
+        padding: 10px;
+        opacity: 0;
+        transition: opacity 0.2s ease-out;
+        &--after-open {
+            opacity: 1;
+        }
+        &--before-close {
+            opacity: 0;
+        }
+    }
+    
     .create-list-modal__content-container {
         opacity: 0;
         transform: translateY(150px) scale(0.6);
@@ -112,8 +109,16 @@ const GlobalStyles = createGlobalStyle`
         left: 50px;
         border: solid #222 2px;
         outline: none;
+        opacity: 0;
+        transition: opacity 0.2s ease-out;
         &:focus {
             border-color: #43cbe8;
+        }
+        &--after-open {
+            opacity: 1;
+        }
+        &--before-close {
+            opacity: 0;
         }
     }
     .user-menu-modal__content-container {
@@ -125,6 +130,14 @@ const GlobalStyles = createGlobalStyle`
         overflow: hidden;
         display: flex;
         flex-direction: column;
+        opacity: 0;
+        transition: opacity 0.2s ease-out;
+        &--after-open {
+            opacity: 1;
+        }
+        &--before-close {
+            opacity: 0;
+        }
     }
     .custom-tooltip {
         font-family: sans-serif !important;

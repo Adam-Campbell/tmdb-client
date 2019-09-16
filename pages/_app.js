@@ -27,7 +27,6 @@ const PageWrapper = styled.div`
 
 class MyApp extends App {
     static async getInitialProps({ Component, ctx }) {
-        //console.log(ctx.store.getState());
         let pageProps = {};
         // If there is no need to fetch a user summary then this just returns immediately after
         // verifying it isn't needed, becoming more or less a no-op.

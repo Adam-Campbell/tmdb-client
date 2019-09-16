@@ -63,9 +63,14 @@ export function StarRatingPopup({
     handleRemove,
     topOffset
 }) {
-
+    
     const [ rating, setRating ] = useState(score);
     const [ localRating, setLocalRating ] = useState(score);
+
+    useEffect(() => {
+        setRating(score);
+        setLocalRating(score);
+    }, [ score ])
 
     useEffect(() => {
         function closeOnScroll() {
@@ -90,13 +95,27 @@ export function StarRatingPopup({
         setLocalRating(rating);
     }
 
+    function handleKeyDown({ key }) {
+        if (/[1-5]/.test(key)) {
+            const newRating = parseInt(key);
+            setRating(newRating);
+            setLocalRating(newRating);
+            handleChange(newRating);
+        }
+    }
+
 
     return (
         <ReactModal
             isOpen={isShowingModal}
             overlayClassName="rating-modal__overlay"
-            className="rating-modal__content-container"
+            className={{
+                base: 'rating-modal__content-container',
+                afterOpen: 'rating-modal__content-container--after-open',
+                beforeClose: 'rating-modal__content-container--before-close'
+            }}
             shouldCloseOnEscape={true}
+            closeTimeoutMS={200}
             onRequestClose={closeModal}
             style={{ 
                 content: { top: posY, left: posX },
@@ -127,6 +146,7 @@ export function StarRatingPopup({
                                 name="rating"
                                 checked={rating === star.value}
                                 onChange={handleInputChange}
+                                onKeyDown={handleKeyDown}
                             />
                             <Label 
                                 htmlFor={star.id}
