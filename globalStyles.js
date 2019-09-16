@@ -140,8 +140,8 @@ const GlobalStyles = createGlobalStyle`
         }
     }
     .custom-tooltip {
-        font-family: sans-serif !important;
-        font-weight: 700 !important;
+        font-family: 'Fira Sans', sans-serif !important;
+        font-weight: 600 !important;
         font-size: 0.85rem !important;
         color: #222 !important;
         background: #fff !important;
