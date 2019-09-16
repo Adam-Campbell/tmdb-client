@@ -1,74 +1,22 @@
-import React, { useMemo } from 'react';
-import styled from 'styled-components';
-import MinimalHeader from '../../../components/MinimalHeader';
-import SubNav from '../../../components/SubNav';
-import { getShowSubNavData } from '../../../utils';
-import { 
-    TwoColLayoutContainer, 
-    TwoColLayoutRow, 
-    MainCol, 
-    SidebarCol 
-} from '../../../components/Layout';
+import React from 'react';
 import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 import { getInitialShowProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
-import { ReviewCard } from '../../../components/Cards';
-import ShowSidebar from '../../../components/ShowSidebar';
-import { MediaSeo } from '../../../components/Seo';
-import ListViewHeader from '../../../components/ListViewHeader';
-
-const NoReviewsMessage = styled.p`
-    ${({ theme }) => theme.fontStacks.bodyBold()}
-    margin: 0;
-`;
+import MediaReviewsView from '../../../components/MediaReviewsView';
 
 function Reviews({ id, title, posterPath, backdropPath, reviews }) {
-
-    const showSubNavData = useMemo(() => {
-        return getShowSubNavData(id);
-    }, [ id ]);
-    
     return (
-        <>
-            <MediaSeo uniqueTitleSegment="User Reviews" />
-            <MinimalHeader 
-                imagePath={posterPath}
-                backdropPath={backdropPath}
-                name={title}
-                backHref="/show/[id]"
-                backAs={`/show/${id}`}
-            />
-            <SubNav 
-                navData={showSubNavData} 
-                navLabel="Navigation links for pages related to the current TV show"
-            />
-            <TwoColLayoutContainer>
-                <TwoColLayoutRow>
-                    <MainCol>
-                        <ListViewHeader title="Reviews" headingTag="h2" />
-                        {reviews.length ? reviews.map(review => (
-                            <ReviewCard
-                                key={review.id} 
-                                author={review.author}
-                                content={review.content}
-                            />  
-                        )) : (
-                            <NoReviewsMessage>
-                                There are no user reviews for this movie
-                            </NoReviewsMessage>
-                        )}
-                    </MainCol>
-                    <SidebarCol>
-                        <ShowSidebar />
-                    </SidebarCol>
-                </TwoColLayoutRow>
-            </TwoColLayoutContainer>
-        </>
+        <MediaReviewsView 
+            id={id}
+            title={title}
+            posterPath={posterPath}
+            backdropPath={backdropPath}
+            reviews={reviews}
+            isMovie={false}
+        />
     );
 }
-
-Reviews.getInitialProps = getInitialShowProps;
 
 function mapState(state) {
     const s = getShowData(state);

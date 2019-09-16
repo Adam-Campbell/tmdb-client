@@ -1,70 +1,20 @@
-import React, { useMemo } from 'react';
-import styled from 'styled-components';
-import MinimalHeader from '../../../components/MinimalHeader';
-import SubNav from '../../../components/SubNav';
-import { getMovieSubNavData } from '../../../utils';
-import { 
-    TwoColLayoutContainer, 
-    TwoColLayoutRow, 
-    MainCol, 
-    SidebarCol 
-} from '../../../components/Layout';
+import React from 'react';
 import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import { getInitialMovieProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
-import { ReviewCard } from '../../../components/Cards';
-import MovieSidebar from '../../../components/MovieSidebar';
-import { MediaSeo } from '../../../components/Seo';
-import ListViewHeader from '../../../components/ListViewHeader';
-
-const NoReviewsMessage = styled.p`
-    ${({ theme }) => theme.fontStacks.bodyBold()}
-    margin: 0;
-`;
+import MediaReviewsView from '../../../components/MediaReviewsView';
 
 function Reviews({ id, title, posterPath, backdropPath, reviews }) {
-    
-    const movieSubNavData = useMemo(() => {
-        return getMovieSubNavData(id);
-    }, [ id ]);
-
     return (
-        <>
-            <MediaSeo isMovie={true} uniqueTitleSegment="User Reviews" />
-            <MinimalHeader 
-                imagePath={posterPath}
-                backdropPath={backdropPath}
-                name={title}
-                backHref={`/movie/[id]`}
-                backAs={`/movie/${id}`}
-            />
-            <SubNav 
-                navData={movieSubNavData} 
-                navLabel="Navigation links for pages related to the current movie"
-            />
-            <TwoColLayoutContainer>
-                <TwoColLayoutRow>
-                    <MainCol>
-                        <ListViewHeader title="Reviews" headingTag="h2" />
-                        {reviews.length ? reviews.map(review => (
-                            <ReviewCard
-                                key={review.id} 
-                                author={review.author}
-                                content={review.content}
-                            />  
-                        )) : (
-                            <NoReviewsMessage>
-                                There are no user reviews for this movie
-                            </NoReviewsMessage>
-                        )}
-                    </MainCol>
-                    <SidebarCol>
-                        <MovieSidebar />
-                    </SidebarCol>
-                </TwoColLayoutRow>
-            </TwoColLayoutContainer>
-        </>
+        <MediaReviewsView 
+            id={id}
+            title={title}
+            posterPath={posterPath}
+            backdropPath={backdropPath}
+            reviews={reviews}
+            isMovie={true}
+        />
     );
 }
 
