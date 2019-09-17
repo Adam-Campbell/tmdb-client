@@ -1,7 +1,5 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { Star, Bookmark, Heart, List } from 'styled-icons/fa-solid';
 import { connect } from 'react-redux';
 import { 
     markFavourite, 
@@ -18,37 +16,13 @@ import StarRatingPopup from '../StarRatingPopup';
 import usePopup from '../usePopup';
 import InteractionButton from './InteractionButton';
 import AddToListModal from '../AddToListModal';
-
-const RateIcon = styled(Star)`
-    width: 15px;
-    color: ${({ iconColor }) => iconColor};
-    transition: color ease-out 0.2s;
-`;
-
-const ListIcon = styled(List)`
-    width: 15px;
-    color: ${({ iconColor }) => iconColor};
-    transition: color ease-out 0.2s;
-`;
-
-const WatchlistIcon = styled(Bookmark)`
-    width: 10px;
-    color: ${({ iconColor }) => iconColor};
-    transition: color ease-out 0.2s;
-`;
-
-const FavouriteIcon = styled(Heart)`
-    width: 15px;
-    color: ${({ iconColor }) => iconColor};
-    transition: color ease-out 0.2s;
-`;
-
-const StyledUserInteractionsRow = styled.div`
-    display: flex;
-    justify-content: space-between;
-    flex-grow: 1;
-    max-width: ${({ includesAllButtons }) => includesAllButtons ? '250px' : '188px'};
-`;
+import {
+    RateIcon,
+    ListIcon,
+    WatchlistIcon,
+    FavouriteIcon,
+    StyledUserInteractionsRow
+} from './userInteractionsRowElements';
 
 function UserInteractionsRow({ 
     id,

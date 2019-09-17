@@ -1,8 +1,8 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row } from '../Layout';
-import { text, getImageUrl, imageSizeConstants } from '../../utils';
+import { imageSizeConstants } from '../../utils';
 import SmartImage from '../SmartImage';
 import Biography from './Biography';
 

@@ -17,7 +17,7 @@ export function createHead() {
 }
 
 /**
- * Creates the tail to be appended to the arrya, if the current window is not at the end of the 
+ * Creates the tail to be appended to the array, if the current window is not at the end of the 
  * total range of pages. 
  * @param {Number} pageNumber - the page number for the last page in the total range.
  * @returns {Array} - the tail of the array, consisting of an ellipses separator and the data for

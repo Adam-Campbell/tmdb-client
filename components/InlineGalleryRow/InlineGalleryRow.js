@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { text, getImageUrl, imageSizeConstants } from '../../utils';
+import { imageSizeConstants } from '../../utils';
 import Link from 'next/link';
 import InlineContentRow from '../InlineContentRow';
 import SmartImage from '../SmartImage';

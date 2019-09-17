@@ -23,7 +23,3 @@ export default function Track({ source, target, getTrackProps }) {
         />
     );
 }
-
-Track.propTypes = {
-
-};

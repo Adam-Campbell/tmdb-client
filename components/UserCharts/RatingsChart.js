@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { getUsersRatings } from '../../reducers/user';
 import { 
@@ -11,77 +10,16 @@ import {
 } from 'victory';
 import { getNumericTicks, convertToChartData } from './utils';
 import customTheme from './customTheme';
-import { hideVisually } from 'polished';
-
-const RatingsChartContainer = styled.div`
-    width: 100%;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin: ${({ theme }) => theme.getSpacing(2, 0)};
-`;
-
-const ChartTitle = styled.h3`
-    ${({ theme }) => theme.fontStacks.bodyBold()}
-    font-size: ${({ theme }) => theme.fontSizes.body.md};
-`;
-
-const TitleContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    padding-left: ${({ theme }) => theme.getSpacing(2)};
-    @media (min-width: 768px) {
-        flex-direction: row;
-        align-items: center;
-    }
-    
-`;
-
-const Fieldset = styled.fieldset`
-    border: none;
-    padding: 0;
-`;
-
-const Legend = styled.legend`
-    ${hideVisually()}
-`;
-
-const RadioButtonsContainer = styled.div`
-    width: 100%;
-    display: flex;
-`;
-
-const RadioButton = styled.input`
-    ${hideVisually()}
-`;
-
-const RadioButtonLabel = styled.label`
-    ${({ theme }) => theme.fontStacks.body()}
-    font-size: ${({ theme }) => theme.fontSizes.body.sm};
-    padding: ${({ theme }) => theme.getSpacing(1)};
-    background: ${({ theme }) => theme.colors.uiPrimary};
-    border-radius: ${({ theme }) => theme.borderRadius};
-    margin-left: 3px;
-    margin-right: 3px;
-    cursor: pointer;
-    transition: background ease-out 0.2s;
-    flex-grow: 1;
-    text-align: center;
-    ${RadioButton}:checked + & {
-        background: ${({ theme }) => theme.colors.uiSecondary};
-        font-weight: 600;
-    }
-    &:hover {
-        background: #e6e6e6;
-    }
-    &:first-of-type {
-        margin-left: 0;
-    }
-    &:last-of-type {
-        margin-right: 0;
-    }
-`;
+import {
+    RatingsChartContainer,
+    ChartTitle,
+    TitleContainer,
+    Fieldset,
+    Legend,
+    RadioButtonsContainer,
+    RadioButton,
+    RadioButtonLabel
+} from './ratingsChartElements';
 
 const filterData = [
     { name: 'All', value: 'all', id: 'media-type-all' },

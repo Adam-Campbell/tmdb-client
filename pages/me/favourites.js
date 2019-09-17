@@ -19,7 +19,8 @@ import { NextSeo } from 'next-seo';
 function Favourites(props) {
 
     const [ mediaType, setMediaType ] = useState('movie');
-    const usersFavourites = mediaType === 'movie' ? props.favourites.movies : props.favourites.shows;
+    const isMovie = mediaType === 'movie';
+    const usersFavourites = isMovie ? props.favourites.movies : props.favourites.shows;
 
     return (
         <>
@@ -45,7 +46,6 @@ function Favourites(props) {
                 </TitleBlock>
                 <Row>
                     {usersFavourites.map((entity) => {
-                        const isMovie = Boolean(entity.title);
                         return (
                             <MediaCard 
                                 key={entity.id}
@@ -63,7 +63,7 @@ function Favourites(props) {
                                     label="Unfavourite"
                                     onClick={() => {
                                         props.markFavourite(
-                                            isMovie ? 'movie' : 'tv',
+                                            mediaType,
                                             entity.id,
                                             false
                                         );

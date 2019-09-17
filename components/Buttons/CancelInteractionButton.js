@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import useHover from '../../components/useHover';
-import { text } from '../../utils';
 import { Times } from 'styled-icons/fa-solid';
 
 const StyledCancelInteractionButton = styled.button`

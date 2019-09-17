@@ -18,7 +18,8 @@ import { NextSeo } from 'next-seo';
 function Watchlist(props) {
 
     const [ mediaType, setMediaType ] = useState('movie');
-    const usersWatchlists = mediaType === 'movie' ? props.watchlists.movies : props.watchlists.shows;
+    const isMovie = mediaType === 'movie';
+    const usersWatchlists = isMovie ? props.watchlists.movies : props.watchlists.shows;
 
     return (
         <>
@@ -44,7 +45,6 @@ function Watchlist(props) {
                 </TitleBlock>
                 <Row>
                     {usersWatchlists.map(entity => {
-                        const isMovie = Boolean(entity.title);
                         return (
                             <MediaCard 
                                 key={entity.id}
@@ -62,7 +62,7 @@ function Watchlist(props) {
                                     label="Remove from watchlist"
                                     onClick={() => {
                                         props.editWatchlist(
-                                            isMovie ? 'movie' : 'tv',
+                                            mediaType,
                                             entity.id,
                                             false
                                         );

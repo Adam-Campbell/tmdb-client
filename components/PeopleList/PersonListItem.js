@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { text, getImageUrl, imageSizeConstants } from '../../utils';
+import { imageSizeConstants } from '../../utils';
 import useHover from '../useHover';
 import ImageLink from '../ImageLink';
 

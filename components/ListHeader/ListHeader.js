@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row } from '../Layout';
-import { text, getImageUrl, imageSizeConstants } from '../../utils';
+import { getImageUrl, imageSizeConstants } from '../../utils';
 import { cover } from 'polished';
 
 const StyledListHeader = styled.div`
@@ -51,6 +51,7 @@ const ListDescription = styled.p`
 `;
 
 export function ListHeader({ name, createdBy, description, backdropPath }) {
+    
     const imageUrl = useMemo(() => {
         if (!backdropPath) return '';
         return getImageUrl(backdropPath, 'original');

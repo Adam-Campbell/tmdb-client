@@ -1,49 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import ReactModal from 'react-modal';
-import { Star, StarHalfAlt, Bookmark, Heart, List } from 'styled-icons/fa-solid';
-import { Star as StarEmpty } from 'styled-icons/fa-regular';
-import { Cancel } from 'styled-icons/material';
-import { NoEntry } from 'styled-icons/boxicons-solid';
-import { text } from '../../utils';
-import { hideVisually } from 'polished';
-
-const Radio = styled.input`
-    ${hideVisually()}
-`;
-
-const HiddenDescription = styled.span`
-    ${hideVisually()}
-`;
-
-const Label = styled.label`
-    cursor: pointer;
-`;
-
-const StarIcon = styled(Star)`
-    color: ${({ theme, isSelected }) => isSelected ? theme.colors.info : theme.colors.uiSecondary};
-    width: 30px;
-    max-height: 30px;
-    margin: ${({ theme }) => theme.getSpacing(0, 1)};
-`;
-
-const ModalTitle = styled.h3`
-    ${({ theme }) => theme.fontStacks.heading()}
-    font-size: ${({ theme }) => theme.fontSizes.heading.sm};
-`;
-
-const ContentContainer = styled.div`
-    display: flex;
-    align-items: center;
-`;
-
-const ClearRatingIcon = styled(NoEntry)`
-    width: 20px;
-    max-height: 30px;
-    color: ${({ theme }) => theme.colors.warning};
-    margin-right: auto;
-`;
+import {
+    Radio,
+    HiddenDescription,
+    Label,
+    StarIcon,
+    ContentContainer,
+    ClearRatingIcon,
+} from './styledElements';
 
 const starsData = [
     { value: 1, id: 'star1', label: '1 star' },

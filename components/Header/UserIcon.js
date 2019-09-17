@@ -8,7 +8,6 @@ import { text } from '../../utils';
 import UserMenu from './UserMenu';
 import { logoutUser } from '../../actions';
 
-
 const StyledUserIcon = styled.button`
     display: flex;
     justify-content: center;

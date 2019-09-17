@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import useHover from '../useHover';
-import { text } from '../../utils';
 
 const StyledMenuListItem = styled.li`
     padding: ${({ theme }) => theme.getSpacing(2)};

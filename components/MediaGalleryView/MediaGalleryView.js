@@ -1,12 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { 
     getMovieSubNavData, 
     getShowSubNavData, 
     imageSizeConstants 
 } from '../../utils';
-import SmartImage from '../SmartImage';
 import { MediaSeo } from '../Seo';
 import MinimalHeader from '../MinimalHeader';
 import SubNav from '../SubNav';
@@ -14,53 +12,14 @@ import TitleBlock from '../TitleBlock';
 import ListBox from '../ListBox';
 import { Row } from '../Layout';
 import GalleryModal from '../GalleryModal';
-
-const DropdownContainer = styled.div`
-    width: 220px;
-    margin-left: auto;
-`;
-
-const ThumbsContainer = styled.div`
-    display: flex; 
-    flex-wrap: wrap;
-    margin-left: -5px;
-    margin-right: -5px;
-`;
-
-const PosterThumbContainer = styled.div`
-    margin: 5px;
-    width: calc(50% - 10px);
-    @media(min-width: 550px) {
-        width: calc(33.33333% - 10px);
-    }
-    @media(min-width: 768px) {
-        width: calc(25% - 10px);
-    }
-    @media(min-width: 960px) {
-        width: calc(20% - 10px);
-    }
-`;
-
-const PosterThumb = styled(SmartImage)`
-    width: 100%;
-    padding-bottom: 150%;
-`;
-
-const BackdropThumbContainer = styled.div`
-    margin: 5px;
-    width: calc(100% - 10px);
-    @media(min-width: 600px) {
-        width: calc(50% - 10px);
-    }
-    @media(min-width: 768px) {
-        width: calc(33.33333% - 10px);
-    }
-`;
-
-const BackdropThumb = styled(SmartImage)`
-    width: 100%;
-    padding-bottom: 56.25%;
-`;
+import {
+    DropdownContainer, 
+    ThumbsContainer,
+    PosterThumbContainer,
+    PosterThumb,
+    BackdropThumbContainer,
+    BackdropThumb,
+} from './styledElements';
 
 const imageTypes = [
     { value: 'poster', name: 'Poster' },

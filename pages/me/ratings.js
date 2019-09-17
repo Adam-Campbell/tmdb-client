@@ -18,7 +18,8 @@ import { NextSeo } from 'next-seo';
 function Ratings(props) {
 
     const [ mediaType, setMediaType ] = useState('movie');
-    const usersRatings = mediaType === 'movie' ? props.ratings.movies : props.ratings.shows;
+    const isMovie = mediaType === 'movie';
+    const usersRatings = isMovie ? props.ratings.movies : props.ratings.shows;
 
     return (
         <>
@@ -44,7 +45,6 @@ function Ratings(props) {
                 </TitleBlock>
                 <Row>
                     {usersRatings.map(entity => {
-                        const isMovie = Boolean(entity.title);
                         return (
                             <MediaCard 
                                 key={entity.id}
@@ -60,7 +60,7 @@ function Ratings(props) {
                             >
                                 <CardRatingButton 
                                     userRating={entity.rating}
-                                    mediaType={isMovie ? 'movie' : 'tv'}
+                                    isMovie={isMovie}
                                     id={entity.id}
                                 />
                             </MediaCard>
