@@ -1,42 +1,21 @@
-import React, { useMemo } from 'react';
-import styled from 'styled-components';
-import MinimalHeader from '../../../components/MinimalHeader';
-import SubNav from '../../../components/SubNav';
-import { getMovieSubNavData } from '../../../utils';
-import MediaListView from '../../../components/MediaListView';
-import { fetchMovie } from '../../../actions';
+import React from 'react';
 import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import { getInitialMovieProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
-import { MediaSeo } from '../../../components/Seo';
+import MediaListView from '../../../components/MediaListView';
 
-function Recommended({ id, title, posterPath, backdropPath, recommendations }) {
-
-    const movieSubNavData = useMemo(() => {
-        return getMovieSubNavData(id);
-    }, [ id ]);
-
+function Recommended({ id, title, posterPath, backdropPath, recommendations }) { 
     return (
-        <>
-            <MediaSeo isMovie={true} uniqueTitleSegment="Recommended Movies" />
-            <MinimalHeader 
-                imagePath={posterPath}
-                backdropPath={backdropPath}
-                name={title}
-                backHref={`/movie/[id]`}
-                backAs={`/movie/${id}`}
-            />
-            <SubNav 
-                navData={movieSubNavData}
-                navLabel="Navigation links for pages related to the current movie" 
-            />
-            <MediaListView 
-                title="Recommended Movies"
-                items={recommendations}
-                urlSubpath="/movie"
-            />
-        </>
+        <MediaListView 
+            id={id}
+            mediaTitle={title}
+            pageTitle="Recommended Movies"
+            posterPath={posterPath}
+            backdropPath={backdropPath}
+            items={recommendations}
+            isMovie={true}
+        />
     );
 }
 

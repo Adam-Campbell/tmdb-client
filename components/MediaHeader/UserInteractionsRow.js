@@ -51,8 +51,8 @@ const StyledUserInteractionsRow = styled.div`
 `;
 
 function UserInteractionsRow({ 
-    mediaType,
     id,
+    isMovie,
     isFavourite,
     isInWatchlist,
     rated,
@@ -76,8 +76,9 @@ function UserInteractionsRow({
         closePopup
     } = usePopup({ popupWidth: 250, popupHeight: 50, popupAlignment: 'BOTTOM' });
 
-    const ratingFn = mediaType === 'movie' ? rateMovie : rateShow;
-    const removeRatingFn = mediaType === 'movie' ? removeMovieRating : removeShowRating;
+    const mediaType = isMovie ? 'movie' : 'tv';
+    const ratingFn = isMovie ? rateMovie : rateShow;
+    const removeRatingFn = isMovie ? removeMovieRating : removeShowRating;
 
     function handleRatingModalChange(rating) {
         ratingFn(rating * 2, id);
@@ -86,8 +87,8 @@ function UserInteractionsRow({
     const score = rated ? Math.floor(rated.value / 2) : 0;
 
     return (
-        <StyledUserInteractionsRow includesAllButtons={mediaType === 'movie'}>
-            {mediaType === 'movie' && (
+        <StyledUserInteractionsRow includesAllButtons={isMovie}>
+            {isMovie && (
                 <InteractionButton
                     isBeingUsed={false}
                     handleClick={() => setIsShowingAddToListModal(true)}
@@ -138,18 +139,20 @@ function UserInteractionsRow({
                 handleChange={handleRatingModalChange}
                 handleRemove={() => removeRatingFn(id)}
             />
-            <AddToListModal 
-                isOpen={isShowingAddToListModal}
-                handleClose={() => setIsShowingAddToListModal(false)}
-                movieId={id}
-            />
+            {isMovie && (
+                <AddToListModal 
+                    isOpen={isShowingAddToListModal}
+                    handleClose={() => setIsShowingAddToListModal(false)}
+                    movieId={id}
+                />
+            )}
         </StyledUserInteractionsRow>
     );
 }
 
 UserInteractionsRow.propTypes = {
-    mediaType: PropTypes.oneOf(['movie', 'tv']).isRequired,
     id: PropTypes.number.isRequired,
+    isMovie: PropTypes.bool.isRequired,
     isFavourite: PropTypes.bool.isRequired,
     isInWatchlist: PropTypes.bool.isRequired,
     rated: PropTypes.oneOfType([
@@ -161,7 +164,7 @@ UserInteractionsRow.propTypes = {
 };
 
 function mapState(state, ownProps) {
-    const m = ownProps.mediaType === 'movie' ? getMovieData(state) : getShowData(state);
+    const m = ownProps.isMovie ? getMovieData(state) : getShowData(state);
     return {
         id: m.id,
         isFavourite: m.account_states.favorite,

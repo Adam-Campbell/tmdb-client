@@ -51,7 +51,7 @@ function Movie({
             <MediaSeo isMovie={true} />
             <MediaHeader 
                 key={id}
-                mediaType="movie"
+                isMovie={true}
             />
             <SubNav 
                 navData={movieSubNavData}

@@ -50,7 +50,7 @@ function Show({
             <MediaSeo />
             <MediaHeader 
                 key={id}
-                mediaType="tv"
+                isMovie={false}
             />
             <SubNav 
                 navData={showSubNavData} 

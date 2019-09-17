@@ -89,7 +89,7 @@ const RatingContainer = styled.div`
 `;
 
 export function MediaHeader({ 
-    mediaType,
+    isMovie,
     hasSession,
     backdropPath,
     posterPath,
@@ -124,7 +124,7 @@ export function MediaHeader({
                                 <Rating rating={averageRating} />
                             </RatingContainer>
                             {hasSession && (
-                                <UserInteractionsRow mediaType={mediaType} />
+                                <UserInteractionsRow isMovie={isMovie} />
                             )}
                         </InteractionRow>
                         
@@ -144,7 +144,7 @@ export function MediaHeader({
 }
 
 MediaHeader.propTypes = {
-    mediaType: PropTypes.oneOf(['movie', 'tv']),
+    isMovie: PropTypes.bool.isRequired,
     hasSession: PropTypes.bool.isRequired,
     backdropPath: PropTypes.string.isRequired,
     posterPath: PropTypes.string.isRequired,
@@ -164,12 +164,12 @@ MediaHeader.propTypes = {
 };
 
 function mapState(state, ownProps) {
-    const m = ownProps.mediaType === 'movie' ? getMovieData(state) : getShowData(state);
+    const m = ownProps.isMovie ? getMovieData(state) : getShowData(state);
     return {
         hasSession: getHasSession(state),
         backdropPath: m.backdrop_path,
         posterPath: m.poster_path,
-        title: ownProps.mediaType === 'movie' ? m.title : m.name,
+        title: m.title || m.name,
         averageRating: m.vote_average,
         overview: m.overview,
         tagline: m.tagline,

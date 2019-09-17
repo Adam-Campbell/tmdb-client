@@ -1,42 +1,21 @@
-import React, { useMemo } from 'react';
-import styled from 'styled-components';
-import MinimalHeader from '../../../components/MinimalHeader';
-import SubNav from '../../../components/SubNav';
-import { getMovieSubNavData } from '../../../utils';
-import MediaListView from '../../../components/MediaListView';
-import { fetchMovie } from '../../../actions';
+import React from 'react';
 import { getMovieData } from '../../../reducers/movieReducer';
 import { connect } from 'react-redux';
 import { getInitialMovieProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
-import { MediaSeo } from '../../../components/Seo';
- 
-function Similar({ id, title, posterPath, backdropPath, similar }) {
-    
-    const movieSubNavData = useMemo(() => {
-        return getMovieSubNavData(id);
-    }, [ id ]);
+import MediaListView from '../../../components/MediaListView';
 
+function Similar({ id, title, posterPath, backdropPath, similar }) { 
     return (
-        <>
-            <MediaSeo isMovie={true} uniqueTitleSegment="Similar Movies" />
-            <MinimalHeader 
-                imagePath={posterPath}
-                backdropPath={backdropPath}
-                name={title}
-                backHref={`/movie/[id]`}
-                backAs={`/movie/${id}`}
-            />
-            <SubNav 
-                navData={movieSubNavData} 
-                navLabel="Navigation links for pages related to the current movie"
-            />
-            <MediaListView 
-                title="Similar Movies"
-                items={similar}
-                urlSubpath="/movie"
-            />
-        </>
+        <MediaListView 
+            id={id}
+            mediaTitle={title}
+            pageTitle="Similar Movies"
+            posterPath={posterPath}
+            backdropPath={backdropPath}
+            items={similar}
+            isMovie={true}
+        />
     );
 }
 
