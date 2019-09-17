@@ -9,7 +9,7 @@ import UserHeader from '../../components/UserHeader';
 import { MediaCard } from '../../components/Cards';
 import { Row } from '../../components/Layout';
 import { CardRatingButton } from '../../components/Buttons';
-import ListViewHeader from '../../components/ListViewHeader';
+import TitleBlock from '../../components/TitleBlock';
 import Switch from '../../components/Switch';
 import { getInitialMeProps } from './';
 import withErrorHandling from '../../components/withErrorHandling';
@@ -32,7 +32,7 @@ function Ratings(props) {
                 navLabel="Navigation links for pages related to your account"
             />
             <section>
-                <ListViewHeader title="My Ratings">
+                <TitleBlock title="My Ratings">
                     <Switch 
                         groupLabel="Media Type"
                         groupName="media-type"
@@ -41,7 +41,7 @@ function Ratings(props) {
                         handleChange={setMediaType}
                         shouldHideLabel={true}
                     />
-                </ListViewHeader>
+                </TitleBlock>
                 <Row>
                     {usersRatings.map(entity => {
                         const isMovie = Boolean(entity.title);

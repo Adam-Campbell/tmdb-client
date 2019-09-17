@@ -1,11 +1,11 @@
 import React from 'react';
-import ExploreMediaPage from '../../components/ExploreMediaPage';
 import { getPopularTV } from '../../clientApi';
+import ExploreMediaView from '../../components/ExploreMediaView';
 
 function TVWithoutSubcategory({ results, currentPage }) {
 
     return (
-        <ExploreMediaPage 
+        <ExploreMediaView 
             title="Popular TV Shows"
             mediaData={results}
             currentPage={currentPage}

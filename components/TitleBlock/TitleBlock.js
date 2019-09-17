@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Row } from '../Layout';
 
-const StyledListViewHeader = styled(Row)`
+const StyledTitleBlock = styled(Row)`
     display: flex;
     align-items: center;
     margin-top: ${({ theme }) => theme.getSpacing(3)};
 `;
 
-const HeaderTitle = styled.h1`
+const Title = styled.h1`
     ${({ theme }) => theme.fontStacks.heading()}
     font-size: ${({ theme }) => theme.fontSizes.heading.md};
     margin-right: auto;
@@ -17,14 +17,16 @@ const HeaderTitle = styled.h1`
     margin-bottom: 0;
 `;
 
-export const ListViewHeader = ({ title, headingTag = 'h1', children }) => (
-    <StyledListViewHeader>
-        <HeaderTitle as={headingTag}>{title}</HeaderTitle>
-        {children}
-    </StyledListViewHeader>
-);
+export function TitleBlock({ title, headingTag = 'h1', children }) {
+    return (
+        <StyledTitleBlock>
+            <Title as={headingTag}>{title}</Title>
+            {children}
+        </StyledTitleBlock>
+    );
+}
 
-ListViewHeader.propTypes = {
+TitleBlock.propTypes = {
     title: PropTypes.string.isRequired,
     headingTag: PropTypes.oneOf([
         'h1',

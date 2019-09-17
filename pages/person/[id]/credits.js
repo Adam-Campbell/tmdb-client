@@ -5,7 +5,7 @@ import SubNav from '../../../components/SubNav';
 import MinimalHeader from '../../../components/MinimalHeader';
 import Switch from '../../../components/Switch';
 import { Row } from '../../../components/Layout'; 
-import ListViewHeader from '../../../components/ListViewHeader';
+import TitleBlock from '../../../components/TitleBlock';
 import CreditsTable from '../../../components/CreditsTable';
 import { fetchPerson } from '../../../actions';
 import { getPersonData } from '../../../reducers/personReducer';
@@ -109,7 +109,7 @@ function Credits({ id, name, profilePath, credits }) {
                 alignCenter={true}
                 navLabel="Navigation links for pages related to the current person" 
             />
-            <ListViewHeader title="Credits" headingTag="h2" />
+            <TitleBlock title="Credits" headingTag="h2" />
             <ContentRow>
                 <ControlsCol>
                     <SwitchContainer>

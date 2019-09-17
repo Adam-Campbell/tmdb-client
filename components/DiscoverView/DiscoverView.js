@@ -14,7 +14,7 @@ import { MediaCard } from '../Cards';
 import RangeSelect from '../RangeSelect';
 import ListBox from '../ListBox';
 import ComboBox from '../ComboBox';
-import ListViewHeader from '../ListViewHeader';
+import TitleBlock from '../TitleBlock';
 
 const PageWrapper = styled.section`
     overflow-x: hidden;
@@ -96,12 +96,12 @@ export function DiscoverView({
     
     return (
         <PageWrapper>
-            <ListViewHeader title="Discover">
+            <TitleBlock title="Discover">
                 <Button onClick={() => setShowingFilters(prev => !prev)}>
                     {isShowingFilters ? 'Hide Filters' : 'Show Filters'}
                     {isShowingFilters ? <CloseIcon /> : <FiltersIcon />}
                 </Button>
-            </ListViewHeader>
+            </TitleBlock>
             <ContentWrapper>
                 <ControlsCol isShowingFilters={isShowingFilters}>
                     <SliderContainer>

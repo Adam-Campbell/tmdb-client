@@ -3,7 +3,7 @@ import {
     getPopularPeople
 } from '../clientApi';
 import styled from 'styled-components';
-import ListViewHeader from '../components/ListViewHeader';
+import TitleBlock from '../components/TitleBlock';
 import { MinimalCard } from '../components/Cards';
 import { Row } from '../components/Layout';
 import { NextSeo } from 'next-seo';
@@ -22,7 +22,7 @@ function People({ results, currentPage }) {
                 title="People" 
                 description="Browse popular people on React Movie Database, the user editable database for movies and TV shows."
             />
-            <ListViewHeader title="People" />
+            <TitleBlock title="People" />
             <Wrapper as="main">
                 {results.map(person => {
                     const knownFor = person.known_for.map(production => production.title || production.name)

@@ -13,7 +13,7 @@ import { getHasSession } from '../../../reducers/sessionReducer';
 import { getUserSummary } from '../../../reducers/user';
 import { Row } from '../../../components/Layout';
 import { MediaCard } from '../../../components/Cards';
-import ListViewHeader from '../../../components/ListViewHeader';
+import TitleBlock from '../../../components/TitleBlock';
 import { text } from '../../../utils';
 import Router from 'next/router';
 import { CancelInteractionButton, Button } from '../../../components/Buttons';
@@ -48,7 +48,7 @@ function List({
                 backdropPath={items.length ? items[0].backdrop_path : ''}
             />
             <section>
-                <ListViewHeader title={name}>
+                <TitleBlock title={name}>
                     {isOwner && (
                         <>
                             <Button
@@ -64,7 +64,7 @@ function List({
                             >Delete List</DeleteListButton>
                         </>
                     )}
-                </ListViewHeader>
+                </TitleBlock>
                 <Row>
                     {items.map(item => (
                         <MediaCard

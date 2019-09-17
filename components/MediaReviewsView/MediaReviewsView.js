@@ -11,7 +11,7 @@ import {
     MainCol,
     SidebarCol
 } from '../Layout';
-import ListViewHeader from '../ListViewHeader';
+import TitleBlock from '../TitleBlock';
 import { ReviewCard } from '../Cards';
 import ShowSidebar from '../ShowSidebar';
 import MovieSidebar from '../MovieSidebar';
@@ -53,7 +53,7 @@ export function MediaReviewsView({
             <TwoColLayoutContainer>
                 <TwoColLayoutRow>
                     <MainCol>
-                        <ListViewHeader title="Reviews" headingTag="h2" />
+                        <TitleBlock title="Reviews" headingTag="h2" />
                         {reviews.length ? reviews.map(review => (
                             <ReviewCard
                                 key={review.id} 

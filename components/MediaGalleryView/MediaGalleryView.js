@@ -10,7 +10,7 @@ import SmartImage from '../SmartImage';
 import { MediaSeo } from '../Seo';
 import MinimalHeader from '../MinimalHeader';
 import SubNav from '../SubNav';
-import ListViewHeader from '../ListViewHeader';
+import TitleBlock from '../TitleBlock';
 import ListBox from '../ListBox';
 import { Row } from '../Layout';
 import GalleryModal from '../GalleryModal';
@@ -101,7 +101,7 @@ export function MediaGalleryView({
                     `Navigation links for pages related to the current ${isMovie ? 'movie' : 'TV show'}`
                 }
             />
-            <ListViewHeader title="Images" headingTag="h2">
+            <TitleBlock title="Images" headingTag="h2">
                 <DropdownContainer>
                     <ListBox 
                         items={imageTypes}
@@ -112,7 +112,7 @@ export function MediaGalleryView({
                         labelText="Image type: "
                     />
                 </DropdownContainer>
-            </ListViewHeader>
+            </TitleBlock>
             <Row>
                 <ThumbsContainer>
                     {currentImageType.value === 'poster' ? posters.map((poster, index) => (

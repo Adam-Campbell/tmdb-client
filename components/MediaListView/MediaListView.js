@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { getMovieSubNavData, getShowSubNavData } from '../../utils';
 import { Row } from '../Layout';
 import { MediaCard } from '../Cards';
-import ListViewHeader from '../ListViewHeader';
+import TitleBlock from '../TitleBlock';
 import { MediaSeo } from '../Seo';
 import MinimalHeader from '../MinimalHeader';
 import SubNav from '../SubNav';
@@ -44,7 +44,7 @@ export function MediaListView({
                     `Navigation links for pages related to the current ${isMovie ? 'movie' : 'TV show'}`
                 }
             />
-            <ListViewHeader title={pageTitle} headingTag="h2" />
+            <TitleBlock title={pageTitle} headingTag="h2" />
             <MediaCardContainer>
                 {items.map(item => (
                     <MediaCard 

@@ -9,7 +9,7 @@ import { Row } from '../../components/Layout';
 import { MediaCard } from '../../components/Cards';
 import { text } from '../../utils';
 import { CancelInteractionButton } from '../../components/Buttons';
-import ListViewHeader from '../../components/ListViewHeader';
+import TitleBlock from '../../components/TitleBlock';
 import Switch from '../../components/Switch';
 import UserHeader from '../../components/UserHeader';
 import { getInitialMeProps } from './';
@@ -33,7 +33,7 @@ function Favourites(props) {
                 navLabel="Navigation links for pages related to your account"
             />
             <section>
-                <ListViewHeader title="My Favourites">
+                <TitleBlock title="My Favourites">
                     <Switch 
                         groupLabel="Media Type"
                         groupName="media-type"
@@ -42,7 +42,7 @@ function Favourites(props) {
                         handleChange={setMediaType}
                         shouldHideLabel={true}
                     />
-                </ListViewHeader>
+                </TitleBlock>
                 <Row>
                     {usersFavourites.map((entity) => {
                         const isMovie = Boolean(entity.title);

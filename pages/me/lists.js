@@ -8,7 +8,7 @@ import { meRoutesSubNavData } from './';
 import UserHeader from '../../components/UserHeader';
 import { Row } from '../../components/Layout';
 import { ListCard } from '../../components/Cards';
-import ListViewHeader from '../../components/ListViewHeader';
+import TitleBlock from '../../components/TitleBlock';
 import { text } from '../../utils';
 import CreateListModal from '../../components/CreateListModal';
 import { Button } from '../../components/Buttons';
@@ -38,14 +38,14 @@ function Lists({ lists }) {
                 navLabel="Navigation links for pages related to your account" 
             />
             <section>
-                <ListViewHeader title="My Lists">
+                <TitleBlock title="My Lists">
                     <Button 
                         onClick={() => setModalIsOpen(true)}
                         buttonType="success"
                     >
                         Create list
                     </Button>
-                </ListViewHeader>
+                </TitleBlock>
                 <ListCardsContainer>
                     {lists.map(list => (
                         <ListCard 
