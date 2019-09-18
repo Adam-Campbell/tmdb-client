@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ArrowAltCirleLeft, ArrowAltCircleRight } from 'styled-icons/fa-solid';
+import { ArrowAltCircleLeft, ArrowAltCircleRight } from 'styled-icons/fa-solid';
 
 export const ModalInner = styled.div`
     min-height: 300px;

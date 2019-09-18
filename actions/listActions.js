@@ -198,11 +198,11 @@ function formatMovieForList(m) {
 }
 
 export const addMovieToList = (listId, movieId) => async (dispatch, getState) => {
+    const transactionId = Date.now();
     try {
         const state = getState();
         const movieData = getMovieData(state);
         const formattedMovieObject = formatMovieForList(movieData);
-        const transactionId = Date.now();
         dispatch(addMovieToListOptimisticRequest(formattedMovieObject, listId, transactionId));
         const response = await a.request(`api/list/${listId}/add-item`, {
             method: 'POST', 

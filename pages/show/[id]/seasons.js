@@ -11,7 +11,6 @@ import { SeasonCard } from '../../../components/Cards';
 import { getInitialShowProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
 import { MediaSeo } from '../../../components/Seo';
-import ListViewHeader from '../../../components/ListViewHeader';
 
 const MainContentHeading = styled.h2`
     ${({ theme }) => theme.fontStacks.heading()}

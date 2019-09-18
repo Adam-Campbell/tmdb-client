@@ -34,6 +34,7 @@ function AddToListModal({
 }) {
 
     const [ usersLists, setUsersLists ] = useState([]);
+    const [ currentList, setCurrentList ] = useState({});
     const [ isLoading, setIsLoading ] = useState(false);
     const isMounted = useRef(true);
 
@@ -91,8 +92,8 @@ function AddToListModal({
                     </TitleRow>
                     <ListBox 
                         items={usersLists}
-                        currentValue={{}}
-                        setValue={setUsersLists}
+                        currentValue={currentList}
+                        setValue={setCurrentList}
                         labelText="Select a list"
                         onChange={handleListSelect}
                         placeholder="No list selected"

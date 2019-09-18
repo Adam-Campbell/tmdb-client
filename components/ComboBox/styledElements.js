@@ -88,7 +88,7 @@ export const Menu = styled.ul`
 `;
 
 export const MenuItem = styled.li`
-    ${text('body')}
+    ${({ theme }) => theme.fontStacks.body()}
     color: ${({ theme, isActive, isSelected }) => (isActive || isSelected) ? theme.colors.white : theme.colors.black};
     padding: 10px;
     cursor: pointer;

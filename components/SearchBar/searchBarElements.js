@@ -25,7 +25,6 @@ export const InputIcon = styled(Search)`
 `;
 
 export const Input = styled.input`
-    ${text('body')}
     ${({ theme }) => theme.fontStacks.body()}
     font-size: ${({ theme }) => theme.fontSizes.body.md};
     font-style: italic;
