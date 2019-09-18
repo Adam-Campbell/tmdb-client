@@ -25,6 +25,12 @@ const DeleteListButton = styled(Button)`
     margin-left: ${({ theme }) => theme.getSpacing(2)};
 `;
 
+const NoMediaMessage = styled.p`
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
+    margin: ${({ theme }) => theme.getSpacing(3, 0)};
+`;
+
 function List({
     createdBy,
     description,
@@ -66,7 +72,7 @@ function List({
                     )}
                 </TitleBlock>
                 <Row>
-                    {items.map(item => (
+                    {Boolean(items.length) ? items.map(item => (
                         <MediaCard
                             key={item.id}
                             id={item.id}
@@ -86,7 +92,11 @@ function List({
                                 }}
                             />}
                         </MediaCard>
-                    ))}
+                    )) : (
+                        <NoMediaMessage>
+                            There is nothing to show here.
+                        </NoMediaMessage>
+                    )}
                 </Row>
             </section>
         </>
