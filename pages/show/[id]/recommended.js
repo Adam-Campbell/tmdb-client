@@ -1,43 +1,21 @@
-import React, { useMemo } from 'react';
-import styled from 'styled-components';
-import MinimalHeader from '../../../components/MinimalHeader';
-import SubNav from '../../../components/SubNav';
-import { getShowSubNavData } from '../../../utils';
-import MediaListView from '../../../components/MediaListView';
-
-import { fetchShow } from '../../../actions';
+import React from 'react';
 import { getShowData } from '../../../reducers/showReducer';
 import { connect } from 'react-redux';
 import { getInitialShowProps } from './';
 import withErrorHandling from '../../../components/withErrorHandling';
-import { MediaSeo } from '../../../components/Seo';
+import MediaListView from '../../../components/MediaListView';
 
-function Recommended({ id, title, posterPath, backdropPath, recommendations }) {
-
-    const showSubNavData = useMemo(() => {
-        return getShowSubNavData(id);
-    }, [ id ]);
-
+function Recommended({ id, title, posterPath, backdropPath, recommendations }) { 
     return (
-        <>
-            <MediaSeo uniqueTitleSegment="Recommended TV Shows" />
-            <MinimalHeader 
-                imagePath={posterPath}
-                backdropPath={backdropPath}
-                name={title}
-                backHref="/show/[id]"
-                backAs={`/show/${id}`}
-            />
-            <SubNav 
-                navData={showSubNavData} 
-                navLabel="Navigation links for pages related to the current TV show"
-            />
-            <MediaListView 
-                title="Recommended Shows"
-                items={recommendations}
-                urlSubpath="/show"
-            />
-        </>
+        <MediaListView 
+            id={id}
+            mediaTitle={title}
+            pageTitle="Recommended TV Shows"
+            posterPath={posterPath}
+            backdropPath={backdropPath}
+            items={recommendations}
+            isMovie={false}
+        />
     );
 }
 

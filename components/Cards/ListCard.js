@@ -1,73 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import useLazyImage from '../useLazyImage';
-import { text, imageSizeConstants } from '../../utils';
+import { imageSizeConstants } from '../../utils';
 import Link from 'next/link';
-import { cover } from 'polished';
-
-const StyledListCard = styled.div`
-    width: 100%;
-    margin-top: ${({ theme }) => theme.getSpacing(3)};
-    margin-bottom: ${({ theme }) => theme.getSpacing(3)};
-    box-shadow: ${({ theme }) => theme.boxShadow};
-    @media (min-width: 600px) {
-        width: calc(50% - 10px);
-    }
-`;
-
-const ListCardInnerContainer = styled.div`
-    position: relative;
-    width: 100%;
-    padding-bottom: 56.25%;
-`;
-
-const ListImage = styled.img`
-    ${cover()}
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    opacity: ${({ isLoaded }) => isLoaded ? 1 : 0};
-    transition: opacity ease-out 0.2s;
-`;
-
-const ListLink = styled.a`
-    display: flex;
-    ${cover()}
-    width: 100%;
-    height: 100%;
-    text-decoration: none;
-`;
-
-const ContentContainer = styled.div`
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: ${({ hasImage }) => hasImage ? 'rgba(26, 67, 93, 0.4)' : 'rgba(26, 67, 93, 1)'};
-    padding: ${({ theme }) => theme.getSpacing(2)};
-`;
-
-
-
-const ListTitle = styled.h2`
-    ${({ theme }) => theme.fontStacks.heading({ useLight: true })}
-    font-size: ${({ theme }) => theme.fontSizes.heading.lg};
-    font-style: italic;
-    margin-top: 0;
-    margin-bottom: ${({ theme }) => theme.getSpacing(2)};
-    text-align: center;
-    max-width: 100%;
-`;
-
-const ItemCount = styled.p`
-    ${({ theme }) => theme.fontStacks.body({ useLight: true })}
-    margin-top: ${({ theme }) => theme.getSpacing(2)};
-    margin-bottom: 0;
-`;
-
+import {
+    StyledListCard,
+    ListCardInnerContainer, 
+    ListImage,
+    ListLink,
+    ContentContainer,
+    ListTitle,
+    ItemCount
+} from './listCardElements';
 
 export function ListCard({ imagePath, name, itemCount, listId }) {
 

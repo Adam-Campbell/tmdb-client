@@ -29,8 +29,6 @@ const NavList = styled.ul`
     display: flex;
 `;
 
-
-
 export function SearchNavigation({ searchQuery }) {
 
     const navData = useMemo(() => { 

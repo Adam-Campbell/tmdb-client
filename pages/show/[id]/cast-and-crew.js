@@ -19,7 +19,7 @@ function CastAndCrew({ id, title, posterPath, backdropPath, cast, crew }) {
     }, [ id ]);
 
     const orderedCast = useMemo(() => {
-        return cast.sort((a,b) => a.order - b.order);
+        return [...cast].sort((a,b) => a.order - b.order);
     }, [ cast ]);
 
     return (

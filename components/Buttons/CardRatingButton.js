@@ -10,7 +10,6 @@ import {
 } from '../../actions';
 import useHover from '../../components/useHover';
 import usePopup from '../../components/usePopup';
-import { text } from '../../utils';
 import StarRatingPopup from '../../components/StarRatingPopup';
 
 const StyledCardRatingButton = styled.button`
@@ -40,7 +39,7 @@ const CurrentRating = styled.span`
 
 export function CardRatingButton({ 
     userRating,
-    mediaType,
+    isMovie,
     id,
     rateMovie,
     removeMovieRating,
@@ -59,8 +58,8 @@ export function CardRatingButton({
         closePopup
     } = usePopup({ popupWidth: 250, popupHeight: 50, popupAlignment: 'RIGHT' });
 
-    const ratingFn = mediaType === 'movie' ? rateMovie : rateShow;
-    const removeRatingFn = mediaType === 'movie' ? removeMovieRating : removeShowRating;
+    const ratingFn = isMovie ? rateMovie : rateShow;
+    const removeRatingFn = isMovie ? removeMovieRating : removeShowRating;
 
     function handlePopupChange(rating) {
         ratingFn(rating * 2, id);
@@ -106,7 +105,7 @@ export function CardRatingButton({
 
 CardRatingButton.propTypes = {
     userRating: PropTypes.number.isRequired,
-    mediaType: PropTypes.oneOf(['movie', 'tv']).isRequired,
+    isMovie: PropTypes.bool.isRequired,
     id: PropTypes.number.isRequired
 }
 

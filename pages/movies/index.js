@@ -1,11 +1,11 @@
 import React from 'react';
 import { getPopularMovies } from '../../clientApi';
-import ExploreMediaPage from '../../components/ExploreMediaPage';
+import ExploreMediaView from '../../components/ExploreMediaView';
  
 function MoviesWithoutSubcategory({ results, currentPage }) {
 
     return (
-        <ExploreMediaPage 
+        <ExploreMediaView 
             title="Popular Movies"
             mediaData={results}
             currentPage={currentPage}

@@ -92,4 +92,4 @@ MediaGridItem.propTypes = {
     linkHref: PropTypes.string.isRequired,
     linkAs: PropTypes.string.isRequired,
     isFullWidth: PropTypes.bool.isRequired
-}
+};

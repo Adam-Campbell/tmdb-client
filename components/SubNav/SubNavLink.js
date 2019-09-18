@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import useHover from '../useHover';
-import { text } from '../../utils';
 
 const StyledSubNavLink = styled.a`
     ${({ theme }) => theme.fontStacks.bodyBold()}
@@ -39,4 +38,4 @@ SubNavLink.propTypes = {
     as: PropTypes.string.isRequired,
     href: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired
-}
+};

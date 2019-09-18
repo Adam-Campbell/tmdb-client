@@ -1,24 +1,50 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { getMovieSubNavData, getShowSubNavData } from '../../utils';
 import { Row } from '../Layout';
 import { MediaCard } from '../Cards';
-import ListViewHeader from '../ListViewHeader';
-
-const DropdownContainer = styled.div`
-    width: 220px;
-    margin-left: auto;
-`;
+import TitleBlock from '../TitleBlock';
+import { MediaSeo } from '../Seo';
+import MinimalHeader from '../MinimalHeader';
+import SubNav from '../SubNav';
 
 const MediaCardContainer = styled(Row)`
     display: flex;
     flex-wrap: wrap;
 `;
 
-export function MediaListView({ title, items, urlSubpath, headingTag = 'h2' }) {
+export function MediaListView({ 
+    id,
+    mediaTitle,
+    pageTitle,
+    posterPath, 
+    backdropPath, 
+    items, 
+    isMovie 
+}) {
+
+    const subNavData = useMemo(() => {
+        return isMovie ? getMovieSubNavData(id) : getShowSubNavData(id);
+    }, [ isMovie, id ]);
+
     return (
         <>
-            <ListViewHeader title={title} headingTag={headingTag} />
+            <MediaSeo isMovie={isMovie} uniqueTitleSegment={pageTitle} />
+            <MinimalHeader 
+                imagePath={posterPath}
+                backdropPath={backdropPath}
+                name={mediaTitle}
+                backHref={isMovie ? '/movie/[id]' : '/show/[id]'}
+                backAs={isMovie ? `/movie/${id}` : `/show/${id}`}
+            />
+            <SubNav 
+                navData={subNavData}
+                navLabel={
+                    `Navigation links for pages related to the current ${isMovie ? 'movie' : 'TV show'}`
+                }
+            />
+            <TitleBlock title={pageTitle} headingTag="h2" />
             <MediaCardContainer>
                 {items.map(item => (
                     <MediaCard 
@@ -30,7 +56,7 @@ export function MediaListView({ title, items, urlSubpath, headingTag = 'h2' }) {
                         backdropPath={item.backdrop_path}
                         posterPath={item.poster_path}
                         overview={item.overview}
-                        urlSubpath={urlSubpath}
+                        urlSubpath={isMovie ? '/movie' : '/show'}
                     />  
                 ))}
             </MediaCardContainer>
@@ -39,15 +65,11 @@ export function MediaListView({ title, items, urlSubpath, headingTag = 'h2' }) {
 }
 
 MediaListView.propTypes = {
-    title: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    mediaTitle: PropTypes.string.isRequired,
+    pageTitle: PropTypes.string.isRequired,
+    posterPath: PropTypes.string.isRequired,
+    backdropPath: PropTypes.string.isRequired,
     items: PropTypes.arrayOf(PropTypes.object).isRequired,
-    urlSubpath: PropTypes.string.isRequired,
-    headingTag: PropTypes.oneOf([
-        'h1',
-        'h2',
-        'h3',
-        'h4',
-        'h5',
-        'h6'
-    ])
+    isMovie: PropTypes.bool.isRequired
 };

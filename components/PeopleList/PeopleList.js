@@ -1,8 +1,7 @@
-import React, { useState, useLayoutEffect, useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import PersonListItem from './PersonListItem';
-import { text } from '../../utils';
 import { ChevronDown } from 'styled-icons/fa-solid';
 import useExpand from '../useExpand';
 import { Button } from '../Buttons';

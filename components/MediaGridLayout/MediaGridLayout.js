@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import MediaGrid from './MediaGrid';
 import { Row } from '../Layout';
 
-
 const MediaGridLayoutWrapper = styled(Row)`
     display: flex;
     flex-direction: column;

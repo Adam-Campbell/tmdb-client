@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import ListViewHeader from '../ListViewHeader';
+import TitleBlock from '../TitleBlock';
 import { NextSeo } from 'next-seo';
 import { Row } from '../Layout';
 import { MediaCard } from '../Cards';
@@ -11,7 +11,7 @@ const Section = styled.section`
     min-height: 100vh;
 `;
 
-export function ExploreMediaPage({ 
+export function ExploreMediaView({ 
     title,
     mediaData,
     currentPage,
@@ -25,7 +25,7 @@ export function ExploreMediaPage({
                 title={title}
                 description={`${title} on React Movie Database, the user editable database for movies and TV shows.`}
             />
-            <ListViewHeader title={title} />
+            <TitleBlock title={title} />
             <Row>
                 {mediaData.map((card, idx) => (
                     <MediaCard 
@@ -50,7 +50,7 @@ export function ExploreMediaPage({
     )
 }
 
-ExploreMediaPage.propTypes = {
+ExploreMediaView.propTypes = {
     title: PropTypes.string.isRequired,
     mediaData: PropTypes.arrayOf(PropTypes.object).isRequired,
     currentPage: PropTypes.number.isRequired,

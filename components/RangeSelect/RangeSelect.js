@@ -6,13 +6,9 @@ import Handle from './Handle';
 import Track from './Track';
 import Tick from './Tick';
 import { roundNum } from './utils';
-import { text } from '../../utils';
 
-// Used to style the <Slider> component
 const sliderStyles = {
-    // must be relative for everything inside to position correctly
     position: 'relative',
-    // 100% recommended so it grows and shrinks with its container
     width: '100%',
     height: 80
 };
@@ -44,7 +40,9 @@ export function RangeSelect({
     externalValue,
     setExternalValue
 }) {
+
     const [ sliderVals, setSliderVals ] = useState(initialValues);
+
     function handleChange(vals) {
         if (isControlled) {
             setExternalValue(vals);
@@ -52,7 +50,9 @@ export function RangeSelect({
             setSliderVals(vals);
         }
     }
+
     const valsToUse = isControlled ? externalValue : sliderVals;
+
     return (
         <>
             <DescriptionText>
@@ -66,7 +66,6 @@ export function RangeSelect({
                 values={valsToUse}
                 onChange={vals => {
                     const roundedVals = vals.map(val => roundNum(val));
-                    //setSliderVals(roundedVals);
                     handleChange(roundedVals);
                 }}
             >

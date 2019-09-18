@@ -1,95 +1,30 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import { Row } from '../Layout';
 import Rating from '../Rating';
 import { getImageUrl, imageSizeConstants } from '../../utils';
 import Link from 'next/link';
 import CreatorsList from './CreatorsList';
-import { text } from '../../utils';
 import { connect } from 'react-redux';
 import { getMovieData } from '../../reducers/movieReducer';
 import { getShowData } from '../../reducers/showReducer';
 import { getHasSession } from '../../reducers/sessionReducer';
 import UserInteractionsRow from './UserInteractionsRow';
-import SmartImage from '../SmartImage';
-import { cover } from 'polished';
-
-const MediaHeaderContainer = styled.section`
-    position: relative;
-`;
-
-const BackdropImageHolder = styled.div`
-    ${cover()}
-    width: 100%;
-    height: 100%;
-    background: ${({ imageUrl }) => `url('${imageUrl}')`};
-    background-size: cover;
-    background-position: center;
-    filter: grayscale(75%) contrast(110%);
-`;
-
-const BackdropImageOverlay = styled.div`
-    background: ${({ theme }) => theme.colors.overlayStrong};
-    position: relative;
-`;
-
-const PosterImage = styled(SmartImage)`
-    display: none;
-    margin-right: ${({ theme }) => theme.getSpacing(4)};
-    flex-shrink: 0;
-    @media(min-width: 600px) {
-        display: block;
-        width: 200px;
-        height: 300px;
-    }
-    @media(min-width: 768px) {
-        width: 300px;
-        height: 450px;
-    }
-`;
-
-const MediaHeaderContentRow = styled(Row)`
-    display: flex;
-    align-items: center;
-    padding: ${({ theme }) => theme.getSpacing(4, 0)};
-`;
-
-const MediaTitle = styled.h1`
-    ${({ theme }) => theme.fontStacks.heading({ useLight: true })}
-    font-size: 2rem;
-`;
-
-const MediaTagline = styled.p`
-    font-family: serif;
-    font-size: ${({ theme }) => theme.fontSizes.body.xl};
-    font-style: italic;
-    color: ${({ theme }) => theme.colors.white};
-`;
-
-const Subheading = styled.p`
-    ${({ theme }) => theme.fontStacks.bodyBold({ useLight: true })}
-    font-size: ${({ theme }) => theme.fontSizes.body.md};
-`;
-
-const MediaOverview = styled.p`
-    ${({ theme }) => theme.fontStacks.body({ useLight: true })}
-    font-size: ${({ theme }) => theme.fontSizes.body.md};
-`;
-
-const InteractionRow = styled.div`
-    display: flex;
-    align-items: center;
-`;
-
-const RatingContainer = styled.div`
-    width: 80px;
-    height: 80px;
-    margin-right: ${({ theme }) => theme.getSpacing(3)};
-`;
+import {
+    MediaHeaderContainer,
+    BackdropImageHolder,
+    BackdropImageOverlay,
+    PosterImage,
+    MediaHeaderContentRow,
+    MediaTitle,
+    MediaTagline,
+    Subheading,
+    MediaOverview,
+    InteractionRow,
+    RatingContainer
+} from './mediaHeaderElements';
 
 export function MediaHeader({ 
-    mediaType,
+    isMovie,
     hasSession,
     backdropPath,
     posterPath,
@@ -115,26 +50,22 @@ export function MediaHeader({
                         alt={title} 
                     />
                     <div>
-
                         <MediaTitle>{title}</MediaTitle>
                         {tagline && <MediaTagline>{tagline}</MediaTagline>}
-
                         <InteractionRow>
                             <RatingContainer>
                                 <Rating rating={averageRating} />
                             </RatingContainer>
                             {hasSession && (
-                                <UserInteractionsRow mediaType={mediaType} />
+                                <UserInteractionsRow isMovie={isMovie} />
                             )}
                         </InteractionRow>
-                        
                         {overview && (
                             <>
                                 <Subheading>Overview</Subheading>
                                 <MediaOverview>{overview}</MediaOverview>
                             </>
                         )}
-
                         {createdBy && createdBy.length > 0 && <CreatorsList creators={createdBy} />}
                     </div>
                 </MediaHeaderContentRow>
@@ -144,7 +75,7 @@ export function MediaHeader({
 }
 
 MediaHeader.propTypes = {
-    mediaType: PropTypes.oneOf(['movie', 'tv']),
+    isMovie: PropTypes.bool.isRequired,
     hasSession: PropTypes.bool.isRequired,
     backdropPath: PropTypes.string.isRequired,
     posterPath: PropTypes.string.isRequired,
@@ -164,12 +95,12 @@ MediaHeader.propTypes = {
 };
 
 function mapState(state, ownProps) {
-    const m = ownProps.mediaType === 'movie' ? getMovieData(state) : getShowData(state);
+    const m = ownProps.isMovie ? getMovieData(state) : getShowData(state);
     return {
         hasSession: getHasSession(state),
         backdropPath: m.backdrop_path,
         posterPath: m.poster_path,
-        title: ownProps.mediaType === 'movie' ? m.title : m.name,
+        title: m.title || m.name,
         averageRating: m.vote_average,
         overview: m.overview,
         tagline: m.tagline,

@@ -5,7 +5,7 @@ import {
     getOnAirTV,
     getAiringTodayTV,
 } from '../../../clientApi';
-import ExploreMediaPage from '../../../components/ExploreMediaPage';
+import ExploreMediaView from '../../../components/ExploreMediaView';
 
 function getSubcategoryProps(subcategory) {
     let props;
@@ -56,7 +56,7 @@ function TVWithSubcategory({
 }) {
 
     return (
-        <ExploreMediaPage 
+        <ExploreMediaView
             title={title}
             mediaData={results}
             currentPage={currentPage}

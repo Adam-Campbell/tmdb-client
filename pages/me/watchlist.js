@@ -8,7 +8,7 @@ import { meRoutesSubNavData, mediaTypeFilterData } from './';
 import { Row } from '../../components/Layout';
 import { MediaCard } from '../../components/Cards';
 import { CancelInteractionButton } from '../../components/Buttons';
-import ListViewHeader from '../../components/ListViewHeader';
+import TitleBlock from '../../components/TitleBlock';
 import Switch from '../../components/Switch';
 import UserHeader from '../../components/UserHeader';
 import { getInitialMeProps } from './';
@@ -18,7 +18,8 @@ import { NextSeo } from 'next-seo';
 function Watchlist(props) {
 
     const [ mediaType, setMediaType ] = useState('movie');
-    const usersWatchlists = mediaType === 'movie' ? props.watchlists.movies : props.watchlists.shows;
+    const isMovie = mediaType === 'movie';
+    const usersWatchlists = isMovie ? props.watchlists.movies : props.watchlists.shows;
 
     return (
         <>
@@ -32,7 +33,7 @@ function Watchlist(props) {
                 navLabel="Navigation links for pages related to your account"
             />
             <section>
-                <ListViewHeader title="My Watchlists">
+                <TitleBlock title="My Watchlists">
                     <Switch 
                         groupLabel="Media Type"
                         groupName="media-type"
@@ -41,10 +42,9 @@ function Watchlist(props) {
                         handleChange={setMediaType}
                         shouldHideLabel={true}
                     />
-                </ListViewHeader>
+                </TitleBlock>
                 <Row>
                     {usersWatchlists.map(entity => {
-                        const isMovie = Boolean(entity.title);
                         return (
                             <MediaCard 
                                 key={entity.id}
@@ -62,7 +62,7 @@ function Watchlist(props) {
                                     label="Remove from watchlist"
                                     onClick={() => {
                                         props.editWatchlist(
-                                            isMovie ? 'movie' : 'tv',
+                                            mediaType,
                                             entity.id,
                                             false
                                         );

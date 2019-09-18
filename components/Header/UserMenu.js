@@ -1,48 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import ReactModal from 'react-modal';
-import { text } from '../../utils';
 import Link from 'next/link';
-import { ellipsis } from 'polished';
-
-const Username = styled.p`
-    ${({ theme }) => theme.fontStacks.bodyBold()}
-    font-size: ${({ theme }) => theme.fontSizes.body.xs};
-    margin: ${({ theme }) => theme.getSpacing(2)};
-    margin-bottom: auto;
-    ${ellipsis()}
-`;
-
-const UserMenuList = styled.ul`
-    list-style-type: none;
-    padding-left: 0;
-    margin: 0;
-`;
-
-const ProfileLink = styled.a`
-    ${({ theme }) => theme.fontStacks.body()}
-    font-size: ${({ theme }) => theme.fontSizes.body.sm};
-    text-decoration: none;
-    display: block;
-    padding: ${({ theme }) => theme.getSpacing(2)};
-    color: ${({ theme, isHovered }) => isHovered ? theme.colors.white : theme.colors.black};
-    background: ${({ theme, isHovered }) => isHovered ? theme.colors.complimentary : 'none'};
-`;
-
-const LogoutButton = styled.button`
-    ${({ theme }) => theme.fontStacks.body()}
-    font-size: ${({ theme }) => theme.fontSizes.body.sm};
-    background: none;
-    cursor: pointer;
-    display: block;
-    width: 100%;
-    padding: ${({ theme }) => theme.getSpacing(2)};
-    border: none;
-    text-align: left;
-    color: ${({ theme, isHovered }) => isHovered ? theme.colors.white : theme.colors.black};
-    background: ${({ theme, isHovered }) => isHovered ? theme.colors.complimentary : 'none'};
-`;
+import {
+    Username,
+    UserMenuList,
+    ProfileLink,
+    LogoutButton
+} from './userMenuElements';
 
 export default function UserMenu({
     isShowingModal, 

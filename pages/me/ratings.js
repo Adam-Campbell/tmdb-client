@@ -9,7 +9,7 @@ import UserHeader from '../../components/UserHeader';
 import { MediaCard } from '../../components/Cards';
 import { Row } from '../../components/Layout';
 import { CardRatingButton } from '../../components/Buttons';
-import ListViewHeader from '../../components/ListViewHeader';
+import TitleBlock from '../../components/TitleBlock';
 import Switch from '../../components/Switch';
 import { getInitialMeProps } from './';
 import withErrorHandling from '../../components/withErrorHandling';
@@ -18,7 +18,8 @@ import { NextSeo } from 'next-seo';
 function Ratings(props) {
 
     const [ mediaType, setMediaType ] = useState('movie');
-    const usersRatings = mediaType === 'movie' ? props.ratings.movies : props.ratings.shows;
+    const isMovie = mediaType === 'movie';
+    const usersRatings = isMovie ? props.ratings.movies : props.ratings.shows;
 
     return (
         <>
@@ -32,7 +33,7 @@ function Ratings(props) {
                 navLabel="Navigation links for pages related to your account"
             />
             <section>
-                <ListViewHeader title="My Ratings">
+                <TitleBlock title="My Ratings">
                     <Switch 
                         groupLabel="Media Type"
                         groupName="media-type"
@@ -41,10 +42,9 @@ function Ratings(props) {
                         handleChange={setMediaType}
                         shouldHideLabel={true}
                     />
-                </ListViewHeader>
+                </TitleBlock>
                 <Row>
                     {usersRatings.map(entity => {
-                        const isMovie = Boolean(entity.title);
                         return (
                             <MediaCard 
                                 key={entity.id}
@@ -60,7 +60,7 @@ function Ratings(props) {
                             >
                                 <CardRatingButton 
                                     userRating={entity.rating}
-                                    mediaType={isMovie ? 'movie' : 'tv'}
+                                    isMovie={isMovie}
                                     id={entity.id}
                                 />
                             </MediaCard>

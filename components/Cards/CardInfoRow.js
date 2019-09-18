@@ -2,14 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Link from 'next/link';
-import { formatDateString, text } from '../../utils';
+import { formatDateString } from '../../utils';
 import Rating from '../Rating';
-
-/*
-    This component is purely for internal use - it forms part of the various card components that are
-    exported from this folder, however it should never be imported directly from anywhere else in the
-    application.
-*/
 
 const StyledInfoRow = styled.div`
     display: flex;

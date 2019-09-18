@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import SubNav from '../../../components/SubNav';
 import MinimalHeader from '../../../components/MinimalHeader';
-import ListViewHeader from '../../../components/ListViewHeader';
+import TitleBlock from '../../../components/TitleBlock';
 import { Row } from '../../../components/Layout';
 import { getPersonSubNavData, getImageUrl, imageSizeConstants } from '../../../utils';
 import GalleryModal from '../../../components/GalleryModal';
@@ -64,7 +64,7 @@ function Images({ id, name, profilePath, profileImages }) {
                 alignCenter={true}
                 navLabel="Navigation links for pages related to the current person" 
             />
-            <ListViewHeader title="Profile Images" headingTag="h2" />
+            <TitleBlock title="Profile Images" headingTag="h2" />
             <Row>
                 <ThumbsContainer>
                     {profileImages.map((image, index) => (
