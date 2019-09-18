@@ -8,7 +8,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
     switch (action.type) {
 
-        case actionTypes.STORE_USER_SUMMARY:
+        case actionTypes.FETCH_USER_SUMMARY_SUCCESS:
             return {
                 language: action.payload.userSummary.iso_639_1,
                 country: action.payload.userSummary.iso_3166_1
