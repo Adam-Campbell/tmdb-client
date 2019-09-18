@@ -7,7 +7,7 @@ import ReactModal from 'react-modal';
 import makeStore from '../store';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
-import { getUserSummary } from '../actions';
+import { fetchUserSummary } from '../actions';
 import NextHead from 'next/head';
 import { getSSRHeaders } from '../utils';
 import { ThemeProvider } from 'styled-components';
@@ -30,7 +30,7 @@ class MyApp extends App {
         let pageProps = {};
         // If there is no need to fetch a user summary then this just returns immediately after
         // verifying it isn't needed, becoming more or less a no-op.
-        await ctx.store.dispatch(getUserSummary(getSSRHeaders(ctx.req)));
+        await ctx.store.dispatch(fetchUserSummary(getSSRHeaders(ctx.req)));
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx);
         }

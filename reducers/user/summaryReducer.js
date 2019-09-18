@@ -13,7 +13,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
     switch (action.type) {
 
-        case actionTypes.STORE_USER_SUMMARY:
+        case actionTypes.FETCH_USER_SUMMARY_SUCCESS:
             return action.payload.userSummary;
 
         case actionTypes.LOGOUT_USER:

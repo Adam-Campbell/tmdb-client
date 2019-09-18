@@ -1,6 +1,6 @@
-import * as actionTypes from '../actionTypes';
-import { getPersonId } from '../reducers/personReducer';
-import { a } from '../axiosClient';
+import * as actionTypes from '../../actionTypes';
+import { getPersonId } from '../../reducers/personReducer';
+import { a } from '../../axiosClient';
 
 const fetchPersonRequest = () => ({
     type: actionTypes.FETCH_PERSON_REQUEST
@@ -32,4 +32,4 @@ export const fetchPerson = (id) => async (dispatch, getState) => {
         dispatch(fetchPersonFailed(error));
         throw new Error(error.response.status);
     }
-}
+};
