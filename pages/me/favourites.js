@@ -16,6 +16,13 @@ import { getInitialMeProps } from './';
 import withErrorHandling from '../../components/withErrorHandling';
 import { NextSeo } from 'next-seo';
 
+const NoMediaMessage = styled.p`
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
+    margin: ${({ theme }) => theme.getSpacing(3, 0)};
+`;
+
+
 function Favourites(props) {
 
     const [ mediaType, setMediaType ] = useState('movie');
@@ -45,7 +52,7 @@ function Favourites(props) {
                     />
                 </TitleBlock>
                 <Row>
-                    {usersFavourites.map((entity) => {
+                    {Boolean(usersFavourites.length) ? usersFavourites.map((entity) => {
                         return (
                             <MediaCard 
                                 key={entity.id}
@@ -71,7 +78,11 @@ function Favourites(props) {
                                 />
                             </MediaCard>
                         );
-                    })}
+                    }) : (
+                        <NoMediaMessage>
+                            There are no {isMovie ? 'movies' : 'TV shows'} to show here.
+                        </NoMediaMessage>
+                    )}
                 </Row>
             </section>
         </>

@@ -12,10 +12,18 @@ const CardsContainer = styled(Row)`
     justify-content: flex-start;
 `;
 
+const NoResultsMessage = styled.p`
+    ${({ theme }) => theme.fontStacks.body()}
+    font-size: ${({ theme }) => theme.fontSizes.body.md};
+    margin: ${({ theme }) => theme.getSpacing(3, 0)};
+`;
+
 function getResultCards(searchResults, searchCategory) {
     if (searchResults.length === 0) {
         return (
-            <p>Sorry, we couldn't find any results for that search :(</p>
+            <NoResultsMessage>
+                Sorry, we couldn't find any results for that search.
+            </NoResultsMessage>
         );
     }
     switch (searchCategory) {

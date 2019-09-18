@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Row } from '../Layout';
 import { SlidersH, Times } from 'styled-icons/fa-solid';
+import { Button } from '../Buttons';
 
 export const PageWrapper = styled.section`
     overflow-x: hidden;
@@ -54,7 +55,7 @@ export const InputContainer = styled.div`
 
 export const ComboBoxContainer = styled.div`
     width: 100%;
-    margin-bottom: ${({ theme }) => theme.getSpacing(3, 0)};
+    margin: ${({ theme }) => theme.getSpacing(3, 0)};
 `;
 
 export const FiltersIcon = styled(SlidersH)`

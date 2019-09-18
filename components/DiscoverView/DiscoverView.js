@@ -96,6 +96,10 @@ export function DiscoverView({
                             setSelection={updateValue('withGenres')}
                         />
                     </ComboBoxContainer>
+                    <Button onClick={() => setShowingFilters(false)}>
+                        Hide Filters
+                        <CloseIcon />
+                    </Button>
                 </ControlsCol>
                 <ResultsCol isShowingFilters={isShowingFilters}>
                     {results.map(item => (
