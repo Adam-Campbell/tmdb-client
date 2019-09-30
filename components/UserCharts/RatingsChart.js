@@ -27,7 +27,7 @@ const filterData = [
     { name: 'TV', value: 'tv', id: 'media-type-tv' }
 ];
 
-function RatingsChart({ ratings }) {
+export function RatingsChart({ ratings }) {
 
     const allRatingsData = useMemo(() => {
         return convertToChartData([ ...ratings.movies, ...ratings.shows ])
@@ -86,6 +86,7 @@ function RatingsChart({ ratings }) {
                     </RadioButtonsContainer>
                 </Fieldset>
             </TitleContainer>
+            <div style={{ width: '100%' }}>
             <VictoryChart
                 // stops the bars in the chart from overlapping the axes
                 domainPadding={20}
@@ -112,6 +113,7 @@ function RatingsChart({ ratings }) {
                         barRatio={0.8}
                     />  
             </VictoryChart>
+            </div>
         </RatingsChartContainer>
     );
 }

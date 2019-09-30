@@ -5,24 +5,41 @@ export const RateIcon = styled(Star)`
     width: 15px;
     color: ${({ iconColor }) => iconColor};
     transition: color ease-out 0.2s;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 `;
 
 export const ListIcon = styled(List)`
     width: 15px;
     color: ${({ iconColor }) => iconColor};
     transition: color ease-out 0.2s;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 `;
 
 export const WatchlistIcon = styled(Bookmark)`
     width: 10px;
     color: ${({ iconColor }) => iconColor};
     transition: color ease-out 0.2s;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 `;
 
 export const FavouriteIcon = styled(Heart)`
     width: 15px;
     color: ${({ iconColor }) => iconColor};
     transition: color ease-out 0.2s;
+    flex-shrink: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 `;
 
 export const StyledUserInteractionsRow = styled.div`

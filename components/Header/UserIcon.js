@@ -8,16 +8,39 @@ import { text } from '../../utils';
 import UserMenu from './UserMenu';
 import { logoutUser } from '../../actions';
 
+// const StyledUserIcon = styled.button`
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     padding: 0;
+//     width: 32px;
+//     height: 32px;
+//     border-radius: 16px;
+//     border: solid 2px transparent;
+//     background: ${({ theme }) => theme.colors.primary};
+//     text-transform: uppercase;
+//     text-align: center;
+//     margin-left: auto;
+//     flex-shrink: 0;
+//     cursor: pointer;
+//     ${({ theme }) => theme.fontStacks.heading({ useLight: true })}
+//     font-size: ${({ theme }) => theme.fontSizes.heading.sm};
+//     outline: 0;
+//     &:focus {
+//         border-color: ${({ theme }) => theme.colors.white};
+//     }
+// `;
+
 const StyledUserIcon = styled.button`
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    position: relative;
+    padding: 0;
     width: 32px;
     height: 32px;
-    border-radius: 50%;
+    border-radius: 16px;
     border: solid 2px transparent;
     background: ${({ theme }) => theme.colors.primary};
     text-transform: uppercase;
+    text-align: center;
     margin-left: auto;
     flex-shrink: 0;
     cursor: pointer;
@@ -29,7 +52,15 @@ const StyledUserIcon = styled.button`
     }
 `;
 
-function UserIcon({ username, logoutUser }) {
+
+const ButtonTextContainer = styled.span`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+`;
+
+export function UserIcon({ username, logoutUser }) {
 
     const userInitial = username.charAt(0);
 
@@ -48,7 +79,9 @@ function UserIcon({ username, logoutUser }) {
             <StyledUserIcon 
                 ref={anchorEl}
                 onClick={isShowingPopup ? closePopup : openPopup}
-            >{userInitial}</StyledUserIcon>
+            >
+                <ButtonTextContainer>{userInitial}</ButtonTextContainer>
+            </StyledUserIcon>
             <UserMenu 
                 isShowingModal={isShowingPopup}
                 closeModal={closePopup}
